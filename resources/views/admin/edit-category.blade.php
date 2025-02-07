@@ -17,20 +17,17 @@
 									<div class="card-body">
 										<form>
 											<div class="mb-3">
-												<label class="form-label">Title</label>
-												<input type="text" class="form-control">
+												<label class="form-label">Category Name</label>
+												<input type="text" class="form-control" placeholder="Fashion">
 											</div>
-											<div class="mb-3">
-												<label class="form-label">Description</label>
-												<textarea name="" class="form-control" id=""></textarea>
-											</div>
+											
 										</form>
 									</div>
 								</div>
 								<div class="right-sidebar-sticky">
 									<div class="card h-auto">
 										<div class="card-header py-3">
-											<h4 class="card-title--medium mb-0">Image</h4>
+											<h4 class="card-title--medium mb-0">Thumbnail</h4>
 										</div>
 										<div class="card-body">
 											<div class="avatar-upload d-flex align-items-center">
@@ -50,7 +47,7 @@
 										
 									</div>
 									
-									<a href="add-categary.php" class="btn btn-primary btn-sm" contenteditable="false" style="cursor: pointer;">Update Event</a>
+									<a href="add-categary.php" class="btn btn-primary btn-sm" contenteditable="false" style="cursor: pointer;">Update Category</a>
 								</div>
 
 							</div>
@@ -62,5 +59,6 @@
 		<!--**********************************
             Content body end
         ***********************************-->
+
 
 		@endsection
