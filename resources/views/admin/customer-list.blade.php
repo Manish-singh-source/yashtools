@@ -2,8 +2,8 @@
 
 @section('content-body')
     <!--**********************************
-                                                                Content body start
-                                                            ***********************************-->
+                                                                            Content body start
+                                                                        ***********************************-->
     <div class="content-body">
         <!-- row -->
         <div class="container-fluid">
@@ -41,7 +41,7 @@
                                                 <td>
                                                     <div class="media style-1">
                                                         <div class="media-body">
-                                                            <a href="customer-overview.php">
+                                                            <a href="{{ route('customer.overview', $customer->id) }}">
                                                                 <h6 class="mb-0">{{ $customer->fullname }}</h6>
                                                                 <span>{{ $customer->email }}</span>
                                                             </a>
@@ -74,7 +74,7 @@
                                                 </td>
                                                 <td>
                                                     <div class="d-flex justify-content-end">
-                                                        <a href="javascript:void(0);"
+                                                        <a href="{{ route('admin.edit.customer', $customer->id) }}"
                                                             class="btn btn-primary shadow btn-xs sharp me-1"><i
                                                                 class="fa fa-pencil"></i></a>
 
@@ -112,8 +112,8 @@
         </div>
     </div>
     <!--**********************************
-                                                                Content body end
-                                                            ***********************************-->
+                                                                            Content body end
+                                                                        ***********************************-->
 
     <!-- Modal -->
     <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">

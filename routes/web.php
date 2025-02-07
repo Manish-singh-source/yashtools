@@ -53,9 +53,13 @@ Route::middleware('isAdminAuth:admin')->group(function () {
     Route::get('/admin-logout', [UserController::class, 'logout'])->name('admin.logout');
 
     // 
+    Route::get('/customer-overview/{id}', [CustomersController::class, 'customerOverview'])->name('customer.overview');
     Route::get('/add-banner', function () {
         return view('admin.add-banner');
     })->name('admin.add.banner');
+
+    Route::get('/edit-customer/{id}', [CustomersController::class, 'editCustomerDetails'])->name('admin.edit.customer');
+    Route::put('/update-customer', [CustomersController::class, 'updateCustomerDetails'])->name('admin.update.customer');
 });
 
 Route::get('/banner-table', function () {
@@ -126,9 +130,7 @@ Route::get('/order-details', function () {
     return view('admin.order-details');
 })->name('admin.order.details');
 
-Route::get('/edit-customer', function () {
-    return view('admin.edit-customer');
-})->name('admin.edit.customer');
+
 
 Route::get('/add-event', function () {
     return view('admin.add-event');
