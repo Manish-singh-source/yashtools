@@ -96,11 +96,11 @@
             Nav header start
         ***********************************-->
         <div class="nav-header">
-            <a href="index.php" class="brand-logo">
-                <img src="assets\images\myimg\mobilelogo.png" class="logo-abbr" alt="">
+            <a href="{{route('admin.dashboard')}}" class="brand-logo">
+                <img src="{{ asset('admin\assets\images\myimg\mobilelogo.png')}}" class="logo-abbr" alt="">
 
                 <div class="brand-title">
-                    <img src="assets\images\myimg\logo-large.png" alt="">
+                    <img src="{{ asset('admin\assets\images\myimg\logo-large.png')}}" alt="">
                 </div>
             </a>
             <div class="nav-control">
@@ -161,7 +161,7 @@
                                                 <div class="timeline-panel">
                                                     <div class="media me-2">
                                                         <img alt="image" width="50"
-                                                            src="assets/images/avatar/1.jpg">
+                                                            src="admin\assets/images/avatar/1.jpg">
                                                     </div>
                                                     <div class="media-body">
                                                         <h6 class="mb-1">Dr sultads Send you Photo</h6>
@@ -237,7 +237,7 @@
                             <li class="nav-item dropdown header-profile">
                                 <a class="nav-link" href="javascript:void(0);" role="button"
                                     data-bs-toggle="dropdown">
-                                    <img src="assets/images/user.jpg" width="20" alt>
+                                    <img src="admin/assets/images/user.jpg" width="20" alt>
                                     <div class="header-info ms-3">
                                         <span class="fs-14 font-w600 mb-0">Hanuman</span>
                                     </div>
@@ -327,7 +327,7 @@
         <div class="ic-sidenav">
             <div class="ic-sidenav-scroll">
                 <ul class="metismenu" id="menu">
-                    <li><a href="index.php" class="ai-icon" aria-expanded="false">
+                    <li><a href="{{ route('admin.dashboard')}}" class="ai-icon" aria-expanded="false">
                             <i class="fas fa-home"></i>
                             <span class="nav-text">Dashboard</span>
                         </a>
