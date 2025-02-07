@@ -123,7 +123,12 @@ class UserController extends Controller
 
     public function logout()
     {
-        Auth::logout();
-        return redirect()->route('admin.signin');
+        if (Auth::user()->role === 'admin') {
+            Auth::logout();
+            return redirect()->route('admin.signin');
+        } else if (Auth::user()->role === 'customer') {
+            Auth::logout();
+            return redirect()->route('signin');
+        }
     }
 }

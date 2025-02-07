@@ -98,7 +98,7 @@
 
                                         <a class="nav-item nav-link" data-bs-toggle="tab" href="#nav-account" role="tab"
                                             aria-selected="false"><i class="fas fa-user"></i>Account Details</a>
-                                        <a class="nav-item nav-link" href="{{ route('logout') }}"><i
+                                        <a class="nav-item nav-link" href="{{ route('customer.logout') }}"><i
                                                 class="fal fa-sign-out"></i>Logout</a>
                                     </div>
                                 </nav>

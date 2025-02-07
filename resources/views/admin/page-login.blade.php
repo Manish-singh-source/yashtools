@@ -62,6 +62,8 @@
                                 </div>
 
                                 <h4 class="text-center mb-4">Sign in your account</h4>
+                                @include('admin.layouts.session-messages')
+
                                 <form action="{{ route('auth.admin') }}" method="POST">
                                     @csrf
                                     @method('POST')

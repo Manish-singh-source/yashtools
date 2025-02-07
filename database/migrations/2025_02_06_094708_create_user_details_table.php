@@ -23,7 +23,8 @@ return new class extends Migration
             $table->string('gstin');
             $table->timestamps();
 
-            $table->foreign('user_id')->on('users')->references('id')->onCascade();
+            $table->foreign('user_id')->references('id')->on('users')->onUpdate('cascade')
+            ->onDelete('cascade');
         });
     }
 

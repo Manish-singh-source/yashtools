@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\Admin\CustomersController;
 use App\Http\Controllers\UserController;
+use App\Http\Middleware\AdminAuthMiddleware;
 use Illuminate\Support\Facades\Route;
 
 // user routes: Authentication 
@@ -15,14 +16,16 @@ Route::post('/register-user', [UserController::class, 'registerData'])->name('re
 Route::post('/signin-user', [UserController::class, 'authUser'])->name('auth.user');
 
 // user routes: pages
-Route::get('/', function () {
-    return view('user.main');
-})->name('user.dashboard');
-Route::get('/admin-logout', [UserController::class, 'adminLogout'])->name('admin.logout');
-Route::get('/account', function () {
-    return view('user.mainorder');
-})->name('user.account');
 
+Route::middleware('isCustomerAuth:customer')->group(function () {
+    Route::get('/', function () {
+        return view('user.main');
+    })->name('user.dashboard');
+    Route::get('/account', function () {
+        return view('user.mainorder');
+    })->name('user.account');
+    Route::get('/customer-logout', [UserController::class, 'logout'])->name('customer.logout');
+});
 
 
 
@@ -40,14 +43,17 @@ Route::get('/admin/signup', function () {
 
 Route::post('/register-admin', [UserController::class, 'registerAdminData'])->name('register.admin');
 Route::post('/signin-admin', [UserController::class, 'authAdmin'])->name('auth.admin');
-Route::get('/admin/dashboard', function () {
-    return view('admin.index');
-})->name('admin.dashboard');
 
-Route::get('/customers-list', [CustomersController::class, 'customersList'])->name('admin.customers.list');
-Route::get('/logout', [UserController::class, 'logout'])->name('logout');
+Route::middleware('isAdminAuth:admin')->group(function () {
+    Route::get('/admin/dashboard', function () {
+        return view('admin.index');
+    })->name('admin.dashboard');
+    Route::get('/customers-list', [CustomersController::class, 'customersList'])->name('admin.customers.list');
+    Route::delete('/delete-customer', [CustomersController::class, 'deleteCustomer'])->name('admin.delete.customer');
+    Route::get('/admin-logout', [UserController::class, 'logout'])->name('admin.logout');
 
-// 
-Route::get('/add-banner', function () {
-    return view('admin.add-banner');
-})->name('admin.add.banner');
+    // 
+    Route::get('/add-banner', function () {
+        return view('admin.add-banner');
+    })->name('admin.add.banner');
+});

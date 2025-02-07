@@ -2,8 +2,8 @@
 
 @section('content-body')
     <!--**********************************
-                                        Content body start
-                                    ***********************************-->
+                                                            Content body start
+                                                        ***********************************-->
     <div class="content-body">
         <!-- row -->
         <div class="container-fluid">
@@ -13,6 +13,7 @@
                         <div class="card-header d-sm-flex d-block">
                             <div class="me-auto mb-sm-0 mb-3">
                                 <h4 class="card-title">Customer</h4>
+                                @include('admin.layouts.session-messages')
 
                             </div>
 
@@ -76,15 +77,26 @@
                                                         <a href="javascript:void(0);"
                                                             class="btn btn-primary shadow btn-xs sharp me-1"><i
                                                                 class="fa fa-pencil"></i></a>
-                                                        <a href="javascript:void(0);"
+
+                                                        <form action="{{ route('admin.delete.customer') }}" method="POST">
+                                                            @csrf
+                                                            @method('DELETE')
+                                                            <input type="hidden" name="customerId"
+                                                                value="{{ $customer->id }}">
+                                                            <button type="submit"
+                                                                class="btn btn-danger shadow btn-xs sharp">
+                                                                <i class="fa fa-trash"></i>
+                                                            </button>
+                                                        </form>
+                                                        {{-- <a href="javascript:void(0);"
                                                             class="btn btn-danger shadow btn-xs sharp"><i
-                                                                class="fa fa-trash"></i></a>
+                                                                class="fa fa-trash"></i></a> --}}
                                                     </div>
                                                 </td>
                                             </tr>
                                         @empty
                                             <tr>
-                                                <td>
+                                                <td colspan="7" class="text-center">
                                                     <h6>No Records Found</h6>
                                                 </td>
                                             </tr>
@@ -101,8 +113,8 @@
         </div>
     </div>
     <!--**********************************
-                                        Content body end
-                                    ***********************************-->
+                                                            Content body end
+                                                        ***********************************-->
 
     <!-- Modal -->
     <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
