@@ -339,8 +339,8 @@
                         </a>
                         <ul aria-expanded="false">
                             <li><a href="{{ route('admin.add.banner') }}">Add Slider</a></li>
-                            <li><a href="Banner-table.php">Slider Table</a></li>
-                            <li><a href="edit-banner.php">Edit Slider</a></li>
+                            <li><a href="{{ route('admin.banner.table') }}">Slider Table</a></li>
+                            <li><a href="{{ route('admin.edit.banner')}}">Edit Slider</a></li>
                         </ul>
                     </li>
                     <li><a class="has-arrow " href="javascript:void(0);" aria-expanded="false">
@@ -351,18 +351,18 @@
                         <ul aria-expanded="false">
                             <li><a class="has-arrow" href="javascript:void(0);" aria-expanded="false">Categories</a>
                                 <ul aria-expanded="false">
-                                    <li><a href="add-category.php">Add Categories</a></li>
-                                    <li><a href="category-table.php">Categories Table</a></li>
-                                    <li><a href="edit-categary.php">Edit Categories</a></li>
+                                    <li><a href="{{ route('admin.add.category')}}">Add Categories</a></li>
+                                    <li><a href="{{ route('admin.category.table')}}">Categories Table</a></li>
+                                    <li><a href="{{ route('admin.edit.category')}}">Edit Categories</a></li>
                                 </ul>
                             </li>
 
                             <li><a class="has-arrow" href="javascript:void(0);" aria-expanded="false">Sub
                                     Categories</a>
                                 <ul aria-expanded="false">
-                                    <li><a href="add-sub-category.php">Add Sub Categories</a></li>
-                                    <li><a href="sub-category-table.php">Sub Categories Table</a></li>
-                                    <li><a href="edit-sub-category.php">Edit Sub Categories</a></li>
+                                    <li><a href="{{ route('admin.add.sub.category')}}">Add Sub Categories</a></li>
+                                    <li><a href="{{ route('admin.sub.category.table')}}">Sub Categories Table</a></li>
+                                    <li><a href="{{ route('admin.edit.sub.category')}}">Edit Sub Categories</a></li>
                                 </ul>
                             </li>
                         </ul>
@@ -372,9 +372,9 @@
                             <span class="nav-text">Brand</span>
                         </a>
                         <ul aria-expanded="false">
-                            <li><a href="add-brand.php">Add Brand</a></li>
-                            <li><a href="brand-table.php">Brand Table</a></li>
-                            <li><a href="edit-brand.php">Edit Brand</a></li>
+                            <li><a href="{{ route('admin.add.brand')}}">Add Brand</a></li>
+                            <li><a href="{{ route('admin.brand.table')}}">Brand Table</a></li>
+                            <li><a href="{{ route('admin.edit.brand')}}">Edit Brand</a></li>
                         </ul>
                     </li>
                     <li><a class="has-arrow " href="javascript:void(0);" aria-expanded="false">
@@ -382,12 +382,12 @@
                             <span class="nav-text">Products</span>
                         </a>
                         <ul aria-expanded="false">
-                            <li><a href="add-product.php">Add Product</a></li>
-                            <li><a href="product-table.php">Product Table</a></li>
-                            <li><a href="edit-product.php">Edit Product</a></li>
+                            <li><a href="{{ route('admin.add.product')}}">Add Product</a></li>
+                            <li><a href="{{ route('admin.product.table')}}">Product Table</a></li>
+                            <li><a href="{{ route('admin.edit.product')}}">Edit Product</a></li>
                         </ul>
                     </li>
-                    <li><a href="order.php" class="ai-icon" aria-expanded="false">
+                    <li><a href="{{ route('admin.order')}}" class="ai-icon" aria-expanded="false">
                             <i class="fa-solid fa-cart-arrow-down"></i>
                             <span class="nav-text">Enquiry</span>
                         </a>
@@ -398,7 +398,7 @@
                         </a>
                         <ul aria-expanded="false">
                             <li><a href="{{ route('admin.customers.list') }}">Customer Table</a></li>
-                            <li><a href="edit-customer.php">Edit Customer</a></li>
+                            <li><a href="{{ route('admin.edit.customer') }}">Edit Customer</a></li>
                         </ul>
                     </li>
                     <li><a class="has-arrow " href="javascript:void(0);" aria-expanded="false">
@@ -406,9 +406,9 @@
                             <span class="nav-text">Event</span>
                         </a>
                         <ul aria-expanded="false">
-                            <li><a href="add-event.php">Add Event</a></li>
-                            <li><a href="event-table.php">Event Table</a></li>
-                            <li><a href="edit-event.php">Edit Event</a></li>
+                            <li><a href="{{ route('admin.add.event') }}">Add Event</a></li>
+                            <li><a href="{{ route('admin.event.table') }}">Event Table</a></li>
+                            <li><a href="{{ route('admin.edit.event') }}">Edit Event</a></li>
                         </ul>
                     </li>
                     <li><a class="has-arrow " href="javascript:void(0);" aria-expanded="false">
@@ -416,8 +416,8 @@
                             <span class="nav-text">Multi-Admin</span>
                         </a>
                         <ul aria-expanded="false">
-                            <li><a href="multi-admin.php">Add Admin</a></li>
-                            <li><a href="edit-admin.php">Edit Admin</a></li>
+                            <li><a href="{{ route('admin.multi.admin') }}">Add Admin</a></li>
+                            <li><a href="{{ route('admin.edit.admin') }}">Edit Admin</a></li>
                         </ul>
                     </li>
 
