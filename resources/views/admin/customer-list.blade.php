@@ -2,8 +2,8 @@
 
 @section('content-body')
     <!--**********************************
-                                                            Content body start
-                                                        ***********************************-->
+                                                                Content body start
+                                                            ***********************************-->
     <div class="content-body">
         <!-- row -->
         <div class="container-fluid">
@@ -101,7 +101,6 @@
                                                 </td>
                                             </tr>
                                         @endforelse
-
                                     </tbody>
                                 </table>
                             </div>
@@ -113,8 +112,8 @@
         </div>
     </div>
     <!--**********************************
-                                                            Content body end
-                                                        ***********************************-->
+                                                                Content body end
+                                                            ***********************************-->
 
     <!-- Modal -->
     <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
