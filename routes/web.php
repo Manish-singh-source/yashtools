@@ -1,10 +1,11 @@
 <?php
 
-use App\Http\Controllers\Admin\CustomersController;
-use App\Http\Controllers\BannerController;
+use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\UserController;
 use App\Http\Middleware\AdminAuthMiddleware;
-use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\Admin\BannerController;
+use App\Http\Controllers\Admin\CategoriesController;
+use App\Http\Controllers\Admin\CustomersController;
 
 // user routes: Authentication 
 Route::get('/signin', function () {
@@ -58,22 +59,20 @@ Route::middleware('isAdminAuth:admin')->group(function () {
     Route::get('/edit-customer/{id}', [CustomersController::class, 'editCustomerDetails'])->name('admin.edit.customer');
     Route::put('/update-customer', [CustomersController::class, 'updateCustomerDetails'])->name('admin.update.customer');
 
-    // Banner routes
+    // Banner Routes
     Route::get('/add-banner', [BannerController::class, 'viewAddBanner'])->name('admin.view.banner');
     Route::post('/add-banner', [BannerController::class, 'addBanner'])->name('admin.add.banner');
     Route::get('/banner-table', [BannerController::class, 'viewBannerTable'])->name('admin.view.banner.table');
     Route::delete('/delete-banner', [BannerController::class, 'deleteBanner'])->name('admin.delete.banner');
+    
+    // Categories Routes
+    Route::get('/add-category', [CategoriesController::class, 'viewAddCategories'])->name('admin.add.category');
+    Route::post('/add-category', [CategoriesController::class, 'addCategory'])->name('admin.add.category');
+    // Route::get('/banner-table', [BannerController::class, 'viewBannerTable'])->name('admin.view.banner.table');
+    // Route::delete('/delete-banner', [BannerController::class, 'deleteBanner'])->name('admin.delete.banner');
 
-    Route::get('/edit-banner', function () {
-        return view('admin.edit-banner');
-    })->name('admin.edit.banner');
 });
 
-
-
-Route::get('/add-category', function () {
-    return view('admin.add-category');
-})->name('admin.add.category');
 
 Route::get('/category-table', function () {
     return view('admin.category-table');
