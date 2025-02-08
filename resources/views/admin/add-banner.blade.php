@@ -2,8 +2,8 @@
 
 @section('content-body')
     <!--**********************************
-                Content body start
-            ***********************************-->
+                        Content body start
+                    ***********************************-->
     <div class="content-body">
         <div class="container-fluid">
 
@@ -22,7 +22,7 @@
                                             <div class=" position-relative ">
                                                 <div class="avatar-preview">
                                                     <div id="imagePreview"
-                                                        style="background-image: url(assets/images/no-img-avatar.png);">
+                                                        style="background-image: url({{ asset('admin/assets/images/no-img-avatar.png') }});">
                                                     </div>
                                                 </div>
                                                 <div class="change-btn d-flex align-items-center flex-wrap">
@@ -48,6 +48,6 @@
         </div>
     </div>
     <!--**********************************
-                Content body end
-            ***********************************-->
+                        Content body end
+                    ***********************************-->
 @endsection
