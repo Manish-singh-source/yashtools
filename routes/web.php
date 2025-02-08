@@ -64,23 +64,17 @@ Route::middleware('isAdminAuth:admin')->group(function () {
     Route::post('/add-banner', [BannerController::class, 'addBanner'])->name('admin.add.banner');
     Route::get('/banner-table', [BannerController::class, 'viewBannerTable'])->name('admin.view.banner.table');
     Route::delete('/delete-banner', [BannerController::class, 'deleteBanner'])->name('admin.delete.banner');
-    
+
     // Categories Routes
     Route::get('/add-category', [CategoriesController::class, 'viewAddCategories'])->name('admin.add.category');
     Route::post('/add-category', [CategoriesController::class, 'addCategory'])->name('admin.add.category');
-    // Route::get('/banner-table', [BannerController::class, 'viewBannerTable'])->name('admin.view.banner.table');
-    // Route::delete('/delete-banner', [BannerController::class, 'deleteBanner'])->name('admin.delete.banner');
-
+    Route::get('/category-table', [CategoriesController::class, 'viewCategoryTable'])->name('admin.table.category');
+    Route::delete('/delete-category', [CategoriesController::class, 'deleteCategory'])->name('admin.delete.category');
+    Route::get('/edit-category/{id}', [CategoriesController::class, 'editCategory'])->name('admin.edit.category');
+    Route::put('/update-category', [CategoriesController::class, 'updateCategory'])->name('admin.update.category');
 });
 
 
-Route::get('/category-table', function () {
-    return view('admin.category-table');
-})->name('admin.category.table');
-
-Route::get('/edit-category', function () {
-    return view('admin.edit-category');
-})->name('admin.edit.category');
 
 Route::get('/add-sub-category', function () {
     return view('admin.add-sub-category');

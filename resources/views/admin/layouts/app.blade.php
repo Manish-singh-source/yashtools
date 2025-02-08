@@ -351,8 +351,7 @@
                             <li><a class="has-arrow" href="javascript:void(0);" aria-expanded="false">Categories</a>
                                 <ul aria-expanded="false">
                                     <li><a href="{{ route('admin.add.category')}}">Add Categories</a></li>
-                                    <li><a href="{{ route('admin.category.table')}}">Categories Table</a></li>
-                                    <li><a href="{{ route('admin.edit.category')}}">Edit Categories</a></li>
+                                    <li><a href="{{ route('admin.table.category')}}">Categories Table</a></li>
                                 </ul>
                             </li>
 
