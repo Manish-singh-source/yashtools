@@ -96,11 +96,11 @@
             Nav header start
         ***********************************-->
         <div class="nav-header">
-            <a href="{{route('admin.dashboard')}}" class="brand-logo">
-                <img src="{{ asset('admin\assets\images\myimg\mobilelogo.png')}}" class="logo-abbr" alt="">
+            <a href="{{ route('admin.dashboard') }}" class="brand-logo">
+                <img src="{{ asset('admin\assets\images\myimg\mobilelogo.png') }}" class="logo-abbr" alt="">
 
                 <div class="brand-title">
-                    <img src="{{ asset('admin\assets\images\myimg\logo-large.png')}}" alt="">
+                    <img src="{{ asset('admin\assets\images\myimg\logo-large.png') }}" alt="">
                 </div>
             </a>
             <div class="nav-control">
@@ -327,7 +327,7 @@
         <div class="ic-sidenav">
             <div class="ic-sidenav-scroll">
                 <ul class="metismenu" id="menu">
-                    <li><a href="{{ route('admin.dashboard')}}" class="ai-icon" aria-expanded="false">
+                    <li><a href="{{ route('admin.dashboard') }}" class="ai-icon" aria-expanded="false">
                             <i class="fas fa-home"></i>
                             <span class="nav-text">Dashboard</span>
                         </a>
@@ -350,17 +350,16 @@
                         <ul aria-expanded="false">
                             <li><a class="has-arrow" href="javascript:void(0);" aria-expanded="false">Categories</a>
                                 <ul aria-expanded="false">
-                                    <li><a href="{{ route('admin.add.category')}}">Add Categories</a></li>
-                                    <li><a href="{{ route('admin.table.category')}}">Categories Table</a></li>
+                                    <li><a href="{{ route('admin.add.category') }}">Add Categories</a></li>
+                                    <li><a href="{{ route('admin.table.category') }}">Categories Table</a></li>
                                 </ul>
                             </li>
 
                             <li><a class="has-arrow" href="javascript:void(0);" aria-expanded="false">Sub
                                     Categories</a>
                                 <ul aria-expanded="false">
-                                    <li><a href="{{ route('admin.add.sub.category')}}">Add Sub Categories</a></li>
-                                    <li><a href="{{ route('admin.sub.category.table')}}">Sub Categories Table</a></li>
-                                    <li><a href="{{ route('admin.edit.sub.category')}}">Edit Sub Categories</a></li>
+                                    <li><a href="{{ route('admin.view.subcategory') }}">Add Sub Categories</a></li>
+                                    <li><a href="{{ route('admin.table.subcategory') }}">Sub Categories Table</a></li>
                                 </ul>
                             </li>
                         </ul>
@@ -370,9 +369,9 @@
                             <span class="nav-text">Brand</span>
                         </a>
                         <ul aria-expanded="false">
-                            <li><a href="{{ route('admin.add.brand')}}">Add Brand</a></li>
-                            <li><a href="{{ route('admin.brand.table')}}">Brand Table</a></li>
-                            <li><a href="{{ route('admin.edit.brand')}}">Edit Brand</a></li>
+                            <li><a href="{{ route('admin.add.brand') }}">Add Brand</a></li>
+                            <li><a href="{{ route('admin.brand.table') }}">Brand Table</a></li>
+                            <li><a href="{{ route('admin.edit.brand') }}">Edit Brand</a></li>
                         </ul>
                     </li>
                     <li><a class="has-arrow " href="javascript:void(0);" aria-expanded="false">
@@ -380,12 +379,12 @@
                             <span class="nav-text">Products</span>
                         </a>
                         <ul aria-expanded="false">
-                            <li><a href="{{ route('admin.add.product')}}">Add Product</a></li>
-                            <li><a href="{{ route('admin.product.table')}}">Product Table</a></li>
-                            <li><a href="{{ route('admin.edit.product')}}">Edit Product</a></li>
+                            <li><a href="{{ route('admin.add.product') }}">Add Product</a></li>
+                            <li><a href="{{ route('admin.product.table') }}">Product Table</a></li>
+                            <li><a href="{{ route('admin.edit.product') }}">Edit Product</a></li>
                         </ul>
                     </li>
-                    <li><a href="{{ route('admin.order')}}" class="ai-icon" aria-expanded="false">
+                    <li><a href="{{ route('admin.order') }}" class="ai-icon" aria-expanded="false">
                             <i class="fa-solid fa-cart-arrow-down"></i>
                             <span class="nav-text">Enquiry</span>
                         </a>

@@ -4,8 +4,9 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\UserController;
 use App\Http\Middleware\AdminAuthMiddleware;
 use App\Http\Controllers\Admin\BannerController;
-use App\Http\Controllers\Admin\CategoriesController;
 use App\Http\Controllers\Admin\CustomersController;
+use App\Http\Controllers\Admin\CategoriesController;
+use App\Http\Controllers\Admin\SubCategoryController;
 
 // user routes: Authentication 
 Route::get('/signin', function () {
@@ -72,17 +73,26 @@ Route::middleware('isAdminAuth:admin')->group(function () {
     Route::delete('/delete-category', [CategoriesController::class, 'deleteCategory'])->name('admin.delete.category');
     Route::get('/edit-category/{id}', [CategoriesController::class, 'editCategory'])->name('admin.edit.category');
     Route::put('/update-category', [CategoriesController::class, 'updateCategory'])->name('admin.update.category');
+
+
+    // Sub Categories Routes
+    Route::get('/add-sub-category', [SubCategoryController::class, 'viewAddSubCategories'])->name('admin.view.subcategory');
+    Route::post('/add-sub-category', [SubCategoryController::class, 'addSubCategory'])->name('admin.add.subcategory');
+    Route::get('/sub-category-table', [SubCategoryController::class, 'viewSubCategoryTable'])->name('admin.table.subcategory');
+    Route::delete('/delete-sub-category', [SubCategoryController::class, 'deleteSubCategory'])->name('admin.delete.subcategory');
+    // Route::get('/edit-sub-category/{id}', [SubCategoryController::class, 'editSubCategory'])->name('admin.edit.subcategory');
+    // Route::put('/update-sub-category', [SubCategoryController::class, 'updateSubCategory'])->name('admin.update.subcategory');
 });
 
 
 
-Route::get('/add-sub-category', function () {
-    return view('admin.add-sub-category');
-})->name('admin.add.sub.category');
+// Route::get('/add-sub-category', function () {
+//     return view('admin.add-sub-category');
+// })->name('admin.add.sub.category');
 
-Route::get('/sub-category-table', function () {
-    return view('admin.sub-category-table');
-})->name('admin.sub.category.table');
+// Route::get('/sub-category-table', function () {
+//     return view('admin.sub-category-table');
+// })->name('admin.sub.category.table');
 
 Route::get('/edit-sub-category', function () {
     return view('admin.edit-sub-category');
