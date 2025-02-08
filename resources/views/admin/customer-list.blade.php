@@ -13,7 +13,10 @@
                         <div class="card-header d-sm-flex d-block">
                             <div class="me-auto mb-sm-0 mb-3">
                                 <h4 class="card-title">Customer</h4>
+                                <div class="text-end">
                                 @include('admin.layouts.session-messages')
+                                </div>
+                               
 
                             </div>
 
