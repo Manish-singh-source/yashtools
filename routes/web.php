@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\Admin\CustomersController;
+use App\Http\Controllers\BannerController;
 use App\Http\Controllers\UserController;
 use App\Http\Middleware\AdminAuthMiddleware;
 use Illuminate\Support\Facades\Route;
@@ -52,23 +53,23 @@ Route::middleware('isAdminAuth:admin')->group(function () {
     Route::delete('/delete-customer', [CustomersController::class, 'deleteCustomer'])->name('admin.delete.customer');
     Route::get('/admin-logout', [UserController::class, 'logout'])->name('admin.logout');
 
-    // 
+    // Customer Routes
     Route::get('/customer-overview/{id}', [CustomersController::class, 'customerOverview'])->name('customer.overview');
-    Route::get('/add-banner', function () {
-        return view('admin.add-banner');
-    })->name('admin.add.banner');
-
     Route::get('/edit-customer/{id}', [CustomersController::class, 'editCustomerDetails'])->name('admin.edit.customer');
     Route::put('/update-customer', [CustomersController::class, 'updateCustomerDetails'])->name('admin.update.customer');
+
+    // Banner routes
+    Route::get('/add-banner', [BannerController::class, 'viewAddBanner'])->name('admin.view.banner');
+    Route::post('/add-banner', [BannerController::class, 'addBanner'])->name('admin.add.banner');
+    Route::get('/banner-table', [BannerController::class, 'viewBannerTable'])->name('admin.view.banner.table');
+    Route::delete('/delete-banner', [BannerController::class, 'deleteBanner'])->name('admin.delete.banner');
+
+    Route::get('/edit-banner', function () {
+        return view('admin.edit-banner');
+    })->name('admin.edit.banner');
 });
 
-Route::get('/banner-table', function () {
-    return view('admin.Banner-table');
-})->name('admin.banner.table');
 
-Route::get('/edit-banner', function () {
-    return view('admin.edit-banner');
-})->name('admin.edit.banner');
 
 Route::get('/add-category', function () {
     return view('admin.add-category');

@@ -66,16 +66,6 @@ class CustomersController extends Controller
         $user->mobile_number = $request->mobile_number;
         $user->save();
 
-        // $userDetail = UserDetail::find($user->id);
-        // $userDetail->company_name = $request->company_name;
-        // $userDetail->company_address = $request->company_address;
-        // $userDetail->city = $request->city;
-        // $userDetail->state = $request->state;
-        // $userDetail->country = $request->country;
-        // $userDetail->pincode = $request->pin_code;
-        // $userDetail->gstin = $request->gstin;
-        // $userDetail->save();
-
         $user->userDetail->company_name = $request->company_name;
         $user->userDetail->company_address = $request->company_address;
         $user->userDetail->city = $request->city;

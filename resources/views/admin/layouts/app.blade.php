@@ -338,8 +338,8 @@
                             <span class="nav-text">Slider</span>
                         </a>
                         <ul aria-expanded="false">
-                            <li><a href="{{ route('admin.add.banner') }}">Add Slider</a></li>
-                            <li><a href="{{ route('admin.banner.table') }}">Slider Table</a></li>
+                            <li><a href="{{ route('admin.view.banner') }}">Add Slider</a></li>
+                            <li><a href="{{ route('admin.view.banner.table') }}">Slider Table</a></li>
                             <li><a href="{{ route('admin.edit.banner')}}">Edit Slider</a></li>
                         </ul>
                     </li>
