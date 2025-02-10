@@ -402,9 +402,9 @@
                             <span class="nav-text">Event</span>
                         </a>
                         <ul aria-expanded="false">
-                            <li><a href="{{ route('admin.add.event') }}">Add Event</a></li>
-                            <li><a href="{{ route('admin.event.table') }}">Event Table</a></li>
-                            <li><a href="{{ route('admin.edit.event') }}">Edit Event</a></li>
+                            <li><a href="{{ route('admin.view.event') }}">Add Event</a></li>
+                            <li><a href="{{ route('admin.table.event') }}">Event Table</a></li>
+                            {{-- <li><a href="{{ route('admin.edit.event') }}">Edit Event</a></li> --}}
                         </ul>
                     </li>
                     <li><a class="has-arrow " href="javascript:void(0);" aria-expanded="false">

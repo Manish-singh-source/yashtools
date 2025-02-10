@@ -89,7 +89,9 @@ class SubCategoryController extends Controller
         $subcategory = SubCategories::find($request->selectedSubcategoryId);
         $subcategory->category_id = $request->categoryId;
         $subcategory->sub_category_name = $request->subcategory_name;
-
+        if (!empty($subcategory->subcategory_image)) {
+            File::delete(public_path('/uploads/subcategories/' . $subcategory->subcategory_image));
+        }
         if (!empty($request->subcategoryImage)) {
             $image = $request->subcategoryImage;
             $ext = $image->getClientOriginalExtension();

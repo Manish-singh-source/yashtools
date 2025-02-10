@@ -81,19 +81,20 @@ class CategoriesController extends Controller
             return back()->withErrors($validations)->withInput();
         }
 
-
+        $category = Categories::find($request->category_id);
+        $category->category_name = $request->category_name;
+        if (!empty($category->category_image)) {
+            File::delete(public_path('/uploads/categories/' . $category->category_image));
+        }
         if (!empty($request->categoryImage)) {
 
             $image = $request->categoryImage;
             $ext = $image->getClientOriginalExtension();
             $imageName = time() . "." . $ext;
             $image->move(public_path('uploads/categories'), $imageName);
-
-            $category = Categories::find($request->category_id);
-            $category->category_name = $request->category_name;
             $category->category_image = $imageName;
-            $category->save();
         }
+        $category->save();
         return redirect()->route('admin.table.category');
     }
 }

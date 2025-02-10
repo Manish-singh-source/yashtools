@@ -51,7 +51,7 @@ class BrandController extends Controller
     {
         $brand = Brand::find($request->brandId);
         if (!empty($brand->brand_image)) {
-            File::delete(public_path('/uploads/categories/' . $brand->brand_image));
+            File::delete(public_path('/uploads/brands/' . $brand->brand_image));
         }
         $brand->delete();
 
@@ -81,6 +81,11 @@ class BrandController extends Controller
 
         $brand = Brand::find($request->brandId);
         $brand->brand_name = $request->brand_name;
+        
+        if (!empty($brand->brand_image)) {
+            File::delete(public_path('/uploads/brands/' . $brand->brand_image));
+        }
+
         if (!empty($request->brandImage)) {
 
             $image = $request->brandImage;

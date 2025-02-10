@@ -7,6 +7,7 @@ use App\Http\Controllers\Admin\BannerController;
 use App\Http\Controllers\Admin\BrandController;
 use App\Http\Controllers\Admin\CustomersController;
 use App\Http\Controllers\Admin\CategoriesController;
+use App\Http\Controllers\Admin\EventController;
 use App\Http\Controllers\Admin\SubCategoryController;
 
 // user routes: Authentication 
@@ -91,6 +92,17 @@ Route::middleware('isAdminAuth:admin')->group(function () {
     Route::delete('/delete-brand', [BrandController::class, 'deleteBrand'])->name('admin.delete.brand');
     Route::get('/edit-brand/{id}', [BrandController::class, 'editBrand'])->name('admin.edit.brand');
     Route::put('/update-brand', [BrandController::class, 'updateBrand'])->name('admin.update.brand');
+
+    
+    // Events Routes
+    Route::get('/add-event', [EventController::class, 'viewEvent'])->name('admin.view.event');
+    Route::post('/add-event', [EventController::class, 'addEvent'])->name('admin.add.event');
+    Route::get('/event-table', [EventController::class, 'viewEventTable'])->name('admin.table.event');
+    Route::delete('/delete-event', [EventController::class, 'deleteEvent'])->name('admin.delete.event');
+    Route::get('/edit-event/{id}', [EventController::class, 'editEvent'])->name('admin.edit.event');
+    Route::put('/update-event', [EventController::class, 'updateEvent'])->name('admin.update.event');
+
+
 });
 
 
@@ -121,17 +133,17 @@ Route::get('/order-details', function () {
 
 
 
-Route::get('/add-event', function () {
-    return view('admin.add-event');
-})->name('admin.add.event');
+// Route::get('/add-event', function () {
+//     return view('admin.add-event');
+// })->name('admin.add.event');
 
-Route::get('/event-table', function () {
-    return view('admin.event-table');
-})->name('admin.event.table');
+// Route::get('/event-table', function () {
+//     return view('admin.event-table');
+// })->name('admin.event.table');
 
-Route::get('/edit-event', function () {
-    return view('admin.edit-event');
-})->name('admin.edit.event');
+// Route::get('/edit-event', function () {
+//     return view('admin.edit-event');
+// })->name('admin.edit.event');
 
 Route::get('/multi-admin', function () {
     return view('admin.multi-admin');
