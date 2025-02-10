@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Admin\AdminController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\UserController;
 use App\Http\Middleware\AdminAuthMiddleware;
@@ -93,7 +94,7 @@ Route::middleware('isAdminAuth:admin')->group(function () {
     Route::get('/edit-brand/{id}', [BrandController::class, 'editBrand'])->name('admin.edit.brand');
     Route::put('/update-brand', [BrandController::class, 'updateBrand'])->name('admin.update.brand');
 
-    
+
     // Events Routes
     Route::get('/add-event', [EventController::class, 'viewEvent'])->name('admin.view.event');
     Route::post('/add-event', [EventController::class, 'addEvent'])->name('admin.add.event');
@@ -101,6 +102,15 @@ Route::middleware('isAdminAuth:admin')->group(function () {
     Route::delete('/delete-event', [EventController::class, 'deleteEvent'])->name('admin.delete.event');
     Route::get('/edit-event/{id}', [EventController::class, 'editEvent'])->name('admin.edit.event');
     Route::put('/update-event', [EventController::class, 'updateEvent'])->name('admin.update.event');
+
+
+    // Events Routes
+    Route::get('/multi-admin', [AdminController::class, 'viewAdmin'])->name('admin.view.multi.admin');
+    Route::post('/add-admin', [AdminController::class, 'addAdmin'])->name('add.admin');
+    Route::get('/edit-admin/{id}', [AdminController::class, 'editAdmin'])->name('admin.edit.admin');
+    Route::delete('/delete-admin', [AdminController::class, 'deleteAdmin'])->name('delete.admin');
+    Route::put('/update-admin', [AdminController::class, 'updateAdmin'])->name('admin.update.admin');
+    // Route::get('/event-table', [AdminController::class, 'viewEventTable'])->name('admin.table.event');
 
 
 });
@@ -132,23 +142,10 @@ Route::get('/order-details', function () {
 })->name('admin.order.details');
 
 
+// Route::get('/multi-admin', function () {
+//     return view('admin.multi-admin');
+// })->name('admin.multi.admin');
 
-// Route::get('/add-event', function () {
-//     return view('admin.add-event');
-// })->name('admin.add.event');
-
-// Route::get('/event-table', function () {
-//     return view('admin.event-table');
-// })->name('admin.event.table');
-
-// Route::get('/edit-event', function () {
-//     return view('admin.edit-event');
-// })->name('admin.edit.event');
-
-Route::get('/multi-admin', function () {
-    return view('admin.multi-admin');
-})->name('admin.multi.admin');
-
-Route::get('/edit-admin', function () {
-    return view('admin.edit-admin');
-})->name('admin.edit.admin');
+// Route::get('/edit-admin', function () {
+//     return view('admin.edit-admin');
+// })->name('admin.edit.admin');

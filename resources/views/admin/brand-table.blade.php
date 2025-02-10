@@ -2,8 +2,8 @@
 
 @section('content-body')
     <!--**********************************
-                        Content body start
-                    ***********************************-->
+                            Content body start
+                        ***********************************-->
     <div class="content-body">
         <div class="container-fluid">
 
@@ -79,7 +79,9 @@
                                             </tr>
                                         @empty
                                             <tr>
-                                                <td>No records found</td>
+                                                <td colspan="4" class="text-center">
+                                                    <h6>No Records Found</h6>
+                                                </td>
                                             </tr>
                                         @endforelse
                                     </tbody>
@@ -92,6 +94,6 @@
         </div>
     </div>
     <!--**********************************
-                        Content body end
-                    ***********************************-->
+                            Content body end
+                        ***********************************-->
 @endsection

@@ -412,8 +412,8 @@
                             <span class="nav-text">Multi-Admin</span>
                         </a>
                         <ul aria-expanded="false">
-                            <li><a href="{{ route('admin.multi.admin') }}">Add Admin</a></li>
-                            <li><a href="{{ route('admin.edit.admin') }}">Edit Admin</a></li>
+                            <li><a href="{{ route('admin.view.multi.admin') }}">Add Admin</a></li>
+                            {{-- <li><a href="{{ route('admin.edit.admin') }}">Edit Admin</a></li> --}}
                         </ul>
                     </li>
 
