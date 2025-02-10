@@ -2,8 +2,8 @@
 
 @section('content-body')
     <!--**********************************
-                                        Content body start
-                                    ***********************************-->
+                                                Content body start
+                                            ***********************************-->
     <div class="content-body">
         <!-- row -->
         <div class="container-fluid">
@@ -65,6 +65,7 @@
                                                     <label class="form-check-label" for="checkAll"></label>
                                                 </div>
                                             </th>
+                                            <th>Profile</th>
                                             <th>Name</th>
                                             <th>Email</th>
                                             <th>Action</th>
@@ -78,6 +79,12 @@
                                                         <input type="checkbox" class="form-check-input" id="customCheckBox2"
                                                             required="">
                                                         <label class="form-check-label" for="customCheckBox2"></label>
+                                                    </div>
+                                                </td>
+                                                <td style="width: 30%;">
+                                                    <div class="d-flex align-items-center">
+                                                        <img src="{{ asset('uploads/profile/' . $admin->profile) }}"
+                                                            class="rounded-lg me-2" width="40" alt="">
                                                     </div>
                                                 </td>
                                                 <td style="width: 30%;">
@@ -128,6 +135,6 @@
         </div>
     </div>
     <!--**********************************
-                                        Content body end
-                                    ***********************************-->
+                                                Content body end
+                                            ***********************************-->
 @endsection
