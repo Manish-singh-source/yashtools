@@ -2,8 +2,8 @@
 
 @section('content-body')
     <!--**********************************
-                                                    Content body start
-                                                ***********************************-->
+                                                        Content body start
+                                                    ***********************************-->
     <div class="content-body">
         <!-- row -->
         <div class="container-fluid">
@@ -56,7 +56,7 @@
                                                 </td>
                                                 <td style="width: 30%;">
                                                     <div class="d-flex align-items-center">
-                                                        <img src="assets/images/category-images/d14.jpg"
+                                                        <img src="{{ asset('uploads/subcategories/' . $subcategory->sub_category_image) }}"
                                                             class="rounded-lg me-2" width="40" alt="">
                                                         <div>
                                                             <h6 class="w-space-no mb-0 fs-14 font-w600">
@@ -71,7 +71,7 @@
 
                                                 <td>
                                                     <div class="d-flex">
-                                                        <a href="#"
+                                                        <a href="{{ route('admin.edit.subcategory', $subcategory->id) }}"
                                                             class="btn btn-primary shadow btn-xs sharp me-1"><i
                                                                 class="fa fa-pencil"></i></a>
                                                         {{-- <a href="#" class="btn btn-danger shadow btn-xs sharp"><i
@@ -110,6 +110,6 @@
         </div>
     </div>
     <!--**********************************
-                                                    Content body end
-                                                ***********************************-->
+                                                        Content body end
+                                                    ***********************************-->
 @endsection

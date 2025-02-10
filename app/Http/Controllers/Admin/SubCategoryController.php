@@ -65,4 +65,40 @@ class SubCategoryController extends Controller
 
         return back()->with('error', 'Please Try Again.');
     }
+
+    public function editSubCategory(String $id)
+    {
+        $selectedSubcategory = SubCategories::with('category')->find($id);
+        $categories =  Categories::get();
+        return view('admin.edit-sub-category', compact('selectedSubcategory', 'categories'));
+    }
+
+    public function updateSubCategory(Request $request)
+    {
+        $validations = Validator::make($request->all(), [
+            'selectedSubcategoryId' => 'required',
+            'categoryId' => 'required',
+            'subcategory_name' => 'required',
+            "subcategoryImage" => "image",
+        ]);
+
+        if ($validations->fails()) {
+            return back()->withErrors($validations)->withInput();
+        }
+
+        $subcategory = SubCategories::find($request->selectedSubcategoryId);
+        $subcategory->category_id = $request->categoryId;
+        $subcategory->sub_category_name = $request->subcategory_name;
+
+        if (!empty($request->subcategoryImage)) {
+            $image = $request->subcategoryImage;
+            $ext = $image->getClientOriginalExtension();
+            $imageName = time() . "." . $ext;
+            $image->move(public_path('uploads/subcategories'), $imageName);
+            $subcategory->sub_category_image = $imageName;
+        }
+
+        $subcategory->save();
+        return redirect()->route('admin.table.subcategory');
+    }
 }

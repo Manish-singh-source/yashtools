@@ -80,23 +80,18 @@ Route::middleware('isAdminAuth:admin')->group(function () {
     Route::post('/add-sub-category', [SubCategoryController::class, 'addSubCategory'])->name('admin.add.subcategory');
     Route::get('/sub-category-table', [SubCategoryController::class, 'viewSubCategoryTable'])->name('admin.table.subcategory');
     Route::delete('/delete-sub-category', [SubCategoryController::class, 'deleteSubCategory'])->name('admin.delete.subcategory');
-    // Route::get('/edit-sub-category/{id}', [SubCategoryController::class, 'editSubCategory'])->name('admin.edit.subcategory');
-    // Route::put('/update-sub-category', [SubCategoryController::class, 'updateSubCategory'])->name('admin.update.subcategory');
+    Route::get('/edit-sub-category/{id}', [SubCategoryController::class, 'editSubCategory'])->name('admin.edit.subcategory');
+    Route::put('/update-sub-category', [SubCategoryController::class, 'updateSubCategory'])->name('admin.update.subcategory');
+
+    // Brands Routes
+    Route::get('/add-brand', [SubCategoryController::class, 'viewAddBrand'])->name('admin.view.brand');
+    // Route::post('/add-brand', [SubCategoryController::class, 'addBrand'])->name('admin.add.brand');
+    // Route::get('/brand-table', [SubCategoryController::class, 'viewBrandTable'])->name('admin.table.brand');
+    // Route::delete('/delete-brand', [SubCategoryController::class, 'deleteBrand'])->name('admin.delete.brand');
+    // Route::get('/edit-brand/{id}', [SubCategoryController::class, 'editBrand'])->name('admin.edit.brand');
+    // Route::put('/update-brand', [SubCategoryController::class, 'updateBrand'])->name('admin.update.brand');
 });
 
-
-
-// Route::get('/add-sub-category', function () {
-//     return view('admin.add-sub-category');
-// })->name('admin.add.sub.category');
-
-// Route::get('/sub-category-table', function () {
-//     return view('admin.sub-category-table');
-// })->name('admin.sub.category.table');
-
-Route::get('/edit-sub-category', function () {
-    return view('admin.edit-sub-category');
-})->name('admin.edit.sub.category');
 
 Route::get('/add-brand', function () {
     return view('admin.add-brand');
@@ -109,6 +104,9 @@ Route::get('/brand-table', function () {
 Route::get('/edit-brand', function () {
     return view('admin.edit-brand');
 })->name('admin.edit.brand');
+
+
+
 
 Route::get('/add-product', function () {
     return view('admin.add-product');
