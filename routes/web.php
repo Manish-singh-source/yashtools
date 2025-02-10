@@ -88,9 +88,9 @@ Route::middleware('isAdminAuth:admin')->group(function () {
     Route::get('/add-brand', [BrandController::class, 'viewAddBrand'])->name('admin.view.brand');
     Route::post('/add-brand', [BrandController::class, 'addBrand'])->name('admin.add.brand');
     Route::get('/brand-table', [BrandController::class, 'viewBrandTable'])->name('admin.table.brand');
-    // Route::delete('/delete-brand', [BrandController::class, 'deleteBrand'])->name('admin.delete.brand');
-    // Route::get('/edit-brand/{id}', [BrandController::class, 'editBrand'])->name('admin.edit.brand');
-    // Route::put('/update-brand', [BrandController::class, 'updateBrand'])->name('admin.update.brand');
+    Route::delete('/delete-brand', [BrandController::class, 'deleteBrand'])->name('admin.delete.brand');
+    Route::get('/edit-brand/{id}', [BrandController::class, 'editBrand'])->name('admin.edit.brand');
+    Route::put('/update-brand', [BrandController::class, 'updateBrand'])->name('admin.update.brand');
 });
 
 

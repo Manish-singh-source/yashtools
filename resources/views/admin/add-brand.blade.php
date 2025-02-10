@@ -19,7 +19,7 @@
                                     <div class="card-body">
                                             <div class="mb-3">
                                                 <label class="form-label required">Brand Name</label>
-                                                <input type="text" name="brand-name" class="form-control"
+                                                <input type="text" name="brand_name" class="form-control"
                                                     placeholder="Food">
                                             </div>
                                     </div>
