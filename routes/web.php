@@ -4,6 +4,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\UserController;
 use App\Http\Middleware\AdminAuthMiddleware;
 use App\Http\Controllers\Admin\BannerController;
+use App\Http\Controllers\Admin\BrandController;
 use App\Http\Controllers\Admin\CustomersController;
 use App\Http\Controllers\Admin\CategoriesController;
 use App\Http\Controllers\Admin\SubCategoryController;
@@ -84,27 +85,13 @@ Route::middleware('isAdminAuth:admin')->group(function () {
     Route::put('/update-sub-category', [SubCategoryController::class, 'updateSubCategory'])->name('admin.update.subcategory');
 
     // Brands Routes
-    Route::get('/add-brand', [SubCategoryController::class, 'viewAddBrand'])->name('admin.view.brand');
-    // Route::post('/add-brand', [SubCategoryController::class, 'addBrand'])->name('admin.add.brand');
-    // Route::get('/brand-table', [SubCategoryController::class, 'viewBrandTable'])->name('admin.table.brand');
-    // Route::delete('/delete-brand', [SubCategoryController::class, 'deleteBrand'])->name('admin.delete.brand');
-    // Route::get('/edit-brand/{id}', [SubCategoryController::class, 'editBrand'])->name('admin.edit.brand');
-    // Route::put('/update-brand', [SubCategoryController::class, 'updateBrand'])->name('admin.update.brand');
+    Route::get('/add-brand', [BrandController::class, 'viewAddBrand'])->name('admin.view.brand');
+    Route::post('/add-brand', [BrandController::class, 'addBrand'])->name('admin.add.brand');
+    Route::get('/brand-table', [BrandController::class, 'viewBrandTable'])->name('admin.table.brand');
+    // Route::delete('/delete-brand', [BrandController::class, 'deleteBrand'])->name('admin.delete.brand');
+    // Route::get('/edit-brand/{id}', [BrandController::class, 'editBrand'])->name('admin.edit.brand');
+    // Route::put('/update-brand', [BrandController::class, 'updateBrand'])->name('admin.update.brand');
 });
-
-
-Route::get('/add-brand', function () {
-    return view('admin.add-brand');
-})->name('admin.add.brand');
-
-Route::get('/brand-table', function () {
-    return view('admin.brand-table');
-})->name('admin.brand.table');
-
-Route::get('/edit-brand', function () {
-    return view('admin.edit-brand');
-})->name('admin.edit.brand');
-
 
 
 

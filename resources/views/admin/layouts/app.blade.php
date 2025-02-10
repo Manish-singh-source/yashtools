@@ -369,9 +369,8 @@
                             <span class="nav-text">Brand</span>
                         </a>
                         <ul aria-expanded="false">
-                            <li><a href="{{ route('admin.add.brand') }}">Add Brand</a></li>
-                            <li><a href="{{ route('admin.brand.table') }}">Brand Table</a></li>
-                            <li><a href="{{ route('admin.edit.brand') }}">Edit Brand</a></li>
+                            <li><a href="{{ route('admin.view.brand') }}">Add Brand</a></li>
+                            <li><a href="{{ route('admin.table.brand') }}">Brand Table</a></li>
                         </ul>
                     </li>
                     <li><a class="has-arrow " href="javascript:void(0);" aria-expanded="false">
