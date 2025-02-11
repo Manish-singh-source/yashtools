@@ -2,8 +2,8 @@
 
 @section('content-body')
     <!--**********************************
-                                    Content body start
-                                ***********************************-->
+                                                Content body start
+                                            ***********************************-->
     <div class="content-body">
         <div class="container-fluid">
 
@@ -21,13 +21,21 @@
                                             <h4 class="card-title--medium mb-0">Slider</h4>
                                         </div>
                                         <div class="card-body">
+                                            <div class="mb-3">
+                                                <label class="form-label">Title</label>
+                                                <input type="text" name="bannerTitle" class="form-control">
+                                            </div>
+                                            <div class="mb-3">
+                                                <label class="form-label">Description</label>
+                                                <textarea class="form-control" name="bannerDesciption" id=""></textarea>
+                                            </div>
                                             <div class="avatar-upload d-flex align-items-center">
                                                 <div class=" position-relative ">
-                                                    {{-- <div class="avatar-preview">
+                                                    <div class="avatar-preview">
                                                         <div id="imagePreview"
                                                             style="background-image: url({{ asset('admin/assets/images/no-img-avatar.png') }});">
                                                         </div>
-                                                    </div> --}}
+                                                    </div>
                                                     <div class="change-btn d-flex align-items-center flex-wrap">
                                                         <input type='file' class="form-control d-none" name="bannerImage"
                                                             id="imageUpload" accept=".png, .jpg, .jpeg">
@@ -52,6 +60,6 @@
         </div>
     </div>
     <!--**********************************
-                                    Content body end
-                                ***********************************-->
+                                                Content body end
+                                            ***********************************-->
 @endsection

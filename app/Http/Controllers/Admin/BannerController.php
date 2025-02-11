@@ -25,6 +25,7 @@ class BannerController extends Controller
             return back()->withErrors($validations)->withInput();
         }
 
+        $banner = new Banner();
 
         if (!empty($request->bannerImage)) {
 
@@ -33,10 +34,19 @@ class BannerController extends Controller
             $imageName = time() . "." . $ext;
             $image->move(public_path('uploads/banner'), $imageName);
 
-            $banner = new Banner();
             $banner->banner_image = $imageName;
-            $banner->save();
         }
+
+        if (!empty($request->bannerTitle)) {
+            $banner->banner_title = $request->bannerTitle;
+        }
+
+        if (!empty($request->bannerDesciption)) {
+            $banner->banner_description = $request->bannerDesciption;
+        }
+
+        $banner->save();
+
         return redirect()->route('admin.view.banner.table');
     }
 
@@ -53,6 +63,15 @@ class BannerController extends Controller
         if (!empty($banner->banner_image)) {
             File::delete(public_path('/uploads/banner/' . $banner->banner_image));
         }
+
+        if (!empty($request->bannerTitle)) {
+            $banner->banner_title = $request->bannerTitle;
+        }
+
+        if (!empty($request->bannerDesciption)) {
+            $banner->banner_description = $request->bannerDesciption;
+        }
+
         $banner->delete();
 
         if ($banner) {
@@ -60,5 +79,40 @@ class BannerController extends Controller
         }
 
         return back()->with('error', 'Please Try Again.');
+    }
+
+    public function editBanner(String $id)
+    {
+        $banner = Banner::find($id);
+        return view('admin.edit-banner', compact('banner'));
+    }
+
+    public function updateBanner(Request $request)
+    {
+
+        $banner = Banner::find($request->bannerId);
+        if (!empty($request->bannerTitle)) {
+            $banner->banner_title = $request->bannerTitle;
+        }
+
+        if (!empty($request->bannerDesciption)) {
+            $banner->banner_description = $request->bannerDesciption;
+        }
+
+        if (!empty($banner->banner_image)) {
+            File::delete(public_path('/uploads/banner/' . $banner->banner_image));
+        }
+        if (!empty($request->banner_image)) {
+            $image = $request->banner_image;
+            $ext = $image->getClientOriginalExtension();
+            $imageName = time() . "." . $ext;
+            $image->move(public_path('uploads/banner'), $imageName);
+
+            $banner->banner_image = $imageName;
+        }
+
+        $banner->save();
+
+        return redirect()->route('admin.view.banner.table');
     }
 }

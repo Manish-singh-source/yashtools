@@ -27,6 +27,8 @@
                                                 </div>
                                             </th>
                                             <th>Slider</th>
+                                            <th>Title</th>
+                                            <th>Description</th>
                                             <th>Action</th>
                                             <th>
                                             <div class="dropdown text-sans-serif text-end"><button
@@ -75,8 +77,13 @@
                                                             class="rounded-lg me-2" width="40" alt="">
                                                     </div>
                                                 </td>
+                                                <td>{{ $banner->banner_title ?? "Not Added" }} </td>
+                                                <td>{{ $banner->banner_description ?? "Not Added" }} </td>
                                                 <td>
-                                                    <div>
+                                                    <div class="d-flex">
+                                                        <a href="{{ route('admin.edit.banner', $banner->id) }}"
+                                                            class="btn btn-primary shadow btn-xs sharp me-1"><i
+                                                                class="fa fa-pencil"></i></a>
                                                         <form action="{{ route('admin.delete.banner') }}" method="POST">
                                                             @csrf
                                                             @method('DELETE')

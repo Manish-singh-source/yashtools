@@ -95,6 +95,7 @@ class EventController extends Controller
         $event->events_description = $request->eventDescription;
         $event->events_tag = $request->eventTag;
         $event->events_date = $request->eventDate;
+        
         if (!empty($event->events_image)) {
             File::delete(public_path('/uploads/events/' . $event->events_image));
         }

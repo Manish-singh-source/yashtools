@@ -36,6 +36,9 @@
     <link href="{{ asset('admin/assets/vendor/bootstrap-select/css/bootstrap-select.min.css') }}" rel="stylesheet"
         type="text/css" />
     <link href="{{ asset('admin/assets/css/style.css') }}" rel="stylesheet" type="text/css" />
+
+    <link href="{{ asset('admin/assets/vendor/dropzone/dist/dropzone.css') }}" rel="stylesheet" type="text/css" />
+    <link href="{{ asset('admin/assets/vendor/select2/css/select2.min.css') }}" rel="stylesheet" type="text/css" />
     <style>
         .bootstrap-select .btn {
             border: 1px solid var(--border);
@@ -140,7 +143,8 @@
                                 </button>
                             </li>
                             <li class="nav-item dropdown notification_dropdown">
-                                <a class="nav-link" href="javascript:void(0);" role="button" data-bs-toggle="dropdown">
+                                <a class="nav-link" href="javascript:void(0);" role="button"
+                                    data-bs-toggle="dropdown">
                                     <svg width="28" height="28" viewBox="0 0 28 28" fill="none"
                                         xmlns="http://www.w3.org/2000/svg">
                                         <path
@@ -378,9 +382,8 @@
                             <span class="nav-text">Products</span>
                         </a>
                         <ul aria-expanded="false">
-                            <li><a href="{{ route('admin.add.product') }}">Add Product</a></li>
-                            <li><a href="{{ route('admin.product.table') }}">Product Table</a></li>
-                            <li><a href="{{ route('admin.edit.product') }}">Edit Product</a></li>
+                            <li><a href="{{ route('admin.view.product') }}">Add Product</a></li>
+                            <li><a href="{{ route('admin.table.product') }}">Product Table</a></li>
                         </ul>
                     </li>
                     <li><a href="{{ route('admin.order') }}" class="ai-icon" aria-expanded="false">
@@ -455,6 +458,10 @@
     <script>
         var asset_url = "{{ asset('admin/assets/index.php') }}"
     </script>
+
+
+    <script src="{{ asset('admin/assets/vendor/ckeditor/ckeditor.js') }}" type="text/javascript"></script>
+    <script src="{{ asset('admin/assets/vendor/dropzone/dist/dropzone.js') }}" type="text/javascript"></script>
 
     <script src="{{ asset('admin/assets/vendor/global/global.min.js') }}" type="text/javascript"></script>
     <script src="{{ asset('admin/assets/vendor/bootstrap-select/js/bootstrap-select.min.js') }}" type="text/javascript">

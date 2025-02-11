@@ -9,6 +9,7 @@ use App\Http\Controllers\Admin\BrandController;
 use App\Http\Controllers\Admin\CustomersController;
 use App\Http\Controllers\Admin\CategoriesController;
 use App\Http\Controllers\Admin\EventController;
+use App\Http\Controllers\Admin\ProductsController;
 use App\Http\Controllers\Admin\SubCategoryController;
 
 // user routes: Authentication 
@@ -50,7 +51,9 @@ Route::get('/admin/signup', function () {
 Route::post('/register-admin', [UserController::class, 'registerAdminData'])->name('register.admin');
 Route::post('/signin-admin', [UserController::class, 'authAdmin'])->name('auth.admin');
 
-Route::middleware('isAdminAuth:admin')->group(function () {
+
+// Admin and Super Admin Routes 
+Route::middleware(AdminAuthMiddleware::class . ':admin,superadmin')->group(function () {
     Route::get('/admin/dashboard', function () {
         return view('admin.index');
     })->name('admin.dashboard');
@@ -68,6 +71,8 @@ Route::middleware('isAdminAuth:admin')->group(function () {
     Route::post('/add-banner', [BannerController::class, 'addBanner'])->name('admin.add.banner');
     Route::get('/banner-table', [BannerController::class, 'viewBannerTable'])->name('admin.view.banner.table');
     Route::delete('/delete-banner', [BannerController::class, 'deleteBanner'])->name('admin.delete.banner');
+    Route::get('/edit-banner/{id}', [BannerController::class, 'editBanner'])->name('admin.edit.banner');
+    Route::put('/update-banner', [BannerController::class, 'updateBanner'])->name('admin.update.banner');
 
     // Categories Routes
     Route::get('/add-category', [CategoriesController::class, 'viewAddCategories'])->name('admin.add.category');
@@ -104,34 +109,38 @@ Route::middleware('isAdminAuth:admin')->group(function () {
     Route::put('/update-event', [EventController::class, 'updateEvent'])->name('admin.update.event');
 
 
-    // Events Routes
+    // Multi Admin Routes
     Route::get('/multi-admin', [AdminController::class, 'viewAdmin'])->name('admin.view.multi.admin');
     Route::post('/add-admin', [AdminController::class, 'addAdmin'])->name('add.admin');
     Route::get('/edit-admin/{id}', [AdminController::class, 'editAdmin'])->name('admin.edit.admin');
     Route::delete('/delete-admin', [AdminController::class, 'deleteAdmin'])->name('delete.admin');
     Route::put('/update-admin', [AdminController::class, 'updateAdmin'])->name('admin.update.admin');
-    // Route::get('/event-table', [AdminController::class, 'viewEventTable'])->name('admin.table.event');
 
+    // Products Routes
+    Route::get('/add-product', [ProductsController::class, 'viewProduct'])->name('admin.view.product');
+    Route::post('/add-product', [ProductsController::class, 'addProducts'])->name('admin.add.product');
+    Route::get('/event-product', [ProductsController::class, 'viewProductTable'])->name('admin.table.product');
+    Route::delete('/delete-product', [ProductsController::class, 'deleteProduct'])->name('admin.delete.product');
+    Route::get('/edit-product/{id}', [ProductsController::class, 'editProduct'])->name('admin.edit.product');
+    Route::put('/update-product', [ProductsController::class, 'updateProduct'])->name('admin.update.product');
 
+    Route::get('/product-details', [ProductsController::class, 'detailProduct'])->name('admin.product.details');
 });
 
 
 
-Route::get('/add-product', function () {
-    return view('admin.add-product');
-})->name('admin.add.product');
 
-Route::get('/product-table', function () {
-    return view('admin.product-table');
-})->name('admin.product.table');
+// Route::get('/product-table', function () {
+//     return view('admin.product-table');
+// })->name('admin.product.table');
 
-Route::get('/product-details', function () {
-    return view('admin.product-details');
-})->name('admin.product.details');
+// Route::get('/product-details', function () {
+//     return view('admin.product-details');
+// })->name('admin.product.details');
 
-Route::get('/edit-product', function () {
-    return view('admin.edit-product');
-})->name('admin.edit.product');
+// Route::get('/edit-product', function () {
+//     return view('admin.edit-product');
+// })->name('admin.edit.product');
 
 Route::get('/order', function () {
     return view('admin.order');
@@ -140,12 +149,3 @@ Route::get('/order', function () {
 Route::get('/order-details', function () {
     return view('admin.order-details');
 })->name('admin.order.details');
-
-
-// Route::get('/multi-admin', function () {
-//     return view('admin.multi-admin');
-// })->name('admin.multi.admin');
-
-// Route::get('/edit-admin', function () {
-//     return view('admin.edit-admin');
-// })->name('admin.edit.admin');

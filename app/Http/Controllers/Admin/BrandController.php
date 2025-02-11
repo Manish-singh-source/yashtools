@@ -26,9 +26,8 @@ class BrandController extends Controller
             return back()->withErrors($validations)->withInput();
         }
 
-
+        dd($request->all());
         if (!empty($request->brandImage)) {
-
             $image = $request->brandImage;
             $ext = $image->getClientOriginalExtension();
             $imageName = time() . "." . $ext;
