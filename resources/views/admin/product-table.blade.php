@@ -2,8 +2,8 @@
 
 @section('content-body')
     <!--**********************************
-                                                                                    Content body start
-                                                                                ***********************************-->
+                                                                                        Content body start
+                                                                                    ***********************************-->
     <div class="content-body">
         <!-- row -->
         <div class="container-fluid">
@@ -51,7 +51,7 @@
                                                         <img src="{{ asset('uploads/products/thumbnails/' . $product->product_thumbain) }}"
                                                             class="rounded-lg me-2" width="40" alt="">
                                                         <div>
-                                                            <a href="{{ route('admin.product.details') }}">
+                                                            <a href="{{ route('admin.product.details', $product->id) }}">
                                                                 <h6 class="w-space-no mb-0 fs-14 font-w600">
                                                                     {{ $product->product_name }}
                                                                 </h6>
@@ -110,6 +110,6 @@
         </div>
     </div>
     <!--**********************************
-                                                                                    Content body end
-                                                                                ***********************************-->
+                                                                                        Content body end
+                                                                                    ***********************************-->
 @endsection

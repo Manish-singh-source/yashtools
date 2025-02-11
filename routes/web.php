@@ -124,23 +124,9 @@ Route::middleware(AdminAuthMiddleware::class . ':admin,superadmin')->group(funct
     Route::get('/edit-product/{id}', [ProductsController::class, 'editProduct'])->name('admin.edit.product');
     Route::put('/update-product', [ProductsController::class, 'updateProduct'])->name('admin.update.product');
 
-    Route::get('/product-details', [ProductsController::class, 'detailProduct'])->name('admin.product.details');
+    Route::get('/product-details/{id}', [ProductsController::class, 'detailProduct'])->name('admin.product.details');
 });
 
-
-
-
-// Route::get('/product-table', function () {
-//     return view('admin.product-table');
-// })->name('admin.product.table');
-
-// Route::get('/product-details', function () {
-//     return view('admin.product-details');
-// })->name('admin.product.details');
-
-// Route::get('/edit-product', function () {
-//     return view('admin.edit-product');
-// })->name('admin.edit.product');
 
 Route::get('/order', function () {
     return view('admin.order');

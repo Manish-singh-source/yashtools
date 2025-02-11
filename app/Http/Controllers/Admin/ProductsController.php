@@ -243,4 +243,10 @@ class ProductsController extends Controller
 
         return redirect()->route('admin.table.product');
     }
+
+    public function detailProduct(String $id)
+    {
+        $productDetails = Product::with('categories')->with('subcategories')->with('brands')->where('id', $id)->first();
+        return view('admin.product-details', compact('productDetails'));
+    }
 }
