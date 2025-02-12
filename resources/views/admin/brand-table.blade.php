@@ -54,7 +54,7 @@
 
                                                     </div>
                                                 </td>
-                                                <td>10</td>
+                                                <td>{{ $brand->products_count_count }}</td>
 
 
                                                 </td>

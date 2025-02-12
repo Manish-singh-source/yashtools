@@ -47,7 +47,8 @@ class SubCategoryController extends Controller
 
     public function viewSubCategoryTable()
     {
-        $subcategories =  SubCategories::with('category')->get();
+        $subcategories =  SubCategories::with('category')->withCount('productsCount')->get();
+        // dd($subcategories);
         return view('admin.sub-category-table', compact('subcategories'));
     }
 

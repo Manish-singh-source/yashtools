@@ -1,9 +1,13 @@
 @extends('admin.layouts.app')
 
+@section('csrf-token')
+    <meta name="csrf-token" content="{{ csrf_token() }}">
+@endsection
+
 @section('content-body')
     <!--**********************************
-                                                                                                        Content body start
-                                                                                                    ***********************************-->
+                                                                                                                                        Content body start
+                                                                                                                                    ***********************************-->
     <div class="content-body">
         <div class="container-fluid">
 
@@ -142,8 +146,9 @@
                                                         </div>
                                                     </div>
                                                     <div class="change-btn d-flex align-items-center flex-wrap">
-                                                        <input type='file' class="form-control d-none" id="imageUpload"
-                                                            accept=".png, .jpg, .jpeg" name="product_image">
+                                                        <input type='file' class="form-control d-none"
+                                                            id="imageUpload" accept=".png, .jpg, .jpeg"
+                                                            name="product_image">
                                                         <label for="imageUpload"
                                                             class="btn btn-sm btn-primary light ms-0">Select
                                                             Image</label>
@@ -187,7 +192,7 @@
                                         </div>
                                         <div class="card-body">
                                             <label class="form-label">Select Catogery</label>
-                                            <select class="form-control default-select h-auto wide"
+                                            <select class="form-control h-auto product_category"
                                                 aria-label="Default select example" name="product_category">
                                                 @foreach ($categories as $category)
                                                     @if ($selectedProduct->product_category_id == $category->id)
@@ -207,19 +212,23 @@
                                         </div>
                                         <div class="card-body">
                                             <label class="form-label">Select Sub Catogery</label>
-                                            <select class="form-control default-select h-auto wide"
-                                                aria-label="Default select example" name="product_sub_category">
-                                                @foreach ($subcategories as $subcategory)
-                                                    @if ($selectedProduct->product_sub_category_id == $subcategory->id)
-                                                        <option value="{{ $subcategory->id }}" selected>
-                                                            {{ $subcategory->sub_category_name }}
-                                                        </option>
-                                                    @else
-                                                        <option value="{{ $subcategory->id }}">
-                                                            {{ $subcategory->sub_category_name }}
-                                                        </option>
-                                                    @endif
-                                                @endforeach
+                                            <select class="form-control h-auto wide" name="product_sub_category"
+                                                id="product_sub_category">
+                                                @isset($selectedProduct->product_sub_category_id)
+                                                    @foreach ($subcategories as $subcategory)
+                                                        @if ($selectedProduct->product_sub_category_id == $subcategory->id)
+                                                            <option value="{{ $subcategory->id }}" selected>
+                                                                {{ $subcategory->sub_category_name }}
+                                                            </option>
+                                                        @else
+                                                            <option value="{{ $subcategory->id }}">
+                                                                {{ $subcategory->sub_category_name }}
+                                                            </option>
+                                                        @endif
+                                                    @endforeach
+                                                @else
+                                                    <option value="0">Select Sub Category</option>
+                                                @endisset
                                             </select>
                                             @error('product_sub_category')
                                                 {{ $message }}
@@ -271,7 +280,17 @@
         </div>
     </div>
     </div>
-	
-    <script src="assets/vendor/ckeditor/ckeditor.js" type="text/javascript"></script>
-    <script src="assets/vendor/dropzone/dist/dropzone.js" type="text/javascript"></script>
+@endsection
+
+@section('scripts')
+    <script>
+        var enableSupportButton = '1'
+    </script>
+    <script>
+        var asset_url = 'assets/index.html'
+    </script>
+
+    <script src="{{ asset('admin/assets/vendor/ckeditor/ckeditor.js') }}" type="text/javascript"></script>
+    <script src="{{ asset('admin/assets/vendor/dropzone/dist/dropzone.js') }}" type="text/javascript"></script>
+    <script src="{{ asset('admin/assets/js/category-filter.js') }}"></script>
 @endsection

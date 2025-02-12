@@ -25,7 +25,7 @@
     <meta name="twitter:title" content="Yash Tools Admin">
     <meta name="twitter:image" content="../social-image.png">
     <meta name="twitter:card" content="summary_large_image">
-
+    @yield('csrf-token')
     <!-- FAVICONS ICON -->
     <link rel="shortcut icon" type="image/png" href="{{ asset('admin/assets/images/favicon.png') }}">
 
@@ -525,6 +525,9 @@
             },
         });
     </script>
+
+    @yield('scripts')
+
 </body>
 
 </html>

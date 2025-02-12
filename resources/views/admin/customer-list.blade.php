@@ -53,7 +53,7 @@
                                                 </td>
                                                 <td>
                                                     <div>
-                                                        <h6>{{ $customer->userDetail->state }}</h6>
+                                                        <h6>{{ $customer->userDetail->state ?? "" }}</h6>
                                                     </div>
                                                 </td>
                                                 <td>

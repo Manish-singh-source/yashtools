@@ -9,6 +9,7 @@ use App\Http\Controllers\Admin\BrandController;
 use App\Http\Controllers\Admin\CustomersController;
 use App\Http\Controllers\Admin\CategoriesController;
 use App\Http\Controllers\Admin\EventController;
+use App\Http\Controllers\Admin\FetchAPIs;
 use App\Http\Controllers\Admin\ProductsController;
 use App\Http\Controllers\Admin\SubCategoryController;
 
@@ -54,9 +55,7 @@ Route::post('/signin-admin', [UserController::class, 'authAdmin'])->name('auth.a
 
 // Admin and Super Admin Routes 
 Route::middleware(AdminAuthMiddleware::class . ':admin,superadmin')->group(function () {
-    Route::get('/admin/dashboard', function () {
-        return view('admin.index');
-    })->name('admin.dashboard');
+    Route::get('/admin/dashboard', [AdminController::class, 'viewDashboard'])->name('admin.dashboard');
     Route::get('/customers-list', [CustomersController::class, 'customersList'])->name('admin.customers.list');
     Route::delete('/delete-customer', [CustomersController::class, 'deleteCustomer'])->name('admin.delete.customer');
     Route::get('/admin-logout', [UserController::class, 'logout'])->name('admin.logout');
@@ -125,6 +124,7 @@ Route::middleware(AdminAuthMiddleware::class . ':admin,superadmin')->group(funct
     Route::put('/update-product', [ProductsController::class, 'updateProduct'])->name('admin.update.product');
 
     Route::get('/product-details/{id}', [ProductsController::class, 'detailProduct'])->name('admin.product.details');
+    Route::post('/fetch-sub-categories', [FetchAPIs::class, 'fetchSubCategories'])->name('admin.fetch.sub.categories')->middleware('web');
 });
 
 

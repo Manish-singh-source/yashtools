@@ -51,7 +51,7 @@
                                                     </div>
                                                 </div>
                                             </td>
-                                            <td>10</td>
+                                            <td>{{ $category->products_count_count }}</td>
                                             <td>
                                                 <div class="d-flex">
                                                     <a href="{{ route('admin.edit.category', $category->id) }}"

@@ -1,9 +1,13 @@
 @extends('admin.layouts.app')
 
+@section('csrf-token')
+    <meta name="csrf-token" content="{{ csrf_token() }}">
+@endsection
+
 @section('content-body')
     <!--**********************************
-                                                                                                                                        Content body start
-                                                                                                                                    ***********************************-->
+                                                                                                                                                                                                                                                                                                                                Content body start
+                                                                                                                                                                                                                                                                                                                            ***********************************-->
     <div class="content-body">
         <div class="container-fluid">
 
@@ -170,7 +174,7 @@
                                         </div>
                                         <div class="card-body">
                                             <label class="form-label">Select Catogery</label>
-                                            <select class="form-control default-select h-auto wide"
+                                            <select class="form-control h-auto product_category"
                                                 aria-label="Default select example" name="product_category">
                                                 @foreach ($categories as $category)
                                                     <option value="{{ $category->id }}">{{ $category->category_name }}
@@ -183,13 +187,10 @@
                                         </div>
                                         <div class="card-body">
                                             <label class="form-label">Select Sub Catogery</label>
-                                            <select class="form-control default-select h-auto wide"
-                                                aria-label="Default select example" name="product_sub_category">
-                                                @foreach ($subcategories as $subcategory)
-                                                    <option value="{{ $subcategory->id }}">
-                                                        {{ $subcategory->sub_category_name }}
-                                                    </option>
-                                                @endforeach
+                                            <select class="form-control h-auto wide" id="product_sub_category"
+                                                name="product_sub_category">
+                                                <option value="0">Select Sub Category</option>
+
                                             </select>
                                             @error('product_sub_category')
                                                 {{ $message }}
@@ -237,8 +238,9 @@
             </div>
         </div>
     </div>
+@endsection
 
-
+@section('scripts')
     <script>
         var enableSupportButton = '1'
     </script>
@@ -246,6 +248,7 @@
         var asset_url = 'assets/index.html'
     </script>
 
-    <script src="assets/vendor/ckeditor/ckeditor.js" type="text/javascript"></script>
-    <script src="assets/vendor/dropzone/dist/dropzone.js" type="text/javascript"></script>
+    <script src="{{ asset('assets/vendor/ckeditor/ckeditor.js') }}" type="text/javascript"></script>
+    <script src="{{ asset('assets/vendor/dropzone/dist/dropzone.js') }}" type="text/javascript"></script>
+    <script src="{{ asset('admin/assets/js/category-filter.js') }}"></script>
 @endsection

@@ -62,12 +62,10 @@
                                                             <h6 class="w-space-no mb-0 fs-14 font-w600">
                                                                 {{ $subcategory->sub_category_name }}
                                                             </h6>
-
                                                         </div>
-
                                                     </div>
                                                 </td>
-                                                <td>10</td>
+                                                <td>{{ $subcategory->products_count_count }}</td>
 
                                                 <td>
                                                     <div class="d-flex">

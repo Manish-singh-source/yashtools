@@ -44,7 +44,8 @@ class CategoriesController extends Controller
 
     public function viewCategoryTable()
     {
-        $categories = Categories::get();
+        $categories = Categories::withCount('productsCount')->get();
+        // dd($categories);
         return view('admin.category-table', compact('categories'));
     }
 

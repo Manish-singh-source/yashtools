@@ -13,6 +13,7 @@ class CustomersController extends Controller
     public function customersList()
     {
         $customers = User::with('userDetail')->where('role', 'customer')->get();
+        // dd($customers);
         return view('admin.customer-list', compact('customers'));
     }
 

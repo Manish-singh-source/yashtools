@@ -10,6 +10,12 @@ use Illuminate\Support\Facades\Validator;
 
 class AdminController extends Controller
 {
+    public function viewDashboard()
+    {
+        $totalCustomers = User::where('role', 'customer')->count();
+        return view('admin.index', compact('totalCustomers'));
+    }
+
     public function viewAdmin()
     {
         $admins = User::where('role', 'admin')->get();

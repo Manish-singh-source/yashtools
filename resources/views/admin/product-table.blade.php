@@ -2,8 +2,8 @@
 
 @section('content-body')
     <!--**********************************
-                                                                                        Content body start
-                                                                                    ***********************************-->
+                                                                                                Content body start
+                                                                                            ***********************************-->
     <div class="content-body">
         <!-- row -->
         <div class="container-fluid">
@@ -55,7 +55,8 @@
                                                                 <h6 class="w-space-no mb-0 fs-14 font-w600">
                                                                     {{ $product->product_name }}
                                                                 </h6>
-                                                                <small>{{ $product->product_discription }}</small>
+                                                                <small
+                                                                    style = "-webkit-line-clamp: 2;-webkit-box-orient: vertical;display: -webkit-box;overflow: hidden;">{{ $product->product_discription }}</small>
                                                             </a>
                                                         </div>
                                                     </div>
@@ -66,7 +67,9 @@
                                                 <td>{{ $product->product_quantity }}</td>
                                                 <td>{{ $product->product_price }}</td>
                                                 <td>
-                                                    <div class="form-check form-switch">
+                                                    <div
+                                                        class="form-check
+                                                                    form-switch">
                                                         <input class="form-check-input" type="checkbox" role="switch"
                                                             id="flexSwitchCheckChecked"
                                                             @if ($product->status == 'active') checked @endif>
@@ -110,6 +113,6 @@
         </div>
     </div>
     <!--**********************************
-                                                                                        Content body end
-                                                                                    ***********************************-->
+                                                                                                Content body end
+                                                                                            ***********************************-->
 @endsection

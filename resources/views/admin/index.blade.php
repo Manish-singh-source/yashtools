@@ -21,7 +21,7 @@
                                     <div class="d-flex justify-content-between">
                                         <h6 class="mb-0">Total Customer</h6>
                                     </div>
-                                    <span class="data-value">1.2K</span>
+                                    <span class="data-value">{{ $totalCustomers }}</span>
                                 </div>
                                 <div class="card-body p-0 pb-3">
                                     <div id="handleOrderChart"></div>

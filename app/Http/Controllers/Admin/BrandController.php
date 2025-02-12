@@ -43,7 +43,8 @@ class BrandController extends Controller
 
     public function viewBrandTable()
     {
-        $brands = Brand::get();
+        $brands = Brand::withCount('productsCount')->get();
+        // dd($brands);
         return view('admin.brand-table', compact('brands'));
     }
     public function deleteBrand(Request $request)
