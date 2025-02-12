@@ -2,8 +2,8 @@
 
 @section('content-body')
     <!--**********************************
-                                                Content body start
-                                            ***********************************-->
+                                                                                                Content body start
+                                                                                            ***********************************-->
     <div class="content-body">
         <div class="container-fluid">
 
@@ -23,11 +23,24 @@
                                         <div class="card-body">
                                             <div class="mb-3">
                                                 <label class="form-label">Title</label>
-                                                <input type="text" name="bannerTitle" class="form-control">
+                                                <input type="text" name="bannerTitle"
+                                                    class="form-control @error('bannerTitle') is-invalid @enderror">
+
+                                                @error('bannerTitle')
+                                                    <div class="invalid-feedback">
+                                                        {{ $message }}
+                                                    </div>
+                                                @enderror
                                             </div>
                                             <div class="mb-3">
                                                 <label class="form-label">Description</label>
-                                                <textarea class="form-control" name="bannerDesciption" id=""></textarea>
+                                                <textarea class="form-control @error('bannerDesciption') is-invalid @enderror" name="bannerDesciption" id=""></textarea>
+
+                                                @error('bannerDesciption')
+                                                    <div class="invalid-feedback">
+                                                        {{ $message }}
+                                                    </div>
+                                                @enderror
                                             </div>
                                             <div class="avatar-upload d-flex align-items-center">
                                                 <div class=" position-relative ">
@@ -37,11 +50,17 @@
                                                         </div>
                                                     </div>
                                                     <div class="change-btn d-flex align-items-center flex-wrap">
-                                                        <input type='file' class="form-control d-none" name="bannerImage"
-                                                            id="imageUpload" accept=".png, .jpg, .jpeg">
+                                                        <input type='file'
+                                                            class="form-control d-none @error('bannerImage') is-invalid @enderror"
+                                                            name="bannerImage" id="imageUpload" accept=".png, .jpg, .jpeg">
                                                         <label for="imageUpload"
                                                             class="btn btn-sm btn-primary light ms-0">Select
                                                             Image</label>
+                                                        @error('bannerImage')
+                                                            <div class="invalid-feedback">
+                                                                {{ $message }}
+                                                            </div>
+                                                        @enderror
                                                     </div>
                                                 </div>
                                             </div>
@@ -60,6 +79,6 @@
         </div>
     </div>
     <!--**********************************
-                                                Content body end
-                                            ***********************************-->
+                                                                                                Content body end
+                                                                                            ***********************************-->
 @endsection

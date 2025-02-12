@@ -6,8 +6,8 @@
 
 @section('content-body')
     <!--**********************************
-                                                                                                                                                                                                                                                                                                                                Content body start
-                                                                                                                                                                                                                                                                                                                            ***********************************-->
+                                                                                                                                                                                                                                                                                                                                                                                    Content body start
+                                                                                                                                                                                                                                                                                                                                                                                ***********************************-->
     <div class="content-body">
         <div class="container-fluid">
 
@@ -24,28 +24,41 @@
                                     <div class="card-body">
                                         <div class="mb-3">
                                             <label class="form-label">Product Name</label>
-                                            <input type="text" class="form-control" name="product_name">
+                                            <input type="text"
+                                                class="form-control @error('product_name') is-invalid @enderror"
+                                                name="product_name">
                                             @error('product_name')
-                                                {{ $message }}
+                                                <div class="invalid-feedback">
+                                                    {{ $message }}
+                                                </div>
                                             @enderror
                                         </div>
                                         <div class="mb-3">
                                             <label class="form-label">Product Quantity</label>
-                                            <input type="number" class="form-control" name="product_quantity">
+                                            <input type="number"
+                                                class="form-control @error('product_quantity') is-invalid @enderror"
+                                                name="product_quantity">
                                             @error('product_quantity')
-                                                {{ $message }}
+                                                <div class="invalid-feedback">
+                                                    {{ $message }}
+                                                </div>
                                             @enderror
                                         </div>
                                         <div class="mb-3">
                                             <label class="form-label">Price</label>
-                                            <input type="number" class="form-control" name="product_price">
+                                            <input type="number"
+                                                class="form-control @error('product_price') is-invalid @enderror"
+                                                name="product_price">
                                             @error('product_price')
-                                                {{ $message }}
+                                                <div class="invalid-feedback">
+                                                    {{ $message }}
+                                                </div>
                                             @enderror
                                         </div>
                                         <div class="mb-3">
                                             <label class="form-label">Days to Dispatch</label>
-                                            <select class="form-control default-select h-auto wide"
+                                            <select
+                                                class="form-control default-select h-auto wide @error('product_days_to_dispatch') is-invalid @enderror"
                                                 aria-label="Default select example" name="product_days_to_dispatch">
                                                 <option selected>Same Days</option>
                                                 <option value="1">1 Day to Dispatch</option>
@@ -56,14 +69,18 @@
                                                 <option value="1">None</option>
                                             </select>
                                             @error('product_days_to_dispatch')
-                                                {{ $message }}
+                                                <div class="invalid-feedback">
+                                                    {{ $message }}
+                                                </div>
                                             @enderror
                                         </div>
                                         <div class="mb-3">
                                             <label class="form-label">Description</label>
-                                            <textarea class="form-control" name="product_description"></textarea>
+                                            <textarea class="form-control @error('product_description') is-invalid @enderror" name="product_description"></textarea>
                                             @error('product_description')
-                                                {{ $message }}
+                                                <div class="invalid-feedback">
+                                                    {{ $message }}
+                                                </div>
                                             @enderror
                                         </div>
                                     </div>
@@ -135,13 +152,17 @@
                                                         </div>
                                                     </div>
                                                     <div class="change-btn d-flex align-items-center flex-wrap">
-                                                        <input type='file' class="form-control d-none" id="imageUpload"
-                                                            accept=".png, .jpg, .jpeg" name="product_image">
+                                                        <input type='file'
+                                                            class="form-control d-none @error('product_image') is-invalid @enderror"
+                                                            id="imageUpload" accept=".png, .jpg, .jpeg"
+                                                            name="product_image">
                                                         <label for="imageUpload"
                                                             class="btn btn-sm btn-primary light ms-0">Select
                                                             Image</label>
                                                         @error('product_image')
-                                                            {{ $message }}
+                                                            <div class="invalid-feedback">
+                                                                {{ $message }}
+                                                            </div>
                                                         @enderror
                                                     </div>
                                                 </div>

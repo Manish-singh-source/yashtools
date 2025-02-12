@@ -18,7 +18,7 @@ class BannerController extends Controller
     public function addBanner(Request $request)
     {
         $validations = Validator::make($request->all(), [
-            "bannerImage" => "image",
+            "bannerImage" => "required|image",
         ]);
 
         if ($validations->fails()) {
@@ -89,6 +89,14 @@ class BannerController extends Controller
 
     public function updateBanner(Request $request)
     {
+
+        $validations = Validator::make($request->all(), [
+            "banner_image" => "required|image",
+        ]);
+
+        if ($validations->fails()) {
+            return back()->withErrors($validations)->withInput();
+        }
 
         $banner = Banner::find($request->bannerId);
         if (!empty($request->bannerTitle)) {

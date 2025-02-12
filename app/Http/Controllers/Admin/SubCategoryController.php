@@ -23,7 +23,7 @@ class SubCategoryController extends Controller
         $validations = Validator::make($request->all(), [
             'subcategoryId' => 'required',
             'subcategory_name' => 'required',
-            "subcategoryImage" => "image",
+            "subcategoryImage" => "required|image",
         ]);
 
         if ($validations->fails()) {
@@ -80,7 +80,7 @@ class SubCategoryController extends Controller
             'selectedSubcategoryId' => 'required',
             'categoryId' => 'required',
             'subcategory_name' => 'required',
-            "subcategoryImage" => "image",
+            "subcategoryImage" => "required|image",
         ]);
 
         if ($validations->fails()) {

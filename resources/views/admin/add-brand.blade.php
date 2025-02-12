@@ -2,8 +2,8 @@
 
 @section('content-body')
     <!--**********************************
-                    Content body start
-                ***********************************-->
+                                                Content body start
+                                            ***********************************-->
     <div class="content-body">
         <div class="container-fluid">
 
@@ -17,11 +17,17 @@
                             <div class="col-xl-12">
                                 <div class="card h-auto">
                                     <div class="card-body">
-                                            <div class="mb-3">
-                                                <label class="form-label required">Brand Name</label>
-                                                <input type="text" name="brand_name" class="form-control"
-                                                    placeholder="Food">
-                                            </div>
+                                        <div class="mb-3">
+                                            <label class="form-label required">Brand Name</label>
+                                            <input type="text" name="brand_name"
+                                                class="form-control @error('brand_name') is-invalid @enderror"
+                                                placeholder="Food">
+                                            @error('brand_name')
+                                                <div class="invalid-feedback">
+                                                    {{ $message }}
+                                                </div>
+                                            @enderror
+                                        </div>
                                     </div>
                                 </div>
                                 <div class="right-sidebar-sticky">
@@ -38,11 +44,17 @@
                                                         </div>
                                                     </div>
                                                     <div class="change-btn d-flex align-items-center flex-wrap">
-                                                        <input type='file' class="form-control d-none" id="imageUpload"
-                                                            name="brandImage" accept=".png, .jpg, .jpeg">
+                                                        <input type='file'
+                                                            class="form-control d-none @error('brandImage') is-invalid @enderror"
+                                                            id="imageUpload" name="brandImage" accept=".png, .jpg, .jpeg">
                                                         <label for="imageUpload"
                                                             class="btn btn-sm btn-primary light ms-0">Select
                                                             Image</label>
+                                                        @error('brandImage')
+                                                            <div class="invalid-feedback">
+                                                                {{ $message }}
+                                                            </div>
+                                                        @enderror
                                                     </div>
                                                 </div>
                                             </div>
@@ -62,6 +74,6 @@
         </div>
     </div>
     <!--**********************************
-                    Content body end
-                ***********************************-->
+                                                Content body end
+                                            ***********************************-->
 @endsection

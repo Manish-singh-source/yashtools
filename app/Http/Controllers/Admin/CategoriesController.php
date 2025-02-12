@@ -19,7 +19,7 @@ class CategoriesController extends Controller
     {
         $validations = Validator::make($request->all(), [
             'category_name' => 'required',
-            "categoryImage" => "image",
+            "categoryImage" => "required|image",
         ]);
 
         if ($validations->fails()) {
@@ -75,7 +75,7 @@ class CategoriesController extends Controller
         $validations = Validator::make($request->all(), [
             'category_id' => 'required',
             'category_name' => 'required',
-            "categoryImage" => "image",
+            "categoryImage" => "required|image",
         ]);
 
         if ($validations->fails()) {

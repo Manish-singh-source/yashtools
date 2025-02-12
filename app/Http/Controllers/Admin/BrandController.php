@@ -19,7 +19,7 @@ class BrandController extends Controller
     {
         $validations = Validator::make($request->all(), [
             'brand_name' => 'required',
-            "brandImage" => "image",
+            "brandImage" => "required|image",
         ]);
 
         if ($validations->fails()) {
@@ -71,7 +71,7 @@ class BrandController extends Controller
         $validations = Validator::make($request->all(), [
             'brandId' => 'required',
             'brand_name' => 'required',
-            "brandImage" => "image",
+            "brandImage" => "required|image",
         ]);
 
         if ($validations->fails()) {

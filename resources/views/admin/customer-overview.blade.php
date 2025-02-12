@@ -2,8 +2,8 @@
 
 @section('content-body')
     <!--**********************************
-                        Content body start
-                    ***********************************-->
+                                Content body start
+                            ***********************************-->
     <div class="content-body default-height">
         <div class="container-fluid">
 
@@ -14,7 +14,8 @@
                         <div class="card">
                             <div class="card-header py-3">
                                 <h6 class="card-title">Profile Details</h6>
-                                <a href="edit-customer.php" class="btn btn-sm btn-primary">Edit Profile</a>
+                                <a href="{{ route('admin.edit.customer', $customerDetail->id) }}"
+                                    class="btn btn-sm btn-primary">Edit Profile</a>
                             </div>
                             <div class="card-body">
                                 <div class="row py-2">

@@ -2,8 +2,8 @@
 
 @section('content-body')
     <!--**********************************
-                                                                                                                            Content body start
-                                                                                                                        ***********************************-->
+                                                                                                                                                                Content body start
+                                                                                                                                                            ***********************************-->
     <div class="content-body">
         <div class="container-fluid">
 
@@ -21,7 +21,9 @@
                                         <div class="mb-3">
                                             <label class="form-label">Select Categorey</label>
                                             <div class="dropdown bootstrap-select default-select form-control wide">
-                                                <select class="default-select form-control wide" name="subcategoryId">
+                                                <select
+                                                    class="default-select form-control wide @error('categoryImage') is-invalid @enderror"
+                                                    name="subcategoryId">
                                                     @foreach ($categories as $category)
                                                         <option value="{{ $category->id }}">
                                                             {{ $category->category_name }}
@@ -29,16 +31,21 @@
                                                     @endforeach
                                                 </select>
                                                 @error('subcategoryId')
-                                                    {{ $message }}
+                                                    <div class="invalid-feedback">
+                                                        {{ $message }}
+                                                    </div>
                                                 @enderror
                                             </div>
                                         </div>
                                         <div class="mb-3">
                                             <label class="form-label required">Sub Categorey Name</label>
-                                            <input type="text" name="subcategory_name" class="form-control"
+                                            <input type="text" name="subcategory_name"
+                                                class="form-control @error('subcategory_name') is-invalid @enderror"
                                                 placeholder="Food">
                                             @error('subcategory_name')
-                                                {{ $message }}
+                                                <div class="invalid-feedback">
+                                                    {{ $message }}
+                                                </div>
                                             @enderror
                                         </div>
                                     </div>
@@ -57,15 +64,19 @@
                                                         </div>
                                                     </div>
                                                     <div class="change-btn d-flex align-items-center flex-wrap">
-                                                        <input type='file' class="form-control d-none" id="imageUpload"
-                                                            accept=".png, .jpg, .jpeg" name="subcategoryImage">
+                                                        <input type='file'
+                                                            class="form-control d-none @error('subcategoryImage') is-invalid @enderror"
+                                                            id="imageUpload" accept=".png, .jpg, .jpeg"
+                                                            name="subcategoryImage">
                                                         <label for="imageUpload"
                                                             class="btn btn-sm btn-primary light ms-0">Select
                                                             Image</label>
+                                                        @error('subcategoryImage')
+                                                            <div class="invalid-feedback">
+                                                                {{ $message }}
+                                                            </div>
+                                                        @enderror
                                                     </div>
-                                                    @error('subcategoryImage')
-                                                        {{ $message }}
-                                                    @enderror
                                                 </div>
                                             </div>
                                         </div>

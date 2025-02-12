@@ -20,9 +20,8 @@ class EventController extends Controller
         $validations = Validator::make($request->all(), [
             'eventTitle' => 'required',
             "eventDescription" => "required",
-            "eventTag" => "required",
             "eventDate" => "required",
-            'eventImage' => 'image'
+            'eventImage' => 'required|image'
         ]);
 
         if ($validations->fails()) {
@@ -81,9 +80,8 @@ class EventController extends Controller
             'eventId' => 'required',
             'eventTitle' => 'required',
             "eventDescription" => "required",
-            "eventTag" => "required",
             "eventDate" => "required",
-            'eventImage' => 'image'
+            'eventImage' => 'required|image'
         ]);
 
         if ($validations->fails()) {
