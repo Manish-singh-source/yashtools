@@ -21,8 +21,8 @@ class SubCategoryController extends Controller
     public function addSubCategory(Request $request)
     {
         $validations = Validator::make($request->all(), [
-            'subcategoryId' => 'required',
-            'subcategory_name' => 'required',
+            'subcategoryId' => 'required|exists:categories,id',
+            'subcategory_name' => 'required|unique:sub_categories,sub_category_name,NULL,id,category_id,' . $request->subcategoryId,
             "subcategoryImage" => "required|image",
         ]);
 
@@ -78,9 +78,9 @@ class SubCategoryController extends Controller
     {
         $validations = Validator::make($request->all(), [
             'selectedSubcategoryId' => 'required',
-            'categoryId' => 'required',
-            'subcategory_name' => 'required',
-            "subcategoryImage" => "required|image",
+            'categoryId' => 'required|exists:categories,id',
+            'subcategory_name' => 'required|unique:sub_categories,sub_category_name,' . $request->selectedSubcategoryId . ',id,category_id,' . $request->categoryId,
+            "subcategoryImage" => "image",
         ]);
 
         if ($validations->fails()) {

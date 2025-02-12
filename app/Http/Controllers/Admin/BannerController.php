@@ -91,7 +91,7 @@ class BannerController extends Controller
     {
 
         $validations = Validator::make($request->all(), [
-            "banner_image" => "required|image",
+            "banner_image" => "image",
         ]);
 
         if ($validations->fails()) {
@@ -107,10 +107,10 @@ class BannerController extends Controller
             $banner->banner_description = $request->bannerDesciption;
         }
 
-        if (!empty($banner->banner_image)) {
-            File::delete(public_path('/uploads/banner/' . $banner->banner_image));
-        }
         if (!empty($request->banner_image)) {
+            if (!empty($banner->banner_image)) {
+                File::delete(public_path('/uploads/banner/' . $banner->banner_image));
+            }
             $image = $request->banner_image;
             $ext = $image->getClientOriginalExtension();
             $imageName = time() . "." . $ext;

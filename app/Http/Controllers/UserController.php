@@ -114,16 +114,20 @@ class UserController extends Controller
             return back()->withErrors($validations)->withInput();
         }
 
-        if (Auth::attempt(['email' => $request->email, 'password' => $request->password, 'role' => 'admin'])) {
+        if (Auth::attempt(['email' => $request->email, 'password' => $request->password])) {
             return redirect()->route('admin.dashboard');
         }
 
         return back()->with('error', 'Please check your credentials.');
     }
 
+
     public function logout()
     {
-        if (Auth::user()->role === 'admin') {
+        if (Auth::user()->role === 'superadmin') {
+            Auth::logout();
+            return redirect()->route('admin.signin');
+        } else if (Auth::user()->role === 'admin') {
             Auth::logout();
             return redirect()->route('admin.signin');
         } else if (Auth::user()->role === 'customer') {

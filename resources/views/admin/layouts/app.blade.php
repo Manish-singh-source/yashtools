@@ -129,7 +129,7 @@
                                 Dashboard </div>
                         </div>
                         <ul class="navbar-nav header-right">
-                                {{-- <li class="nav-item d-flex align-items-center">
+                            {{-- <li class="nav-item d-flex align-items-center">
                                     <div class="input-group search-area">
                                         <input type="text" class="form-control" placeholder="Search anything">
                                         <span class="input-group-text"><a href="javascript:void(0)"><i
@@ -143,8 +143,7 @@
                                 </button>
                             </li>
                             <li class="nav-item dropdown notification_dropdown">
-                                <a class="nav-link" href="javascript:void(0);" role="button"
-                                    data-bs-toggle="dropdown">
+                                <a class="nav-link" href="javascript:void(0);" role="button" data-bs-toggle="dropdown">
                                     <svg width="28" height="28" viewBox="0 0 28 28" fill="none"
                                         xmlns="http://www.w3.org/2000/svg">
                                         <path
@@ -241,9 +240,14 @@
                             <li class="nav-item dropdown header-profile">
                                 <a class="nav-link" href="javascript:void(0);" role="button"
                                     data-bs-toggle="dropdown">
-                                    <img src="admin/assets/images/user.jpg" width="20" alt>
+                                    @if (Auth::user()->profile)
+                                        <img src="{{ asset('uploads/profile/' . Auth::user()->profile) }}"
+                                            width="20" alt>
+                                    @else
+                                        <img src="{{ asset('admin/assets/images/user.jpg') }}" width="20" alt>
+                                    @endif
                                     <div class="header-info ms-3">
-                                        <span class="fs-14 font-w600 mb-0">Hanuman</span>
+                                        <span class="fs-14 font-w600 mb-0">{{ Auth::user()->fullname }}</span>
                                     </div>
                                     <svg class="ms-4 mt-1 h-line" width="12" height="10" viewBox="0 0 12 10"
                                         fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -258,11 +262,11 @@
                                         <div class="d-flex profile-media justify-content-between align-items-center">
                                             <div class="d-flex">
                                                 <div class="ms-3">
-                                                    <h4 class="mb-0">Hanuman <span>Prajapati</span></h4>
-                                                    <p>demo@mail.com</p>
+                                                    <h4 class="mb-0">{{ Auth::user()->fullname }}</h4>
+                                                    <p>{{ Auth::user()->email }}</p>
                                                 </div>
                                             </div>
-                                            <a href="edit-profile.php">
+                                            <a href="{{ route('admin.profile') }}">
                                                 <div class="icon-box">
                                                     <svg width="24" height="24" viewBox="0 0 24 24"
                                                         fill="none" xmlns="http://www.w3.org/2000/svg">

@@ -18,7 +18,7 @@ class CategoriesController extends Controller
     public function addCategory(Request $request)
     {
         $validations = Validator::make($request->all(), [
-            'category_name' => 'required',
+            'category_name' => 'required|unique:categories,category_name',
             "categoryImage" => "required|image",
         ]);
 
@@ -74,7 +74,7 @@ class CategoriesController extends Controller
     {
         $validations = Validator::make($request->all(), [
             'category_id' => 'required',
-            'category_name' => 'required',
+            'category_name' => 'required|unique:categories,category_name,' . $request->category_id . '',
             "categoryImage" => "required|image",
         ]);
 
@@ -88,7 +88,6 @@ class CategoriesController extends Controller
             File::delete(public_path('/uploads/categories/' . $category->category_image));
         }
         if (!empty($request->categoryImage)) {
-
             $image = $request->categoryImage;
             $ext = $image->getClientOriginalExtension();
             $imageName = time() . "." . $ext;

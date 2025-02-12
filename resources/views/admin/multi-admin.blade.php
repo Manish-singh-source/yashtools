@@ -2,14 +2,14 @@
 
 @section('content-body')
     <!--**********************************
-                                                                Content body start
-                                                            ***********************************-->
+                                                                                            Content body start
+                                                                                        ***********************************-->
     <div class="content-body">
         <!-- row -->
         <div class="container-fluid">
 
             <div class="row">
-                @can('superAdmin')
+                @can('isSuperAdmin')
                     <div class="col-xl-12">
                         <div class="card">
                             <div class="card-header">
@@ -24,23 +24,56 @@
                                         <div class="row">
                                             <div class="mb-3 col-md-6">
                                                 <label class="form-label">Full Name</label>
-                                                <input type="text" class="form-control" name="fullname">
+                                                <input type="text"
+                                                    class="form-control @error('fullname') is-invalid @enderror"
+                                                    name="fullname">
+                                                @error('fullname')
+                                                    <div class="invalid-feedback">
+                                                        {{ $message }}
+                                                    </div>
+                                                @enderror
                                             </div>
                                             <div class="mb-3 col-md-6">
                                                 <label class="form-label">Email</label>
-                                                <input type="email" class="form-control" name="email">
+                                                <input type="email" class="form-control @error('email') is-invalid @enderror"
+                                                    name="email">
+                                                @error('email')
+                                                    <div class="invalid-feedback">
+                                                        {{ $message }}
+                                                    </div>
+                                                @enderror
                                             </div>
                                             <div class="mb-3 col-md-6">
                                                 <label class="form-label">Number</label>
-                                                <input type="text" class="form-control" name="mobile_number">
+                                                <input type="text"
+                                                    class="form-control @error('mobile_number') is-invalid @enderror"
+                                                    name="mobile_number">
+                                                @error('mobile_number')
+                                                    <div class="invalid-feedback">
+                                                        {{ $message }}
+                                                    </div>
+                                                @enderror
                                             </div>
                                             <div class="mb-3 col-md-6">
                                                 <label class="form-label">Password</label>
-                                                <input type="password" class="form-control" name="password">
+                                                <input type="password"
+                                                    class="form-control @error('password') is-invalid @enderror"
+                                                    name="password">
+                                                @error('password')
+                                                    <div class="invalid-feedback">
+                                                        {{ $message }}
+                                                    </div>
+                                                @enderror
                                             </div>
                                             <div class="mb-3 col-md-6">
                                                 <label class="form-label">Profile</label>
-                                                <input type="file" class="form-control" name="profile">
+                                                <input type="file"
+                                                    class="form-control @error('profile') is-invalid @enderror" name="profile">
+                                                @error('profile')
+                                                    <div class="invalid-feedback">
+                                                        {{ $message }}
+                                                    </div>
+                                                @enderror
                                             </div>
                                         </div>
                                         <button type="submit" class="btn btn-primary">Add</button>
@@ -72,7 +105,9 @@
                                             <th>Profile</th>
                                             <th>Name</th>
                                             <th>Email</th>
-                                            <th>Action</th>
+                                            @can('isSuperAdmin')
+                                                <th>Action</th>
+                                            @endcan
                                         </tr>
                                     </thead>
                                     <tbody>
@@ -102,23 +137,25 @@
                                                     </div>
                                                 </td>
                                                 <td>{{ $admin->email }}</td>
-                                                <td>
-                                                    <div class="d-flex">
-                                                        <a href="{{ route('admin.edit.admin', $admin->id) }}"
-                                                            class="btn btn-primary shadow btn-xs sharp me-1"><i
-                                                                class="fa fa-pencil"></i></a>
-                                                        <form action="{{ route('delete.admin') }}" method="POST">
-                                                            @csrf
-                                                            @method('DELETE')
-                                                            <input type="hidden" name="adminId"
-                                                                value="{{ $admin->id }}">
-                                                            <button type="submit"
-                                                                class="btn btn-danger shadow btn-xs sharp">
-                                                                <i class="fa fa-trash"></i>
-                                                            </button>
-                                                        </form>
-                                                    </div>
-                                                </td>
+                                                @can('isSuperAdmin')
+                                                    <td>
+                                                        <div class="d-flex">
+                                                            <a href="{{ route('admin.edit.admin', $admin->id) }}"
+                                                                class="btn btn-primary shadow btn-xs sharp me-1"><i
+                                                                    class="fa fa-pencil"></i></a>
+                                                            <form action="{{ route('delete.admin') }}" method="POST">
+                                                                @csrf
+                                                                @method('DELETE')
+                                                                <input type="hidden" name="adminId"
+                                                                    value="{{ $admin->id }}">
+                                                                <button type="submit"
+                                                                    class="btn btn-danger shadow btn-xs sharp">
+                                                                    <i class="fa fa-trash"></i>
+                                                                </button>
+                                                            </form>
+                                                        </div>
+                                                    </td>
+                                                @endcan
                                             </tr>
                                         @empty
                                             <tr>
@@ -139,6 +176,6 @@
         </div>
     </div>
     <!--**********************************
-                                                                Content body end
-                                                            ***********************************-->
+                                                                                            Content body end
+                                                                                        ***********************************-->
 @endsection

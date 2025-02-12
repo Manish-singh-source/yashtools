@@ -18,7 +18,7 @@ class BrandController extends Controller
     public function addBrand(Request $request)
     {
         $validations = Validator::make($request->all(), [
-            'brand_name' => 'required',
+            'brand_name' => 'required|unique:brands,brand_name',
             "brandImage" => "required|image",
         ]);
 
@@ -26,7 +26,6 @@ class BrandController extends Controller
             return back()->withErrors($validations)->withInput();
         }
 
-        dd($request->all());
         if (!empty($request->brandImage)) {
             $image = $request->brandImage;
             $ext = $image->getClientOriginalExtension();
@@ -70,23 +69,22 @@ class BrandController extends Controller
     {
         $validations = Validator::make($request->all(), [
             'brandId' => 'required',
-            'brand_name' => 'required',
-            "brandImage" => "required|image",
+            'brand_name' => 'required|unique:brands,brand_name,' . $request->brandId . '',
+            "brandImage" => "image",
         ]);
 
         if ($validations->fails()) {
             return back()->withErrors($validations)->withInput();
         }
 
-
         $brand = Brand::find($request->brandId);
         $brand->brand_name = $request->brand_name;
-        
-        if (!empty($brand->brand_image)) {
-            File::delete(public_path('/uploads/brands/' . $brand->brand_image));
-        }
+
 
         if (!empty($request->brandImage)) {
+            if (!empty($brand->brand_image)) {
+                File::delete(public_path('/uploads/brands/' . $brand->brand_image));
+            }
 
             $image = $request->brandImage;
             $ext = $image->getClientOriginalExtension();
@@ -96,6 +94,7 @@ class BrandController extends Controller
             $brand->brand_image = $imageName;
         }
         $brand->save();
-        return redirect()->route('admin.table.brand');
+
+        return back();
     }
 }

@@ -24,7 +24,6 @@ Route::post('/register-user', [UserController::class, 'registerData'])->name('re
 Route::post('/signin-user', [UserController::class, 'authUser'])->name('auth.user');
 
 // user routes: pages
-
 Route::middleware('isCustomerAuth:customer')->group(function () {
     Route::get('/', function () {
         return view('user.main');
@@ -59,6 +58,7 @@ Route::middleware(AdminAuthMiddleware::class . ':admin,superadmin')->group(funct
     Route::get('/customers-list', [CustomersController::class, 'customersList'])->name('admin.customers.list');
     Route::delete('/delete-customer', [CustomersController::class, 'deleteCustomer'])->name('admin.delete.customer');
     Route::get('/admin-logout', [UserController::class, 'logout'])->name('admin.logout');
+    Route::put('/update-password', [AdminController::class, 'updatePassword'])->name('update.password');
 
     // Customer Routes
     Route::get('/customer-overview/{id}', [CustomersController::class, 'customerOverview'])->name('customer.overview');
@@ -125,6 +125,10 @@ Route::middleware(AdminAuthMiddleware::class . ':admin,superadmin')->group(funct
 
     Route::get('/product-details/{id}', [ProductsController::class, 'detailProduct'])->name('admin.product.details');
     Route::post('/fetch-sub-categories', [FetchAPIs::class, 'fetchSubCategories'])->name('admin.fetch.sub.categories')->middleware('web');
+
+    // Profile Routes
+    Route::get('/profile', [AdminController::class, 'profileView'])->name('admin.profile');
+    Route::post('/update-profile', [AdminController::class, 'profileUpdate'])->name('admin.profile.update');
 });
 
 
@@ -135,7 +139,3 @@ Route::get('/order', function () {
 Route::get('/order-details', function () {
     return view('admin.order-details');
 })->name('admin.order.details');
-
-Route::get('/profile', function () {
-    return view('admin.profile');
-})->name('admin.profile');

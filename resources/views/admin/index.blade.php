@@ -7,7 +7,7 @@
             <div class="page-head">
                 <div class="row">
                     <div class="col-sm-6 mb-sm-4 mb-3">
-                        <h3 class="mb-0">Good Morning, Hanuman</h3>
+                        <h3 class="mb-0">Good Morning, {{ Auth::user()->fullname }}</h3>
                         <p class="mb-0">Here’s what’s happening with your store today</p>
                     </div>
                 </div>

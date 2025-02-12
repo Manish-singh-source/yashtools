@@ -14,10 +14,13 @@ class AdminAuthMiddleware
      *
      * @param  \Closure(\Illuminate\Http\Request): (\Symfony\Component\HttpFoundation\Response)  $next
      */
-    public function handle(Request $request, Closure $next, String $role): Response
+    public function handle(Request $request, Closure $next, String ...$roles): Response
     {
-        if (Auth::check() && Auth::user()->role == $role) {
-            return $next($request);
+        if (Auth::check()) {
+            // Check if the user’s role matches any of the roles passed in
+            if (in_array(Auth::user()->role, $roles)) {
+                return $next($request);
+            }
         }
 
         return redirect()->route('admin.signin');
