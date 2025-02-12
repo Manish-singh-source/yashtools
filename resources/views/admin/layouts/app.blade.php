@@ -129,13 +129,13 @@
                                 Dashboard </div>
                         </div>
                         <ul class="navbar-nav header-right">
-                            <li class="nav-item d-flex align-items-center">
-                                <div class="input-group search-area">
-                                    <input type="text" class="form-control" placeholder="Search anything">
-                                    <span class="input-group-text"><a href="javascript:void(0)"><i
-                                                class="flaticon-search-interface-symbol"></i></a></span>
-                                </div>
-                            </li>
+                                {{-- <li class="nav-item d-flex align-items-center">
+                                    <div class="input-group search-area">
+                                        <input type="text" class="form-control" placeholder="Search anything">
+                                        <span class="input-group-text"><a href="javascript:void(0)"><i
+                                                    class="flaticon-search-interface-symbol"></i></a></span>
+                                    </div>
+                                </li> --}}
                             <li class="nav-item dropdown notification_dropdown">
                                 <button class="ic-theme-mode" type="button">
                                     <span class="light">Light</span>
@@ -277,7 +277,7 @@
                                         <div class="media-box">
                                             <ul class="d-flex flex-colunm gap-2 flex-wrap">
                                                 <li>
-                                                    <a href="multi-admin.php">
+                                                    <a href="{{ route('admin.profile') }}">
                                                         <div class="icon-box-lg">
                                                             <svg width="40" height="40" viewBox="0 0 40 40"
                                                                 fill="none" xmlns="http://www.w3.org/2000/svg">

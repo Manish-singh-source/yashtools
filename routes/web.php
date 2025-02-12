@@ -135,3 +135,7 @@ Route::get('/order', function () {
 Route::get('/order-details', function () {
     return view('admin.order-details');
 })->name('admin.order.details');
+
+Route::get('/profile', function () {
+    return view('admin.profile');
+})->name('admin.profile');
