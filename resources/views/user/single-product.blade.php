@@ -1,258 +1,6 @@
-<!doctype html>
-<html class="no-js" lang="en">
+@extends('user.layouts.app')
 
-
-<head>
-    <meta charset="utf-8">
-    <meta http-equiv="x-ua-compatible" content="ie=edge">
-    <title>Yash Tools</title>
-    <meta name="robots" content="noindex, follow" />
-    <meta name="description" content="">
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <!-- Favicon -->
-    <link rel="shortcut icon" type="image/x-icon" href="assets/images/favicon.png">
-
-    <!-- CSS
-    ============================================ -->
-
-    <!-- Bootstrap CSS -->
-    <link rel="stylesheet" href="assets/css/vendor/bootstrap.min.css">
-    <link rel="stylesheet" href="assets/css/vendor/font-awesome.css">
-    <link rel="stylesheet" href="assets/css/vendor/flaticon/flaticon.css">
-    <link rel="stylesheet" href="assets/css/vendor/slick.css">
-    <link rel="stylesheet" href="assets/css/vendor/slick-theme.css">
-    <link rel="stylesheet" href="assets/css/vendor/jquery-ui.min.css">
-    <link rel="stylesheet" href="assets/css/vendor/sal.css">
-    <link rel="stylesheet" href="assets/css/vendor/magnific-popup.css">
-    <link rel="stylesheet" href="assets/css/vendor/base.css">
-    <link rel="stylesheet" href="assets/css/style.min.css">
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css">
-    <style>
-        input[type=text1] {
-            font-size: var(--font-size-b2);
-            font-weight: 400;
-            height: auto;
-            line-height: 47px;
-            background: #fff;
-            -webkit-box-shadow: none;
-            box-shadow: none;
-            padding: 0 15px;
-            outline: none;
-            border-radius: 0px;
-        }
-
-        .custom-dropdown {
-            width: 200px;
-            position: relative;
-            margin-bottom: 20px;
-        }
-
-        .dropdown-selected {
-            padding: 10px;
-            border: 1px solid #ccc;
-            border-radius: 4px;
-            cursor: pointer;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
-
-        .dropdown-selected span {
-            margin-left: auto;
-        }
-
-        .dropdown-options {
-            display: none;
-            position: absolute;
-            width: 100%;
-            background-color: #fff;
-            border: 1px solid #ccc;
-            border-radius: 4px;
-            margin-top: 5px;
-            max-height: 200px;
-            overflow-y: scroll;
-            /* Allow scrolling */
-            z-index: 100;
-        }
-
-        /* Hide scrollbar for webkit browsers */
-        .dropdown-options::-webkit-scrollbar {
-            display: none;
-        }
-
-        /* Hide scrollbar for other browsers */
-        .dropdown-options {
-            scrollbar-width: none;
-            /* For Firefox */
-        }
-
-        .search-box {
-            padding: 10px;
-            border: none;
-            border-bottom: 1px solid #ccc;
-            width: 100%;
-            box-sizing: border-box;
-        }
-
-        .dropdown-options div {
-            padding: 10px;
-            cursor: pointer;
-            transition: background-color 0.2s ease;
-        }
-
-        .dropdown-options div:hover {
-            background-color: #f0f0f0;
-        }
-
-        .dropdown-options .selected {
-            color: #303667;
-            font-weight: bold;
-        }
-
-        .icon-list-row {
-            list-style: none;
-            padding: 0;
-            margin-bottom: 7px;
-            gap: 20px;
-        }
-
-        .icon-list-row li {
-            display: flex;
-            align-items: center;
-            font-size: 16px;
-            font-family: Arial, sans-serif;
-        }
-
-        .icon-list-row li i {
-            margin-right: 8px;
-            color: #555;
-            font-size: 18px;
-        }
-
-        .manish {
-            font-size: 20px;
-            font-weight: 500;
-            color: #27272e;
-        }
-
-        .manish1 {
-            margin-top: 20px;
-
-        }
-
-        table {
-            width: 100%;
-            border-collapse: collapse;
-            margin: 20px 0;
-            font-size: 18px;
-        }
-
-        th,
-        td {
-            text-align: center;
-            padding: 10px;
-            border: 1px solid #ddd;
-        }
-
-        th {
-            background-color: #303667;
-            color: #fff;
-            position: sticky;
-            top: 0;
-        }
-
-        th select {
-            background-color: #ffffff;
-            color: #000000;
-            border: none;
-            padding: 10px;
-            outline: none;
-        }
-
-        tr:nth-child(even) {
-            background-color: #f9f9f9;
-        }
-
-        tr:hover {
-            background-color: #f1f1f1;
-        }
-
-        /* Responsive design */
-        @media (max-width: 768px) {
-            table {
-                font-size: 14px;
-            }
-
-            th,
-            td {
-                padding: 8px;
-            }
-        }
-
-        .action-btn {
-            background-color: #323667;
-            color: #fff;
-            border: none;
-            width: fit-content;
-            padding: 5px 10px;
-            cursor: pointer;
-            border-radius: 5px;
-        }
-
-        select,
-        .select2 {
-            cursor: pointer;
-            transition: .3s;
-            height: 45px;
-            padding: 0 30px;
-            outline: none;
-            color: var(--color-body);
-            -moz-appearance: none;
-            -webkit-appearance: none;
-            appearance: none;
-            border: 1px solid var(--color-border-light);
-            border-radius: 6px;
-            background: url(../images/icons/arrow-icon.png) 95% center no-repeat rgba(0, 0, 0, 0);
-            padding-right: 32px;
-            font-size: var(--font-size-b1);
-            line-height: var(--line-height-b1);
-            font-family: var(--font-secondary);
-        }
-
-        select {
-            appearance: none;
-            /* Remove default browser styles */
-            -webkit-appearance: none;
-            /* For Safari */
-            -moz-appearance: none;
-            /* For Firefox */
-            background-color: white;
-            border: 1px solid #ccc;
-            padding: 5px;
-            border-radius: 4px;
-            font-size: 14px;
-            cursor: pointer;
-            background-image: url('data:image/svg+xml;charset=UTF-8,%3Csvg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="%23000" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"%3E%3Cpolyline points="6 9 12 15 18 9"%3E%3C/polyline%3E%3C/svg%3E');
-            background-repeat: no-repeat;
-            background-position: right 10px center;
-            background-size: 12px;
-        }
-
-        select:focus {
-            outline: none;
-            border-color: #007bff;
-            /* Focus border color */
-        }
-    </style>
-</head>
-
-
-<body class="sticky-header">
-    <!--[if lte IE 9]>
-    <p class="browserupgrade">You are using an <strong>outdated</strong> browser. Please <a href="https://browsehappy.com/">upgrade your browser</a> to improve your experience and security.</p>
-<![endif]-->
-    <a href="#top" class="back-to-top" id="backto-top"><i class="fal fa-arrow-up"></i></a>
-    <?php include 'header.php'; ?>
+@section('content')
     <!-- End Header -->
     <main class="main-wrapper">
         <!-- Start Shop Area  -->
@@ -273,13 +21,16 @@
                             <div class="single-product-thumbnail-wrap zoom-gallery">
                                 <div class="single-product-thumbnail product-large-thumbnail-3 axil-product">
                                     <div class="thumbnail">
-                                        <a href="https://dq2c38sk8yrcb.cloudfront.net/product_group/line_drawing/VB1.1LineDrawing.jpg" class="popup-zoom">
-                                            <img src="https://dq2c38sk8yrcb.cloudfront.net/product_group/line_drawing/VB1.1LineDrawing.jpg" alt="Product Images">
+                                        <a href="https://dq2c38sk8yrcb.cloudfront.net/product_group/line_drawing/VB1.1LineDrawing.jpg"
+                                            class="popup-zoom">
+                                            <img src="https://dq2c38sk8yrcb.cloudfront.net/product_group/line_drawing/VB1.1LineDrawing.jpg"
+                                                alt="Product Images">
                                         </a>
                                     </div>
                                 </div>
                                 <div class="product-quick-view position-view">
-                                    <a href="https://dq2c38sk8yrcb.cloudfront.net/product_group/line_drawing/VB1.1LineDrawing.jpg" class="popup-zoom">
+                                    <a href="https://dq2c38sk8yrcb.cloudfront.net/product_group/line_drawing/VB1.1LineDrawing.jpg"
+                                        class="popup-zoom">
                                         <i class="far fa-search-plus"></i>
                                     </a>
                                 </div>
@@ -323,11 +74,11 @@
                                             </li>
                                         </ul>
                                     </div>
-                                    
+
                                     <a class="wishlist-btn margbot" id="wishlistBtn">
                                         <i class="fas fa-heart"></i> Add to Favourites
                                     </a>
-                                    
+
                                 </div>
                             </div>
                         </div>
@@ -431,7 +182,9 @@
                                                 </tr>
                                             </thead>
                                             <tbody>
-                                                <tr data-code="VB1.1/001" data-d1="16" data-d2="22" data-d3="26" data-k="6" data-l="59" data-l1="25" data-l2="30" data-l3="9">
+                                                <tr data-code="VB1.1/001" data-d1="16" data-d2="22" data-d3="26"
+                                                    data-k="6" data-l="59" data-l1="25" data-l2="30"
+                                                    data-l3="9">
                                                     <td data-label="Code">VB1.1/001</td>
                                                     <td data-label="d1">16</td>
                                                     <td data-label="d2">22</td>
@@ -444,7 +197,9 @@
                                                     <td>---</td>
                                                     <td data-label="Action"><button class="action-btn">3D</button></td>
                                                 </tr>
-                                                <tr data-code="VB1.1/002" data-d1="16" data-d2="22" data-d3="26" data-k="6" data-l="64" data-l1="25" data-l2="35" data-l3="9">
+                                                <tr data-code="VB1.1/002" data-d1="16" data-d2="22" data-d3="26"
+                                                    data-k="6" data-l="64" data-l1="25" data-l2="35"
+                                                    data-l3="9">
                                                     <td data-label="Code">VB1.1/002</td>
                                                     <td data-label="d1">16</td>
                                                     <td data-label="d2">22</td>
@@ -459,7 +214,9 @@
                                                 </tr>
                                             </tbody>
                                             <tbody>
-                                                <tr data-code="VB1.1/001" data-d1="16" data-d2="22" data-d3="26" data-k="6" data-l="59" data-l1="25" data-l2="30" data-l3="9">
+                                                <tr data-code="VB1.1/001" data-d1="16" data-d2="22" data-d3="26"
+                                                    data-k="6" data-l="59" data-l1="25" data-l2="30"
+                                                    data-l3="9">
                                                     <td data-label="Code">VB1.1/001</td>
                                                     <td data-label="d1">16</td>
                                                     <td data-label="d2">22</td>
@@ -472,7 +229,9 @@
                                                     <td>---</td>
                                                     <td data-label="Action"><button class="action-btn">3D</button></td>
                                                 </tr>
-                                                <tr data-code="VB1.1/002" data-d1="16" data-d2="22" data-d3="26" data-k="6" data-l="64" data-l1="25" data-l2="35" data-l3="9">
+                                                <tr data-code="VB1.1/002" data-d1="16" data-d2="22" data-d3="26"
+                                                    data-k="6" data-l="64" data-l1="25" data-l2="35"
+                                                    data-l3="9">
                                                     <td data-label="Code">VB1.1/002</td>
                                                     <td data-label="d1">16</td>
                                                     <td data-label="d2">22</td>
@@ -487,7 +246,9 @@
                                                 </tr>
                                             </tbody>
                                             <tbody>
-                                                <tr data-code="VB1.1/001" data-d1="16" data-d2="22" data-d3="26" data-k="6" data-l="59" data-l1="25" data-l2="30" data-l3="9">
+                                                <tr data-code="VB1.1/001" data-d1="16" data-d2="22" data-d3="26"
+                                                    data-k="6" data-l="59" data-l1="25" data-l2="30"
+                                                    data-l3="9">
                                                     <td data-label="Code">VB1.1/001</td>
                                                     <td data-label="d1">16</td>
                                                     <td data-label="d2">22</td>
@@ -500,7 +261,9 @@
                                                     <td>Available</td>
                                                     <td data-label="Action"><button class="action-btn">3D</button></td>
                                                 </tr>
-                                                <tr data-code="VB1.1/002" data-d1="16" data-d2="22" data-d3="26" data-k="6" data-l="64" data-l1="25" data-l2="35" data-l3="9">
+                                                <tr data-code="VB1.1/002" data-d1="16" data-d2="22" data-d3="26"
+                                                    data-k="6" data-l="64" data-l1="25" data-l2="35"
+                                                    data-l3="9">
                                                     <td data-label="Code">VB1.1/002</td>
                                                     <td data-label="d1">16</td>
                                                     <td data-label="d2">22</td>
@@ -533,7 +296,9 @@
                                 <div class="col-lg-12 mb--30">
                                     <div class="single-desc">
                                         <h5 class="title">Specifications:</h5>
-                                        <p>We’ve created a full-stack structure for our working workflow processes, were from the funny the century initial all the made, have spare to negatives. But the structure was from the funny the century rather,
+                                        <p>We’ve created a full-stack structure for our working workflow processes, were
+                                            from the funny the century initial all the made, have spare to negatives. But
+                                            the structure was from the funny the century rather,
                                             initial all the made, have spare to negatives.</p>
                                     </div>
                                 </div>
@@ -682,4 +447,4 @@
             });
         }
     </script>
-    <?php include 'footer.php'; ?>
+@endsection

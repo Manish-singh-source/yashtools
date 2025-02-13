@@ -28,4 +28,12 @@ class HomeController extends Controller
         $products = Product::orderby('updated_at', 'desc')->paginate(12);
         return view('user.shop', compact('categories', 'brands', 'subcategories', 'products'));
     }
+
+    public function singleProductView()
+    {
+        $categories = Categories::orderby('updated_at', 'desc')->limit(8)->get();
+        $subcategories = SubCategories::orderby('updated_at', 'desc')->limit(8)->get();
+        $brands = Brand::orderby('updated_at', 'desc')->limit(8)->get();
+        return view('user.single-product', compact('categories', 'brands', 'subcategories'));
+    }
 }
