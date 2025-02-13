@@ -15,6 +15,7 @@ class BrandController extends Controller
     {
         return view('admin.add-brand');
     }
+
     public function addBrand(Request $request)
     {
         $validations = Validator::make($request->all(), [
@@ -37,6 +38,8 @@ class BrandController extends Controller
             $brand->brand_image = $imageName;
             $brand->save();
         }
+
+        flash()->success('Brand Added Successfully.');
         return redirect()->route('admin.table.brand');
     }
 
@@ -46,6 +49,7 @@ class BrandController extends Controller
         // dd($brands);
         return view('admin.brand-table', compact('brands'));
     }
+
     public function deleteBrand(Request $request)
     {
         $brand = Brand::find($request->brandId);
@@ -65,6 +69,7 @@ class BrandController extends Controller
         $selectedbrand = Brand::find($id);
         return view('admin.edit-brand', compact('selectedbrand'));
     }
+
     public function updateBrand(Request $request)
     {
         $validations = Validator::make($request->all(), [
@@ -94,7 +99,12 @@ class BrandController extends Controller
             $brand->brand_image = $imageName;
         }
         $brand->save();
+        if ($brand) {
+            flash()->success('Brand Updated Successfully.');
+            return redirect()->route('admin.table.brand');
+        }
 
+        flash()->error('Something Went Wrong. Please Try Again.');
         return back();
     }
 }

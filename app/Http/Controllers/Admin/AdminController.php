@@ -8,6 +8,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Validator;
+use Flasher\Prime\FlasherInterface;
 
 class AdminController extends Controller
 {
@@ -54,6 +55,7 @@ class AdminController extends Controller
         }
         $user->save();
 
+        flash()->success('New Admin Added Successfully.');
         return redirect()->route('admin.view.multi.admin');
     }
 
@@ -93,6 +95,7 @@ class AdminController extends Controller
         }
         $user->save();
 
+        flash()->success('Admin Details Updated Successfully.');
         return redirect()->route('admin.view.multi.admin');
     }
 
@@ -105,9 +108,11 @@ class AdminController extends Controller
         $user->delete();
 
         if ($user) {
-            return back()->with('success', 'Successfully Deleted Banner Image');
+            // flash()->success('Successfully Deleted Admin.');
+            return back()->with('success', 'Successfully Deleted Admin');
         }
 
+        // flash()->error('Please Try Again.');
         return back()->with('error', 'Please Try Again.');
     }
 
@@ -158,8 +163,11 @@ class AdminController extends Controller
         $user->save();
 
         if ($user) {
+            flash()->success('Successfully Updated Profile Details.');
             return redirect()->route('admin.dashboard');
         }
+
+        flash()->error('Something Wrong. Please Try Again.');
     }
 
     public function updatePassword(Request $request)
@@ -181,6 +189,7 @@ class AdminController extends Controller
             $user->password = $request->new_password;
             $user->save();
 
+            flash()->success('Your Password Has Been Updated.');
             return redirect()->route('admin.dashboard');
         }
 

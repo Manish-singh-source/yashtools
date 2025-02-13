@@ -46,7 +46,7 @@ class BannerController extends Controller
         }
 
         $banner->save();
-
+        flash()->success('Slider Added Successfully.');
         return redirect()->route('admin.view.banner.table');
     }
 
@@ -75,7 +75,7 @@ class BannerController extends Controller
         $banner->delete();
 
         if ($banner) {
-            return back()->with('success', 'Successfully Deleted Banner Image');
+            return back()->with('success', 'Successfully Deleted Slider');
         }
 
         return back()->with('error', 'Please Try Again.');
@@ -121,6 +121,7 @@ class BannerController extends Controller
 
         $banner->save();
 
+        flash()->success('Slider Updated Successfully.');
         return redirect()->route('admin.view.banner.table');
     }
 }

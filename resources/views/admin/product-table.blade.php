@@ -1,9 +1,10 @@
 @extends('admin.layouts.app')
 
+@section('csrf-token')
+    <meta name="csrf-token" content="{{ csrf_token() }}">
+@endsection
+
 @section('content-body')
-    <!--**********************************
-                                                                                                Content body start
-                                                                                            ***********************************-->
     <div class="content-body">
         <!-- row -->
         <div class="container-fluid">
@@ -70,9 +71,12 @@
                                                     <div
                                                         class="form-check
                                                                     form-switch">
-                                                        <input class="form-check-input" type="checkbox" role="switch"
-                                                            id="flexSwitchCheckChecked"
-                                                            @if ($product->status == 'active') checked @endif>
+                                                        <input type="hidden" value="{{ $product->status }}"
+                                                            class="product_status">
+                                                        <input class="form-check-input toggleSwitch" type="checkbox"
+                                                            role="switch" id="flexSwitchCheckChecked"
+                                                            value="{{ $product->id }}"
+                                                            @if ($product->status == '1') checked @endif>
                                                     </div>
                                                 </td>
                                                 <td class="text-end">
@@ -112,7 +116,19 @@
 
         </div>
     </div>
-    <!--**********************************
-                                                                                                Content body end
-                                                                                            ***********************************-->
+@endsection
+
+
+
+@section('scripts')
+    <script>
+        var enableSupportButton = '1'
+    </script>
+    <script>
+        var asset_url = 'assets/index.html'
+    </script>
+
+    <script src="{{ asset('assets/vendor/ckeditor/ckeditor.js') }}" type="text/javascript"></script>
+    <script src="{{ asset('assets/vendor/dropzone/dist/dropzone.js') }}" type="text/javascript"></script>
+    <script src="{{ asset('admin/assets/js/toggle-status.js') }}"></script>
 @endsection

@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Models\Product;
 use App\Models\SubCategories;
 use Illuminate\Http\Request;
 
@@ -17,7 +18,7 @@ class FetchAPIs extends Controller
             return response()->json([
                 'status' => false,
                 'message' => 'Category ID is required.',
-            ], 400); 
+            ], 400);
         }
 
         $subcategories = SubCategories::where('category_id', $category)->get();
@@ -27,13 +28,44 @@ class FetchAPIs extends Controller
             return response()->json([
                 'status' => false,
                 'message' => 'No subcategories found for the given category.',
-            ], 404); 
+            ], 404);
         }
 
         return response()->json([
             'status' => true,
             'message' => 'Data fetched successfully.',
             'subcategories' => $subcategories,
+        ], 200);
+    }
+
+    public function toggleStatus(Request $request)
+    {
+        $productId = $request->productId;
+
+
+        if (!$productId) {
+            return response()->json([
+                'status' => false,
+                'message' => 'Product ID is required.',
+            ], 400);
+        }
+
+        $status = ($request->status == '1') ? '0' : '1';
+        $product = Product::find($productId);
+        $product->status = $status;
+        $product->save();
+
+        if (!$product) {
+            return response()->json([
+                'status' => false,
+                'message' => 'No product found.',
+            ], 404);
+        }
+
+        flash()->success('Status Changed successfully.');
+        return response()->json([
+            'status' => true,
+            'message' => 'Status Changed successfully.',
         ], 200);
     }
 }

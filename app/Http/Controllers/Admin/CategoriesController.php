@@ -34,18 +34,22 @@ class CategoriesController extends Controller
             $imageName = time() . "." . $ext;
             $image->move(public_path('uploads/categories'), $imageName);
 
-            $banner = new Categories();
-            $banner->category_name = $request->category_name;
-            $banner->category_image = $imageName;
-            $banner->save();
+            $category = new Categories();
+            $category->category_name = $request->category_name;
+            $category->category_image = $imageName;
+            $category->save();
         }
-        return redirect()->route('admin.table.category');
+        if ($category) {
+            flash()->success('Category Created Successfully.');
+            return redirect()->route('admin.table.category');
+        }
+
+        return back()->with('error', 'Please Try Again.');
     }
 
     public function viewCategoryTable()
     {
         $categories = Categories::withCount('productsCount')->get();
-        // dd($categories);
         return view('admin.category-table', compact('categories'));
     }
 
@@ -58,7 +62,7 @@ class CategoriesController extends Controller
         $category->delete();
 
         if ($category) {
-            return back()->with('success', 'Successfully Deleted Banner Image');
+            return back()->with('success', 'Successfully Deleted Category');
         }
 
         return back()->with('error', 'Please Try Again.');
@@ -95,6 +99,13 @@ class CategoriesController extends Controller
             $category->category_image = $imageName;
         }
         $category->save();
-        return redirect()->route('admin.table.category');
+
+        if ($category) {
+            flash()->success('Category Updated Successfully.');
+            return redirect()->route('admin.table.category');
+        }
+
+        flash()->error('Something Went Wrong. Please Try Again.');
+        return back();
     }
 }

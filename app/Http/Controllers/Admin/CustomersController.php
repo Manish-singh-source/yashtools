@@ -13,7 +13,6 @@ class CustomersController extends Controller
     public function customersList()
     {
         $customers = User::with('userDetail')->where('role', 'customer')->get();
-        // dd($customers);
         return view('admin.customer-list', compact('customers'));
     }
 
@@ -77,7 +76,10 @@ class CustomersController extends Controller
         $user->userDetail->save();
 
         if ($user) {
+            flash()->success('Customer Details Updated Successfully.');
             return redirect()->route('admin.customers.list');
         }
+
+        return back()->with('error', 'Please Try Again.');
     }
 }

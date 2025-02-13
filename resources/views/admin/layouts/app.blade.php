@@ -39,6 +39,7 @@
 
     <link href="{{ asset('admin/assets/vendor/dropzone/dist/dropzone.css') }}" rel="stylesheet" type="text/css" />
     <link href="{{ asset('admin/assets/vendor/select2/css/select2.min.css') }}" rel="stylesheet" type="text/css" />
+    <script src="{{ asset('admin/assets/js/popup-message.js') }}"></script>
     <style>
         .bootstrap-select .btn {
             border: 1px solid var(--border);

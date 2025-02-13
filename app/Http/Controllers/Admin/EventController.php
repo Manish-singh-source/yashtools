@@ -36,15 +36,21 @@ class EventController extends Controller
             $imageName = time() . "." . $ext;
             $image->move(public_path('uploads/events'), $imageName);
 
-            $brand = new Event();
-            $brand->events_title = $request->eventTitle;
-            $brand->events_description = $request->eventDescription;
-            $brand->events_tag = $request->eventTag;
-            $brand->events_date = $request->eventDate;
-            $brand->events_image = $imageName;
-            $brand->save();
+            $event = new Event();
+            $event->events_title = $request->eventTitle;
+            $event->events_description = $request->eventDescription;
+            $event->events_tag = $request->eventTag;
+            $event->events_date = $request->eventDate;
+            $event->events_image = $imageName;
+            $event->save();
         }
-        return redirect()->route('admin.table.event');
+
+        if ($event) {
+            flash()->success('Event Created Successfully.');
+            return redirect()->route('admin.table.event');
+        }
+
+        return back()->with('error', 'Please Try Again.');
     }
 
     public function viewEventTable()
@@ -93,7 +99,7 @@ class EventController extends Controller
         $event->events_description = $request->eventDescription;
         $event->events_tag = $request->eventTag;
         $event->events_date = $request->eventDate;
-        
+
         if (!empty($event->events_image)) {
             File::delete(public_path('/uploads/events/' . $event->events_image));
         }
@@ -105,8 +111,9 @@ class EventController extends Controller
 
             $event->events_image = $imageName;
         }
-        $event->save();
 
+        $event->save();
+        
         return redirect()->route('admin.table.event');
     }
 }

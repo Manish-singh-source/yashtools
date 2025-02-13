@@ -118,13 +118,14 @@ Route::middleware(AdminAuthMiddleware::class . ':admin,superadmin')->group(funct
     // Products Routes
     Route::get('/add-product', [ProductsController::class, 'viewProduct'])->name('admin.view.product');
     Route::post('/add-product', [ProductsController::class, 'addProducts'])->name('admin.add.product');
-    Route::get('/event-product', [ProductsController::class, 'viewProductTable'])->name('admin.table.product');
+    Route::get('/product-table', [ProductsController::class, 'viewProductTable'])->name('admin.table.product');
     Route::delete('/delete-product', [ProductsController::class, 'deleteProduct'])->name('admin.delete.product');
     Route::get('/edit-product/{id}', [ProductsController::class, 'editProduct'])->name('admin.edit.product');
     Route::put('/update-product', [ProductsController::class, 'updateProduct'])->name('admin.update.product');
 
     Route::get('/product-details/{id}', [ProductsController::class, 'detailProduct'])->name('admin.product.details');
     Route::post('/fetch-sub-categories', [FetchAPIs::class, 'fetchSubCategories'])->name('admin.fetch.sub.categories')->middleware('web');
+    Route::post('/toggle-status', [FetchAPIs::class, 'toggleStatus'])->name('admin.toggle.status')->middleware('web');
 
     // Profile Routes
     Route::get('/profile', [AdminController::class, 'profileView'])->name('admin.profile');
