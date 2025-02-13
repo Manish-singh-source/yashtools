@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Models\Banner;
 use App\Models\Product;
 use App\Models\SubCategories;
 use App\Models\User;
@@ -100,5 +101,32 @@ class FetchAPIs extends Controller
             'message' => 'Status Changed successfully.',
             'data' => $request->status,
         ], 200);
+    }
+
+    public function deleteSelected(Request $request)
+    {
+        $checkedValues = $request->checkValues;
+        if (!$checkedValues) {
+            return response()->json([
+                'status' => false,
+                'message' => 'Banner ID is required.',
+            ], 400);
+        }
+
+        $rows = Banner::destroy($checkedValues);
+
+        if (!$rows) {
+            return response()->json([
+                'status' => false,
+                'message' => 'No Banner found.',
+                'data' => $rows,
+            ], 404);
+        }
+
+        flash()->success('Deleted Selected Banners Successfully.');
+        return response()->json([
+            'status' => true,
+            'message' => 'Deleted Selected Banners Successfully.',
+        ]);
     }
 }

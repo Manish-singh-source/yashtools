@@ -127,6 +127,7 @@ Route::middleware(AdminAuthMiddleware::class . ':admin,superadmin')->group(funct
     Route::post('/fetch-sub-categories', [FetchAPIs::class, 'fetchSubCategories'])->name('admin.fetch.sub.categories')->middleware('web');
     Route::post('/toggle-status', [FetchAPIs::class, 'toggleStatus'])->middleware('web');
     Route::post('/toggle-customer-status', [FetchAPIs::class, 'toggleStatusCustomer'])->middleware('web');
+    Route::post('/delete-selected', [FetchAPIs::class, 'deleteSelected'])->middleware('web');
 
     // Profile Routes
     Route::get('/profile', [AdminController::class, 'profileView'])->name('admin.profile');
