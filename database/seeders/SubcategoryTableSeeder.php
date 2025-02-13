@@ -14,13 +14,13 @@ class SubcategoryTableSeeder extends Seeder
     public function run(): void
     {
         $sub_categories = [
-            ['sub_category_name' => 'fashion' , 'category_id' => ' 1' , 'sub_category_image' => '1739279459.png'],
-    ['sub_category_name' => 'electronics' , 'category_id' => ' 2' , 'sub_category_image' => '1739279459.png'],
-    ['sub_category_name' => 'home_appliances' , 'category_id' => ' 3' , 'sub_category_image' => '1739279459.png'],
-    ['sub_category_name' => 'books' , 'category_id' => ' 4' , 'sub_category_image' => '1739279459.png'],
-    ['sub_category_name' => 'toys' , 'category_id' => ' 5'  , 'sub_category_image' => '1739279459.png'],
-    ['sub_category_name' => 'sports' , 'category_id' => ' 6' , 'sub_category_image' => '1739279459.png'],
-    ['sub_category_name' => 'beauty' , 'category_id' => ' 7'    , 'sub_category_image' => '1739279459.png'],
+            ['sub_category_name' => 'fashion', 'category_id' => ' 1', 'sub_category_image' => '1739279459.png'],
+            ['sub_category_name' => 'electronics', 'category_id' => ' 2', 'sub_category_image' => '1739279459.png'],
+            ['sub_category_name' => 'home_appliances', 'category_id' => ' 3', 'sub_category_image' => '1739279459.png'],
+            ['sub_category_name' => 'books', 'category_id' => ' 4', 'sub_category_image' => '1739279459.png'],
+            ['sub_category_name' => 'toys', 'category_id' => ' 5', 'sub_category_image' => '1739279459.png'],
+            ['sub_category_name' => 'sports', 'category_id' => ' 6', 'sub_category_image' => '1739279459.png'],
+            ['sub_category_name' => 'beauty', 'category_id' => ' 7', 'sub_category_image' => '1739279459.png'],
         ];
 
         DB::table('sub_categories')->insert($sub_categories);

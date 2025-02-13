@@ -12,6 +12,7 @@ use App\Http\Controllers\Admin\EventController;
 use App\Http\Controllers\Admin\FetchAPIs;
 use App\Http\Controllers\Admin\ProductsController;
 use App\Http\Controllers\Admin\SubCategoryController;
+use App\Http\Controllers\User\HomeController;
 
 // user routes: Authentication 
 Route::get('/signin', function () {
@@ -23,9 +24,11 @@ Route::get('/signup', function () {
 Route::post('/register-user', [UserController::class, 'registerData'])->name('register.user');
 Route::post('/signin-user', [UserController::class, 'authUser'])->name('auth.user');
 
+
 // user routes: pages
+Route::get('/', [HomeController::class, 'homeView'])->name('user.home');
 Route::middleware('isCustomerAuth:customer')->group(function () {
-    Route::get('/', function () {
+    Route::get('/dashboard', function () {
         return view('user.main');
     })->name('user.dashboard');
     Route::get('/account', function () {
@@ -33,6 +36,16 @@ Route::middleware('isCustomerAuth:customer')->group(function () {
     })->name('user.account');
     Route::get('/customer-logout', [UserController::class, 'logout'])->name('customer.logout');
 });
+
+
+
+
+
+
+
+
+
+
 
 
 

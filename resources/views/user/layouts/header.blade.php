@@ -31,22 +31,33 @@
                                     <div class="megamenu-column">
                                         <h4 class="menu-title">Category</h4>
                                         <ul>
-                                            <li><a href="shop.php">Hgt–Solid Carbide</a></li>
-                                            <li><a href="shop.php">Gesswein</a></li>
-                                            <li><a href="shop.php">Kojex</a></li>
-                                            <li><a href="shop.php">Mold Parts</a></li>
-                                            <li><a href="shop.php">Uht</a></li>
-                                            <li><a href="shop.php">Diamond Files & Points</a></li>
-                                            <li><a href="shop.php">Carbide Rods</a></li>
-                                            <li><a href="shop.php">Other Products</a></li>
+                                            @forelse ($categories as $category)
+                                                <li><a href="shop.php">{{ $category->category_name }}</a></li>
+                                            @empty
+                                                <li><a href="shop.php">Please Add Category</a></li>
+                                            @endforelse
+                                        </ul>
+                                    </div>
+                                    <div class="megamenu-column">
+                                        <h4 class="menu-title">Sub Category</h4>
+                                        <ul>
+                                            @forelse ($subcategories as $subcategory)
+                                                <li><a href="shop.php">{{ $subcategory->sub_category_name }}</a></li>
+                                            @empty
+                                                <li><a href="shop.php">Please Add Category</a></li>
+                                            @endforelse
                                         </ul>
                                     </div>
                                     <div class="megamenu-column">
                                         <h4 class="menu-title">Brands</h4>
                                         <ul>
-                                            <li><a href="shop.php">Manish</a></li>
-                                            <li><a href="shop.php">Manish1</a></li>
-                                            <li><a href="shop.php">Manish2</a></li>
+                                            @forelse ($brands as $brand)
+                                                <li><a href="shop.php">{{ $brand->brand_name }}</a></li>
+                                            @empty
+                                                <li><a href="shop.php">Manish1</a></li>
+                                                <li><a href="shop.php">Manish2</a></li>
+                                                <li><a href="shop.php">Manish</a></li>
+                                            @endforelse
                                         </ul>
                                     </div>
                                 </div>
@@ -60,7 +71,8 @@
                 <div class="header-action">
                     <ul class="action-list">
                         <li class="axil-search d-xl-block d-none">
-                            <input type="search" class="placeholder product-search-input" name="search2" id="search2" value="" maxlength="128" placeholder="Search" autocomplete="off">
+                            <input type="search" class="placeholder product-search-input" name="search2" id="search2"
+                                value="" maxlength="128" placeholder="Search" autocomplete="off">
                             <button type="submit" class="icon wooc-btn-search">
                                 <i class="flaticon-magnifying-glass"></i>
                             </button>
@@ -70,8 +82,10 @@
                                 <i class="flaticon-magnifying-glass"></i>
                             </a>
                         </li>
-                        <li><a href="{{ route('signin') }}" class="headerlist"><i class="fas fa-sign-in-alt icon dn"></i> <span>Login</span></a></li>
-                        <li><a href="{{ route('signup') }}" class="headerlist"><i class="fas fa-user-plus icon dn"></i> <span>Sign Up</span></a></li>
+                        <li><a href="{{ route('signin') }}" class="headerlist"><i
+                                    class="fas fa-sign-in-alt icon dn"></i> <span>Login</span></a></li>
+                        <li><a href="{{ route('signup') }}" class="headerlist"><i class="fas fa-user-plus icon dn"></i>
+                                <span>Sign Up</span></a></li>
                         <!-- <li class="my-account">
                             <a class="useraccount" href="my-account.php">
                                 <i class="flaticon-person"></i>

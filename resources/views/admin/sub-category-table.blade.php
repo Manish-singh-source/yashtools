@@ -1,9 +1,6 @@
 @extends('admin.layouts.app')
 
 @section('content-body')
-    <!--**********************************
-                                                        Content body start
-                                                    ***********************************-->
     <div class="content-body">
         <!-- row -->
         <div class="container-fluid">
@@ -47,7 +44,7 @@
 
                                                         <div>
                                                             <h6 class="w-space-no mb-0 fs-14 font-w600">
-                                                                {{ $subcategory->category->category_name }}
+                                                                {{ $subcategory->category->category_name ?? "" }}
                                                             </h6>
 
                                                         </div>
@@ -107,7 +104,4 @@
 
         </div>
     </div>
-    <!--**********************************
-                                                        Content body end
-                                                    ***********************************-->
 @endsection
