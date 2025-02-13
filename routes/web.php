@@ -27,6 +27,8 @@ Route::post('/signin-user', [UserController::class, 'authUser'])->name('auth.use
 
 // user routes: pages
 Route::get('/', [HomeController::class, 'homeView'])->name('user.home');
+Route::get('/shop', [HomeController::class, 'shopView'])->name('user.shop');
+
 Route::middleware('isCustomerAuth:customer')->group(function () {
     Route::get('/dashboard', function () {
         return view('user.main');

@@ -1,42 +1,6 @@
-<!doctype html>
-<html class="no-js" lang="en">
+@extends('user.layouts.app')
 
-
-<head>
-    <meta charset="utf-8">
-    <meta http-equiv="x-ua-compatible" content="ie=edge">
-    <title>Yash Tools</title>
-    <meta name="robots" content="noindex, follow" />
-    <meta name="description" content="">
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <!-- Favicon -->
-    <link rel="shortcut icon" type="image/x-icon" href="assets/images/favicon.png">
-
-    <!-- CSS
-    ============================================ -->
-
-    <!-- Bootstrap CSS -->
-    <link rel="stylesheet" href="assets/css/vendor/bootstrap.min.css">
-    <link rel="stylesheet" href="assets/css/vendor/font-awesome.css">
-    <link rel="stylesheet" href="assets/css/vendor/flaticon/flaticon.css">
-    <link rel="stylesheet" href="assets/css/vendor/slick.css">
-    <link rel="stylesheet" href="assets/css/vendor/slick-theme.css">
-    <link rel="stylesheet" href="assets/css/vendor/jquery-ui.min.css">
-    <link rel="stylesheet" href="assets/css/vendor/sal.css">
-    <link rel="stylesheet" href="assets/css/vendor/magnific-popup.css">
-    <link rel="stylesheet" href="assets/css/vendor/base.css">
-    <link rel="stylesheet" href="assets/css/style.min.css">
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css">
-</head>
-
-
-<body class="sticky-header">
-    <!--[if lte IE 9]>
-    <p class="browserupgrade">You are using an <strong>outdated</strong> browser. Please <a href="https://browsehappy.com/">upgrade your browser</a> to improve your experience and security.</p>
-<![endif]-->
-    <a href="#top" class="back-to-top" id="backto-top"><i class="fal fa-arrow-up"></i></a>
-    <?php include'header.php'; ?>
-
+@section('content')
     <main class="main-wrapper">
         <!-- Start Breadcrumb Area  -->
         <div class="axil-breadcrumb-area">
@@ -53,14 +17,14 @@
                         </div>
                     </div>
                     <div class="col-lg-6 col-md-4">
-                        
+
                     </div>
                 </div>
             </div>
         </div>
         <!-- End Breadcrumb Area  -->
- <!-- Start Shop Area  -->
- <div class="axil-shop-area axil-section-gap bg-color-white">
+        <!-- Start Shop Area  -->
+        <div class="axil-shop-area axil-section-gap bg-color-white">
             <div class="container">
                 <div class="row">
                     <div class="col-lg-3">
@@ -110,7 +74,8 @@
                         <div class="row">
                             <div class="col-lg-12">
                                 <div class="axil-shop-top mb--20">
-                                    <div class="category-select align-items-center justify-content-lg-end justify-content-between">
+                                    <div
+                                        class="category-select align-items-center justify-content-lg-end justify-content-between">
                                         <!-- Start Single Select  -->
                                         <span class="filter-results">Showing 1-12 of 84 results</span>
                                         <select class="single-select">
@@ -120,236 +85,70 @@
                                         <!-- End Single Select  -->
                                     </div>
                                     <div class="d-lg-none">
-                                        <button class="product-filter-mobile filter-toggle"><i class="fas fa-filter"></i> FILTER</button>
+                                        <button class="product-filter-mobile filter-toggle"><i class="fas fa-filter"></i>
+                                            FILTER</button>
                                     </div>
                                 </div>
                             </div>
                         </div>
                         <!-- End .row -->
                         <div class="row row--15 mt-5">
-                    <div class="col-xl-4 col-lg-4 col-sm-6 col-12 mb--30">
-                        <div class="axil-product product-style-one">
-                            <div class="thumbnail">
-                                <a href="single-product.php">
-                                    <img data-sal="fade" data-sal-delay="100" data-sal-duration="1500"
-                                        src="assets\images\product\1.png" alt="Product Images">
-                                </a>
-                                
-                            </div>
-                            <div class="product-content">
-                                <div class="inner">
-                                    <h5 class="title"><a href="single-product.php">Slides & Accessiries </a></h5>
+                            @forelse ($products as $product)
+                                <div class="col-xl-4 col-lg-4 col-sm-6 col-12 mb--30">
+                                    <div class="axil-product product-style-one">
+                                        <div class="thumbnail">
+                                            <a href="single-product.php">
+                                                <img data-sal="fade" data-sal-delay="100" data-sal-duration="1500"
+                                                    src="uploads/products/thumbnails/{{ $product->product_thumbain }}" alt="Product Images">
+                                            </a>
+                                        </div>
+                                        <div class="product-content">
+                                            <div class="inner">
+                                                <h5 class="title"><a href="single-product.php">{{ $product->product_name }}
+                                                    </a>
+                                                </h5>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            @empty
+                                <div class="col-xl-4 col-lg-4 col-sm-6 col-12 mb--30">
+                                    <div class="axil-product product-style-one">
+                                        <div class="thumbnail">
+                                            <a href="single-product.php">
+                                                <img data-sal="fade" data-sal-delay="100" data-sal-duration="1500"
+                                                    src="assets\images\product\1.png" alt="Product Images">
+                                            </a>
+                                        </div>
+                                        <div class="product-content">
+                                            <div class="inner">
+                                                <h5 class="title"><a href="single-product.php">Slides & Accessiries </a>
+                                                </h5>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            @endforelse
+
+                            <!-- End Single Product  -->
+                        </div>
+                        {{-- <div class="text-center pt--30">
+                            <div class="center">
+                                <div class="pagination">
+                                    <a href="#">&laquo;</a>
+                                    <a href="#" class="active">1</a>
+                                    <a href="#">2</a>
+                                    <a href="#">3</a>
+                                    <a href="#">4</a>
+                                    <a href="#">&raquo;</a>
                                 </div>
                             </div>
-                        </div>
-                    </div>
-                    <!-- End Single Product  -->
-                    <div class="col-xl-4 col-lg-4 col-sm-6 col-12 mb--30">
-                        <div class="axil-product product-style-one">
-                            <div class="thumbnail">
-                                <a href="single-product.php">
-                                    <img data-sal="fade" data-sal-delay="100" data-sal-duration="1500"
-                                        src="assets\images\product\2.png" alt="Product Images">
-                                </a>
-                                
-                            </div>
-                            <div class="product-content">
-                                <div class="inner">
-                                    <h5 class="title"><a href="single-product.php">Side Core Base</a></h5>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <!-- End Single Product  -->
-                    <div class="col-xl-4 col-lg-4 col-sm-6 col-12 mb--30">
-                        <div class="axil-product product-style-one">
-                            <div class="thumbnail">
-                                <a href="single-product.php">
-                                    <img data-sal="fade" data-sal-delay="100" data-sal-duration="1500"
-                                        src="assets\images\product\3.png" alt="Product Images">
-                                </a>
-                                
-                            </div>
-                            <div class="product-content">
-                                <div class="inner">
-                                    <h5 class="title"><a href="single-product.php">Guide Rail</a></h5>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <!-- End Single Product  -->
-                    <div class="col-xl-4 col-lg-4 col-sm-6 col-12 mb--30">
-                        <div class="axil-product product-style-one">
-                            <div class="thumbnail">
-                                <a href="single-product.php">
-                                    <img data-sal="fade" data-sal-delay="100" data-sal-duration="1500"
-                                        src="assets\images\product\4.png" alt="Product Images">
-                                </a>
-                                
-                            </div>
-                            <div class="product-content">
-                                <div class="inner">
-                                    <h5 class="title"><a href="single-product.php">center Guide Rail</a></h5>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <!-- End Single Product  -->
-                    <div class="col-xl-4 col-lg-4 col-sm-6 col-12 mb--30">
-                        <div class="axil-product product-style-one">
-                            <div class="thumbnail">
-                                <a href="single-product.php">
-                                    <img data-sal="fade" data-sal-delay="100" data-sal-duration="1500"
-                                        src="assets\images\product\5.png" alt="Product Images">
-                                </a>
-                                
-                            </div>
-                            <div class="product-content">
-                                <div class="inner">
-                                    <h5 class="title"><a href="single-product.php">Wear Plate</a></h5>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <!-- End Single Product  -->
-                    <div class="col-xl-4 col-lg-4 col-sm-6 col-12 mb--30">
-                        <div class="axil-product product-style-one">
-                            <div class="thumbnail">
-                                <a href="single-product.php">
-                                    <img data-sal="fade" data-sal-delay="100" data-sal-duration="1500"
-                                        src="assets\images\product\6.png" alt="Product Images">
-                                </a>
-                                
-                            </div>
-                            <div class="product-content">
-                                <div class="inner">
-                                    <h5 class="title"><a href="single-product.php">Best Consultation</a></h5>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <!-- End Single Product  -->
-                    <div class="col-xl-4 col-lg-4 col-sm-6 col-12 mb--30">
-                        <div class="axil-product product-style-one">
-                            <div class="thumbnail">
-                                <a href="single-product.php">
-                                    <img data-sal="fade" data-sal-delay="100" data-sal-duration="1500"
-                                        src="assets\images\product\7.png" alt="Product Images">
-                                </a>
-                                
-                            </div>
-                            <div class="product-content">
-                                <div class="inner">
-                                    <h5 class="title"><a href="single-product.php">Part & Mould Identification</a></h5>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <!-- End Single Product  -->
-                    <div class="col-xl-4 col-lg-4 col-sm-6 col-12 mb--30">
-                        <div class="axil-product product-style-one">
-                            <div class="thumbnail">
-                                <a href="single-product.php">
-                                    <img data-sal="fade" data-sal-delay="100" data-sal-duration="1500"
-                                        src="assets\images\product\8.png" alt="Product Images">
-                                </a>
-                                
-                            </div>
-                            <div class="product-content">
-                                <div class="inner">
-                                    <h5 class="title"><a href="single-product.php">International Meet</a></h5>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <!-- End Single Product  -->
-                    <div class="col-xl-4 col-lg-4 col-sm-6 col-12 mb--30">
-                        <div class="axil-product product-style-one">
-                            <div class="thumbnail">
-                                <a href="single-product.php">
-                                    <img data-sal="fade" data-sal-delay="100" data-sal-duration="1500"
-                                        src="assets\images\product\1.png" alt="Product Images">
-                                </a>
-                                
-                            </div>
-                            <div class="product-content">
-                                <div class="inner">
-                                    <h5 class="title"><a href="single-product.php">SLIDES & ACCESSORIES</a></h5>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <!-- End Single Product  -->
-                    <div class="col-xl-4 col-lg-4 col-sm-6 col-12 mb--30">
-                        <div class="axil-product product-style-one">
-                            <div class="thumbnail">
-                                <a href="single-product.php">
-                                    <img data-sal="fade" data-sal-delay="100" data-sal-duration="1500"
-                                        src="assets\images\product\2.png" alt="Product Images">
-                                </a>
-                                
-                            </div>
-                            <div class="product-content">
-                                <div class="inner">
-                                    <h5 class="title"><a href="single-product.php">Side Core Base</a></h5>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <!-- End Single Product  -->
-                    <div class="col-xl-4 col-lg-4 col-sm-6 col-12 mb--30">
-                        <div class="axil-product product-style-one">
-                            <div class="thumbnail">
-                                <a href="single-product.php">
-                                    <img data-sal="fade" data-sal-delay="100" data-sal-duration="1500"
-                                        src="assets\images\product\3.png" alt="Product Images">
-                                </a>
-                                
-                            </div>
-                            <div class="product-content">
-                                <div class="inner">
-                                    <h5 class="title"><a href="single-product.php">Guide Rail</a></h5>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <!-- End Single Product  -->
-                    <div class="col-xl-4 col-lg-4 col-sm-6 col-12 mb--30">
-                        <div class="axil-product product-style-one">
-                            <div class="thumbnail">
-                                <a href="single-product.php">
-                                    <img data-sal="fade" data-sal-delay="100" data-sal-duration="1500"
-                                        src="assets\images\product\4.png" alt="Product Images">
-                                </a>
-                                
-                            </div>
-                            <div class="product-content">
-                                <div class="inner">
-                                    <h5 class="title"><a href="single-product.php">center Guide Rail</a></h5>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <!-- End Single Product  -->
-                </div>
-                <div class="text-center pt--30">
-                    <div class="center">
-                        <div class="pagination">
-                            <a href="#">&laquo;</a>
-                            <a href="#" class="active">1</a>
-                            <a href="#">2</a>
-                            <a href="#">3</a>
-                            <a href="#">4</a>
-                            <a href="#">&raquo;</a>
-                        </div>
-                    </div>
-                </div>
+                        </div> --}}
+                        {{ $products->links() }}
                     </div>
                 </div>
             </div>
             <!-- End .container -->
         </div>
         <!-- End Shop Area  -->
-       
-    </main>
-    <?php include'footer.php'; ?>
+</main @endsection

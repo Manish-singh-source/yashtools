@@ -23,7 +23,7 @@
                             </a>
                         </div>
                         <ul class="mainmenu">
-                            <li><a href="index.php">Home</a></li>
+                            <li><a href="{{ route('user.home') }}">Home</a></li>
                             <li><a href="about-us.php">About Us</a></li>
                             <li class="menu-item-has-children mega-menu-parent">
                                 <a href="#">Products</a>
