@@ -46,9 +46,7 @@
                                                             <h6 class="w-space-no mb-0 fs-14 font-w600">
                                                                 {{ $subcategory->category->category_name ?? "" }}
                                                             </h6>
-
                                                         </div>
-
                                                     </div>
                                                 </td>
                                                 <td style="width: 30%;">
