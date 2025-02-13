@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\Product;
 use App\Models\SubCategories;
 use Illuminate\Http\Request;
+use Flasher\Prime\FlasherInterface;
 
 class FetchAPIs extends Controller
 {

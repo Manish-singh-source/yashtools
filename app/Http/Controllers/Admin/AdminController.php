@@ -127,8 +127,6 @@ class AdminController extends Controller
 
         $rules = [
             'userId' => 'required',
-            "fullname" => "required",
-            "username" => "required",
             "mobile_number" => "required|digits:10",
             'profileImage' => 'image',
             "email" => "required|email",
@@ -141,17 +139,22 @@ class AdminController extends Controller
         }
 
         $user = User::find($request->userId);
-        $user->fullname = $request->fullname;
-        $user->username = $request->username;
         $user->mobile_number = $request->mobile_number;
         $user->email = $request->email;
 
         if (!empty($user->profile)) {
             File::delete(public_path('/uploads/profile/' . $user->profile));
         }
+        
+        if (!empty($request->fullname)) {
+            $user->fullname = $request->fullname;
+        }
+
+        if (!empty($request->fullname)) {
+            $user->username = $request->username;
+        }
 
         if (!empty($request->profileImage)) {
-
             $image = $request->profileImage;
             $ext = $image->getClientOriginalExtension();
             $imageName = time() . "." . $ext;

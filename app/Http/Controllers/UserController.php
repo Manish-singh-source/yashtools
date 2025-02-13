@@ -8,6 +8,7 @@ use App\Models\Userdetails;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Validator;
+use Flasher\Prime\FlasherInterface;
 
 class UserController extends Controller
 {

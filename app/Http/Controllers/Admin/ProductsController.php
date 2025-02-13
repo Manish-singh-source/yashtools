@@ -10,6 +10,7 @@ use App\Models\SubCategories;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Validator;
+use Flasher\Prime\FlasherInterface;
 
 class ProductsController extends Controller
 {

@@ -7,6 +7,7 @@ use App\Models\UserDetail;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Validator;
+use Flasher\Prime\FlasherInterface;
 
 class CustomersController extends Controller
 {
