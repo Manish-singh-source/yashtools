@@ -155,7 +155,7 @@ class ProductsController extends Controller
             'product_days_to_dispatch' => 'required',
             'product_description' => 'required',
             'product_brand' => 'required',
-            'product_image' => 'required|image',
+            'product_image' => 'image',
             'product_pdf' => 'image',
             'product_catalogue' => 'image',
             'product_drawing' => 'image',
