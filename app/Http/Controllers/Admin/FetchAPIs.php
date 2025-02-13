@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use App\Models\Product;
 use App\Models\SubCategories;
+use App\Models\User;
 use Illuminate\Http\Request;
 use Flasher\Prime\FlasherInterface;
 
@@ -67,6 +68,37 @@ class FetchAPIs extends Controller
         return response()->json([
             'status' => true,
             'message' => 'Status Changed successfully.',
+        ], 200);
+    }
+
+    public function toggleStatusCustomer(Request $request)
+    {
+        $customerId = $request->customerId;
+        if (!$customerId) {
+            return response()->json([
+                'status' => false,
+                'message' => 'Customer ID is required.',
+            ], 400);
+        }
+
+        $status = ($request->status == 'active') ? 'banned' : 'active';
+        $customer = User::find($customerId);
+        $customer->status = $status;
+        $customer->save();
+
+        if (!$customer) {
+            return response()->json([
+                'status' => false,
+                'message' => 'No Customer found.',
+                'data' => $request->status,
+            ], 404);
+        }
+
+        flash()->success('Status Changed successfully.');
+        return response()->json([
+            'status' => true,
+            'message' => 'Status Changed successfully.',
+            'data' => $request->status,
         ], 200);
     }
 }

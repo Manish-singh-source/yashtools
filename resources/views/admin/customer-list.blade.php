@@ -1,9 +1,10 @@
 @extends('admin.layouts.app')
 
+@section('csrf-token')
+    <meta name="csrf-token" content="{{ csrf_token() }}">
+@endsection
+
 @section('content-body')
-    <!--**********************************
-                                                                            Content body start
-                                                                        ***********************************-->
     <div class="content-body">
         <!-- row -->
         <div class="container-fluid">
@@ -14,9 +15,9 @@
                             <div class="me-auto mb-sm-0 mb-3">
                                 <h4 class="card-title">Customer</h4>
                                 <div class="text-end">
-                                @include('admin.layouts.session-messages')
+                                    @include('admin.layouts.session-messages')
                                 </div>
-                               
+
 
                             </div>
 
@@ -53,7 +54,7 @@
                                                 </td>
                                                 <td>
                                                     <div>
-                                                        <h6>{{ $customer->userDetail->state ?? "" }}</h6>
+                                                        <h6>{{ $customer->userDetail->state ?? '' }}</h6>
                                                     </div>
                                                 </td>
                                                 <td>
@@ -66,12 +67,14 @@
                                                     </div>
                                                 </td>
                                                 <td>
-                                                    {{ $customer->userDetail->company_name }}
+                                                    {{ $customer->userDetail->company_name ?? '' }}
                                                 </td>
                                                 <td>
                                                     <div class="form-check form-switch">
-                                                        <input class="form-check-input" type="checkbox" role="switch"
-                                                            id="flexSwitchCheckChecked"
+                                                        <input type="hidden" value="{{ $customer->status }}"
+                                                            class="status">
+                                                        <input class="form-check-input toggleSwitch" type="checkbox" role="switch"
+                                                            id="flexSwitchCheckChecked" value="{{ $customer->id }}"
                                                             @if ($customer->status == 'active') checked @endif>
                                                     </div>
                                                 </td>
@@ -91,9 +94,6 @@
                                                                 <i class="fa fa-trash"></i>
                                                             </button>
                                                         </form>
-                                                        {{-- <a href="javascript:void(0);"
-                                                            class="btn btn-danger shadow btn-xs sharp"><i
-                                                                class="fa fa-trash"></i></a> --}}
                                                     </div>
                                                 </td>
                                             </tr>
@@ -114,10 +114,6 @@
 
         </div>
     </div>
-    <!--**********************************
-                                                                            Content body end
-                                                                        ***********************************-->
-
     <!-- Modal -->
     <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered">
@@ -146,4 +142,18 @@
             </div>
         </div>
     </div>
+@endsection
+
+
+@section('scripts')
+    <script>
+        var enableSupportButton = '1'
+    </script>
+    <script>
+        var asset_url = 'assets/index.html'
+    </script>
+
+    <script src="{{ asset('assets/vendor/ckeditor/ckeditor.js') }}" type="text/javascript"></script>
+    <script src="{{ asset('assets/vendor/dropzone/dist/dropzone.js') }}" type="text/javascript"></script>
+    <script src="{{ asset('admin/assets/js/toggle-status1.js') }}"></script>
 @endsection

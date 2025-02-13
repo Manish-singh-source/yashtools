@@ -241,7 +241,7 @@
                             <li class="nav-item dropdown header-profile">
                                 <a class="nav-link" href="javascript:void(0);" role="button"
                                     data-bs-toggle="dropdown">
-                                    @if (Auth::user()->profile)
+                                    @if (Auth::user()->profile != '')
                                         <img src="{{ asset('uploads/profile/' . Auth::user()->profile) }}"
                                             width="20" alt>
                                     @else

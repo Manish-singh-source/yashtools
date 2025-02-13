@@ -18,12 +18,12 @@
                                     <div class="p-5">
                                         <div class="author-profile">
                                             <div class="author-media">
-                                                @isset($user->profile)
+                                                @if($user->profile != '')
                                                     <img src="{{ asset('uploads/profile/' . $user->profile) }}" alt="">
                                                 @else
                                                     <img src="{{ asset('admin/assets/images/profile/profile.png') }}"
                                                         alt="">
-                                                @endisset
+                                                @endif
                                                 <div class="upload-link" title="" data-toggle="tooltip"
                                                     data-placement="right" data-original-title="update">
                                                     <input type="file" class="update-flie" name="profileImage">

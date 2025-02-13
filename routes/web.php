@@ -125,7 +125,8 @@ Route::middleware(AdminAuthMiddleware::class . ':admin,superadmin')->group(funct
 
     Route::get('/product-details/{id}', [ProductsController::class, 'detailProduct'])->name('admin.product.details');
     Route::post('/fetch-sub-categories', [FetchAPIs::class, 'fetchSubCategories'])->name('admin.fetch.sub.categories')->middleware('web');
-    Route::post('/toggle-status', [FetchAPIs::class, 'toggleStatus'])->name('admin.toggle.status')->middleware('web');
+    Route::post('/toggle-status', [FetchAPIs::class, 'toggleStatus'])->middleware('web');
+    Route::post('/toggle-customer-status', [FetchAPIs::class, 'toggleStatusCustomer'])->middleware('web');
 
     // Profile Routes
     Route::get('/profile', [AdminController::class, 'profileView'])->name('admin.profile');

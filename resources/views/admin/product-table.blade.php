@@ -72,7 +72,7 @@
                                                         class="form-check
                                                                     form-switch">
                                                         <input type="hidden" value="{{ $product->status }}"
-                                                            class="product_status">
+                                                            class="status">
                                                         <input class="form-check-input toggleSwitch" type="checkbox"
                                                             role="switch" id="flexSwitchCheckChecked"
                                                             value="{{ $product->id }}"
