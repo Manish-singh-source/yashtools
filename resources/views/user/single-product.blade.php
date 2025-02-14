@@ -342,176 +342,43 @@
                                 <!-- End .col-lg-6 -->
                                 <div class="col-lg-12 mb--30">
                                     <div class="table-responsive">
-                                        <table>
-                                            <thead>
-                                                <tr>
-                                                    <th>
-                                                        Code
-                                                        <select onchange="filterTable('code', this.value)">
-                                                            <option value="">All</option>
-                                                            <option value="VB1.1/001">VB1.1/001</option>
-                                                            <option value="VB1.1/002">VB1.1/002</option>
-                                                        </select>
-                                                    </th>
-                                                    <th>
-                                                        d1
-                                                        <select onchange="filterTable('d1', this.value)">
-                                                            <option value="">All</option>
-                                                            <option value="16">16</option>
-                                                        </select>
-                                                    </th>
-                                                    <th>
-                                                        d2
-                                                        <select onchange="filterTable('d2', this.value)">
-                                                            <option value="">All</option>
-                                                            <option value="22">22</option>
-                                                        </select>
-                                                    </th>
-                                                    <th>
-                                                        d3
-                                                        <select onchange="filterTable('d3', this.value)">
-                                                            <option value="">All</option>
-                                                            <option value="26">26</option>
-                                                        </select>
-                                                    </th>
-                                                    <th>
-                                                        k
-                                                        <select onchange="filterTable('k', this.value)">
-                                                            <option value="">All</option>
-                                                            <option value="6">6</option>
-                                                        </select>
-                                                    </th>
-                                                    <th>
-                                                        L
-                                                        <select onchange="filterTable('l', this.value)">
-                                                            <option value="">All</option>
-                                                            <option value="59">59</option>
-                                                        </select>
-                                                    </th>
-                                                    <th>
-                                                        L1
-                                                        <select onchange="filterTable('l1', this.value)">
-                                                            <option value="">All</option>
-                                                            <option value="25">25</option>
-                                                        </select>
-                                                    </th>
-                                                    <th>
-                                                        L2
-                                                        <select onchange="filterTable('l2', this.value)">
-                                                            <option value="">All</option>
-                                                            <option value="30">30</option>
-                                                        </select>
-                                                    </th>
-                                                    <th>
-                                                        L3
-                                                        <select onchange="filterTable('l3', this.value)">
-                                                            <option value="">All</option>
-                                                            <option value="9">9</option>
-                                                        </select>
-                                                    </th>
-                                                    <th>
-                                                        Stock Available <br>(Qty)
-                                                    </th>
-                                                    <th>Action</th>
-                                                </tr>
-                                            </thead>
-                                            <tbody>
-                                                <tr data-code="VB1.1/001" data-d1="16" data-d2="22" data-d3="26"
-                                                    data-k="6" data-l="59" data-l1="25" data-l2="30"
-                                                    data-l3="9">
-                                                    <td data-label="Code">VB1.1/001</td>
-                                                    <td data-label="d1">16</td>
-                                                    <td data-label="d2">22</td>
-                                                    <td data-label="d3">26</td>
-                                                    <td data-label="k">6</td>
-                                                    <td data-label="L">59</td>
-                                                    <td data-label="L1">25</td>
-                                                    <td data-label="L2">30</td>
-                                                    <td data-label="L3">9</td>
-                                                    <td>---</td>
-                                                    <td data-label="Action"><button class="action-btn">3D</button></td>
-                                                </tr>
-                                                <tr data-code="VB1.1/002" data-d1="16" data-d2="22" data-d3="26"
-                                                    data-k="6" data-l="64" data-l1="25" data-l2="35"
-                                                    data-l3="9">
-                                                    <td data-label="Code">VB1.1/002</td>
-                                                    <td data-label="d1">16</td>
-                                                    <td data-label="d2">22</td>
-                                                    <td data-label="d3">26</td>
-                                                    <td data-label="k">6</td>
-                                                    <td data-label="L">64</td>
-                                                    <td data-label="L1">25</td>
-                                                    <td data-label="L2">35</td>
-                                                    <td data-label="L3">9</td>
-                                                    <td>Available</td>
-                                                    <td data-label="Action"><button class="action-btn">3D</button></td>
-                                                </tr>
-                                            </tbody>
-                                            <tbody>
-                                                <tr data-code="VB1.1/001" data-d1="16" data-d2="22" data-d3="26"
-                                                    data-k="6" data-l="59" data-l1="25" data-l2="30"
-                                                    data-l3="9">
-                                                    <td data-label="Code">VB1.1/001</td>
-                                                    <td data-label="d1">16</td>
-                                                    <td data-label="d2">22</td>
-                                                    <td data-label="d3">26</td>
-                                                    <td data-label="k">6</td>
-                                                    <td data-label="L">59</td>
-                                                    <td data-label="L1">25</td>
-                                                    <td data-label="L2">30</td>
-                                                    <td data-label="L3">9</td>
-                                                    <td>---</td>
-                                                    <td data-label="Action"><button class="action-btn">3D</button></td>
-                                                </tr>
-                                                <tr data-code="VB1.1/002" data-d1="16" data-d2="22" data-d3="26"
-                                                    data-k="6" data-l="64" data-l1="25" data-l2="35"
-                                                    data-l3="9">
-                                                    <td data-label="Code">VB1.1/002</td>
-                                                    <td data-label="d1">16</td>
-                                                    <td data-label="d2">22</td>
-                                                    <td data-label="d3">26</td>
-                                                    <td data-label="k">6</td>
-                                                    <td data-label="L">64</td>
-                                                    <td data-label="L1">25</td>
-                                                    <td data-label="L2">35</td>
-                                                    <td data-label="L3">9</td>
-                                                    <td>Available</td>
-                                                    <td data-label="Action"><button class="action-btn">3D</button></td>
-                                                </tr>
-                                            </tbody>
-                                            <tbody>
-                                                <tr data-code="VB1.1/001" data-d1="16" data-d2="22" data-d3="26"
-                                                    data-k="6" data-l="59" data-l1="25" data-l2="30"
-                                                    data-l3="9">
-                                                    <td data-label="Code">VB1.1/001</td>
-                                                    <td data-label="d1">16</td>
-                                                    <td data-label="d2">22</td>
-                                                    <td data-label="d3">26</td>
-                                                    <td data-label="k">6</td>
-                                                    <td data-label="L">59</td>
-                                                    <td data-label="L1">25</td>
-                                                    <td data-label="L2">30</td>
-                                                    <td data-label="L3">9</td>
-                                                    <td>Available</td>
-                                                    <td data-label="Action"><button class="action-btn">3D</button></td>
-                                                </tr>
-                                                <tr data-code="VB1.1/002" data-d1="16" data-d2="22" data-d3="26"
-                                                    data-k="6" data-l="64" data-l1="25" data-l2="35"
-                                                    data-l3="9">
-                                                    <td data-label="Code">VB1.1/002</td>
-                                                    <td data-label="d1">16</td>
-                                                    <td data-label="d2">22</td>
-                                                    <td data-label="d3">26</td>
-                                                    <td data-label="k">6</td>
-                                                    <td data-label="L">64</td>
-                                                    <td data-label="L1">25</td>
-                                                    <td data-label="L2">35</td>
-                                                    <td data-label="L3">9</td>
-                                                    <td>Available</td>
-                                                    <td data-label="Action"><button class="action-btn">3D</button></td>
-                                                </tr>
-                                            </tbody>
-                                        </table>
+                                        @if (isset($sheetData) && count($sheetData) > 0)
+                                            <table>
+                                                <thead>
+                                                    <tr>
+                                                        @foreach ($sheetData[0] as $column)
+                                                            <th>{{ $column }}</th>
+                                                        @endforeach
+                                                        <th>Action</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                    @foreach (array_slice($sheetData, 1) as $row)
+                                                        <tr data-code="{{ $row[0] }}" data-d1="{{ $row[1] }}"
+                                                            data-d2="{{ $row[2] }}" data-d3="{{ $row[3] }}"
+                                                            data-k="{{ $row[4] }}" data-l="{{ $row[5] }}"
+                                                            data-l1="{{ $row[6] }}" data-l2="{{ $row[7] }}"
+                                                            data-l3="{{ $row[8] }}">
+
+                                                            <td data-label="Code">{{ $row[0] }}</td>
+                                                            <td data-label="d1">{{ $row[1] }}</td>
+                                                            <td data-label="d2">{{ $row[2] }}</td>
+                                                            <td data-label="d3">{{ $row[3] }}</td>
+                                                            <td data-label="k">{{ $row[4] }}</td>
+                                                            <td data-label="L">{{ $row[5] }}</td>
+                                                            <td data-label="L1">{{ $row[6] }}</td>
+                                                            <td data-label="L2">{{ $row[7] }}</td>
+                                                            <td data-label="L3">{{ $row[8] }}</td>
+                                                            <td>{{ $row[9] ?? '---' }}</td>
+                                                            <td data-label="Action"><button class="action-btn">3D</button>
+                                                            </td>
+                                                        </tr>
+                                                    @endforeach
+                                                </tbody>
+                                            </table>
+                                        @else
+                                            <p>No data available or the file is empty.</p>
+                                        @endif
                                     </div>
 
                                 </div>
@@ -529,7 +396,6 @@
                             <div class="row">
                                 <div class="col-lg-12 mb--30">
                                     <div class="single-desc">
-                                        <h5 class="title">Specifications:</h5>
                                         <p>{{ $selectedProduct->product_discription }}</p>
                                     </div>
                                 </div>
@@ -674,12 +540,74 @@
         });
     </script>
     <script>
-        function filterTable(column, value) {
-            const rows = document.querySelectorAll("tbody tr");
+        document.addEventListener("DOMContentLoaded", function() {
+            let table = document.querySelector("table");
+            let headers = table.querySelectorAll("thead th");
+            let rows = table.querySelectorAll("tbody tr");
+
+            let uniqueValues = {};
+
+            // Collect unique values for each column
             rows.forEach(row => {
-                const cellValue = row.dataset[column];
-                row.style.display = value === "" || cellValue === value ? "" : "none";
+                let cells = row.querySelectorAll("td");
+                cells.forEach((cell, index) => {
+                    let columnLabel = headers[index].dataset.column || headers[index].innerText
+                        .trim();
+                    let value = cell.innerText.trim();
+
+                    if (!uniqueValues[columnLabel]) {
+                        uniqueValues[columnLabel] = new Set();
+                    }
+                    uniqueValues[columnLabel].add(value);
+                });
+            });
+
+            // Populate <select> elements
+            headers.forEach((header, index) => {
+                let columnLabel = header.dataset.column || header.innerText.trim();
+                if (uniqueValues[columnLabel]) {
+                    let select = document.createElement("select");
+                    select.setAttribute("onchange", `filterTable(${index}, this.value)`);
+
+                    let defaultOption = document.createElement("option");
+                    defaultOption.value = "";
+                    defaultOption.textContent = "All";
+                    select.appendChild(defaultOption);
+
+                    uniqueValues[columnLabel].forEach(value => {
+                        let option = document.createElement("option");
+                        option.value = value;
+                        option.textContent = value;
+                        select.appendChild(option);
+                    });
+
+                    // Clear existing content and append new elements
+                    header.innerHTML = `${columnLabel} <br>`;
+                    header.appendChild(select);
+                }
+            });
+        });
+
+        // Function to filter table rows
+        function filterTable(columnIndex, value) {
+            let rows = document.querySelectorAll("tbody tr");
+
+            rows.forEach(row => {
+                let cell = row.cells[columnIndex];
+                if (cell) {
+                    let cellValue = cell.innerText.trim();
+                    row.style.display = value === "" || cellValue === value ? "" : "none";
+                }
             });
         }
+
+
+        // function filterTable(column, value) {
+        //     const rows = document.querySelectorAll("tbody tr");
+        //     rows.forEach(row => {
+        //         const cellValue = row.dataset[column];
+        //         row.style.display = value === "" || cellValue === value ? "" : "none";
+        //     });
+        // }
     </script>
 @endsection

@@ -7,10 +7,11 @@ use App\Models\Product;
 use App\Models\Categories;
 use Illuminate\Http\Request;
 use App\Models\SubCategories;
+use Flasher\Prime\FlasherInterface;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\File;
+use Maatwebsite\Excel\Facades\Excel;
 use Illuminate\Support\Facades\Validator;
-use Flasher\Prime\FlasherInterface;
 
 class ProductsController extends Controller
 {
@@ -31,10 +32,11 @@ class ProductsController extends Controller
             'product_price' => 'numeric',
             'product_days_to_dispatch' => 'required',
             'product_description' => 'required',
+            'product_specs' => 'mimes:xlsx,csv,xls|max:2048',
             'product_brand' => 'required',
             'product_image' => 'required|image',
-            'product_pdf' => 'image',
-            'product_catalogue' => 'image',
+            'product_pdf' => 'mimes:pdf|max:2048',
+            'product_catalogue' => 'mimes:pdf|max:2048',
             'product_drawing' => 'image',
             'product_category' => 'required',
             'product_sub_category' => 'required',
@@ -55,6 +57,14 @@ class ProductsController extends Controller
         $product->product_discription = $request->product_description;
 
         // Handle image upload
+        if (!empty($request->product_specs)) {
+            $product_specs = $request->product_specs;
+            $excelExt = $product_specs->getClientOriginalExtension();
+            $filename = time() . "." . $excelExt;
+            $product_specs->move(public_path('uploads/products/product_specs'), $filename);
+            $product->product_specs = $filename;
+        }
+
         if (!empty($request->product_image)) {
             $image1 = $request->product_image;
             $ext1 = $image1->getClientOriginalExtension();
@@ -153,6 +163,7 @@ class ProductsController extends Controller
             'product_quantity' => 'required|numeric',
             'product_price' => 'numeric',
             'product_days_to_dispatch' => 'required',
+            'product_specs' => 'mimes:xlsx,csv,xls|max:2048',
             'product_description' => 'required',
             'product_brand' => 'required',
             'product_image' => 'image',
@@ -179,7 +190,21 @@ class ProductsController extends Controller
 
 
         // Handle image upload
-        if (!empty($request->product_image)) {
+        if (!empty($request->product_specs)) {
+            if (!empty($product->product_specs)) {
+                File::delete(public_path('/uploads/products/product_specs/' . $product->product_specs));
+            }
+
+            $product_specs = $request->product_specs;
+            $excelExt = $product_specs->getClientOriginalExtension();
+            $filename = time() . "." . $excelExt;
+            $product_specs->move(public_path('uploads/products/product_specs'), $filename);
+            $product->product_specs = $filename;
+        }
+
+
+        // Handle image upload
+        if (!empty($request->product_thumbain)) {
 
             if (!empty($product->product_thumbain)) {
                 File::delete(public_path('/uploads/products/thumbnails/' . $product->product_thumbain));
