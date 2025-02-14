@@ -204,7 +204,7 @@ class ProductsController extends Controller
 
 
         // Handle image upload
-        if (!empty($request->product_thumbain)) {
+        if (!empty($request->product_image)) {
 
             if (!empty($product->product_thumbain)) {
                 File::delete(public_path('/uploads/products/thumbnails/' . $product->product_thumbain));

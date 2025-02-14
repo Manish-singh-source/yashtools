@@ -240,19 +240,19 @@
                             <div class="single-product-thumbnail-wrap zoom-gallery">
                                 <div class="single-product-thumbnail product-large-thumbnail-3 axil-product">
                                     <div class="thumbnail">
-                                        <a href="https://dq2c38sk8yrcb.cloudfront.net/product_group/line_drawing/VB1.1LineDrawing.jpg"
+                                        <a href="{{ asset('uploads/products/thumbnails/' . $selectedProduct->product_thumbain) }}"
                                             class="popup-zoom">
-                                            <img src="https://dq2c38sk8yrcb.cloudfront.net/product_group/line_drawing/VB1.1LineDrawing.jpg"
+                                            <img src="{{ asset('uploads/products/thumbnails/' . $selectedProduct->product_thumbain) }}"
                                                 alt="Product Images">
                                         </a>
                                     </div>
                                 </div>
-                                <div class="product-quick-view position-view">
+                                {{-- <div class="product-quick-view position-view">
                                     <a href="https://dq2c38sk8yrcb.cloudfront.net/product_group/line_drawing/VB1.1LineDrawing.jpg"
                                         class="popup-zoom">
                                         <i class="far fa-search-plus"></i>
                                     </a>
-                                </div>
+                                </div> --}}
                             </div>
                         </div>
                         <div class="col-lg-5 mb--40">
