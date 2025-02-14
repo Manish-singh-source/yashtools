@@ -1,5 +1,9 @@
 @extends('user.layouts.app')
 
+@section('script')
+    <link rel="stylesheet" href="{{ asset('assets/css/custom.css') }}">
+@endsection
+
 @section('content')
     <main class="main-wrapper">
         <!-- Start Breadcrumb Area  -->
@@ -17,7 +21,6 @@
                         </div>
                     </div>
                     <div class="col-lg-6 col-md-4">
-
                     </div>
                 </div>
             </div>
@@ -134,23 +137,16 @@
 
                             <!-- End Single Product  -->
                         </div>
-                        {{-- <div class="text-center pt--30">
-                            <div class="center">
-                                <div class="pagination">
-                                    <a href="#">&laquo;</a>
-                                    <a href="#" class="active">1</a>
-                                    <a href="#">2</a>
-                                    <a href="#">3</a>
-                                    <a href="#">4</a>
-                                    <a href="#">&raquo;</a>
-                                </div>
-                            </div>
-                        </div> --}}
-                        {{ $products->links() }}
+                        {{ $products->links('user.layouts.pagination') }}
                     </div>
                 </div>
             </div>
             <!-- End .container -->
         </div>
         <!-- End Shop Area  -->
-</main @endsection
+    </main>
+@endsection
+
+@section('script')
+    <script src="{{ asset('assets/js/custom.js') }}"></script>
+@endsection

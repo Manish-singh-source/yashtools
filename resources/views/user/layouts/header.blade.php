@@ -26,7 +26,7 @@
                             <li><a href="{{ route('user.home') }}">Home</a></li>
                             <li><a href="about-us.php">About Us</a></li>
                             <li class="menu-item-has-children mega-menu-parent">
-                                <a href="#">Products</a>
+                                <a href="{{ route('user.shop') }}">Products</a>
                                 <div class="axil-megamenu">
                                     <div class="megamenu-column">
                                         <h4 class="menu-title">Category</h4>
