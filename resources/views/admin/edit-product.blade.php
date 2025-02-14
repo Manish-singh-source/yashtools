@@ -105,7 +105,7 @@
                                         <div class="dz-default ic-message upload-img mb-3">
                                             <div class="dropzone">
                                                 <div class="fallback">
-                                                    <input type="file" name="excelFile" multiple>
+                                                    <input type="file" accept=".xlsx, .csv, .xls" name="product_specs" multiple>
                                                 </div>
                                             </div>
                                         </div>
@@ -123,7 +123,7 @@
                                             <div class="mb-3">
                                                 <label for="formFile" class="form-label">Upload Catalogue</label>
                                                 <input class="form-control" type="file" id="formFile"
-                                                    name="product_catalogue" accept=".png, .jpg, .jpeg">
+                                                    name="product_catalogue" accept=".pdf">
                                             </div>
                                             @error('product_catalogue')
                                                 {{ $message }}
@@ -131,7 +131,7 @@
                                             <div class="mb-3">
                                                 <label for="formFileMultiple" class="form-label">Upload PDF</label>
                                                 <input class="form-control" type="file" id="formFileMultiple"
-                                                    name="product_pdf" accept=".png, .jpg, .jpeg">
+                                                    name="product_pdf" accept=".pdf">
                                             </div>
                                             @error('product_pdf')
                                                 {{ $message }}

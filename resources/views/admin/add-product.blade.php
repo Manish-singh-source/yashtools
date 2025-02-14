@@ -92,7 +92,7 @@
                                         <div class="dz-default ic-message upload-img mb-3">
                                             <div class="dropzone">
                                                 <div class="fallback">
-                                                    <input type="file" name="excelFile" multiple>
+                                                    <input type="file" accept=".xlsx, .csv, .xls" name="product_specs" multiple>
                                                 </div>
                                             </div>
                                         </div>
