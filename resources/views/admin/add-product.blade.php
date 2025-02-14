@@ -6,8 +6,8 @@
 
 @section('content-body')
     <!--**********************************
-                                                                                                                                                                                                                                                                                                                                                                                    Content body start
-                                                                                                                                                                                                                                                                                                                                                                                ***********************************-->
+                                                                                                                                                                                                                                                                                                                                                                                        Content body start
+                                                                                                                                                                                                                                                                                                                                                                                    ***********************************-->
     <div class="content-body">
         <div class="container-fluid">
 
@@ -60,13 +60,12 @@
                                             <select
                                                 class="form-control default-select h-auto wide @error('product_days_to_dispatch') is-invalid @enderror"
                                                 aria-label="Default select example" name="product_days_to_dispatch">
-                                                <option selected>Same Days</option>
-                                                <option value="1">1 Day to Dispatch</option>
-                                                <option value="1">2 Day to Dispatch</option>
-                                                <option value="1">3 Day to Dispatch</option>
-                                                <option value="1">4 Day to Dispatch</option>
-                                                <option value="1">5 Day to Dispatch</option>
-                                                <option value="1">None</option>
+                                                <option value="Same Days" selected>Same Days</option>
+                                                <option value="1 Day to Dispatch">1 Day to Dispatch</option>
+                                                <option value="2 Day to Dispatch">2 Day to Dispatch</option>
+                                                <option value="3 Day to Dispatch">3 Day to Dispatch</option>
+                                                <option value="4 Day to Dispatch">4 Day to Dispatch</option>
+                                                <option value="5 Day to Dispatch">5 Day to Dispatch</option>
                                             </select>
                                             @error('product_days_to_dispatch')
                                                 <div class="invalid-feedback">
@@ -111,7 +110,7 @@
                                             <div class="mb-3">
                                                 <label for="formFile" class="form-label">Upload Catalogue</label>
                                                 <input class="form-control" type="file" id="formFile"
-                                                    name="product_catalogue" accept=".png, .jpg, .jpeg">
+                                                    name="product_catalogue" accept=".pdf">
                                             </div>
                                             @error('product_catalogue')
                                                 {{ $message }}
@@ -119,7 +118,7 @@
                                             <div class="mb-3">
                                                 <label for="formFileMultiple" class="form-label">Upload PDF</label>
                                                 <input class="form-control" type="file" id="formFileMultiple"
-                                                    name="product_pdf" accept=".png, .jpg, .jpeg">
+                                                    name="product_pdf" accept=".pdf">
                                             </div>
                                             @error('product_pdf')
                                                 {{ $message }}

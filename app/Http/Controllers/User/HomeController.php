@@ -29,11 +29,12 @@ class HomeController extends Controller
         return view('user.shop', compact('categories', 'brands', 'subcategories', 'products'));
     }
 
-    public function singleProductView()
+    public function singleProductView(String $id)
     {
         $categories = Categories::orderby('updated_at', 'desc')->limit(8)->get();
         $subcategories = SubCategories::orderby('updated_at', 'desc')->limit(8)->get();
         $brands = Brand::orderby('updated_at', 'desc')->limit(8)->get();
-        return view('user.single-product', compact('categories', 'brands', 'subcategories'));
+        $selectedProduct = Product::with('brands')->find($id);
+        return view('user.single-product', compact('categories', 'brands', 'subcategories', 'selectedProduct'));
     }
 }

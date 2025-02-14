@@ -258,8 +258,9 @@
                         <div class="col-lg-5 mb--40">
                             <div class="single-product-content">
                                 <div class="inner">
-                                    <h2 class="product-title margbot">Step Ejector pins</h2>
-                                    <h6 class="title margbot">Brand: <span class="spnc">Yashtools</span></h6>
+                                    <h2 class="product-title margbot">{{ $selectedProduct->product_name }}</h2>
+                                    <h6 class="title margbot">Brand: <span
+                                            class="spnc">{{ $selectedProduct->brands->brand_name }}</span></h6>
                                     <div class="custom-dropdown margbot" id="dropdown">
                                         <div class="dropdown-selected">
                                             Part Number
@@ -276,21 +277,35 @@
                                         </div>
                                     </div>
                                     <ul class="product-meta margbot">
-                                        <li><i class="fal fa-check"></i>In stock</li>
+                                        @if ($selectedProduct->product_quantity > 0)
+                                            <li><i class="fal fa-check"></i>In stock</li>
+                                        @else
+                                            <li class="text-danger"><i class="fal fa-times"></i>Out of stock</li>
+                                        @endif
                                     </ul>
 
-                                    <h6 class="title margbot">Days to Dispatch :<span class="spnc"> Same day</span></h6>
+                                    <h6 class="title margbot">Days to Dispatch :<span class="spnc">
+                                            {{ $selectedProduct->product_dispatch }}</span></h6>
                                     <div class="manish1 margbot">
                                         <ul class="icon-list-row d-flex">
-                                            <li>
-                                                <i class="fas fa-pencil-ruler"></i><a href="">Drawing</a>
-                                            </li>
-                                            <li>
-                                                <i class="fas fa-file-pdf"></i> <a href="">PDF</a>
-                                            </li>
-                                            <li>
-                                                <i class="fas fa-book"></i> <a href="">Catalogue</a>
-                                            </li>
+                                            @isset($selectedProduct->product_drawing)
+                                                <li>
+                                                    <i class="fas fa-pencil-ruler"></i><a target="_blank"
+                                                        href="{{ asset('uploads/products/drawing/' . $selectedProduct->product_drawing) }}">Drawing</a>
+                                                </li>
+                                            @endisset
+                                            @isset($selectedProduct->product_pdf)
+                                                <li>
+                                                    <i class="fas fa-file-pdf"></i> <a target="_blank"
+                                                        href="{{ asset('uploads/products/pdf/' . $selectedProduct->product_pdf) }}">PDF</a>
+                                                </li>
+                                            @endisset
+                                            @isset($selectedProduct->product_catalouge)
+                                                <li>
+                                                    <i class="fas fa-book"></i> <a target="_blank"
+                                                        href="{{ asset('uploads/products/catalogue/' . $selectedProduct->product_catalouge) }}">Catalogue</a>
+                                                </li>
+                                            @endisset
                                         </ul>
                                     </div>
 
@@ -515,10 +530,7 @@
                                 <div class="col-lg-12 mb--30">
                                     <div class="single-desc">
                                         <h5 class="title">Specifications:</h5>
-                                        <p>We’ve created a full-stack structure for our working workflow processes, were
-                                            from the funny the century initial all the made, have spare to negatives. But
-                                            the structure was from the funny the century rather,
-                                            initial all the made, have spare to negatives.</p>
+                                        <p>{{ $selectedProduct->product_discription }}</p>
                                     </div>
                                 </div>
                                 <!-- End .col-lg-6 -->
@@ -548,7 +560,7 @@
                             <div class="thumbnail">
                                 <a href="single-product.php">
                                     <img data-sal="fade" data-sal-delay="100" data-sal-duration="1500"
-                                        src="assets\images\product\1.png" alt="Product Images">
+                                        src="{{ asset('assets\images\product\1.png') }}" alt="Product Images">
                                 </a>
                             </div>
                             <div class="product-content">
@@ -564,7 +576,7 @@
                             <div class="thumbnail">
                                 <a href="single-product.php">
                                     <img data-sal="fade" data-sal-delay="100" data-sal-duration="1500"
-                                        src="assets\images\product\2.png" alt="Product Images">
+                                        src="{{ asset('assets\images\product\2.png') }}" alt="Product Images">
                                 </a>
 
                             </div>
@@ -581,7 +593,7 @@
                             <div class="thumbnail">
                                 <a href="single-product.php">
                                     <img data-sal="fade" data-sal-delay="100" data-sal-duration="1500"
-                                        src="assets\images\product\3.png" alt="Product Images">
+                                        src="{{ asset('assets\images\product\3.png') }}" alt="Product Images">
                                 </a>
 
                             </div>
@@ -598,7 +610,7 @@
                             <div class="thumbnail">
                                 <a href="single-product.php">
                                     <img data-sal="fade" data-sal-delay="100" data-sal-duration="1500"
-                                        src="assets\images\product\4.png" alt="Product Images">
+                                        src="{{ asset('assets\images\product\4.png') }}" alt="Product Images">
                                 </a>
 
                             </div>

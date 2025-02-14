@@ -6,8 +6,8 @@
 
 @section('content-body')
     <!--**********************************
-                                                                                                                                                                                    Content body start
-                                                                                                                                                                                ***********************************-->
+                                                                                                                                                                                                    Content body start
+                                                                                                                                                                                                ***********************************-->
     <div class="content-body">
         <div class="container-fluid">
 
@@ -62,18 +62,22 @@
                                             <select
                                                 class="form-control default-select h-auto wide @error('product_days_to_dispatch') is-invalid @enderror"
                                                 aria-label="Default select example" name="product_days_to_dispatch">
-
-                                                <option value="0" @if ($selectedProduct->product_dispatch == '0') selected @endif>
+                                                <option value="Same Days" @if ($selectedProduct->product_dispatch == 'Same Days') selected @endif>
                                                     Same Days</option>
-                                                <option value="1" @if ($selectedProduct->product_dispatch == '1') selected @endif>1
+                                                <option value="1 Day to Dispatch"
+                                                    @if ($selectedProduct->product_dispatch == '1 Day to Dispatch') selected @endif>1
                                                     Day to Dispatch</option>
-                                                <option value="2" @if ($selectedProduct->product_dispatch == '2') selected @endif>2
+                                                <option value="2 Day to Dispatch"
+                                                    @if ($selectedProduct->product_dispatch == '2 Day to Dispatch') selected @endif>2
                                                     Day to Dispatch</option>
-                                                <option value="3" @if ($selectedProduct->product_dispatch == '3') selected @endif>3
+                                                <option value="3 Day to Dispatch"
+                                                    @if ($selectedProduct->product_dispatch == '3 Day to Dispatch') selected @endif>3
                                                     Day to Dispatch</option>
-                                                <option value="4" @if ($selectedProduct->product_dispatch == '4') selected @endif>4
+                                                <option value="4 Day to Dispatch"
+                                                    @if ($selectedProduct->product_dispatch == '4 Day to Dispatch') selected @endif>4
                                                     Day to Dispatch</option>
-                                                <option value="5" @if ($selectedProduct->product_dispatch == '5') selected @endif>5
+                                                <option value="5 Day to Dispatch"
+                                                    @if ($selectedProduct->product_dispatch == '5 Day to Dispatch') selected @endif>5
                                                     Day to Dispatch</option>
                                             </select>
                                             @error('product_days_to_dispatch')
