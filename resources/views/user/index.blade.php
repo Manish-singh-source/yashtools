@@ -1,7 +1,150 @@
 @extends('user.layouts.app')
 
 @section('style')
-    <link rel="stylesheet" href="{{ asset('assets/css/custom.css') }}">
+    <style>
+        .slider {
+            background: #00000030;
+            height: 100vh;
+            position: relative;
+            text-align: center;
+            width: 100%;
+        }
+
+        /* @font-face {
+        font-family: 'Authein';
+        src: url('fonts/Authein.ttf') format('truetype');
+    }
+    h2{
+        font-family: 'Authein', sans-serif;
+    } */
+        .arrow {
+            background: black;
+            border: none;
+            border-radius: 10%;
+            color: white;
+            cursor: pointer;
+            display: none;
+            opacity: .4;
+            padding: 10px;
+            position: absolute;
+            text-transform: uppercase;
+            -webkit-transition: .2s;
+            top: 50%;
+            transition: .2s;
+        }
+
+        .arrow:hover {
+            opacity: .8;
+        }
+
+        .arrow.next {
+            right: 2%
+        }
+
+        .arrow.prev {
+            left: 2%;
+        }
+
+        .slide {
+            background-repeat: no-repeat;
+            background-size: 100% 100%;
+            color: #fff;
+            height: 100%;
+            padding: 90px 0 0;
+            position: absolute;
+            width: 100%;
+        }
+
+        .slide-title {
+            font-size: 40px;
+            font-weight: bold;
+            margin: 0 auto;
+            padding: 15px 0;
+            text-transform: uppercase;
+        }
+
+        .slide-desc {
+            font-size: 20px;
+            margin: 40px auto 0;
+            width: 65%;
+        }
+
+        .slide-image,
+        .slide-image img {
+            height: 100%;
+            width: 100%;
+        }
+
+        .slide:first-of-type {
+            background-image: url("assets/images/myimg/Yash.png");
+        }
+
+        .slide:nth-of-type(2) {
+            background-image: url("assets/images/myimg/yash1.png");
+        }
+
+        .slide:nth-of-type(3) {
+            background-image: url("assets/images/myimg/yash1.png");
+        }
+
+        .active {
+            display: block;
+        }
+
+        .slide-nav {
+            bottom: 30px;
+            position: absolute;
+            width: 100%;
+        }
+
+        .nav-item {
+            background: #fff;
+            border: 2px solid #1a63bd;
+            cursor: pointer;
+            display: inline-block;
+            margin-right: 20px;
+            transition: background .4s;
+        }
+
+        .nav-item:last-of-type {
+            margin-right: 0;
+        }
+
+        .nav-item:hover {
+            transform: scale(1.3);
+        }
+
+        .item-active {
+            background: #1a63bd;
+            transform: scale(1.3);
+        }
+
+        .dot {
+            border-radius: 50%;
+        }
+
+        .dot,
+        .square {
+            height: 15px;
+            width: 15px;
+        }
+
+        .rectangle {
+            height: 15px;
+            width: 30px;
+        }
+
+        .statistic-section {
+            background-image: url(assets/images/myimg/bann1.jpg);
+            background-size: cover;
+            padding-bottom: 70px;
+            background-repeat: no-repeat;
+            background-attachment: fixed;
+        }
+
+        /* Hide nested submenus by default */
+        /* General Dropdown Styling */
+    </style>
 @endsection
 
 @section('content')
@@ -177,100 +320,101 @@
 
         <!-- Start Slider Area -->
         <!-- <div class="axil-main-slider-area main-slider-style-3">
-                                                                    <div class="container">
-                                                                        <div class="row align-items-center">
-                                                                            <div class="col-xl-6 col-lg-6">
-                                                                                <div class="main-slider-content">
-                                                                                    <span class="subtitle"><i class="fas fa-fire"></i>Largest NFT marketplace</span>
-                                                                                    <h1 class="title">Discover, collect, and sell extraordinary NFTs</h1>
-                                                                                    <div class="shop-btn">
-                                                                                        <a href="shop.php" class="axil-btn btn-bg-white right-icon">Explore <i class="fal fa-long-arrow-right"></i></a>
+                                                                        <div class="container">
+                                                                            <div class="row align-items-center">
+                                                                                <div class="col-xl-6 col-lg-6">
+                                                                                    <div class="main-slider-content">
+                                                                                        <span class="subtitle"><i class="fas fa-fire"></i>Largest NFT marketplace</span>
+                                                                                        <h1 class="title">Discover, collect, and sell extraordinary NFTs</h1>
+                                                                                        <div class="shop-btn">
+                                                                                            <a href="shop.php" class="axil-btn btn-bg-white right-icon">Explore <i class="fal fa-long-arrow-right"></i></a>
+                                                                                        </div>
                                                                                     </div>
                                                                                 </div>
-                                                                            </div>
-                                                                            <div class="col-xl-6 col-lg-6">
-                                                                                <div class="main-slider-large-thumb">
-                                                                                    <div class="slider-thumb-activation-two axil-slick-dots">
-                                                                                        <div class="single-slide slick-slide">
-                                                                                            <div class="axil-product product-style-five">
-                                                                                                <div class="thumbnail">
-                                                                                                    <a href="single-product-7.php">
-                                                                                                        <img src="assets/images/product/nft/product-17.png" alt="Product Images">
-                                                                                                    </a>
+                                                                                <div class="col-xl-6 col-lg-6">
+                                                                                    <div class="main-slider-large-thumb">
+                                                                                        <div class="slider-thumb-activation-two axil-slick-dots">
+                                                                                            <div class="single-slide slick-slide">
+                                                                                                <div class="axil-product product-style-five">
+                                                                                                    <div class="thumbnail">
+                                                                                                        <a href="single-product-7.php">
+                                                                                                            <img src="assets/images/product/nft/product-17.png" alt="Product Images">
+                                                                                                        </a>
 
-                                                                                                </div>
-                                                                                                <div class="product-content">
-                                                                                                    <div class="inner">
-                                                                                                        <h5 class="title"><a href="single-product-7.php">Anime #001</a></h5>
-                                                                                                        <div class="product-price-variant">
-                                                                                                            <span class="price current-price">$5000</span>
+                                                                                                    </div>
+                                                                                                    <div class="product-content">
+                                                                                                        <div class="inner">
+                                                                                                            <h5 class="title"><a href="single-product-7.php">Anime #001</a></h5>
+                                                                                                            <div class="product-price-variant">
+                                                                                                                <span class="price current-price">$5000</span>
+                                                                                                            </div>
+                                                                                                            <ul class="cart-action">
+                                                                                                                <li class="select-option"><a href="single-product-7.php">Buy Product</a></li>
+                                                                                                            </ul>
                                                                                                         </div>
-                                                                                                        <ul class="cart-action">
-                                                                                                            <li class="select-option"><a href="single-product-7.php">Buy Product</a></li>
-                                                                                                        </ul>
                                                                                                     </div>
                                                                                                 </div>
                                                                                             </div>
-                                                                                        </div>
-                                                                                        <div class="single-slide slick-slide">
-                                                                                            <div class="axil-product product-style-five">
-                                                                                                <div class="thumbnail">
-                                                                                                    <a href="single-product-7.php">
-                                                                                                        <img src="assets/images/product/nft/product-16.png" alt="Product Images">
-                                                                                                    </a>
+                                                                                            <div class="single-slide slick-slide">
+                                                                                                <div class="axil-product product-style-five">
+                                                                                                    <div class="thumbnail">
+                                                                                                        <a href="single-product-7.php">
+                                                                                                            <img src="assets/images/product/nft/product-16.png" alt="Product Images">
+                                                                                                        </a>
 
-                                                                                                </div>
-                                                                                                <div class="product-content">
-                                                                                                    <div class="inner">
-                                                                                                        <h5 class="title"><a href="single-product-7.php">Anime #002</a></h5>
-                                                                                                        <div class="product-price-variant">
-                                                                                                            <span class="price current-price">$5000</span>
+                                                                                                    </div>
+                                                                                                    <div class="product-content">
+                                                                                                        <div class="inner">
+                                                                                                            <h5 class="title"><a href="single-product-7.php">Anime #002</a></h5>
+                                                                                                            <div class="product-price-variant">
+                                                                                                                <span class="price current-price">$5000</span>
+                                                                                                            </div>
+                                                                                                            <ul class="cart-action">
+                                                                                                                <li class="select-option"><a href="single-product-7.php">Buy Product</a></li>
+                                                                                                            </ul>
                                                                                                         </div>
-                                                                                                        <ul class="cart-action">
-                                                                                                            <li class="select-option"><a href="single-product-7.php">Buy Product</a></li>
-                                                                                                        </ul>
                                                                                                     </div>
                                                                                                 </div>
                                                                                             </div>
-                                                                                        </div>
-                                                                                        <div class="single-slide slick-slide">
-                                                                                            <div class="axil-product product-style-five">
-                                                                                                <div class="thumbnail">
-                                                                                                    <a href="single-product-7.php">
-                                                                                                        <img src="assets/images/product/nft/product-15.png" alt="Product Images">
-                                                                                                    </a>
+                                                                                            <div class="single-slide slick-slide">
+                                                                                                <div class="axil-product product-style-five">
+                                                                                                    <div class="thumbnail">
+                                                                                                        <a href="single-product-7.php">
+                                                                                                            <img src="assets/images/product/nft/product-15.png" alt="Product Images">
+                                                                                                        </a>
 
-                                                                                                </div>
-                                                                                                <div class="product-content">
-                                                                                                    <div class="inner">
-                                                                                                        <h5 class="title"><a href="single-product-7.php">Anime #003</a></h5>
-                                                                                                        <div class="product-price-variant">
-                                                                                                            <span class="price current-price">$5000</span>
+                                                                                                    </div>
+                                                                                                    <div class="product-content">
+                                                                                                        <div class="inner">
+                                                                                                            <h5 class="title"><a href="single-product-7.php">Anime #003</a></h5>
+                                                                                                            <div class="product-price-variant">
+                                                                                                                <span class="price current-price">$5000</span>
+                                                                                                            </div>
+                                                                                                            <ul class="cart-action">
+                                                                                                                <li class="select-option"><a href="single-product-7.php">Buy Product</a></li>
+                                                                                                            </ul>
                                                                                                         </div>
-                                                                                                        <ul class="cart-action">
-                                                                                                            <li class="select-option"><a href="single-product-7.php">Buy Product</a></li>
-                                                                                                        </ul>
                                                                                                     </div>
                                                                                                 </div>
                                                                                             </div>
-                                                                                        </div>
-                                                                                        <div class="single-slide slick-slide">
-                                                                                            <div class="axil-product product-style-five">
-                                                                                                <div class="thumbnail">
-                                                                                                    <a href="single-product-7.php">
-                                                                                                        <img src="assets/images/product/nft/product-1.png" alt="Product Images">
-                                                                                                    </a>
+                                                                                            <div class="single-slide slick-slide">
+                                                                                                <div class="axil-product product-style-five">
+                                                                                                    <div class="thumbnail">
+                                                                                                        <a href="single-product-7.php">
+                                                                                                            <img src="assets/images/product/nft/product-1.png" alt="Product Images">
+                                                                                                        </a>
 
-                                                                                                </div>
-                                                                                                <div class="product-content">
-                                                                                                    <div class="inner">
-                                                                                                        <h5 class="title"><a href="single-product-7.php">Anime #004</a></h5>
-                                                                                                        <div class="product-price-variant">
-                                                                                                            <span class="price current-price">$5000</span>
+                                                                                                    </div>
+                                                                                                    <div class="product-content">
+                                                                                                        <div class="inner">
+                                                                                                            <h5 class="title"><a href="single-product-7.php">Anime #004</a></h5>
+                                                                                                            <div class="product-price-variant">
+                                                                                                                <span class="price current-price">$5000</span>
+                                                                                                            </div>
+                                                                                                            <ul class="cart-action">
+                                                                                                                <li class="select-option"><a href="single-product-7.php">Buy Product</a></li>
+                                                                                                            </ul>
                                                                                                         </div>
-                                                                                                        <ul class="cart-action">
-                                                                                                            <li class="select-option"><a href="single-product-7.php">Buy Product</a></li>
-                                                                                                        </ul>
                                                                                                     </div>
                                                                                                 </div>
                                                                                             </div>
@@ -279,8 +423,7 @@
                                                                                 </div>
                                                                             </div>
                                                                         </div>
-                                                                    </div>
-                                                                </div> -->
+                                                                    </div> -->
         <!-- End Slider Area -->
 
         <!-- Start Best Sellers Product Area  -->
@@ -454,7 +597,7 @@
                 <div class="">
                     <div class="etrade-newsletter-wrapper bg_image ">
                         <!-- <div class="newsletter-content">
-                                                                                <span class="title-highlighter highlighter-primary2">Newsletter</span> -->
+                                                                                    <span class="title-highlighter highlighter-primary2">Newsletter</span> -->
                         <img src="./assets/images/logo/logo.png" alt="">
                         <h2 class="title mb--40 mb_sm--30">Subscribe to Stay Updated</h2>
                         <div class="input-group newsletter-form">
