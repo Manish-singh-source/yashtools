@@ -1,40 +1,6 @@
-<!doctype html>
-<html class="no-js" lang="en">
-<head>
-    <meta charset="utf-8">
-    <meta http-equiv="x-ua-compatible" content="ie=edge">
-    <title>Yash Tools</title>
-    <meta name="robots" content="noindex, follow" />
-    <meta name="description" content="">
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <!-- Favicon -->
-    <link rel="shortcut icon" type="image/x-icon" href="assets/images/favicon.png">
+@extends('user.layouts.app')
 
-    <!-- CSS
-    ============================================ -->
-
-    <!-- Bootstrap CSS -->
-    <link rel="stylesheet" href="assets/css/vendor/bootstrap.min.css">
-    <link rel="stylesheet" href="assets/css/vendor/font-awesome.css">
-    <link rel="stylesheet" href="assets/css/vendor/flaticon/flaticon.css">
-    <link rel="stylesheet" href="assets/css/vendor/slick.css">
-    <link rel="stylesheet" href="assets/css/vendor/slick-theme.css">
-    <link rel="stylesheet" href="assets/css/vendor/jquery-ui.min.css">
-    <link rel="stylesheet" href="assets/css/vendor/sal.css">
-    <link rel="stylesheet" href="assets/css/vendor/magnific-popup.css">
-    <link rel="stylesheet" href="assets/css/vendor/base.css">
-    <link rel="stylesheet" href="assets/css/style.min.css">
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css">
-</head>
-
-
-<body class="sticky-header">
-    <!--[if lte IE 9]>
-    <p class="browserupgrade">You are using an <strong>outdated</strong> browser. Please <a href="https://browsehappy.com/">upgrade your browser</a> to improve your experience and security.</p>
-<![endif]-->
-    <a href="#top" class="back-to-top" id="backto-top"><i class="fal fa-arrow-up"></i></a>
-    <?php include'header.php'; ?>
-
+@section('content')
     <main class="main-wrapper">
         <!-- Start Breadcrumb Area  -->
         <div class="axil-breadcrumb-area">
@@ -64,8 +30,10 @@
                             <div class="contact-form">
                                 <p>If you are looking to work with us or have any enquiry?</p>
                                 <h3 class="title mb--10">Send Us a Message</h3>
-                                
-                                <form id="contact-form" method="POST" action="https://new.axilthemes.com/demo/template/etrade/mail.php" class="axil-contact-form">
+
+                                <form id="contact-form" method="POST"
+                                    action="https://new.axilthemes.com/demo/template/etrade/mail.php"
+                                    class="axil-contact-form">
                                     <div class="row row--10">
                                         <div class="col-lg-4">
                                             <div class="form-group">
@@ -93,7 +61,8 @@
                                         </div>
                                         <div class="col-12">
                                             <div class="form-group mb--0">
-                                                <button name="submit" type="submit" id="submit" class="axil-btn btn-bg-primary">Send Message</button>
+                                                <button name="submit" type="submit" id="submit"
+                                                    class="axil-btn btn-bg-primary">Send Message</button>
                                             </div>
                                         </div>
                                     </div>
@@ -120,7 +89,8 @@
                 <div class="axil-google-map-wrap axil-section-gap pb--0">
                     <div class="mapouter">
                         <div class="gmap_canvas">
-                            <iframe width="1080" height="500" id="gmap_canvas" src="https://www.google.com/maps/embed?pb=!1m14!1m8!1m3!1d7535.878388230458!2d72.839978!3d19.197858000000004!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3be7b6dd97d27969%3A0xb6dd26be431ddfe3!2sYash%20Tools%20India%20Private%20Limited!5e0!3m2!1sen!2sus!4v1736251813115!5m2!1sen!2sus"></iframe>
+                            <iframe width="1080" height="500" id="gmap_canvas"
+                                src="https://www.google.com/maps/embed?pb=!1m14!1m8!1m3!1d7535.878388230458!2d72.839978!3d19.197858000000004!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3be7b6dd97d27969%3A0xb6dd26be431ddfe3!2sYash%20Tools%20India%20Private%20Limited!5e0!3m2!1sen!2sus!4v1736251813115!5m2!1sen!2sus"></iframe>
                         </div>
                     </div>
                 </div>
@@ -129,4 +99,4 @@
         </div>
         <!-- End Contact Area  -->
     </main>
-    <?php include'footer.php'; ?>
+@endsection

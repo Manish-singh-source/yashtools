@@ -30,6 +30,28 @@ Route::get('/', [HomeController::class, 'homeView'])->name('user.home');
 Route::get('/shop', [HomeController::class, 'shopView'])->name('user.shop');
 Route::get('/single-product', [HomeController::class, 'singleProductView'])->name('user.single.product');
 
+Route::get('/about-us',  [HomeController::class, 'homeView'])->name('user.about.us');
+
+Route::get('/cart', function () {
+    return view('user.cart');
+})->name('user.cart');
+
+Route::get('/contact-us', function () {
+    return view('user.contact');
+})->name('user.contact.us');
+
+Route::get('/events', function () {
+    return view('user.event');
+})->name('user.event');
+
+Route::get('/faq', function () {
+    return view('user.faq');
+})->name('user.faq');
+
+Route::get('/feedback', function () {
+    return view('user.feedback');
+})->name('user.feedback');
+
 Route::middleware('isCustomerAuth:customer')->group(function () {
     Route::get('/dashboard', function () {
         return view('user.main');
