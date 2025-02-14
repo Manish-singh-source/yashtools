@@ -26,150 +26,8 @@
     <link rel="stylesheet" href="{{ asset('assets/css/vendor/base.css') }}">
     <link rel="stylesheet" href="{{ asset('assets/css/style.min.css') }}">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css">
-    <style>
-        .slider {
-            background: #00000030;
-            height: 100vh;
-            position: relative;
-            text-align: center;
-            width: 100%;
-        }
 
-        /* @font-face {
-            font-family: 'Authein';
-            src: url('fonts/Authein.ttf') format('truetype');
-        }
-        h2{
-            font-family: 'Authein', sans-serif;
-        } */
-        .arrow {
-            background: black;
-            border: none;
-            border-radius: 10%;
-            color: white;
-            cursor: pointer;
-            display: none;
-            opacity: .4;
-            padding: 10px;
-            position: absolute;
-            text-transform: uppercase;
-            -webkit-transition: .2s;
-            top: 50%;
-            transition: .2s;
-        }
-
-        .arrow:hover {
-            opacity: .8;
-        }
-
-        .arrow.next {
-            right: 2%
-        }
-
-        .arrow.prev {
-            left: 2%;
-        }
-
-        .slide {
-            background-repeat: no-repeat;
-            background-size: 100% 100%;
-            color: #fff;
-            height: 100%;
-            padding: 90px 0 0;
-            position: absolute;
-            width: 100%;
-        }
-
-        .slide-title {
-            font-size: 40px;
-            font-weight: bold;
-            margin: 0 auto;
-            padding: 15px 0;
-            text-transform: uppercase;
-        }
-
-        .slide-desc {
-            font-size: 20px;
-            margin: 40px auto 0;
-            width: 65%;
-        }
-
-        .slide-image,
-        .slide-image img {
-            height: 100%;
-            width: 100%;
-        }
-
-        .slide:first-of-type {
-            background-image: url("assets/images/myimg/Yash.png");
-        }
-
-        .slide:nth-of-type(2) {
-            background-image: url("assets/images/myimg/yash1.png");
-        }
-
-        .slide:nth-of-type(3) {
-            background-image: url("assets/images/myimg/yash1.png");
-        }
-
-        .active {
-            display: block;
-        }
-
-        .slide-nav {
-            bottom: 30px;
-            position: absolute;
-            width: 100%;
-        }
-
-        .nav-item {
-            background: #fff;
-            border: 2px solid #1a63bd;
-            cursor: pointer;
-            display: inline-block;
-            margin-right: 20px;
-            transition: background .4s;
-        }
-
-        .nav-item:last-of-type {
-            margin-right: 0;
-        }
-
-        .nav-item:hover {
-            transform: scale(1.3);
-        }
-
-        .item-active {
-            background: #1a63bd;
-            transform: scale(1.3);
-        }
-
-        .dot {
-            border-radius: 50%;
-        }
-
-        .dot,
-        .square {
-            height: 15px;
-            width: 15px;
-        }
-
-        .rectangle {
-            height: 15px;
-            width: 30px;
-        }
-
-        .statistic-section {
-            background-image: url(assets/images/myimg/bann1.jpg);
-            background-size: cover;
-            padding-bottom: 70px;
-            background-repeat: no-repeat;
-            background-attachment: fixed;
-        }
-
-        /* Hide nested submenus by default */
-        /* General Dropdown Styling */
-    </style>
+    @yield('style')
 </head>
 
 
@@ -182,6 +40,7 @@
 
 
     @yield('content')
+    @yield('script')
 
 
     <!-- Start Footer Area  -->
@@ -329,7 +188,6 @@
 
 
 
-
     <!-- JS
 ============================================ -->
     <!-- Modernizer JS -->
@@ -354,104 +212,10 @@
 
     <!-- Main JS -->
     <script src="{{ asset('assets/js/main.js') }}"></script>
-    <script>
-        // Slider configuration
-        var config = {
-            speed: 4000,
-            auto: true, // true or false
-            arrows: true, // true or false
-            nav: true, // true or false
-            navStyle: 'default' // square,rectangle, default
-        };
 
-        // Slider core
-        var slides = $('.slide');
-        var totalSlides = slides.length;
-        var currentIndex = 0;
+    <!-- Main JS -->
+    <script src="assets/js/main.js"></script>
 
-        function setSlides() {
-            var currentSlide = slides.eq(currentIndex);
-            slides.hide();
-            currentSlide.fadeIn(1500);
-        };
-        setSlides();
-
-        // autoplay
-        if (config.auto) {
-            var autoSlide = setInterval(function() {
-                currentIndex += 1;
-                if (currentIndex > totalSlides - 1) {
-                    currentIndex = 0;
-                }
-                setSlides();
-                navigation();
-            }, config.speed);
-        };
-
-        // navigation arrows
-        if (config.arrows) {
-            $('.arrow').addClass('active');
-            $('.prev').click(function() {
-                clearInterval(autoSlide);
-                currentIndex -= 1;
-                if (currentIndex < 0) {
-                    currentIndex = totalSlides - 1;
-                }
-                navigation();
-                setSlides();
-            });
-            $('.next').click(function() {
-                clearInterval(autoSlide);
-                currentIndex += 1;
-                if (currentIndex > totalSlides - 1) {
-                    currentIndex = 0;
-                }
-                navigation();
-                setSlides();
-            });
-        };
-
-        // navigation
-        if (config.nav) {
-            for (i = 0; i < slides.length; i += 1) {
-                $('<li/>').attr({
-                    'class': 'nav-item',
-                    'id': i
-                }).appendTo('.slide-nav');
-            };
-            $('.nav-item').first().addClass('item-active');
-            switch (config.navStyle) { // navigation style
-                case 'square':
-                    $('.nav-item').addClass('square');
-                    break;
-                case 'rectangle':
-                    $('.nav-item').addClass('rectangle');
-                    break;
-                default:
-                    $('.nav-item').addClass('dot');
-            };
-
-            function navigation() {
-                $('.nav-item').removeClass('item-active');
-                $('.nav-item').eq(currentIndex).addClass('item-active');
-            };
-            $('.nav-item').click(function() {
-                clearInterval(autoSlide);
-                var navNumb = $(this).attr('id');
-                currentIndex = navNumb;
-                navigation();
-                setSlides();
-            });
-        };
-    </script>
-    <script>
-        $(document).ready(function($) {
-            $('.count-number').counterUp({
-                delay: 10,
-                time: 1000
-            });
-        });
-    </script>
 </body>
 
 </html>
