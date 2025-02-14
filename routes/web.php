@@ -15,12 +15,8 @@ use App\Http\Controllers\Admin\SubCategoryController;
 use App\Http\Controllers\User\HomeController;
 
 // user routes: Authentication 
-Route::get('/signin', function () {
-    return view('user.signin');
-})->name('signin');
-Route::get('/signup', function () {
-    return view('user.signup');
-})->name('signup');
+Route::get('/signin', [UserController::class, 'signinView'])->name('signin');
+Route::get('/signup', [UserController::class, 'signupView'])->name('signup');
 Route::post('/register-user', [UserController::class, 'registerData'])->name('register.user');
 Route::post('/signin-user', [UserController::class, 'authUser'])->name('auth.user');
 
@@ -56,9 +52,24 @@ Route::middleware('isCustomerAuth:customer')->group(function () {
     Route::get('/dashboard', function () {
         return view('user.main');
     })->name('user.dashboard');
+
+    Route::get('/product-categories', function () {
+        return view('user.productcategory');
+    })->name('user.product.category');
+
+
+    Route::get('/maincart', function () {
+        return view('user.maincart');
+    })->name('user.maincart');
+
+    Route::get('/favourites', function () {
+        return view('user.maincollection');
+    })->name('user.favourites');
+
     Route::get('/account', function () {
         return view('user.mainorder');
     })->name('user.account');
+
     Route::get('/customer-logout', [UserController::class, 'logout'])->name('customer.logout');
 });
 

@@ -3,15 +3,33 @@
 namespace App\Http\Controllers;
 
 use App\Models\User;
+use App\Models\Brand;
+use App\Models\Categories;
 use App\Models\UserDetail;
 use App\Models\Userdetails;
 use Illuminate\Http\Request;
+use App\Models\SubCategories;
+use Flasher\Prime\FlasherInterface;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Validator;
-use Flasher\Prime\FlasherInterface;
 
 class UserController extends Controller
 {
+
+    public function signinView() {
+        $categories = Categories::orderby('updated_at', 'desc')->limit(8)->get();
+        $subcategories = SubCategories::orderby('updated_at', 'desc')->limit(8)->get();
+        $brands = Brand::orderby('updated_at', 'desc')->limit(8)->get();
+        return view('user.signin', compact('categories', 'brands', 'subcategories'));
+    }
+
+    public function signupView() {
+        $categories = Categories::orderby('updated_at', 'desc')->limit(8)->get();
+        $subcategories = SubCategories::orderby('updated_at', 'desc')->limit(8)->get();
+        $brands = Brand::orderby('updated_at', 'desc')->limit(8)->get();
+        return view('user.signup', compact('categories', 'brands', 'subcategories'));
+    }
+ 
     public function registerData(Request $request)
     {
         $validations = Validator::make($request->all(), [

@@ -24,32 +24,32 @@
                 <button class="btn btn-close" id="closeSidebar">X</button>
             </div>
             <div class="text-center">
-                <a href="main.php" class="d-block mb-3">
+                <a href="{{ route('user.dashboard') }}" class="d-block mb-3">
                     <div class="tagnew">
                         <i class="fa fa-home"></i>
                         Home
                     </div>
                 </a>
-                <a href="productcategory.php" class="d-block mb-3">
+                <a href="{{ route('user.product.category') }}" class="d-block mb-3">
                     <div class="tagnew">
                         <i class="fa fa-shopping-bag"></i>
                         Products
                     </div>
                 </a>
-                <a href="maincart.php" class="d-block mb-3">
+                <a href="{{ route('user.maincart') }}" class="d-block mb-3">
                     <div class="tagnew">
                         <i class="fa fa-shopping-cart"></i>
                         Cart
                     </div>
                 </a>
 
-                <a href="maincollection.php">
+                <a href="{{ route('user.favourites') }}">
                     <div class="tagnew">
                         <i class="fa fa-heart"></i>
                         Favourites
                     </div>
                 </a>
-                <a href="mainorder.php" class="d-block mb-3">
+                <a href="{{ route('user.account') }}" class="d-block mb-3">
                     <div class="tagnew">
                         <i class="fa fa-user"></i>
                         Orders
@@ -62,26 +62,26 @@
         <div class="row text-center">
             <div class="col-12 d-none d-md-block">
                 <div class="mainhed">
-                    <a href="main.php">
+                    <a href="{{ route('user.dashboard') }}">
                         <div class="tagnew">
                             <i class="fa fa-home"></i>
                             Home
                         </div>
                     </a>
-                    <a href="productcategory.php">
+                    <a href="{{ route('user.product.category') }}">
                         <div class="tagnew">
                             <i class="fa fa-shopping-bag"></i>
                             Products
                         </div>
                     </a>
-                    <a href="maincart.php">
+                    <a href="{{ route('user.maincart') }}">
                         <div class="tagnew">
                             <i class="fa fa-shopping-cart"></i>
                             Cart
                         </div>
                     </a>
 
-                    <a href="maincollection.php">
+                    <a href="{{ route('user.favourites') }}">
                         <div class="tagnew">
                             <i class="fa fa-heart"></i>
                             Favourites

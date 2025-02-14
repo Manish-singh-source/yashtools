@@ -122,7 +122,7 @@
                                         <div class="thumbnail">
                                             <a href="single-product.php">
                                                 <img data-sal="fade" data-sal-delay="100" data-sal-duration="1500"
-                                                    src="assets\images\product\1.png" alt="Product Images">
+                                                    src="https://placehold.co/500x500" alt="Product Images">
                                             </a>
                                         </div>
                                         <div class="product-content">

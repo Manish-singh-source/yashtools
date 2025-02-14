@@ -45,7 +45,7 @@
 <![endif]-->
     <a href="#top" class="back-to-top" id="backto-top"><i class="fal fa-arrow-up"></i></a>
 
-    @include('user.header')
+    <?php include 'header.php'; ?>
 
     <main class="main-wrapper">
         <!-- Start Breadcrumb Area  -->
@@ -196,4 +196,4 @@
         <!-- End Cart Area  -->
 
     </main>
-@include('user.footer')
+    <?php include 'footer.php'; ?>
