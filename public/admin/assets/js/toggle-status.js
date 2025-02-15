@@ -24,7 +24,7 @@ $(document).ready(function () {
             },
             success: function (data) {
                 if (data.status) {
-                    console.log(data.status)
+                    console.log(data.status);
                     // console.log(data.message)
                     // console.log(data.data)
                     location.reload();

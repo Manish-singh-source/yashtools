@@ -13,6 +13,8 @@ use App\Http\Controllers\Admin\FetchAPIs;
 use App\Http\Controllers\Admin\ProductsController;
 use App\Http\Controllers\Admin\SubCategoryController;
 use App\Http\Controllers\User\HomeController;
+use App\Http\Controllers\User\UserProfileController;
+use App\Http\Controllers\User\UserShopController;
 
 // user routes: Authentication 
 Route::get('/signin', [UserController::class, 'signinView'])->name('signin');
@@ -32,9 +34,7 @@ Route::get('/cart', function () {
     return view('user.cart');
 })->name('user.cart');
 
-Route::get('/contact-us', function () {
-    return view('user.contact');
-})->name('user.contact.us');
+Route::get('/contact-us', [HomeController::class, 'contactUs'])->name('user.contact.us');
 
 Route::get('/events', [HomeController::class, 'events'])->name('user.event');
 
@@ -51,9 +51,7 @@ Route::middleware('isCustomerAuth:customer')->group(function () {
         return view('user.main');
     })->name('user.dashboard');
 
-    Route::get('/product-categories', function () {
-        return view('user.productcategory');
-    })->name('user.product.category');
+    Route::get('/product-categories', [UserShopController::class, 'productShop'])->name('user.product.category');
 
 
     Route::get('/maincart', function () {
@@ -64,9 +62,8 @@ Route::middleware('isCustomerAuth:customer')->group(function () {
         return view('user.maincollection');
     })->name('user.favourites');
 
-    Route::get('/account', function () {
-        return view('user.mainorder');
-    })->name('user.account');
+    Route::get('/account', [UserProfileController::class, 'userProfile'])->name('user.account');
+    Route::post('/update-account', [UserProfileController::class, 'updateProfile'])->name('user.update.account');
 
     Route::get('/customer-logout', [UserController::class, 'logout'])->name('customer.logout');
 });

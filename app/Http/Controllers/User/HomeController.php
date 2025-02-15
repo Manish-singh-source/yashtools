@@ -68,4 +68,13 @@ class HomeController extends Controller
         $events = Event::get();
         return view('user.event', compact('categories', 'brands', 'subcategories', 'events'));
     }
+
+    public function contactUs()
+    {
+        $categories = Categories::orderby('updated_at', 'desc')->limit(8)->get();
+        $subcategories = SubCategories::orderby('updated_at', 'desc')->limit(8)->get();
+        $brands = Brand::orderby('updated_at', 'desc')->limit(8)->get();
+        $events = Event::get();
+        return view('user.contact', compact('categories', 'brands', 'subcategories', 'events'));
+    }
 }

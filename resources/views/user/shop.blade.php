@@ -80,7 +80,8 @@
                                     <div
                                         class="category-select align-items-center justify-content-lg-end justify-content-between">
                                         <!-- Start Single Select  -->
-                                        <span class="filter-results">Showing 1-12 of 84 results</span>
+                                        <span class="filter-results">Showing {{ $products->firstItem() }}-{{ $products->lastItem() }} of {{ $products->total() }}
+                                            results</span>
                                         <select class="single-select">
                                             <option>Short by Latest</option>
                                             <option>Short by Name</option>

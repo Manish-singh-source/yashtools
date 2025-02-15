@@ -1,33 +1,7 @@
-<!DOCTYPE html>
-<html lang="en">
+@extends('user.layouts.masterlayout')
 
-<head>
-    <meta charset="utf-8">
-    <meta http-equiv="x-ua-compatible" content="ie=edge">
-    <title>Yash Tools A HOUSE OF DIE & MOLD POLISHING & FINISHING PRODUCTSYash Tools A HOUSE OF DIE & MOLD POLISHING &
-        FINISHING PRODUCTS</title>
-    <meta name="robots" content="noindex, follow" />
-    <meta name="description" content="">
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <!-- Favicon -->
-    <link rel="shortcut icon" type="image/x-icon" href="assets/images/favicon.png">
-
-    <!-- CSS
-        ============================================ -->
-
-    <!-- Bootstrap CSS -->
-    <link rel="stylesheet" href="assets/css/vendor/bootstrap.min.css">
-    <link rel="stylesheet" href="assets/css/vendor/font-awesome.css">
-    <link rel="stylesheet" href="assets/css/vendor/flaticon/flaticon.css">
-    <link rel="stylesheet" href="assets/css/vendor/slick.css">
-    <link rel="stylesheet" href="assets/css/vendor/slick-theme.css">
-    <link rel="stylesheet" href="assets/css/vendor/jquery-ui.min.css">
-    <link rel="stylesheet" href="assets/css/vendor/sal.css">
-    <link rel="stylesheet" href="assets/css/vendor/magnific-popup.css">
-    <link rel="stylesheet" href="assets/css/vendor/base.css">
-    <link rel="stylesheet" href="assets/css/style.min.css">
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css">
-        <style>
+@section('style')
+    <style>
         .date-filter {
             padding: 8px;
             font-size: 16px;
@@ -45,13 +19,10 @@
         .fs {
             font-size: 20px;
         }
-
-       
     </style>
-</head>
+@endsection
 
-<body>
-    @include('user.mainheader')
+@section('content')
     <main class="main-wrapper">
         <!-- Start Breadcrumb Area  -->
         <div class="axil-breadcrumb-area">
@@ -80,7 +51,7 @@
                         <div class="media">
 
                             <div class="media-body">
-                                <h5 class="title mb-0">Hello Annie</h5>
+                                <h5 class="title mb-0">Hello {{ $user->fullname }}</h5>
                                 <span class="joining-date">Yash Member Since Sep 2020</span>
                             </div>
                         </div>
@@ -97,7 +68,8 @@
 
 
                                         <a class="nav-item nav-link" data-bs-toggle="tab" href="#nav-account" role="tab"
-                                            aria-selected="false"><i class="fas fa-user"></i>Account Details</a>
+                                            aria-selected="false"><i class="fas fa-user"></i>Account
+                                            Details</a>
                                         <a class="nav-item nav-link" href="{{ route('customer.logout') }}"><i
                                                 class="fal fa-sign-out"></i>Logout</a>
                                     </div>
@@ -108,8 +80,9 @@
                             <div class="tab-content">
                                 <div class="tab-pane fade show active" id="nav-dashboard" role="tabpanel">
                                     <div class="axil-dashboard-overview">
-                                        <div class="welcome-text">Hello Annie (not <span>Annie?</span> <a
-                                                href="sign-in.php">Log Out</a>)</div>
+                                        <div class="welcome-text">Hello {{ $user->fullname }} (not
+                                            <span>{{ $user->fullname }}?</span> <a href="sign-in.php">Log Out</a>)
+                                        </div>
                                         <p>From your account dashboard you can view your recent orders, manage your
                                             shipping and billing addresses, and edit your password and account details.
                                         </p>
@@ -170,7 +143,7 @@
                                                                 <i class="fas fa-file-pdf fs"></i>
                                                             </a></td>
                                                         <td>Track ID</td>
-                                                        
+
                                                         <td>Complete</td>
                                                     </tr>
                                                     <tr>
@@ -180,8 +153,8 @@
                                                         <td><a href="#" target="_blank">
                                                                 <i class="fas fa-file-pdf fs"></i>
                                                             </a></td>
-                                                            <td>Track ID</td>
-                                                        
+                                                        <td>Track ID</td>
+
                                                         <td>Incomplete</td>
                                                     </tr>
                                                     <tr>
@@ -191,8 +164,8 @@
                                                         <td><a href="#" target="_blank">
                                                                 <i class="fas fa-file-pdf fs"></i>
                                                             </a></td>
-                                                            <td>Track ID</td>
-                                                        
+                                                        <td>Track ID</td>
+
                                                         <td>Complete</td>
                                                     </tr>
                                                     <tr>
@@ -202,8 +175,8 @@
                                                         <td><a href="#" target="_blank">
                                                                 <i class="fas fa-file-pdf fs"></i>
                                                             </a></td>
-                                                            <td>Track ID</td>
-                                                        
+                                                        <td>Track ID</td>
+
                                                         <td>Complete</td>
                                                     </tr>
                                                     <tr>
@@ -213,8 +186,7 @@
                                                         <td><a href="#" target="_blank">
                                                                 <i class="fas fa-file-pdf fs"></i>
                                                             </a></td>
-                                                            <td>Track ID</td>
-                                                        
+                                                        <td>Track ID</td>
                                                         <td>Complete</td>
                                                     </tr>
                                                 </tbody>
@@ -225,61 +197,69 @@
                                 <div class="tab-pane fade" id="nav-account" role="tabpanel">
                                     <div class="col-lg-12">
                                         <div class="axil-dashboard-account">
-                                            <form class="account-details-form">
+                                            <form class="account-details-form" action="{{ route('user.update.account') }}"
+                                                method="POST">
+                                                @csrf
+                                                @method('POST')
+
                                                 <div class="row">
                                                     <div class="col-lg-6">
                                                         <div class="form-group">
-                                                            <label>First Name</label>
-                                                            <input type="text" class="form-control" value="Annie">
+                                                            <label>Full Name</label>
+                                                            <input type="hidden" class="form-control" name="userId"
+                                                                value="{{ $user->id }}">
+                                                            <input type="text" class="form-control" name="fullname"
+                                                                value="{{ $user->fullname }}">
                                                         </div>
                                                     </div>
                                                     <div class="col-lg-6">
                                                         <div class="form-group">
-                                                            <label>Last Name</label>
-                                                            <input type="text" class="form-control" value="Mario">
+                                                            <label>Username</label>
+                                                            <input type="text" class="form-control" name="username"
+                                                                value="{{ $user->username }}">
                                                         </div>
                                                     </div>
                                                     <div class="col-md-6 form-group">
                                                         <label>Company Name</label>
-                                                        <input type="text" class="form-control" name="company_name">
-                                                    </div>
-                                                    <div class="col-md-6 form-group">
-                                                        <label>First Name</label>
-                                                        <input type="text" class="form-control" name="first_name">
-                                                    </div>
-                                                    <div class="col-md-6 form-group">
-                                                        <label>Last Name</label>
-                                                        <input type="text" class="form-control" name="last_name">
+                                                        <input type="text" class="form-control"
+                                                            value="{{ $user->userDetail->company_name }}"
+                                                            name="company_name">
                                                     </div>
                                                     <div class="col-md-6 form-group">
                                                         <label>Company Address</label>
-                                                        <textarea class="form-control" name="company_address"></textarea>
+                                                        <textarea class="form-control" name="company_address">{{ $user->userDetail->company_address }}</textarea>
                                                     </div>
                                                     <div class="col-md-6 form-group">
                                                         <label>Mobile Number</label>
-                                                        <input type="text" class="form-control" name="mobile_number">
+                                                        <input type="text" class="form-control"
+                                                            value="{{ $user->mobile_number }}" name="mobile_number">
                                                     </div>
                                                     <div class="col-md-6 form-group">
                                                         <label>GSTIN</label>
-                                                        <input type="text" class="form-control" name="gstin">
+                                                        <input type="text" class="form-control"
+                                                            value="{{ $user->userDetail->gstin }}" name="gstin">
                                                     </div>
                                                     <div class="col-md-6 form-group">
                                                         <label>City</label>
-                                                        <input type="text" class="form-control" name="city">
+                                                        <input type="text" class="form-control"
+                                                            value="{{ $user->userDetail->city }}" name="city">
                                                     </div>
                                                     <div class="col-md-6 form-group">
                                                         <label>State</label>
-                                                        <input type="text" class="form-control" name="state">
+                                                        <input type="text" class="form-control"
+                                                            value="{{ $user->userDetail->state }}" name="state">
                                                     </div>
                                                     <div class="col-md-6 form-group">
                                                         <label>Country</label>
-                                                        <input type="text" class="form-control" name="country">
+                                                        <input type="text" class="form-control"
+                                                            value="{{ $user->userDetail->country }}" name="country">
                                                     </div>
                                                     <div class="col-md-6 form-group">
                                                         <label>Pin Code</label>
-                                                        <input type="text" class="form-control" name="pin_code">
+                                                        <input type="text" class="form-control"
+                                                            value="{{ $user->userDetail->pincode }}" name="pin_code">
                                                     </div>
-                                                    <div class="col-12">
+                                                    {{-- <div class="col-12">
                                                         <h5 class="title">Password Change</h5>
                                                         <div class="form-group">
                                                             <label>Password</label>
@@ -294,10 +274,11 @@
                                                             <label>Confirm New Password</label>
                                                             <input type="password" class="form-control">
                                                         </div>
-                                                        <div class="form-group mb--0">
-                                                            <input type="submit" class="axil-btn" value="Save Changes">
-                                                        </div>
+                                                    </div> --}}
+                                                    <div class="form-group mb--0">
+                                                        <input type="submit" class="axil-btn" value="Save Changes">
                                                     </div>
+
                                                 </div>
                                             </form>
                                         </div>
@@ -314,33 +295,4 @@
 
     </main>
     <!-- Start Footer Area  -->
-
-
-
-    <!-- JS
-============================================ -->
-    <!-- Modernizer JS -->
-    <script src="assets/js/vendor/modernizr.min.js"></script>
-    <!-- jQuery JS -->
-    <script src="assets/js/vendor/jquery.js"></script>
-    <!-- Bootstrap JS -->
-    <script src="assets/js/vendor/popper.min.js"></script>
-    <script src="assets/js/vendor/bootstrap.min.js"></script>
-    <script src="assets/js/vendor/slick.min.js"></script>
-    <script src="assets/js/vendor/js.cookie.js"></script>
-    <!-- <script src="assets/js/vendor/jquery.style.switcher.js"></script> -->
-    <script src="assets/js/vendor/jquery-ui.min.js"></script>
-    <script src="assets/js/vendor/jquery.ui.touch-punch.min.js"></script>
-    <script src="assets/js/vendor/jquery.countdown.min.js"></script>
-    <script src="assets/js/vendor/sal.js"></script>
-    <script src="assets/js/vendor/jquery.magnific-popup.min.js"></script>
-    <script src="assets/js/vendor/imagesloaded.pkgd.min.js"></script>
-    <script src="assets/js/vendor/isotope.pkgd.min.js"></script>
-    <script src="assets/js/vendor/counterup.js"></script>
-    <script src="assets/js/vendor/waypoints.min.js"></script>
-
-    <!-- Main JS -->
-    <script src="assets/js/main.js"></script>
-</body>
-
-</html>
+@endsection

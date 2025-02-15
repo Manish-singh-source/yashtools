@@ -20,6 +20,7 @@ class EventSeeder extends Seeder
                 'events_image' => 'tech_conference.jpg',
                 'events_date' => '2025-03-15',
                 'events_tag' => 'Technology',
+                'event_slug' => 'tech-conference-2025',
             ],
             [
                 'events_title' => 'Digital Marketing Summit',
@@ -27,6 +28,7 @@ class EventSeeder extends Seeder
                 'events_image' => 'digital_marketing.jpg',
                 'events_date' => '2025-04-10',
                 'events_tag' => 'Marketing',
+                'event_slug' => 'digital-marketing-summit',
             ],
             [
                 'events_title' => 'Startup Expo 2025',
@@ -34,6 +36,7 @@ class EventSeeder extends Seeder
                 'events_image' => 'startup_expo.jpg',
                 'events_date' => '2025-06-20',
                 'events_tag' => 'Business',
+                'event_slug' => 'startup-expo-2025',
             ],
             [
                 'events_title' => 'AI & Machine Learning Workshop',
@@ -41,6 +44,7 @@ class EventSeeder extends Seeder
                 'events_image' => 'ai_ml_workshop.jpg',
                 'events_date' => '2025-07-05',
                 'events_tag' => 'Artificial Intelligence',
+                'event_slug' => 'ai-machine-learning-workshop',
             ],
             [
                 'events_title' => 'Cyber Security Conference',
@@ -48,6 +52,7 @@ class EventSeeder extends Seeder
                 'events_image' => 'cyber_security.jpg',
                 'events_date' => '2025-09-12',
                 'events_tag' => 'Cyber Security',
+                'event_slug' => 'cyber-security-conference',
             ],
         ];
 

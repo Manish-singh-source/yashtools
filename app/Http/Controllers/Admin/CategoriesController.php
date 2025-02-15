@@ -80,7 +80,7 @@ class CategoriesController extends Controller
         $validations = Validator::make($request->all(), [
             'category_id' => 'required',
             'category_name' => 'required|unique:categories,category_name,' . $request->category_id . '',
-            "categoryImage" => "required|image",
+            "categoryImage" => "image",
         ]);
 
         if ($validations->fails()) {
