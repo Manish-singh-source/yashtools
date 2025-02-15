@@ -172,9 +172,19 @@ Route::middleware(AdminAuthMiddleware::class . ':admin,superadmin')->group(funct
 
     Route::get('/product-details/{id}', [ProductsController::class, 'detailProduct'])->name('admin.product.details');
     Route::post('/fetch-sub-categories', [FetchAPIs::class, 'fetchSubCategories'])->name('admin.fetch.sub.categories')->middleware('web');
-    Route::post('/toggle-status', [FetchAPIs::class, 'toggleStatus'])->middleware('web');
-    Route::post('/toggle-customer-status', [FetchAPIs::class, 'toggleStatusCustomer'])->middleware('web');
-    Route::post('/delete-selected', [FetchAPIs::class, 'deleteSelected'])->middleware('web');
+
+    // Toggle Status
+    Route::post('/toggle-banner-table', [FetchAPIs::class, 'toggleBannerStatus'])->middleware('web');
+    Route::post('/toggle-product-table', [FetchAPIs::class, 'toggleProductStatus'])->middleware('web');
+    Route::post('/toggle-customers-list', [FetchAPIs::class, 'toggleStatusCustomer'])->middleware('web');
+
+    // Delete Multiple Selected
+    Route::post('/delete-banner-table', [FetchAPIs::class, 'deleteSelected'])->middleware('web');
+    Route::post('/delete-category-table', [FetchAPIs::class, 'deleteSelectedCategories'])->middleware('web');
+    Route::post('/delete-sub-category-table', [FetchAPIs::class, 'deleteSelectedSubCategories'])->middleware('web');
+    Route::post('/delete-brand-table', [FetchAPIs::class, 'deleteSelectedBrands'])->middleware('web');
+    Route::post('/delete-event-table', [FetchAPIs::class, 'deleteSelectedEvents'])->middleware('web');
+    Route::post('/delete-product-table', [FetchAPIs::class, 'deleteSelectedProducts'])->middleware('web');
 
     // Profile Routes
     Route::get('/profile', [AdminController::class, 'profileView'])->name('admin.profile');

@@ -15,34 +15,27 @@
                         <div class="card-header">
                             <h4 class="card-title">Slider List</h4>
                         </div>
-                        <div class="dropdown text-sans-serif text-end"><button
-                            class="btn btn-primary tp-btn-light sharp" type="button"
-                            id="order-dropdown-0" data-bs-toggle="dropdown"
-                            data-boundary="viewport" aria-haspopup="true"
-                            aria-expanded="false"><span><svg xmlns="http://www.w3.org/2000/svg"
-                                    xmlns:xlink="http://www.w3.org/1999/xlink" width="18px"
-                                    height="18px" viewBox="0 0 24 24" version="1.1">
-                                    <g stroke="none" stroke-width="1" fill="none"
-                                        fill-rule="evenodd">
-                                        <rect x="0" y="0" width="24" height="24"></rect>
-                                        <circle fill="#000000" cx="5" cy="12"
-                                            r="2">
-                                        </circle>
-                                        <circle fill="#000000" cx="12" cy="12"
-                                            r="2">
-                                        </circle>
-                                        <circle fill="#000000" cx="19" cy="12"
-                                            r="2">
-                                        </circle>
-                                    </g>
-                                </svg></span></button>
-                        <div class="dropdown-menu dropdown-menu-end border py-0"
-                            aria-labelledby="order-dropdown-0">
-                            <div class="py-2"><a class="dropdown-item" id="deleteAll">Delete
-                                    All</a>
+                        <div class="dropdown text-sans-serif text-end"><button class="btn btn-primary tp-btn-light sharp"
+                                type="button" id="order-dropdown-0" data-bs-toggle="dropdown" data-boundary="viewport"
+                                aria-haspopup="true" aria-expanded="false"><span><svg xmlns="http://www.w3.org/2000/svg"
+                                        xmlns:xlink="http://www.w3.org/1999/xlink" width="18px" height="18px"
+                                        viewBox="0 0 24 24" version="1.1">
+                                        <g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+                                            <rect x="0" y="0" width="24" height="24"></rect>
+                                            <circle fill="#000000" cx="5" cy="12" r="2">
+                                            </circle>
+                                            <circle fill="#000000" cx="12" cy="12" r="2">
+                                            </circle>
+                                            <circle fill="#000000" cx="19" cy="12" r="2">
+                                            </circle>
+                                        </g>
+                                    </svg></span></button>
+                            <div class="dropdown-menu dropdown-menu-end border py-0" aria-labelledby="order-dropdown-0">
+                                <div class="py-2"><a class="dropdown-item" id="deleteAll">Delete
+                                        All</a>
+                                </div>
                             </div>
                         </div>
-                    </div>
                         <div class="card-body">
                             <div class="table-responsive">
                                 <table id="projectlist" class="display">
@@ -58,6 +51,7 @@
                                             <th>Slider</th>
                                             <th>Title</th>
                                             <th>Description</th>
+                                            <th>Status</th>
                                             <th>Action</th>
                                         </tr>
                                     </thead>
@@ -79,6 +73,17 @@
                                                 </td>
                                                 <td>{{ $banner->banner_title ?? 'Not Added' }} </td>
                                                 <td>{{ $banner->banner_description ?? 'Not Added' }} </td>
+                                                <td>
+                                                    <div
+                                                        class="form-check
+                                                                form-switch">
+                                                        <input type="hidden" value="{{ $banner->status }}" class="status">
+                                                        <input class="form-check-input toggleSwitch" type="checkbox"
+                                                            role="switch" id="flexSwitchCheckChecked"
+                                                            value="{{ $banner->id }}"
+                                                            @if ($banner->status == '1') checked @endif>
+                                                    </div>
+                                                </td>
                                                 <td>
                                                     <div class="d-flex">
                                                         <a href="{{ route('admin.edit.banner', $banner->id) }}"
@@ -128,5 +133,6 @@
 
     <script src="{{ asset('assets/vendor/ckeditor/ckeditor.js') }}" type="text/javascript"></script>
     <script src="{{ asset('assets/vendor/dropzone/dist/dropzone.js') }}" type="text/javascript"></script>
+    <script src="{{ asset('admin/assets/js/toggle-status.js') }}"></script>
     <script src="{{ asset('admin/assets/js/delete-selected.js') }}"></script>
 @endsection

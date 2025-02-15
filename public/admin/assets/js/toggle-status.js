@@ -6,19 +6,27 @@ $(document).ready(function () {
     });
 
     $(document).on("click", ".toggleSwitch", function () {
-        let productId = parseInt($(this).val()) || 0;
-        let product_status =
-            parseInt($(this).siblings(".product_status").val()) || 0;
+        let id = parseInt($(this).val()) || 0;
+        let status = $(this).siblings(".status").val() || 0;
 
+        const currentUrl = window.location.pathname;
+        const newUrl = "/toggle-" + currentUrl.replace(/^\/+/, "");
+        console.log(newUrl);
+
+        console.log(id);
+        console.log(status);
         $.ajax({
-            url: "/toggle-status",
+            url: newUrl,
             type: "POST",
             data: {
-                productId: productId,
-                status: product_status,
+                statusId: id,
+                status: status,
             },
             success: function (data) {
                 if (data.status) {
+                    console.log(data.status)
+                    // console.log(data.message)
+                    // console.log(data.data)
                     location.reload();
                 }
             },
