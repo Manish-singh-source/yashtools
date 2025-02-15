@@ -44,11 +44,11 @@
             <div class="container">
                 <div class="header-navbar">
                     <div class="header-brand">
-                        <a href="index.php" class="logo logo-dark">
-                            <img src="assets/images/logo/logo.png" alt="Site Logo">
+                        <a href="{{ route('user.home') }}" class="logo logo-dark">
+                            <img src="{{ asset('assets/images/logo/logo.png') }}" alt="Site Logo">
                         </a>
-                        <a href="index.php" class="logo logo-light">
-                            <img src="assets/images/logo/logo-light.png" alt="Site Logo">
+                        <a href="{{ route('user.home') }}" class="logo logo-light">
+                            <img src="{{ asset('assets/images/logo/logo-light.png') }}" alt="Site Logo">
                         </a>
                     </div>
                     <div class="header-main-nav">
@@ -56,7 +56,7 @@
                         <nav class="mainmenu-nav">
                             <button class="mobile-close-btn mobile-nav-toggler"><i class="fas fa-times"></i></button>
                             <div class="mobile-nav-brand">
-                                <a href="index.php" class="logo">
+                                <a href="{{ route('user.home') }}" class="logo">
                                     <img src="assets/images/logo/logo.png" alt="Site Logo">
                                 </a>
                             </div>
@@ -162,8 +162,8 @@
                     <div class="col-md-3 col-sm-12">
                         <div class="axil-footer-widget">
                             <div class="logo mb--30">
-                                <a href="index.php">
-                                    <img class="light-logo" src="assets/images/logo/logo-light.png"
+                                <a href="{{ route('user.home') }}">
+                                    <img class="light-logo" src="{{ asset('assets/images/logo/logo-light.png') }}"
                                         alt="Logo Images">
                                 </a>
                             </div>
@@ -325,8 +325,9 @@
     <script src="{{ asset('assets/js/main.js') }}"></script>
 
     <!-- Main JS -->
-    <script src="assets/js/main.js"></script>
+    <script src="{{ asset('assets/js/main.js') }}"></script>
 
+    
 </body>
 
 </html>

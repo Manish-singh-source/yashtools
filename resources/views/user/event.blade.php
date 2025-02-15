@@ -66,8 +66,8 @@
         }
 
         /**
-                                                * Slider Instance
-                                                */
+                                                            * Slider Instance
+                                                            */
 
         .swiper {
             -webkit-user-select: none;
@@ -97,8 +97,8 @@
         }
 
         /**
-                                                * Slider Navigation
-                                                */
+                                                            * Slider Navigation
+                                                            */
 
         .slider-nav {
             display: flex;
@@ -152,8 +152,8 @@
         }
 
         /**
-                                                * Slider Pagination
-                                                */
+                                                            * Slider Pagination
+                                                            */
 
         .slider-pagination {
             display: flex;
@@ -183,8 +183,8 @@
         }
 
         /**
-                                                * Slider Item
-                                                */
+                                                            * Slider Item
+                                                            */
 
         .swiper-slide {
             width: auto;
@@ -635,7 +635,7 @@
                                     <!-- Slider Content -->
                                     <div class="emotions-slider__slider swiper">
                                         <div class="emotions-slider__wrapper swiper-wrapper">
-
+                                            {{-- 
                                             <!-- Slider: Slide 1 -->
                                             <div class="emotions-slider__slide swiper-slide">
                                                 <div class="emotions-slider__item emotions-slider-item">
@@ -658,108 +658,43 @@
                                                         </div>
                                                     </div>
                                                 </div>
-                                            </div>
+                                            </div> --}}
 
-                                            <!-- Slider: Slide 2 -->
-                                            <div class="emotions-slider__slide swiper-slide">
-                                                <div class="emotions-slider__item emotions-slider-item">
-                                                    <div class="emotions-slider-item__badge">Popular Now</div>
+                                            @foreach ($events as $event)
+                                                <!-- Slider: Slide 2 -->
+                                                <div class="emotions-slider__slide swiper-slide">
+                                                    <div class="emotions-slider__item emotions-slider-item">
+                                                        @if ($event->events_tag != '')
+                                                            <div class="emotions-slider-item__badge">
+                                                                {{ $event->events_tag }}
+                                                            </div>
+                                                        @endif
 
-                                                    <div class="emotions-slider-item__image">
-                                                        <img src="https://bato-web-agency.github.io/bato-shared/img/slider-1/slide-2.jpg"
-                                                            alt="Flames of Passion" />
-                                                    </div>
+                                                        <div class="emotions-slider-item__image">
+                                                            <img src="uploads/events/{{ $event->events_image }}"
+                                                                alt="Flames of Passion" />
+                                                        </div>
 
-                                                    <div class="emotions-slider-item__content">
+                                                        <div class="emotions-slider-item__content">
 
 
-                                                        <div class="emotions-slider-item__info">
-                                                            <h3 class="emotions-slider-item__title">
-                                                                Flames of Passion
-                                                            </h3>
-                                                            <p>October 13, 2022</p>
-                                                            <div class="emotions-slider-item__text">
-                                                                This piece represents the fire of inspiration burning
-                                                                within us all. Feel the warmth of emotions in a swirl of
-                                                                red and yellow tones.
+                                                            <div class="emotions-slider-item__info">
+                                                                <h3 class="emotions-slider-item__title">
+                                                                    {{ $event->events_title }}
+                                                                </h3>
+                                                                @php
+                                                                    $date = $event->events_date;
+                                                                    $formattedDate = date('M d, Y', strtotime($date));
+                                                                @endphp
+                                                                <p>{{ $formattedDate }}</p>
+                                                                <div class="emotions-slider-item__text">
+                                                                    {{ $event->events_description }}
+                                                                </div>
                                                             </div>
                                                         </div>
                                                     </div>
                                                 </div>
-                                            </div>
-
-                                            <!-- Slider: Slide 3 -->
-                                            <div class="emotions-slider__slide swiper-slide">
-                                                <div class="emotions-slider__item emotions-slider-item">
-                                                    <div class="emotions-slider-item__image">
-                                                        <img src="https://bato-web-agency.github.io/bato-shared/img/slider-1/slide-3.jpg"
-                                                            alt="Oceans of Serenity" />
-                                                    </div>
-
-                                                    <div class="emotions-slider-item__content">
-
-                                                        <div class="emotions-slider-item__info">
-                                                            <h3 class="emotions-slider-item__title">
-                                                                Oceans of Serenity
-                                                            </h3>
-                                                            <p>October 13, 2022</p>
-                                                            <div class="emotions-slider-item__text">
-                                                                Immerse yourself in the depths of calm and harmony. Blue
-                                                                waves of art take you into a world of meditation and
-                                                                inner balance.
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <!-- Slider: Slide 3 -->
-                                            <div class="emotions-slider__slide swiper-slide">
-                                                <div class="emotions-slider__item emotions-slider-item">
-                                                    <div class="emotions-slider-item__image">
-                                                        <img src="https://bato-web-agency.github.io/bato-shared/img/slider-1/slide-3.jpg"
-                                                            alt="Oceans of Serenity" />
-                                                    </div>
-
-                                                    <div class="emotions-slider-item__content">
-
-                                                        <div class="emotions-slider-item__info">
-                                                            <h3 class="emotions-slider-item__title">
-                                                                Oceans of Serenity
-                                                            </h3>
-                                                            <p>October 13, 2022</p>
-                                                            <div class="emotions-slider-item__text">
-                                                                Immerse yourself in the depths of calm and harmony. Blue
-                                                                waves of art take you into a world of meditation and
-                                                                inner balance.
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <!-- Slider: Slide 3 -->
-                                            <div class="emotions-slider__slide swiper-slide">
-                                                <div class="emotions-slider__item emotions-slider-item">
-                                                    <div class="emotions-slider-item__image">
-                                                        <img src="https://bato-web-agency.github.io/bato-shared/img/slider-1/slide-3.jpg"
-                                                            alt="Oceans of Serenity" />
-                                                    </div>
-
-                                                    <div class="emotions-slider-item__content">
-
-                                                        <div class="emotions-slider-item__info">
-                                                            <h3 class="emotions-slider-item__title">
-                                                                Oceans of Serenity
-                                                            </h3>
-                                                            <p>October 13, 2022</p>
-                                                            <div class="emotions-slider-item__text">
-                                                                Immerse yourself in the depths of calm and harmony. Blue
-                                                                waves of art take you into a world of meditation and
-                                                                inner balance.
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
+                                            @endforeach
                                         </div>
                                     </div>
 

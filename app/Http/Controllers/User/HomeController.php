@@ -8,6 +8,7 @@ use App\Models\Categories;
 use Illuminate\Http\Request;
 use App\Models\SubCategories;
 use App\Http\Controllers\Controller;
+use App\Models\Event;
 use Illuminate\Support\Facades\File;
 use Maatwebsite\Excel\Facades\Excel;
 use PhpOffice\PhpSpreadsheet\IOFactory;
@@ -57,5 +58,14 @@ class HomeController extends Controller
         }
 
         return view('user.single-product', compact('categories', 'brands', 'subcategories', 'selectedProduct'));
+    }
+
+    public function events()
+    {
+        $categories = Categories::orderby('updated_at', 'desc')->limit(8)->get();
+        $subcategories = SubCategories::orderby('updated_at', 'desc')->limit(8)->get();
+        $brands = Brand::orderby('updated_at', 'desc')->limit(8)->get();
+        $events = Event::get();
+        return view('user.event', compact('categories', 'brands', 'subcategories', 'events'));
     }
 }

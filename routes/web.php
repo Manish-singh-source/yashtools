@@ -36,9 +36,7 @@ Route::get('/contact-us', function () {
     return view('user.contact');
 })->name('user.contact.us');
 
-Route::get('/events', function () {
-    return view('user.event');
-})->name('user.event');
+Route::get('/events', [HomeController::class, 'events'])->name('user.event');
 
 Route::get('/faq', function () {
     return view('user.faq');
