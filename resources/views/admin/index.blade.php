@@ -21,7 +21,8 @@
                                     <div class="d-flex justify-content-between">
                                         <h6 class="mb-0">Total Customer</h6>
                                     </div>
-                                    <span class="data-value">{{ $totalCustomers }}</span>
+                                    <span
+                                        class="data-value">{{ $totalCustomers > 1000 ? $totalCustomers . ' K' : $totalCustomers }}</span>
                                 </div>
                                 <div class="card-body p-0 pb-3">
                                     <div id="handleOrderChart"></div>
@@ -34,7 +35,8 @@
                                     <div class="d-flex justify-content-between">
                                         <h6 class="mb-0">Total Enquiry</h6>
                                     </div>
-                                    <span class="data-value">₹34.2k</span>
+                                    <span
+                                        class="data-value">{{ $totalEnquiries > 1000 ? $totalEnquiries . ' K' : $totalEnquiries }}</span>
                                 </div>
                                 <div class="card-body p-0 pb-3">
                                     <div id="handleOrderChart"></div>
@@ -47,7 +49,8 @@
                                     <div class="d-flex justify-content-between">
                                         <h6 class="mb-0">Total Ordered</h6>
                                     </div>
-                                    <span class="data-value">₹92k</span>
+                                    <span
+                                        class="data-value">{{ $totalOrders > 1000 ? $totalOrders . ' K' : $totalOrders }}</span>
                                 </div>
                                 <div class="card-body p-0 pb-3">
                                     <div id="handleOrderChart"></div>

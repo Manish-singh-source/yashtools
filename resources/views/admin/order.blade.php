@@ -66,7 +66,7 @@
                                                         <strong>{{ $order->enquiry_id }}</strong></a>
                                                 </td>
                                                 <td class="py-2">
-                                                    <a href="#">
+                                                    <a href="{{ route('customer.overview', $order->customer->id) }}">
                                                         <strong>{{ $order->customer->fullname }}</strong><br><a
                                                             href="mailto:ricky@example.com">{{ $order->customer->email }}</a>
                                                 </td>
@@ -150,9 +150,7 @@
                                                             Antony</strong><br><a
                                                             href="mailto:ricky@example.com">ricky@example.com</a>
                                                 </td>
-
                                                 <td class="py-2">20/04/2020</td>
-
                                                 <td class="py-2 text-end"><span class="badge badge-success">Completed<span
                                                             class="ms-1 fa fa-check"></span></span>
                                                 </td>

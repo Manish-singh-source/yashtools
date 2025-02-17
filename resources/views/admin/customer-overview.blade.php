@@ -2,8 +2,8 @@
 
 @section('content-body')
     <!--**********************************
-                                                                            Content body start
-                                                                        ***********************************-->
+                                                                                                        Content body start
+                                                                                                    ***********************************-->
     <div class="content-body default-height">
         <div class="container-fluid">
 
@@ -117,7 +117,12 @@
                                         <tbody>
                                             @forelse ($customerDetail->enquiries as $products)
                                                 <tr>
-                                                    <td>{{ $products->enquiry_id }}</td>
+                                                    <td>
+                                                        <a href="{{ route('admin.order.details', $products->id) }}">
+
+                                                            {{ $products->enquiry_id }}
+                                                        </a>
+                                                    </td>
                                                     <td>Nov 01, 2024</td>
                                                     <td><span
                                                             class="badge badge-sm badge-success light border-0">Completed</span>
@@ -125,7 +130,8 @@
                                                 </tr>
                                             @empty
                                                 <tr>
-                                                    <td>There are no orders for this customer</td>
+                                                    <td colspan="3" class="text-center">There are no orders for this
+                                                        customer</td>
                                                 </tr>
                                             @endforelse
                                         </tbody>

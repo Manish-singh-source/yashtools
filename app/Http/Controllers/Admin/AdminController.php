@@ -5,6 +5,8 @@ namespace App\Http\Controllers\Admin;
 use App\Models\User;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use App\Models\Enquiry;
+use App\Models\EnquiryProducts;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Validator;
@@ -15,7 +17,9 @@ class AdminController extends Controller
     public function viewDashboard()
     {
         $totalCustomers = User::where('role', 'customer')->count();
-        return view('admin.index', compact('totalCustomers'));
+        $totalEnquiries = Enquiry::count();
+        $totalOrders = EnquiryProducts::count();
+        return view('admin.index', compact('totalCustomers', 'totalEnquiries', 'totalOrders'));
     }
 
     public function viewAdmin()
