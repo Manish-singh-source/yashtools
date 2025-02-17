@@ -1,20 +1,20 @@
 <?php
 
-use App\Http\Controllers\Admin\AdminController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\UserController;
+use App\Http\Controllers\Admin\FetchAPIs;
 use App\Http\Middleware\AdminAuthMiddleware;
-use App\Http\Controllers\Admin\BannerController;
+use App\Http\Controllers\User\HomeController;
+use App\Http\Controllers\Admin\AdminController;
 use App\Http\Controllers\Admin\BrandController;
+use App\Http\Controllers\Admin\EventController;
+use App\Http\Controllers\Admin\BannerController;
+use App\Http\Controllers\User\UserShopController;
+use App\Http\Controllers\Admin\ProductsController;
 use App\Http\Controllers\Admin\CustomersController;
 use App\Http\Controllers\Admin\CategoriesController;
-use App\Http\Controllers\Admin\EventController;
-use App\Http\Controllers\Admin\FetchAPIs;
-use App\Http\Controllers\Admin\ProductsController;
-use App\Http\Controllers\Admin\SubCategoryController;
-use App\Http\Controllers\User\HomeController;
 use App\Http\Controllers\User\UserProfileController;
-use App\Http\Controllers\User\UserShopController;
+use App\Http\Controllers\Admin\SubCategoryController;
 
 // user routes: Authentication 
 Route::get('/signin', [UserController::class, 'signinView'])->name('signin');
@@ -26,7 +26,7 @@ Route::post('/signin-user', [UserController::class, 'authUser'])->name('auth.use
 // user routes: pages
 Route::get('/', [HomeController::class, 'homeView'])->name('user.home');
 Route::get('/shop', [HomeController::class, 'shopView'])->name('user.shop');
-Route::get('/single-product/{id}', [HomeController::class, 'singleProductView'])->name('user.single.product');
+Route::get('/single-product/{slug}', [HomeController::class, 'singleProductView'])->name('user.single.product');
 
 Route::get('/about-us',  [HomeController::class, 'homeView'])->name('user.about.us');
 
@@ -53,7 +53,6 @@ Route::middleware('isCustomerAuth:customer')->group(function () {
 
     Route::get('/product-categories', [UserShopController::class, 'productShop'])->name('user.product.category');
 
-
     Route::get('/maincart', function () {
         return view('user.maincart');
     })->name('user.maincart');
@@ -64,8 +63,14 @@ Route::middleware('isCustomerAuth:customer')->group(function () {
 
     Route::get('/account', [UserProfileController::class, 'userProfile'])->name('user.account');
     Route::post('/update-account', [UserProfileController::class, 'updateProfile'])->name('user.update.account');
+    Route::get('/product-detail-info/{slug}', [UserShopController::class, 'productDetails'])->name('user.product.details');
 
     Route::get('/customer-logout', [UserController::class, 'logout'])->name('customer.logout');
+
+
+
+    // Add to Cart Through API 
+    Route::post('/add-to-favourite', [FetchAPIs::class, 'addToFav'])->middleware('web');
 });
 
 
@@ -114,7 +119,7 @@ Route::middleware(AdminAuthMiddleware::class . ':admin,superadmin')->group(funct
     Route::post('/add-banner', [BannerController::class, 'addBanner'])->name('admin.add.banner');
     Route::get('/banner-table', [BannerController::class, 'viewBannerTable'])->name('admin.view.banner.table');
     Route::delete('/delete-banner', [BannerController::class, 'deleteBanner'])->name('admin.delete.banner');
-    Route::get('/edit-banner/{id}', [BannerController::class, 'editBanner'])->name('admin.edit.banner');
+    Route::get('/edit-banner/{slug}', [BannerController::class, 'editBanner'])->name('admin.edit.banner');
     Route::put('/update-banner', [BannerController::class, 'updateBanner'])->name('admin.update.banner');
 
     // Categories Routes
@@ -122,7 +127,7 @@ Route::middleware(AdminAuthMiddleware::class . ':admin,superadmin')->group(funct
     Route::post('/add-category', [CategoriesController::class, 'addCategory'])->name('admin.add.category');
     Route::get('/category-table', [CategoriesController::class, 'viewCategoryTable'])->name('admin.table.category');
     Route::delete('/delete-category', [CategoriesController::class, 'deleteCategory'])->name('admin.delete.category');
-    Route::get('/edit-category/{id}', [CategoriesController::class, 'editCategory'])->name('admin.edit.category');
+    Route::get('/edit-category/{slug}', [CategoriesController::class, 'editCategory'])->name('admin.edit.category');
     Route::put('/update-category', [CategoriesController::class, 'updateCategory'])->name('admin.update.category');
 
 
@@ -131,7 +136,7 @@ Route::middleware(AdminAuthMiddleware::class . ':admin,superadmin')->group(funct
     Route::post('/add-sub-category', [SubCategoryController::class, 'addSubCategory'])->name('admin.add.subcategory');
     Route::get('/sub-category-table', [SubCategoryController::class, 'viewSubCategoryTable'])->name('admin.table.subcategory');
     Route::delete('/delete-sub-category', [SubCategoryController::class, 'deleteSubCategory'])->name('admin.delete.subcategory');
-    Route::get('/edit-sub-category/{id}', [SubCategoryController::class, 'editSubCategory'])->name('admin.edit.subcategory');
+    Route::get('/edit-sub-category/{slug}', [SubCategoryController::class, 'editSubCategory'])->name('admin.edit.subcategory');
     Route::put('/update-sub-category', [SubCategoryController::class, 'updateSubCategory'])->name('admin.update.subcategory');
 
     // Brands Routes
@@ -139,7 +144,7 @@ Route::middleware(AdminAuthMiddleware::class . ':admin,superadmin')->group(funct
     Route::post('/add-brand', [BrandController::class, 'addBrand'])->name('admin.add.brand');
     Route::get('/brand-table', [BrandController::class, 'viewBrandTable'])->name('admin.table.brand');
     Route::delete('/delete-brand', [BrandController::class, 'deleteBrand'])->name('admin.delete.brand');
-    Route::get('/edit-brand/{id}', [BrandController::class, 'editBrand'])->name('admin.edit.brand');
+    Route::get('/edit-brand/{slug}', [BrandController::class, 'editBrand'])->name('admin.edit.brand');
     Route::put('/update-brand', [BrandController::class, 'updateBrand'])->name('admin.update.brand');
 
 
@@ -155,7 +160,7 @@ Route::middleware(AdminAuthMiddleware::class . ':admin,superadmin')->group(funct
     // Multi Admin Routes
     Route::get('/multi-admin', [AdminController::class, 'viewAdmin'])->name('admin.view.multi.admin');
     Route::post('/add-admin', [AdminController::class, 'addAdmin'])->name('add.admin');
-    Route::get('/edit-admin/{id}', [AdminController::class, 'editAdmin'])->name('admin.edit.admin');
+    Route::get('/edit-admin/{slug}', [AdminController::class, 'editAdmin'])->name('admin.edit.admin');
     Route::delete('/delete-admin', [AdminController::class, 'deleteAdmin'])->name('delete.admin');
     Route::put('/update-admin', [AdminController::class, 'updateAdmin'])->name('admin.update.admin');
 
@@ -164,10 +169,10 @@ Route::middleware(AdminAuthMiddleware::class . ':admin,superadmin')->group(funct
     Route::post('/add-product', [ProductsController::class, 'addProducts'])->name('admin.add.product');
     Route::get('/product-table', [ProductsController::class, 'viewProductTable'])->name('admin.table.product');
     Route::delete('/delete-product', [ProductsController::class, 'deleteProduct'])->name('admin.delete.product');
-    Route::get('/edit-product/{id}', [ProductsController::class, 'editProduct'])->name('admin.edit.product');
+    Route::get('/edit-product/{slug}', [ProductsController::class, 'editProduct'])->name('admin.edit.product');
     Route::put('/update-product', [ProductsController::class, 'updateProduct'])->name('admin.update.product');
 
-    Route::get('/product-details/{id}', [ProductsController::class, 'detailProduct'])->name('admin.product.details');
+    Route::get('/product-detail/{id}', [ProductsController::class, 'detailProduct'])->name('admin.product.details');
     Route::post('/fetch-sub-categories', [FetchAPIs::class, 'fetchSubCategories'])->name('admin.fetch.sub.categories')->middleware('web');
 
     // Toggle Status

@@ -12,6 +12,7 @@ use Illuminate\Http\Request;
 use App\Models\SubCategories;
 use Flasher\Prime\FlasherInterface;
 use App\Http\Controllers\Controller;
+use App\Models\Favourite;
 
 class FetchAPIs extends Controller
 {
@@ -299,5 +300,45 @@ class FetchAPIs extends Controller
         ]);
     }
 
+
+
+
+
+
+
+
+
+    // addToFav 
+    public function addToFav(Request $request) {
+        $productId = $request->productId;
+
+        if (!$productId) {
+            return response()->json([
+                'status' => false,
+                'message' => 'Product ID is required.',
+            ], 400);
+        }
+
+        $saveFav = new Favourite();
+        $saveFav->user_id = $request->userId; 
+        $saveFav->product_id = $request->product_id; 
+        $saveFav->status = $request->status; 
+        $saveFav->save();
+
+
+        if (!$saveFav) {
+            return response()->json([
+                'status' => false,
+                'message' => 'No Product found.',
+                'data' => $saveFav,
+            ], 404);
+        }
+
+        flash()->success('Added to Favourites Successfully.');
+        return response()->json([
+            'status' => true,
+            'message' => 'Added to Favourites Successfully.',
+        ]);
+    }
 
 }

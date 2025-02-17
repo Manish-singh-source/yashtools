@@ -83,14 +83,14 @@
 
                                                 <td>
                                                     <div class="d-flex">
-                                                        <a href="{{ route('admin.edit.brand', $brand->id) }}"
+                                                        <a href="{{ route('admin.edit.brand', $brand->brand_slug) }}"
                                                             class="btn btn-primary shadow btn-xs sharp me-1"><i
                                                                 class="fa fa-pencil"></i></a>
                                                         <form action="{{ route('admin.delete.brand') }}" method="POST">
                                                             @csrf
                                                             @method('DELETE')
-                                                            <input type="hidden" name="brandId"
-                                                                value="{{ $brand->id }}">
+                                                            <input type="hidden" name="brandSlug"
+                                                                value="{{ $brand->brand_slug }}">
                                                             <button type="submit"
                                                                 class="btn btn-danger shadow btn-xs sharp">
                                                                 <i class="fa fa-trash"></i>

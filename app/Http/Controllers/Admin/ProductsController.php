@@ -121,7 +121,7 @@ class ProductsController extends Controller
 
     public function deleteProduct(Request $request)
     {
-        $customer = Product::find($request->productId);
+        $customer = Product::where('product_slug', $request->product_slug)->first();
         if (!empty($customer->product_catalouge)) {
             File::delete(public_path('/uploads/products/catalogue/' . $customer->product_catalouge));
         }
@@ -144,13 +144,13 @@ class ProductsController extends Controller
     }
 
 
-    public function editProduct(String $id)
+    public function editProduct(String $slug)
     {
         $brands = Brand::get();
         $categories = Categories::get();
         $subcategories = SubCategories::get();
 
-        $selectedProduct = Product::find($id);
+        $selectedProduct = Product::where('product_slug', $slug)->first();
         return view('admin.edit-product', compact('brands', 'categories', 'subcategories', 'selectedProduct'));
     }
 

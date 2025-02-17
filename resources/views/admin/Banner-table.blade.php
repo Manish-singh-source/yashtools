@@ -86,14 +86,14 @@
                                                 </td>
                                                 <td>
                                                     <div class="d-flex">
-                                                        <a href="{{ route('admin.edit.banner', $banner->id) }}"
+                                                        <a href="{{ route('admin.edit.banner', $banner->slug) }}"
                                                             class="btn btn-primary shadow btn-xs sharp me-1"><i
                                                                 class="fa fa-pencil"></i></a>
                                                         <form action="{{ route('admin.delete.banner') }}" method="POST">
                                                             @csrf
                                                             @method('DELETE')
-                                                            <input type="hidden" name="bannerId"
-                                                                value="{{ $banner->id }}">
+                                                            <input type="hidden" name="bannerSlug"
+                                                                value="{{ $banner->slug }}">
                                                             <button type="submit"
                                                                 class="btn btn-danger shadow btn-xs sharp">
                                                                 <i class="fa fa-trash"></i>

@@ -34,12 +34,12 @@ class HomeController extends Controller
         return view('user.shop', compact('categories', 'brands', 'subcategories', 'products'));
     }
 
-    public function singleProductView(String $id)
+    public function singleProductView(String $slug)
     {
         $categories = Categories::orderby('updated_at', 'desc')->limit(8)->get();
         $subcategories = SubCategories::orderby('updated_at', 'desc')->limit(8)->get();
         $brands = Brand::orderby('updated_at', 'desc')->limit(8)->get();
-        $selectedProduct = Product::with('brands')->find($id);
+        $selectedProduct = Product::with('brands')->where('product_slug', $slug)->first();
 
         if (!empty($selectedProduct->product_specs)) {
             $path = public_path('uploads/products/product_specs/' . $selectedProduct->product_specs);

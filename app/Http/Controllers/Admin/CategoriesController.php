@@ -56,7 +56,7 @@ class CategoriesController extends Controller
 
     public function deleteCategory(Request $request)
     {
-        $category = Categories::find($request->bannerId);
+        $category = Categories::where('category_slug', $request->categorySlug)->first();
         if (!empty($category->category_image)) {
             File::delete(public_path('/uploads/categories/' . $category->category_image));
         }
@@ -69,9 +69,9 @@ class CategoriesController extends Controller
         return back()->with('error', 'Please Try Again.');
     }
 
-    public function editCategory(String $id)
+    public function editCategory(String $slug)
     {
-        $category = Categories::find($id);
+        $category = Categories::where('category_slug', $slug)->first();
         return view('admin.edit-category', compact('category'));
     }
 

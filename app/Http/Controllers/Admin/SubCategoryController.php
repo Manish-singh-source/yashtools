@@ -55,7 +55,7 @@ class SubCategoryController extends Controller
 
     public function deleteSubCategory(Request $request)
     {
-        $subcategory = SubCategories::find($request->subcategoryId);
+        $subcategory = SubCategories::where('subcategory_slug', $request->subcategorySlug)->first();
         if (!empty($subcategory->subcategory_image)) {
             File::delete(public_path('/uploads/subcategories/' . $subcategory->subcategory_image));
         }
@@ -68,9 +68,9 @@ class SubCategoryController extends Controller
         return back()->with('error', 'Please Try Again.');
     }
 
-    public function editSubCategory(String $id)
+    public function editSubCategory(String $slug)
     {
-        $selectedSubcategory = SubCategories::with('category')->find($id);
+        $selectedSubcategory = SubCategories::with('category')->where('subcategory_slug', $slug)->first();
         $categories =  Categories::get();
         return view('admin.edit-sub-category', compact('selectedSubcategory', 'categories'));
     }

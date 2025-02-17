@@ -90,7 +90,7 @@
 
                                                 <td>
                                                     <div class="d-flex">
-                                                        <a href="{{ route('admin.edit.subcategory', $subcategory->id) }}"
+                                                        <a href="{{ route('admin.edit.subcategory', $subcategory->subcategory_slug) }}"
                                                             class="btn btn-primary shadow btn-xs sharp me-1"><i
                                                                 class="fa fa-pencil"></i></a>
                                                         {{-- <a href="#" class="btn btn-danger shadow btn-xs sharp"><i
@@ -99,8 +99,8 @@
                                                             method="POST">
                                                             @csrf
                                                             @method('DELETE')
-                                                            <input type="hidden" name="subcategoryId"
-                                                                value="{{ $subcategory->id }}">
+                                                            <input type="hidden" name="subcategorySlug"
+                                                                value="{{ $subcategory->subcategory_slug }}">
                                                             <button type="submit"
                                                                 class="btn btn-danger shadow btn-xs sharp">
                                                                 <i class="fa fa-trash"></i>

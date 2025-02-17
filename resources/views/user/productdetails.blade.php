@@ -1,33 +1,10 @@
-<!doctype html>
-<html class="no-js" lang="en">
+@extends('user.layouts.masterlayout')
 
+@section('csrf-token')
+    <meta name="csrf-token" content="{{ csrf_token() }}">
+@endsection
 
-<head>
-    <meta charset="utf-8">
-    <meta http-equiv="x-ua-compatible" content="ie=edge">
-    <title>Yash Tools</title>
-    <meta name="robots" content="noindex, follow" />
-    <meta name="description" content="">
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <!-- Favicon -->
-    <link rel="shortcut icon" type="image/x-icon" href="assets/images/favicon.png">
-
-    <!-- CSS
-    ============================================ -->
-
-    <!-- Bootstrap CSS -->
-    <link rel="stylesheet" href="assets/css/vendor/bootstrap.min.css">
-    <link rel="stylesheet" href="assets/css/vendor/font-awesome.css">
-    <link rel="stylesheet" href="assets/css/vendor/flaticon/flaticon.css">
-    <link rel="stylesheet" href="assets/css/vendor/slick.css">
-    <link rel="stylesheet" href="assets/css/vendor/slick-theme.css">
-    <link rel="stylesheet" href="assets/css/vendor/jquery-ui.min.css">
-    <link rel="stylesheet" href="assets/css/vendor/sal.css">
-    <link rel="stylesheet" href="assets/css/vendor/magnific-popup.css">
-    <link rel="stylesheet" href="assets/css/vendor/base.css">
-    <link rel="stylesheet" href="assets/css/style.min.css">
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css">
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css">
+@section('style')
     <style>
         input[type=text1] {
             font-size: var(--font-size-b2);
@@ -246,15 +223,9 @@
             /* Focus border color */
         }
     </style>
-</head>
+@endsection
 
-
-<body class="sticky-header">
-    <!--[if lte IE 9]>
-    <p class="browserupgrade">You are using an <strong>outdated</strong> browser. Please <a href="https://browsehappy.com/">upgrade your browser</a> to improve your experience and security.</p>
-<![endif]-->
-    <a href="#top" class="back-to-top" id="backto-top"><i class="fal fa-arrow-up"></i></a>
-    <?php include 'mainheader.php'; ?>
+@section('content')
     <!-- End Header -->
     <main class="main-wrapper">
         <!-- Start Shop Area  -->
@@ -275,26 +246,27 @@
                             <div class="single-product-thumbnail-wrap zoom-gallery">
                                 <div class="single-product-thumbnail product-large-thumbnail-3 axil-product">
                                     <div class="thumbnail">
-                                        <a href="https://dq2c38sk8yrcb.cloudfront.net/product_group/line_drawing/VB1.1LineDrawing.jpg"
+                                        <a href="{{ asset('uploads/products/thumbnails/' . $selectedProduct->product_thumbain) }}"
                                             class="popup-zoom">
-                                            <img src="https://dq2c38sk8yrcb.cloudfront.net/product_group/line_drawing/VB1.1LineDrawing.jpg"
+                                            <img src="{{ asset('uploads/products/thumbnails/' . $selectedProduct->product_thumbain) }}"
                                                 alt="Product Images">
                                         </a>
                                     </div>
                                 </div>
-                                <div class="product-quick-view position-view">
+                                {{-- <div class="product-quick-view position-view">
                                     <a href="https://dq2c38sk8yrcb.cloudfront.net/product_group/line_drawing/VB1.1LineDrawing.jpg"
                                         class="popup-zoom">
                                         <i class="far fa-search-plus"></i>
                                     </a>
-                                </div>
+                                </div> --}}
                             </div>
                         </div>
                         <div class="col-lg-5 mb--40">
                             <div class="single-product-content">
                                 <div class="inner">
-                                    <h2 class="product-title margbot ">Step Ejector pins</h2>
-                                    <h6 class="title margbot">Brand: <span class="spnc">Yashtools</span></h6>
+                                    <h2 class="product-title margbot">{{ $selectedProduct->product_name }}</h2>
+                                    <h6 class="title margbot">Brand: <span
+                                            class="spnc">{{ $selectedProduct->brands->brand_name }}</span></h6>
                                     <div class="custom-dropdown margbot" id="dropdown">
                                         <div class="dropdown-selected">
                                             Part Number
@@ -316,22 +288,27 @@
                                         <div class="pro-qty"><input type="text" value="1"></div>
                                     </div>
                                     <ul class="product-meta margbot">
-                                        <li><i class="fal fa-check"></i>In stock</li>
+                                        @if ($selectedProduct->product_quantity > 0)
+                                            <li><i class="fal fa-check"></i>In stock</li>
+                                        @else
+                                            <li class="text-danger"><i class="fal fa-times"></i>Out of stock</li>
+                                        @endif
                                     </ul>
-                                    <h6 class="title margbot">Days to Dispatch :<span class="spnc"> Same day</span>
+                                    <h6 class="title margbot">Days to Dispatch :<span class="spnc">
+                                            {{ $selectedProduct->product_dispatch }}</span>
                                     </h6>
                                     <!-- End Product Action Wrapper  -->
                                     <div class="product-action-wrapper margbot">
 
                                         <!-- Start Product Action  -->
                                         <ul class="product-action d-flex-center mb--0">
-                                            <li class="add-to-cart"><a href="checkout.php"
-                                                    class="axil-btn btn-bg-secondary" contenteditable="false"
-                                                    style="cursor: pointer;"><i class="far fa-envelope"></i>
+                                            <li class="add-to-cart"><a href="checkout.php" class="axil-btn btn-bg-secondary"
+                                                    contenteditable="false" style="cursor: pointer;"><i
+                                                        class="far fa-envelope"></i>
                                                     Send Enquiry</a></li>
-                                            <li class="add-to-cart"><a href="cart.php"
-                                                    class="axil-btn btn-bg-primary" contenteditable="false"
-                                                    style="cursor: pointer;"><i class="far fa-shopping-cart"></i> Add
+                                            <li class="add-to-cart"><a href="cart.php" class="axil-btn btn-bg-primary"
+                                                    contenteditable="false" style="cursor: pointer;"><i
+                                                        class="far fa-shopping-cart"></i> Add
                                                     to Cart</a></li>
 
 
@@ -342,21 +319,31 @@
                                     <div class="manish1">
 
                                         <ul class="icon-list-row">
-                                            <li>
-                                                <i class="fas fa-pencil-ruler"></i><a href="">Drawing</a>
-                                            </li>
-                                            <li>
-                                                <i class="fas fa-file-pdf"></i> <a href="">PDF</a>
-                                            </li>
-                                            <li>
-                                                <i class="fas fa-book"></i> <a href="">Catalogue</a>
-                                            </li>
+                                            @isset($selectedProduct->product_drawing)
+                                                <li>
+                                                    <i class="fas fa-pencil-ruler"></i><a target="_blank"
+                                                        href="{{ asset('uploads/products/drawing/' . $selectedProduct->product_drawing) }}">Drawing</a>
+                                                </li>
+                                            @endisset
+                                            @isset($selectedProduct->product_pdf)
+                                                <li>
+                                                    <i class="fas fa-file-pdf"></i> <a target="_blank"
+                                                        href="{{ asset('uploads/products/pdf/' . $selectedProduct->product_pdf) }}">PDF</a>
+                                                </li>
+                                            @endisset
+                                            @isset($selectedProduct->product_catalouge)
+                                                <li>
+                                                    <i class="fas fa-book"></i> <a target="_blank"
+                                                        href="{{ asset('uploads/products/catalogue/' . $selectedProduct->product_catalouge) }}">Catalogue</a>
+                                                </li>
+                                            @endisset
                                         </ul>
                                         <ul class="icon-list-row">
                                             <li>
                                                 <i class="fab fa-whatsapp"></i> <a href="">WhatsApp Enquiry</a>
                                             </li>
-                                            <li><a class="wishlist-btn" id="wishlistBtn">
+                                            <li><a class="wishlist-btn" id="wishlistBtn"
+                                                    data-productid="{{ $selectedProduct->id }}">
                                                     <i class="fas fa-heart"></i> Add to Favourites
                                                 </a></li>
                                         </ul>
@@ -374,8 +361,8 @@
                 <div class="container">
                     <ul class="nav tabs" id="myTab" role="tablist">
                         <li class="nav-item" role="presentation">
-                            <a class="active" id="description-tab" data-bs-toggle="tab" href="#description"
-                                role="tab" aria-controls="description" aria-selected="true">Specifications</a>
+                            <a class="active" id="description-tab" data-bs-toggle="tab" href="#description" role="tab"
+                                aria-controls="description" aria-selected="true">Specifications</a>
                         </li>
                         <li class="nav-item " role="presentation">
                             <a id="additional-info-tab" data-bs-toggle="tab" href="#additional-info" role="tab"
@@ -390,173 +377,48 @@
                                     <!-- End .col-lg-6 -->
                                     <div class="col-lg-12 mb--30">
                                         <div class="table-responsive">
-                                            <table>
-                                                <thead>
-                                                    <tr>
-                                                        <th>
-                                                            Code
-                                                            <select onchange="filterTable('code', this.value)">
-                                                                <option value="">All</option>
-                                                                <option value="VB1.1/001">VB1.1/001</option>
-                                                                <option value="VB1.1/002">VB1.1/002</option>
-                                                            </select>
-                                                        </th>
-                                                        <th>
-                                                            d1
-                                                            <select onchange="filterTable('d1', this.value)">
-                                                                <option value="">All</option>
-                                                                <option value="16">16</option>
-                                                            </select>
-                                                        </th>
-                                                        <th>
-                                                            d2
-                                                            <select onchange="filterTable('d2', this.value)">
-                                                                <option value="">All</option>
-                                                                <option value="22">22</option>
-                                                            </select>
-                                                        </th>
-                                                        <th>
-                                                            d3
-                                                            <select onchange="filterTable('d3', this.value)">
-                                                                <option value="">All</option>
-                                                                <option value="26">26</option>
-                                                            </select>
-                                                        </th>
-                                                        <th>
-                                                            k
-                                                            <select onchange="filterTable('k', this.value)">
-                                                                <option value="">All</option>
-                                                                <option value="6">6</option>
-                                                            </select>
-                                                        </th>
-                                                        <th>
-                                                            L
-                                                            <select onchange="filterTable('l', this.value)">
-                                                                <option value="">All</option>
-                                                                <option value="59">59</option>
-                                                            </select>
-                                                        </th>
-                                                        <th>
-                                                            L1
-                                                            <select onchange="filterTable('l1', this.value)">
-                                                                <option value="">All</option>
-                                                                <option value="25">25</option>
-                                                            </select>
-                                                        </th>
-                                                        <th>
-                                                            L2
-                                                            <select onchange="filterTable('l2', this.value)">
-                                                                <option value="">All</option>
-                                                                <option value="30">30</option>
-                                                            </select>
-                                                        </th>
-                                                        <th>
-                                                            L3
-                                                            <select onchange="filterTable('l3', this.value)">
-                                                                <option value="">All</option>
-                                                                <option value="9">9</option>
-                                                            </select>
-                                                        </th>
-                                                        <th>Action</th>
-                                                    </tr>
-                                                </thead>
-                                                <tbody>
-                                                    <tr data-code="VB1.1/001" data-d1="16" data-d2="22"
-                                                        data-d3="26" data-k="6" data-l="59" data-l1="25"
-                                                        data-l2="30" data-l3="9">
-                                                        <td data-label="Code">VB1.1/001</td>
-                                                        <td data-label="d1">16</td>
-                                                        <td data-label="d2">22</td>
-                                                        <td data-label="d3">26</td>
-                                                        <td data-label="k">6</td>
-                                                        <td data-label="L">59</td>
-                                                        <td data-label="L1">25</td>
-                                                        <td data-label="L2">30</td>
-                                                        <td data-label="L3">9</td>
-                                                        <td data-label="Action"><button class="action-btn">3D</button>
-                                                        </td>
-                                                    </tr>
-                                                    <tr data-code="VB1.1/002" data-d1="16" data-d2="22"
-                                                        data-d3="26" data-k="6" data-l="64" data-l1="25"
-                                                        data-l2="35" data-l3="9">
-                                                        <td data-label="Code">VB1.1/002</td>
-                                                        <td data-label="d1">16</td>
-                                                        <td data-label="d2">22</td>
-                                                        <td data-label="d3">26</td>
-                                                        <td data-label="k">6</td>
-                                                        <td data-label="L">64</td>
-                                                        <td data-label="L1">25</td>
-                                                        <td data-label="L2">35</td>
-                                                        <td data-label="L3">9</td>
-                                                        <td data-label="Action"><button class="action-btn">3D</button>
-                                                        </td>
-                                                    </tr>
-                                                </tbody>
-                                                <tbody>
-                                                    <tr data-code="VB1.1/001" data-d1="16" data-d2="22"
-                                                        data-d3="26" data-k="6" data-l="59" data-l1="25"
-                                                        data-l2="30" data-l3="9">
-                                                        <td data-label="Code">VB1.1/001</td>
-                                                        <td data-label="d1">16</td>
-                                                        <td data-label="d2">22</td>
-                                                        <td data-label="d3">26</td>
-                                                        <td data-label="k">6</td>
-                                                        <td data-label="L">59</td>
-                                                        <td data-label="L1">25</td>
-                                                        <td data-label="L2">30</td>
-                                                        <td data-label="L3">9</td>
-                                                        <td data-label="Action"><button class="action-btn">3D</button>
-                                                        </td>
-                                                    </tr>
-                                                    <tr data-code="VB1.1/002" data-d1="16" data-d2="22"
-                                                        data-d3="26" data-k="6" data-l="64" data-l1="25"
-                                                        data-l2="35" data-l3="9">
-                                                        <td data-label="Code">VB1.1/002</td>
-                                                        <td data-label="d1">16</td>
-                                                        <td data-label="d2">22</td>
-                                                        <td data-label="d3">26</td>
-                                                        <td data-label="k">6</td>
-                                                        <td data-label="L">64</td>
-                                                        <td data-label="L1">25</td>
-                                                        <td data-label="L2">35</td>
-                                                        <td data-label="L3">9</td>
-                                                        <td data-label="Action"><button class="action-btn">3D</button>
-                                                        </td>
-                                                    </tr>
-                                                </tbody>
-                                                <tbody>
-                                                    <tr data-code="VB1.1/001" data-d1="16" data-d2="22"
-                                                        data-d3="26" data-k="6" data-l="59" data-l1="25"
-                                                        data-l2="30" data-l3="9">
-                                                        <td data-label="Code">VB1.1/001</td>
-                                                        <td data-label="d1">16</td>
-                                                        <td data-label="d2">22</td>
-                                                        <td data-label="d3">26</td>
-                                                        <td data-label="k">6</td>
-                                                        <td data-label="L">59</td>
-                                                        <td data-label="L1">25</td>
-                                                        <td data-label="L2">30</td>
-                                                        <td data-label="L3">9</td>
-                                                        <td data-label="Action"><button class="action-btn">3D</button>
-                                                        </td>
-                                                    </tr>
-                                                    <tr data-code="VB1.1/002" data-d1="16" data-d2="22"
-                                                        data-d3="26" data-k="6" data-l="64" data-l1="25"
-                                                        data-l2="35" data-l3="9">
-                                                        <td data-label="Code">VB1.1/002</td>
-                                                        <td data-label="d1">16</td>
-                                                        <td data-label="d2">22</td>
-                                                        <td data-label="d3">26</td>
-                                                        <td data-label="k">6</td>
-                                                        <td data-label="L">64</td>
-                                                        <td data-label="L1">25</td>
-                                                        <td data-label="L2">35</td>
-                                                        <td data-label="L3">9</td>
-                                                        <td data-label="Action"><button class="action-btn">3D</button>
-                                                        </td>
-                                                    </tr>
-                                                </tbody>
-                                            </table>
+                                            @if (isset($sheetData) && count($sheetData) > 0)
+                                                <table>
+                                                    <thead>
+                                                        <tr>
+                                                            @foreach ($sheetData[0] as $column)
+                                                                <th>{{ $column }}</th>
+                                                            @endforeach
+                                                            <th>Action</th>
+                                                        </tr>
+                                                    </thead>
+                                                    <tbody>
+                                                        @foreach (array_slice($sheetData, 1) as $row)
+                                                            <tr data-code="{{ $row[0] }}"
+                                                                data-d1="{{ $row[1] }}"
+                                                                data-d2="{{ $row[2] }}"
+                                                                data-d3="{{ $row[3] }}"
+                                                                data-k="{{ $row[4] }}"
+                                                                data-l="{{ $row[5] }}"
+                                                                data-l1="{{ $row[6] }}"
+                                                                data-l2="{{ $row[7] }}"
+                                                                data-l3="{{ $row[8] }}">
+
+                                                                <td data-label="Code">{{ $row[0] }}</td>
+                                                                <td data-label="d1">{{ $row[1] }}</td>
+                                                                <td data-label="d2">{{ $row[2] }}</td>
+                                                                <td data-label="d3">{{ $row[3] }}</td>
+                                                                <td data-label="k">{{ $row[4] }}</td>
+                                                                <td data-label="L">{{ $row[5] }}</td>
+                                                                <td data-label="L1">{{ $row[6] }}</td>
+                                                                <td data-label="L2">{{ $row[7] }}</td>
+                                                                <td data-label="L3">{{ $row[8] }}</td>
+                                                                <td>{{ $row[9] ?? '---' }}</td>
+                                                                <td data-label="Action"><button
+                                                                        class="action-btn">3D</button>
+                                                                </td>
+                                                            </tr>
+                                                        @endforeach
+                                                    </tbody>
+                                                </table>
+                                            @else
+                                                <p>No data available or the file is empty.</p>
+                                            @endif
                                         </div>
 
                                     </div>
@@ -574,11 +436,7 @@
                                 <div class="row">
                                     <div class="col-lg-12 mb--30">
                                         <div class="single-desc">
-                                            <h5 class="title">Specifications:</h5>
-                                            <p>We’ve created a full-stack structure for our working workflow processes,
-                                                were from the funny the century initial all the made, have spare to
-                                                negatives. But the structure was from the funny the century rather,
-                                                initial all the made, have spare to negatives.</p>
+                                            <p>{{ $selectedProduct->product_discription }}</p>
                                         </div>
                                     </div>
                                     <!-- End .col-lg-6 -->
@@ -609,7 +467,7 @@
                             <div class="thumbnail">
                                 <a href="single-product.php">
                                     <img data-sal="fade" data-sal-delay="100" data-sal-duration="1500"
-                                        src="assets\images\product\1.png" alt="Product Images">
+                                        src="{{ asset('assets\images\product\1.png') }}" alt="Product Images">
                                 </a>
 
                             </div>
@@ -626,7 +484,7 @@
                             <div class="thumbnail">
                                 <a href="single-product.php">
                                     <img data-sal="fade" data-sal-delay="100" data-sal-duration="1500"
-                                        src="assets\images\product\2.png" alt="Product Images">
+                                        src="{{ asset('assets\images\product\2.png') }}" alt="Product Images">
                                 </a>
 
                             </div>
@@ -643,7 +501,7 @@
                             <div class="thumbnail">
                                 <a href="single-product.php">
                                     <img data-sal="fade" data-sal-delay="100" data-sal-duration="1500"
-                                        src="assets\images\product\3.png" alt="Product Images">
+                                        src="{{ asset('assets\images\product\3.png') }}" alt="Product Images">
                                 </a>
 
                             </div>
@@ -660,7 +518,7 @@
                             <div class="thumbnail">
                                 <a href="single-product.php">
                                     <img data-sal="fade" data-sal-delay="100" data-sal-duration="1500"
-                                        src="assets\images\product\4.png" alt="Product Images">
+                                        src="{{ asset('assets\images\product\4.png') }}" alt="Product Images">
                                 </a>
 
                             </div>
@@ -678,6 +536,7 @@
         <!-- End Recently Viewed Product Area  -->
 
     </main>
+
     <script>
         const dropdown = document.getElementById('dropdown');
         const selected = dropdown.querySelector('.dropdown-selected');
@@ -728,4 +587,9 @@
             });
         }
     </script>
-    <?php include 'footer.php'; ?>
+@endsection
+
+@section('script')
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js" integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
+    <script src="{{ asset('assets/js/add-to-fav.js') }}"></script>
+@endsection

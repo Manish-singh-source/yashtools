@@ -101,7 +101,7 @@
                                 <div class="col-xl-4 col-lg-4 col-sm-6 col-12 mb--30">
                                     <div class="axil-product product-style-one">
                                         <div class="thumbnail">
-                                            <a href="{{ route('user.single.product', $product->id) }}">
+                                            <a href="{{ route('user.single.product', $product->product_slug) }}">
                                                 <img data-sal="fade" data-sal-delay="100" data-sal-duration="1500"
                                                     src="uploads/products/thumbnails/{{ $product->product_thumbain }}"
                                                     alt="Product Images">
@@ -110,7 +110,7 @@
                                         <div class="product-content">
                                             <div class="inner">
                                                 <h5 class="title"><a
-                                                        href="{{ route('user.single.product', $product->id) }}">{{ $product->product_name }}
+                                                        href="{{ route('user.single.product', $product->product_slug) }}">{{ $product->product_name }}
                                                     </a>
                                                 </h5>
                                             </div>

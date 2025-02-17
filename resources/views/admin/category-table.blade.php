@@ -74,13 +74,14 @@
                                             <td>{{ $category->products_count_count }}</td>
                                             <td>
                                                 <div class="d-flex">
-                                                    <a href="{{ route('admin.edit.category', $category->id) }}"
+                                                    <a href="{{ route('admin.edit.category', $category->category_slug) }}"
                                                         class="btn btn-primary shadow btn-xs sharp me-1"><i
                                                             class="fa fa-pencil"></i></a>
                                                     <form action="{{ route('admin.delete.category') }}" method="POST">
                                                         @csrf
                                                         @method('DELETE')
-                                                        <input type="hidden" name="bannerId" value="{{ $category->id }}">
+                                                        <input type="hidden" name="categorySlug"
+                                                            value="{{ $category->category_slug }}">
                                                         <button type="submit" class="btn btn-danger shadow btn-xs sharp">
                                                             <i class="fa fa-trash"></i>
                                                         </button>

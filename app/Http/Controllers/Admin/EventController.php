@@ -62,7 +62,7 @@ class EventController extends Controller
 
     public function deleteEvent(Request $request)
     {
-        $event = Event::find($request->eventId);
+        $event = Event::where('event_slug',$request->event_slug)->first();
         if (!empty($event->events_image)) {
             File::delete(public_path('/uploads/events/' . $event->events_image));
         }
@@ -75,9 +75,9 @@ class EventController extends Controller
         return back()->with('error', 'Please Try Again.');
     }
 
-    public function editEvent(String $id)
+    public function editEvent(String $slug)
     {
-        $selectedEvent = Event::find($id);
+        $selectedEvent = Event::where('event_slug',$slug)->first();
         return view('admin.edit-event', compact('selectedEvent'));
     }
 
@@ -88,7 +88,7 @@ class EventController extends Controller
             'eventTitle' => 'required',
             "eventDescription" => "required",
             "eventDate" => "required",
-            'eventImage' => 'required|image'
+            'eventImage' => 'image'
         ]);
 
         if ($validations->fails()) {

@@ -2,7 +2,8 @@
     <div class="container">
         <div class="row">
             <div class="col-lg-12 mobme text-center">
-                <a href="index.php"><img src="assets\images\logo\logo.png" alt=""></a>
+                <a href="{{ route('user.dashboard') }}"><img src="{{ asset('assets\images\logo\logo.png') }}"
+                        alt=""></a>
                 <a class="d-md-none" id="sidebarToggle">
                     <i class="fa fa-bars"></i> <!-- Hamburger icon -->
                 </a>

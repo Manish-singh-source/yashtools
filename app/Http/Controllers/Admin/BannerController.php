@@ -60,7 +60,7 @@ class BannerController extends Controller
 
     public function deleteBanner(Request $request)
     {
-        $banner = Banner::find($request->bannerId);
+        $banner = Banner::where('slug', $request->bannerSlug)->first();
         if (!empty($banner->banner_image)) {
             File::delete(public_path('/uploads/banner/' . $banner->banner_image));
         }
@@ -82,9 +82,9 @@ class BannerController extends Controller
         return back()->with('error', 'Please Try Again.');
     }
 
-    public function editBanner(String $id)
+    public function editBanner(String $slug)
     {
-        $banner = Banner::find($id);
+        $banner = Banner::where('slug', $slug)->first();
         return view('admin.edit-banner', compact('banner'));
     }
 

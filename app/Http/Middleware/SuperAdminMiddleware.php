@@ -16,7 +16,7 @@ class SuperAdminMiddleware
      */
     public function handle(Request $request, Closure $next, String $role): Response
     {
-        if (Auth::check() && Auth::user()->role == $role) {
+        if (Auth::check() && Auth::user()->role == $role && Auth::user()->status == 'active') {
             return $next($request);
         }
 

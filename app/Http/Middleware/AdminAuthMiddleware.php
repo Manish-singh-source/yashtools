@@ -16,7 +16,7 @@ class AdminAuthMiddleware
      */
     public function handle(Request $request, Closure $next, String ...$roles): Response
     {
-        if (Auth::check()) {
+        if (Auth::check() && Auth::user()->status == 'active') {
             // Check if the user’s role matches any of the roles passed in
             if (in_array(Auth::user()->role, $roles)) {
                 return $next($request);

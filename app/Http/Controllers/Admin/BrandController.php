@@ -53,7 +53,7 @@ class BrandController extends Controller
 
     public function deleteBrand(Request $request)
     {
-        $brand = Brand::find($request->brandId);
+        $brand = Brand::where('brand_slug',$request->brandSlug)->first();
         if (!empty($brand->brand_image)) {
             File::delete(public_path('/uploads/brands/' . $brand->brand_image));
         }
@@ -65,9 +65,9 @@ class BrandController extends Controller
 
         return back()->with('error', 'Please Try Again.');
     }
-    public function editBrand(String $id)
+    public function editBrand(String $slug)
     {
-        $selectedbrand = Brand::find($id);
+        $selectedbrand = Brand::where('brand_slug', $slug)->first();
         return view('admin.edit-brand', compact('selectedbrand'));
     }
 

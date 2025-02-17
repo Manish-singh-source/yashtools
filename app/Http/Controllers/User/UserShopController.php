@@ -8,6 +8,8 @@ use App\Models\Categories;
 use Illuminate\Http\Request;
 use App\Models\SubCategories;
 use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\File;
+use Maatwebsite\Excel\Facades\Excel;
 
 class UserShopController extends Controller
 {
@@ -18,5 +20,31 @@ class UserShopController extends Controller
         $brands = Brand::orderby('updated_at', 'desc')->limit(8)->get();
         $products = Product::orderby('updated_at', 'desc')->paginate(12);
         return view('user.productcategory', compact('categories', 'brands', 'subcategories', 'products'));
+    }
+
+    public function productDetails(String $slug)
+    {
+
+        $categories = Categories::orderby('updated_at', 'desc')->limit(8)->get();
+        $subcategories = SubCategories::orderby('updated_at', 'desc')->limit(8)->get();
+        $brands = Brand::orderby('updated_at', 'desc')->limit(8)->get();
+        $selectedProduct = Product::with('brands')->where('product_slug', $slug)->orderby('updated_at', 'desc')->first();
+
+        if (!empty($selectedProduct->product_specs)) {
+            $path = public_path('uploads/products/product_specs/' . $selectedProduct->product_specs);
+
+            // dd($selectedProduct);
+            if (!file_exists($path)) {
+                die('File not found: ' . $path);
+            }
+
+            if (File::exists($path)) {
+                $data = Excel::toArray([], $path);
+                $sheetData = $data[0];
+            }
+            $spreadsheet = \PhpOffice\PhpSpreadsheet\IOFactory::load($path);
+            return view('user.productdetails', compact('categories', 'brands', 'subcategories', 'selectedProduct', 'sheetData'));
+        }
+        return view('user.productdetails', compact('categories', 'brands', 'subcategories', 'selectedProduct'));
     }
 }

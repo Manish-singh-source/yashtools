@@ -102,15 +102,15 @@
                                                 </td>
                                                 <td class="text-end">
                                                     <div class="d-flex">
-                                                        <a href="{{ route('admin.edit.product', $product->id) }}"
+                                                        <a href="{{ route('admin.edit.product', $product->product_slug) }}"
                                                             class="btn btn-primary shadow btn-xs sharp me-1"><i
                                                                 class="fa fa-pencil"></i></a>
 
                                                         <form action="{{ route('admin.delete.product') }}" method="POST">
                                                             @csrf
                                                             @method('DELETE')
-                                                            <input type="hidden" name="productId"
-                                                                value="{{ $product->id }}">
+                                                            <input type="hidden" name="product_slug"
+                                                                value="{{ $product->product_slug }}">
                                                             <button type="submit"
                                                                 class="btn btn-danger shadow btn-xs sharp">
                                                                 <i class="fa fa-trash"></i>

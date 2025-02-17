@@ -101,14 +101,14 @@
                                                 </td>
                                                 <td>
                                                     <div class="d-flex">
-                                                        <a href="{{ route('admin.edit.event', $event->id) }}"
+                                                        <a href="{{ route('admin.edit.event', $event->event_slug) }}"
                                                             class="btn btn-primary shadow btn-xs sharp me-1"><i
                                                                 class="fa fa-pencil"></i></a>
                                                         <form action="{{ route('admin.delete.event') }}" method="POST">
                                                             @csrf
                                                             @method('DELETE')
-                                                            <input type="hidden" name="eventId"
-                                                                value="{{ $event->id }}">
+                                                            <input type="hidden" name="event_slug"
+                                                                value="{{ $event->event_slug }}">
                                                             <button type="submit"
                                                                 class="btn btn-danger shadow btn-xs sharp">
                                                                 <i class="fa fa-trash"></i>
