@@ -14,15 +14,15 @@ class EnquiryTableSeeder extends Seeder
     public function run(): void
     {
         $enquiry = [
-            ['products_id' => '1' , 'enquiry_id' => '173' , 'customer_id' => '1' , 'status' => '1'],
-            ['products_id' => '2'  , 'enquiry_id' => '173' , 'customer_id' => '1', 'status' => '1'],
-            ['products_id' => '3' , 'enquiry_id' => '173' , 'customer_id' => '1', 'status' => '1'],
-            ['products_id' => '4' , 'enquiry_id' => '173' , 'customer_id' => '1', 'status' => '1'],
-            ['products_id' => '5' , 'enquiry_id' => '173' , 'customer_id' => '1', 'status' => '1'],
-            ['products_id' => '6' , 'enquiry_id' => '173' , 'customer_id' => '1', 'status' => '1'],
-            ['products_id' => '7' , 'enquiry_id' => '173' , 'customer_id' => '1' , 'status' => '1']
+            ['enquiry_id' => '90011', 'customer_id' => '1', 'status' => 'confirmed'],
+            ['enquiry_id' => '90012', 'customer_id' => '1', 'status' => 'confirmed'],
+            ['enquiry_id' => '90013', 'customer_id' => '1', 'status' => 'confirmed'],
+            ['enquiry_id' => '90014', 'customer_id' => '1', 'status' => 'confirmed'],
+            ['enquiry_id' => '90015', 'customer_id' => '1', 'status' => 'confirmed'],
+            ['enquiry_id' => '90016', 'customer_id' => '1', 'status' => 'confirmed'],
+            ['enquiry_id' => '90017', 'customer_id' => '1', 'status' => 'confirmed']
         ];
 
-        DB::table('enquiry')->insert($enquiry);
+        DB::table('enquiries')->insert($enquiry);
     }
 }
