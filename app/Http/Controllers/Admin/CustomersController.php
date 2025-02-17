@@ -30,7 +30,8 @@ class CustomersController extends Controller
 
     public function customerOverview(String $id)
     {
-        $customerDetail = User::with('userDetail')->where('role', 'customer')->find($id);
+        $customerDetail = User::with('userDetail')->with('enquiries.products')->where('role', 'customer')->find($id);
+        // dd($customerDetail);
         return view('admin.customer-overview', compact('customerDetail'));
     }
 
@@ -67,14 +68,29 @@ class CustomersController extends Controller
         $user->mobile_number = $request->mobile_number;
         $user->save();
 
-        $user->userDetail->company_name = $request->company_name;
-        $user->userDetail->company_address = $request->company_address;
-        $user->userDetail->city = $request->city;
-        $user->userDetail->state = $request->state;
-        $user->userDetail->country = $request->country;
-        $user->userDetail->pincode = $request->pin_code;
-        $user->userDetail->gstin = $request->gstin;
-        $user->userDetail->save();
+        $userdetail = UserDetail::where('user_id', $user->id)->first();
+        // dd($userdetail);
+        if (isset($userdetail)) {
+            $userdetail->company_name = $request->company_name;
+            $userdetail->company_address = $request->company_address;
+            $userdetail->city = $request->city;
+            $userdetail->state = $request->state;
+            $userdetail->country = $request->country;
+            $userdetail->pincode = $request->pin_code;
+            $userdetail->gstin = $request->gstin;
+            $userdetail->save();
+        } else {
+            $userdetail = new UserDetail();
+            $userdetail->user_id = $user->id;
+            $userdetail->company_name = $request->company_name;
+            $userdetail->company_address = $request->company_address;
+            $userdetail->city = $request->city;
+            $userdetail->state = $request->state;
+            $userdetail->country = $request->country;
+            $userdetail->pincode = $request->pin_code;
+            $userdetail->gstin = $request->gstin;
+            $userdetail->save();
+        }
 
         if ($user) {
             flash()->success('Customer Details Updated Successfully.');

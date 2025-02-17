@@ -9,6 +9,7 @@ use App\Http\Controllers\Admin\AdminController;
 use App\Http\Controllers\Admin\BrandController;
 use App\Http\Controllers\Admin\EventController;
 use App\Http\Controllers\Admin\BannerController;
+use App\Http\Controllers\EnquiryOrdersController;
 use App\Http\Controllers\User\UserShopController;
 use App\Http\Controllers\Admin\ProductsController;
 use App\Http\Controllers\Admin\CustomersController;
@@ -191,13 +192,10 @@ Route::middleware(AdminAuthMiddleware::class . ':admin,superadmin')->group(funct
     // Profile Routes
     Route::get('/profile', [AdminController::class, 'profileView'])->name('admin.profile');
     Route::post('/update-profile', [AdminController::class, 'profileUpdate'])->name('admin.profile.update');
+    
+    // Enquiry Orders
+    Route::get('/order', [EnquiryOrdersController::class, 'showOrders'])->name('admin.order');
+    Route::get('/order-details/{id}', [EnquiryOrdersController::class, 'showOrderDetails'])->name('admin.order.details');
 });
 
 
-Route::get('/order', function () {
-    return view('admin.order');
-})->name('admin.order');
-
-Route::get('/order-details', function () {
-    return view('admin.order-details');
-})->name('admin.order.details');

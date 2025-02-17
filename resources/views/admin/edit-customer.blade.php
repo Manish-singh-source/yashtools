@@ -2,8 +2,8 @@
 
 @section('content-body')
     <!--**********************************
-                                                                            Content body start
-                                                                        ***********************************-->
+                                                                                            Content body start
+                                                                                        ***********************************-->
     <div class="content-body">
         <div class="container-fluid">
             <!-- row -->
@@ -24,8 +24,11 @@
                                         <div class="mb-3">
                                             <label class="form-label" for="Name">Company Name</label>
                                             <input type="text" class="form-control"
-                                                value="{{ $customerDetail->userDetail->company_name }}" name="company_name"
-                                                id="company_name">
+                                                value="{{ $customerDetail->userDetail->company_name ?? '' }}"
+                                                name="company_name" id="company_name">
+                                            @error('company_name')
+                                                {{ $message }}
+                                            @enderror
                                         </div>
                                     </div>
                                     <div class="col-sm-6">
@@ -33,12 +36,18 @@
                                             <label class="form-label" for="Surname">Full name</label>
                                             <input type="text" class="form-control"
                                                 value="{{ $customerDetail->fullname }}" name="fullname" id="fullname">
+                                            @error('fullname')
+                                                {{ $message }}
+                                            @enderror
                                         </div>
                                     </div>
                                     <div class="col-sm-6">
                                         <div class="mb-3">
                                             <label class="form-label" for="Skills">Company Address</label>
-                                            <textarea name="company_address" class="form-control">{{ $customerDetail->userDetail->company_address }}</textarea>
+                                            <textarea name="company_address" class="form-control">{{ $customerDetail->userDetail->company_address ?? '' }}</textarea>
+                                            @error('company_address')
+                                                {{ $message }}
+                                            @enderror
                                         </div>
                                     </div>
                                     <div class="col-sm-6">
@@ -47,46 +56,64 @@
                                             <input type="number" class="form-control"
                                                 value="{{ $customerDetail->mobile_number }}" name="mobile_number"
                                                 placeholder="">
+                                            @error('mobile_number')
+                                                {{ $message }}
+                                            @enderror
                                         </div>
                                     </div>
                                     <div class="col-sm-6">
                                         <div class="mb-3">
                                             <label class="form-label" for="Specialty">GSTIN</label>
                                             <input type="text" class="form-control"
-                                                value="{{ $customerDetail->userDetail->gstin }}" name="gstin"
+                                                value="{{ $customerDetail->userDetail->gstin ?? '' }}" name="gstin"
                                                 id="Specialty">
+                                            @error('gstin')
+                                                {{ $message }}
+                                            @enderror
                                         </div>
                                     </div>
                                     <div class="col-sm-6">
                                         <div class="mb-3">
                                             <label class="form-label" for="Specialty">City</label>
                                             <input type="text" class="form-control"
-                                                value="{{ $customerDetail->userDetail->city }}" name="city"
+                                                value="{{ $customerDetail->userDetail->city ?? '' }}" name="city"
                                                 id="Specialty">
+                                            @error('city')
+                                                {{ $message }}
+                                            @enderror
                                         </div>
                                     </div>
                                     <div class="col-sm-6">
                                         <div class="mb-3">
                                             <label class="form-label" for="Specialty">State</label>
                                             <input type="text" class="form-control"
-                                                value="{{ $customerDetail->userDetail->state }}" name="state"
+                                                value="{{ $customerDetail->userDetail->state ?? '' }}" name="state"
                                                 id="Specialty">
+                                            @error('state')
+                                                {{ $message }}
+                                            @enderror
                                         </div>
                                     </div>
                                     <div class="col-sm-6">
                                         <div class="mb-3">
                                             <label class="form-label" for="Specialty">Country</label>
                                             <input type="text" class="form-control"
-                                                value="{{ $customerDetail->userDetail->country }}" name="country"
+                                                value="{{ $customerDetail->userDetail->country ?? '' }}" name="country"
                                                 id="Specialty">
+                                            @error('country')
+                                                {{ $message }}
+                                            @enderror
                                         </div>
                                     </div>
                                     <div class="col-sm-6">
                                         <div class="mb-3">
                                             <label class="form-label" for="Specialty">Pin Code</label>
                                             <input type="text" class="form-control"
-                                                value="{{ $customerDetail->userDetail->pincode }}" name="pin_code"
+                                                value="{{ $customerDetail->userDetail->pincode ?? '' }}" name="pin_code"
                                                 id="Specialty">
+                                            @error('pin_code')
+                                                {{ $message }}
+                                            @enderror
                                         </div>
                                     </div>
                                     <div class="col-sm-6">
@@ -94,6 +121,9 @@
                                             <label class="form-label" for="Email">Email address</label>
                                             <input type="text" class="form-control" value="{{ $customerDetail->email }}"
                                                 name="email" id="Email">
+                                            @error('email')
+                                                {{ $message }}
+                                            @enderror
                                         </div>
                                     </div>
                                 </div>
@@ -108,6 +138,6 @@
         </div>
     </div>
     <!--**********************************
-                                                                            Content body end
-                                                                        ***********************************-->
+                                                                                            Content body end
+                                                                                        ***********************************-->
 @endsection

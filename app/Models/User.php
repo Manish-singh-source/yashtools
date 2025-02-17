@@ -51,4 +51,9 @@ class User extends Authenticatable
     {
         return $this->hasOne(UserDetail::class, 'user_id');
     }
+
+    public function enquiries()
+    {
+        return $this->hasMany(Enquiry::class, 'customer_id');
+    }
 }

@@ -11,9 +11,11 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::table('banners', function (Blueprint $table) {
-            //
-            $table->string('slug')->unique()->nullable();
+        Schema::create('enquiry_products', function (Blueprint $table) {
+            $table->id();
+            $table->integer('enquiry_id');
+            $table->integer('product_id');
+            $table->timestamps();
         });
     }
 
@@ -22,9 +24,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::table('banners', function (Blueprint $table) {
-            //
-            $table->dropColumn('slug');
-        });
+        Schema::dropIfExists('enquiry_products');
     }
 };
