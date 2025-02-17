@@ -68,7 +68,7 @@
                                                 <div class=" position-relative ">
                                                     <div class="avatar-preview">
                                                         <div id="imagePreview"
-                                                            style="background-image: url(assets/images/no-img-avatar.png);">
+                                                            style="background-image: url({{asset('uploads/subcategories/'. $selectedSubcategory->sub_category_image) }});">
                                                         </div>
                                                     </div>
                                                     <div class="change-btn d-flex align-items-center flex-wrap">

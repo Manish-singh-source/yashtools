@@ -6,8 +6,8 @@
 
 @section('content-body')
     <!--**********************************
-                                                                                                                                                                                                    Content body start
-                                                                                                                                                                                                ***********************************-->
+                                                                                                                                                                                                                        Content body start
+                                                                                                                                                                                                                    ***********************************-->
     <div class="content-body">
         <div class="container-fluid">
 
@@ -105,7 +105,8 @@
                                         <div class="dz-default ic-message upload-img mb-3">
                                             <div class="dropzone">
                                                 <div class="fallback">
-                                                    <input type="file" accept=".xlsx, .csv, .xls" name="product_specs" multiple>
+                                                    <input type="file" accept=".xlsx, .csv, .xls" name="product_specs"
+                                                        multiple>
                                                 </div>
                                             </div>
                                         </div>
@@ -160,7 +161,7 @@
                                                 <div class=" position-relative ">
                                                     <div class="avatar-preview">
                                                         <div id="imagePreview"
-                                                            style="background-image: url(assets/images/no-img-avatar.png);">
+                                                            style="background-image: url({{ asset('uploads/products/thumbnails/' . $selectedProduct->product_thumbain) }};">
                                                         </div>
                                                     </div>
                                                     <div class="change-btn d-flex align-items-center flex-wrap">
