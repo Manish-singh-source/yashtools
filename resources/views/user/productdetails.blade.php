@@ -336,10 +336,29 @@
                                             <li>
                                                 <i class="fab fa-whatsapp"></i> <a href="">WhatsApp Enquiry</a>
                                             </li>
-                                            <li><a class="wishlist-btn" id="wishlistBtn"
-                                                    data-productid="{{ $selectedProduct->id }}">
-                                                    <i class="fas fa-heart"></i> Add to Favourites
-                                                </a></li>
+                                            <li>
+
+                                                @isset($favouritesProducts->status)
+                                                    @if ($favouritesProducts->status == '1')
+                                                        <a class="wishlist-btn text-danger" id="wishlistBtn"
+                                                            data-productid="{{ $selectedProduct->id }}">
+                                                            <i class="fas fa-heart text-danger"></i> Add to Favourites
+                                                        </a>
+                                                        <input type="hidden" value="active" class="status">
+                                                    @else
+                                                        <a class="wishlist-btn" id="wishlistBtn"
+                                                            data-productid="{{ $selectedProduct->id }}">
+                                                            <i class="fas fa-heart"></i> Add to Favourites
+                                                        </a>
+                                                        <input type="hidden" value="inactive" class="status">
+                                                    @endif
+                                                @else
+                                                    <a class="wishlist-btn" id="wishlistBtn"
+                                                        data-productid="{{ $selectedProduct->id }}">
+                                                        <i class="fas fa-heart"></i> Add to Favourites
+                                                    </a>
+                                                @endisset
+                                            </li>
                                         </ul>
 
                                     </div>
@@ -355,8 +374,8 @@
                 <div class="container">
                     <ul class="nav tabs" id="myTab" role="tablist">
                         <li class="nav-item" role="presentation">
-                            <a class="active" id="description-tab" data-bs-toggle="tab" href="#description" role="tab"
-                                aria-controls="description" aria-selected="true">Specifications</a>
+                            <a class="active" id="description-tab" data-bs-toggle="tab" href="#description"
+                                role="tab" aria-controls="description" aria-selected="true">Specifications</a>
                         </li>
                         <li class="nav-item " role="presentation">
                             <a id="additional-info-tab" data-bs-toggle="tab" href="#additional-info" role="tab"
@@ -391,7 +410,7 @@
                                                                 data-l="{{ $row[5] }}"
                                                                 data-l1="{{ $row[6] }}"
                                                                 data-l2="{{ $row[7] }}"
-                                                                data-l3="{{ $row[8] }}">
+                                                                data-l3="{{ $row[8] ?? '' }}">
 
                                                                 <td data-label="Code">{{ $row[0] }}</td>
                                                                 <td data-label="d1">{{ $row[1] }}</td>
@@ -401,7 +420,7 @@
                                                                 <td data-label="L">{{ $row[5] }}</td>
                                                                 <td data-label="L1">{{ $row[6] }}</td>
                                                                 <td data-label="L2">{{ $row[7] }}</td>
-                                                                <td data-label="L3">{{ $row[8] }}</td>
+                                                                <td data-label="L3">{{ $row[8] ?? '' }}</td>
                                                                 <td>{{ $row[9] ?? '---' }}</td>
                                                                 <td data-label="Action"><button
                                                                         class="action-btn">3D</button>
@@ -584,6 +603,42 @@
 @endsection
 
 @section('script')
-    <script src="https://code.jquery.com/jquery-3.7.1.min.js" integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
-    <script src="{{ asset('assets/js/add-to-fav.js') }}"></script>
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js"
+        integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
+    <script>
+        $(document).ready(function() {
+            $.ajaxSetup({
+                headers: {
+                    "X-CSRF-TOKEN": $('meta[name="csrf-token"]').attr("content"),
+                },
+            });
+
+            $(document).on("click", "#wishlistBtn", function() {
+                let productid = $(this).data("productid");
+                let productStatus = $(this).siblings(".status").val() || 0;
+
+                $.ajax({
+                    url: "/add-to-favourite",
+                    type: "POST",
+                    data: {
+                        productid: productid,
+                        productStatus: productStatus,
+                    },
+                    success: function(data) {
+                        if (data.status) {
+                            console.log(data.status);
+                            console.log(data.message);
+                            console.log(data.data);
+                            location.reload();
+                        }
+                    },
+                    error: function(xhr, status, error) {
+                        console.log(xhr);
+                        console.log(status);
+                        console.log(error);
+                    },
+                });
+            });
+        });
+    </script>
 @endsection

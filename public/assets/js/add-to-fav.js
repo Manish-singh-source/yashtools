@@ -6,23 +6,24 @@ $(document).ready(function () {
     });
 
     $(document).on("click", "#wishlistBtn", function () {
-        let id = parseInt($(this).data('productid')) || 0;
-        let status = $(this).siblings(".status").val() || 0;
+        alert('hello');
+        let productid = $(this).data("productid");
+        let productStatus = $(this).siblings(".status").val() || 0;
+        console.log(productid)
+        console.log(productStatus)
 
-        console.log(id);
-        console.log(status);
         // $.ajax({
-        //     url: newUrl,
+        //     url: "/add-to-favourite",
         //     type: "POST",
         //     data: {
-        //         statusId: id,
-        //         status: status,
+        //         productid: productid,
+        //         productStatus: productStatus,
         //     },
         //     success: function (data) {
         //         if (data.status) {
         //             console.log(data.status);
-        //             // console.log(data.message)
-        //             // console.log(data.data)
+        //             console.log(data.message);
+        //             console.log(data.data);
         //             location.reload();
         //         }
         //     },

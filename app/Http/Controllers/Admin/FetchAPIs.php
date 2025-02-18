@@ -7,12 +7,13 @@ use App\Models\Brand;
 use App\Models\Event;
 use App\Models\Banner;
 use App\Models\Product;
+use App\Models\Favourite;
 use App\Models\Categories;
 use Illuminate\Http\Request;
 use App\Models\SubCategories;
 use Flasher\Prime\FlasherInterface;
 use App\Http\Controllers\Controller;
-use App\Models\Favourite;
+use Illuminate\Support\Facades\Auth;
 
 class FetchAPIs extends Controller
 {
@@ -309,21 +310,33 @@ class FetchAPIs extends Controller
 
 
     // addToFav 
-    public function addToFav(Request $request) {
-        $productId = $request->productId;
+    public function addToFav(Request $request)
+    {
+        $productid = $request->productid;
+        $productStatus = $request->productStatus;
 
-        if (!$productId) {
+
+        if (!isset($productid)) {
             return response()->json([
                 'status' => false,
                 'message' => 'Product ID is required.',
             ], 400);
         }
 
-        $saveFav = new Favourite();
-        $saveFav->user_id = $request->userId; 
-        $saveFav->product_id = $request->product_id; 
-        $saveFav->status = $request->status; 
-        $saveFav->save();
+        if ($productStatus == 'active') {
+            $saveFav = Favourite::where('user_id', Auth::id())->where('product_id', $productid)->first();
+            $saveFav->status = ($productStatus == 'active') ? '0' : '1';
+            $saveFav->save();
+        } elseif ($productStatus == 'inactive') {
+            $saveFav = Favourite::where('user_id', Auth::id())->where('product_id', $productid)->first();
+            $saveFav->status = ($productStatus == 'inactive') ? '1' : '0';
+            $saveFav->save();
+        } else {
+            $saveFav = new Favourite();
+            $saveFav->user_id = Auth::id();
+            $saveFav->product_id = $productid;
+            $saveFav->save();
+        }
 
 
         if (!$saveFav) {
@@ -340,5 +353,4 @@ class FetchAPIs extends Controller
             'message' => 'Added to Favourites Successfully.',
         ]);
     }
-
 }

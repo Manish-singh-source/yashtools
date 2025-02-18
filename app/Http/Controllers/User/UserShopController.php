@@ -2,12 +2,15 @@
 
 namespace App\Http\Controllers\User;
 
+use App\Models\User;
 use App\Models\Brand;
 use App\Models\Product;
 use App\Models\Categories;
 use Illuminate\Http\Request;
 use App\Models\SubCategories;
 use App\Http\Controllers\Controller;
+use App\Models\Favourite;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\File;
 use Maatwebsite\Excel\Facades\Excel;
 
@@ -29,6 +32,7 @@ class UserShopController extends Controller
         $subcategories = SubCategories::orderby('updated_at', 'desc')->limit(8)->get();
         $brands = Brand::orderby('updated_at', 'desc')->limit(8)->get();
         $selectedProduct = Product::with('brands')->where('product_slug', $slug)->orderby('updated_at', 'desc')->first();
+        $favouritesProducts = Favourite::where('product_id', $selectedProduct->id)->where('user_id', Auth::id())->first();
 
         if (!empty($selectedProduct->product_specs)) {
             $path = public_path('uploads/products/product_specs/' . $selectedProduct->product_specs);
@@ -43,8 +47,8 @@ class UserShopController extends Controller
                 $sheetData = $data[0];
             }
             $spreadsheet = \PhpOffice\PhpSpreadsheet\IOFactory::load($path);
-            return view('user.productdetails', compact('categories', 'brands', 'subcategories', 'selectedProduct', 'sheetData'));
+            return view('user.productdetails', compact('categories', 'brands', 'subcategories', 'selectedProduct', 'sheetData', 'favouritesProducts'));
         }
-        return view('user.productdetails', compact('categories', 'brands', 'subcategories', 'selectedProduct'));
+        return view('user.productdetails', compact('categories', 'brands', 'subcategories', 'selectedProduct', 'favouritesProducts'));
     }
 }

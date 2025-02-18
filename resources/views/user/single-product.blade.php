@@ -1,5 +1,9 @@
 @extends('user.layouts.app')
 
+@section('csrf-token')
+    <meta name="csrf-token" content="{{ csrf_token() }}">
+@endsection
+
 @section('style')
     <style>
         input[type=text1] {
@@ -308,11 +312,26 @@
                                             @endisset
                                         </ul>
                                     </div>
-
-                                    <a class="wishlist-btn margbot" id="wishlistBtn">
-                                        <i class="fas fa-heart"></i> Add to Favourites
-                                    </a>
-
+                                    <div id="showError" class="px-2 py-3"></div>
+                                    @isset($favouritesProducts->status)
+                                        @if ($favouritesProducts->status == '1')
+                                            <a class="wishlist-btn text-danger" id="wishlistBtn"
+                                                data-productid="{{ $selectedProduct->id }}">
+                                                <i class="fas fa-heart text-danger"></i> Add to Favourites
+                                            </a>
+                                            <input type="hidden" value="active" class="status">
+                                        @else
+                                            <a class="wishlist-btn" id="wishlistBtn"
+                                                data-productid="{{ $selectedProduct->id }}">
+                                                <i class="fas fa-heart"></i> Add to Favourites
+                                            </a>
+                                            <input type="hidden" value="inactive" class="status">
+                                        @endif
+                                    @else
+                                        <a class="wishlist-btn" id="wishlistBtn" data-productid="{{ $selectedProduct->id }}">
+                                            <i class="fas fa-heart"></i> Add to Favourites
+                                        </a>
+                                    @endisset
                                 </div>
                             </div>
                         </div>
@@ -354,11 +373,11 @@
                                                 </thead>
                                                 <tbody>
                                                     @foreach (array_slice($sheetData, 1) as $row)
-                                                        <tr data-code="{{ $row[0] }}" data-d1="{{ $row[1] }}"
-                                                            data-d2="{{ $row[2] }}" data-d3="{{ $row[3] }}"
-                                                            data-k="{{ $row[4] }}" data-l="{{ $row[5] }}"
-                                                            data-l1="{{ $row[6] }}" data-l2="{{ $row[7] }}"
-                                                            data-l3="{{ $row[8] }}">
+                                                        <tr data-code="{{ $row[0] }}"
+                                                            data-d1="{{ $row[1] }}" data-d2="{{ $row[2] }}"
+                                                            data-d3="{{ $row[3] }}" data-k="{{ $row[4] }}"
+                                                            data-l="{{ $row[5] }}" data-l1="{{ $row[6] }}"
+                                                            data-l2="{{ $row[7] }}" data-l3="{{ $row[8] ?? '' }}">
 
                                                             <td data-label="Code">{{ $row[0] }}</td>
                                                             <td data-label="d1">{{ $row[1] }}</td>
@@ -368,7 +387,7 @@
                                                             <td data-label="L">{{ $row[5] }}</td>
                                                             <td data-label="L1">{{ $row[6] }}</td>
                                                             <td data-label="L2">{{ $row[7] }}</td>
-                                                            <td data-label="L3">{{ $row[8] }}</td>
+                                                            <td data-label="L3">{{ $row[8] ?? '' }}</td>
                                                             <td>{{ $row[9] ?? '---' }}</td>
                                                             <td data-label="Action"><button class="action-btn">3D</button>
                                                             </td>
@@ -609,5 +628,58 @@
         //         row.style.display = value === "" || cellValue === value ? "" : "none";
         //     });
         // }
+    </script>
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js"
+        integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
+    <script>
+        $(document).ready(function() {
+            $.ajaxSetup({
+                headers: {
+                    "X-CSRF-TOKEN": $('meta[name="csrf-token"]').attr("content"),
+                },
+            });
+
+            $(document).on("click", "#wishlistBtn", function() {
+                let productid = $(this).data("productid");
+                let productStatus = $(this).siblings(".status").val() || 0;
+
+                console.log(productid)
+                console.log(productStatus)
+
+                $.ajax({
+                    url: "/check-auth", // Check if the user is logged in
+                    type: "GET",
+                    success: function(response) {
+                        if (!response.isAuthenticated) {
+                            $("#showError").text("Please register to add Product to favourites"); // Show login popup
+                            return;
+                        }
+
+                        $.ajax({
+                            url: "/add-to-favourite",
+                            type: "POST",
+                            data: {
+                                productid: productid,
+                                productStatus: productStatus,
+                            },
+                            success: function(data) {
+                                if (data.status) {
+                                    console.log(data.status);
+                                    console.log(data.message);
+                                    console.log(data.data);
+                                    location.reload();
+                                }
+                            },
+                            error: function(xhr, status, error) {
+                                console.log(xhr);
+                                console.log(status);
+                                console.log(error);
+                            },
+                        });
+
+                    }
+                });
+            });
+        });
     </script>
 @endsection

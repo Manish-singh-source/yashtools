@@ -1,5 +1,6 @@
 <?php
 
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\Admin\FetchAPIs;
@@ -72,6 +73,10 @@ Route::middleware('isCustomerAuth:customer')->group(function () {
 
     // Add to Cart Through API 
     Route::post('/add-to-favourite', [FetchAPIs::class, 'addToFav'])->middleware('web');
+
+    Route::get('/check-auth', function () {
+        return response()->json(['isAuthenticated' => Auth::check()]);
+    });
 });
 
 
@@ -192,10 +197,8 @@ Route::middleware(AdminAuthMiddleware::class . ':admin,superadmin')->group(funct
     // Profile Routes
     Route::get('/profile', [AdminController::class, 'profileView'])->name('admin.profile');
     Route::post('/update-profile', [AdminController::class, 'profileUpdate'])->name('admin.profile.update');
-    
+
     // Enquiry Orders
     Route::get('/order', [EnquiryOrdersController::class, 'showOrders'])->name('admin.order');
     Route::get('/order-details/{id}', [EnquiryOrdersController::class, 'showOrderDetails'])->name('admin.order.details');
 });
-
-
