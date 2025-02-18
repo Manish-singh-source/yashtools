@@ -312,13 +312,26 @@
                                             @endisset
                                         </ul>
                                     </div>
-
-                                    <a class="wishlist-btn margbot" id="wishlistBtn"
-                                        data-productid="{{ $selectedProduct->id }}">
-                                        <i class="fas fa-heart"></i> Add to Favourites
-                                    </a>
-                                    <input type="hidden" value="{{ $selectedProduct->status }}" class="status">
-
+                                    <div id="showError" class="px-2 py-3"></div>
+                                    @isset($favouritesProducts->status)
+                                        @if ($favouritesProducts->status == '1')
+                                            <a class="wishlist-btn text-danger" id="wishlistBtn"
+                                                data-productid="{{ $selectedProduct->id }}">
+                                                <i class="fas fa-heart text-danger"></i> Add to Favourites
+                                            </a>
+                                            <input type="hidden" value="active" class="status">
+                                        @else
+                                            <a class="wishlist-btn" id="wishlistBtn"
+                                                data-productid="{{ $selectedProduct->id }}">
+                                                <i class="fas fa-heart"></i> Add to Favourites
+                                            </a>
+                                            <input type="hidden" value="inactive" class="status">
+                                        @endif
+                                    @else
+                                        <a class="wishlist-btn" id="wishlistBtn" data-productid="{{ $selectedProduct->id }}">
+                                            <i class="fas fa-heart"></i> Add to Favourites
+                                        </a>
+                                    @endisset
                                 </div>
                             </div>
                         </div>
@@ -618,5 +631,55 @@
     </script>
     <script src="https://code.jquery.com/jquery-3.7.1.min.js"
         integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
-    <script src="{{ asset('assets/js/add-to-fav.js') }}"></script>
+    <script>
+        $(document).ready(function() {
+            $.ajaxSetup({
+                headers: {
+                    "X-CSRF-TOKEN": $('meta[name="csrf-token"]').attr("content"),
+                },
+            });
+
+            $(document).on("click", "#wishlistBtn", function() {
+                let productid = $(this).data("productid");
+                let productStatus = $(this).siblings(".status").val() || 0;
+
+                console.log(productid)
+                console.log(productStatus)
+
+                $.ajax({
+                    url: "/check-auth", // Check if the user is logged in
+                    type: "GET",
+                    success: function(response) {
+                        if (!response.isAuthenticated) {
+                            $("#showError").text("Please register to add Product to favourites"); // Show login popup
+                            return;
+                        }
+
+                        $.ajax({
+                            url: "/add-to-favourite",
+                            type: "POST",
+                            data: {
+                                productid: productid,
+                                productStatus: productStatus,
+                            },
+                            success: function(data) {
+                                if (data.status) {
+                                    console.log(data.status);
+                                    console.log(data.message);
+                                    console.log(data.data);
+                                    location.reload();
+                                }
+                            },
+                            error: function(xhr, status, error) {
+                                console.log(xhr);
+                                console.log(status);
+                                console.log(error);
+                            },
+                        });
+
+                    }
+                });
+            });
+        });
+    </script>
 @endsection

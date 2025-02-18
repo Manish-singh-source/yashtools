@@ -315,21 +315,26 @@ class FetchAPIs extends Controller
         $productid = $request->productid;
         $productStatus = $request->productStatus;
 
-        if (!$productid) {
+
+        if (!isset($productid)) {
             return response()->json([
                 'status' => false,
                 'message' => 'Product ID is required.',
             ], 400);
         }
 
-        if (isset($productStatus)) {
-            $saveFav = Favourite::where('user_id', Auth::id())->where('product_id', $request->productid)->get();
-            $saveFav->status = ($request->status) ? '0' : '1';
+        if ($productStatus == 'active') {
+            $saveFav = Favourite::where('user_id', Auth::id())->where('product_id', $productid)->first();
+            $saveFav->status = ($productStatus == 'active') ? '0' : '1';
+            $saveFav->save();
+        } elseif ($productStatus == 'inactive') {
+            $saveFav = Favourite::where('user_id', Auth::id())->where('product_id', $productid)->first();
+            $saveFav->status = ($productStatus == 'inactive') ? '1' : '0';
             $saveFav->save();
         } else {
             $saveFav = new Favourite();
             $saveFav->user_id = Auth::id();
-            $saveFav->product_id = $request->productid;
+            $saveFav->product_id = $productid;
             $saveFav->save();
         }
 

@@ -56,4 +56,9 @@ class User extends Authenticatable
     {
         return $this->hasMany(Enquiry::class, 'customer_id');
     }
+
+    public function favourites()
+    {
+        return $this->hasMany(Favourite::class, 'user_id');
+    }
 }

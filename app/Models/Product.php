@@ -8,20 +8,20 @@ use Illuminate\Database\Eloquent\Model;
 
 class Product extends Model
 {
-    protected $dates = ['created_at', 'updated_at']; 
+    protected $dates = ['created_at', 'updated_at'];
 
-    
+
     public function getCreatedAtAttribute($value)
     {
-        return Carbon::parse($value)->format('Y-M-d'); 
+        return Carbon::parse($value)->format('Y-M-d');
     }
 
     public function getUpdatedAtAttribute($value)
     {
-        return Carbon::parse($value)->format('Y-M-d'); 
+        return Carbon::parse($value)->format('Y-M-d');
     }
 
-    
+
     public static function boot()
     {
         parent::boot();
