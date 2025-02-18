@@ -36,6 +36,15 @@ class HomeController extends Controller
         return view('user.shop', compact('categories', 'brands', 'subcategories', 'products'));
     }
 
+    public function shopViewAPI()
+    {
+        $categories = Categories::orderby('updated_at', 'desc')->limit(8)->get();
+        $subcategories = SubCategories::orderby('updated_at', 'desc')->limit(8)->get();
+        $brands = Brand::orderby('updated_at', 'desc')->limit(8)->get();
+        $products = Product::orderby('updated_at', 'desc')->paginate(12);
+        return view('user.shop', compact('categories', 'brands', 'subcategories', 'products'));
+    }
+
     public function singleProductView(String $slug)
     {
         $categories = Categories::orderby('updated_at', 'desc')->limit(8)->get();

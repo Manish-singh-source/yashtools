@@ -312,7 +312,7 @@
                                             @endisset
                                         </ul>
                                     </div>
-                                    <div id="showError" class="px-2 py-3"></div>
+                                    <div id="showError" class="px-2 py-3 text-danger"></div>
                                     @isset($favouritesProducts->status)
                                         @if ($favouritesProducts->status == '1')
                                             <a class="wishlist-btn text-danger" id="wishlistBtn"
@@ -633,6 +633,8 @@
         integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
     <script>
         $(document).ready(function() {
+
+            $("#showError").hide();
             $.ajaxSetup({
                 headers: {
                     "X-CSRF-TOKEN": $('meta[name="csrf-token"]').attr("content"),
@@ -651,7 +653,10 @@
                     type: "GET",
                     success: function(response) {
                         if (!response.isAuthenticated) {
-                            $("#showError").text("Please register to add Product to favourites"); // Show login popup
+                            $("#showError").show();
+                            $("#showError").html(
+                                "Please <a href='/signin'>register</a> to add Product to favourites"
+                                ); // Show login popup
                             return;
                         }
 

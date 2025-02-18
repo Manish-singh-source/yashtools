@@ -28,6 +28,9 @@ Route::post('/signin-user', [UserController::class, 'authUser'])->name('auth.use
 // user routes: pages
 Route::get('/', [HomeController::class, 'homeView'])->name('user.home');
 Route::get('/shop', [HomeController::class, 'shopView'])->name('user.shop');
+
+Route::get('/shop-api', [HomeController::class, 'shopViewAPI'])->name('user.shop.api');
+
 Route::get('/single-product/{slug}', [HomeController::class, 'singleProductView'])->name('user.single.product');
 
 Route::get('/about-us',  [HomeController::class, 'homeView'])->name('user.about.us');

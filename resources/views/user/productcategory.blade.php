@@ -87,9 +87,10 @@
                                         {{ $products->total() }}
                                         results
                                     </span>
-                                    <select class="single-select">
-                                        <option>Short by Latest</option>
-                                        <option>Short by Name</option>
+                                    <select class="single-select" id="sort_by">
+                                        <option value="">Sort By</option>
+                                        <option value="latest">Short by Latest</option>
+                                        <option value="by_name">Short by Name</option>
                                     </select>
                                     <!-- End Single Select  -->
                                 </div>
@@ -101,6 +102,11 @@
                         </div>
                     </div>
                     <!-- End .row -->
+                    <div class="row row--15 mt-5" id="product_list">
+                    </div>
+
+                    <!-- Pagination Links -->
+                    <div id="pagination_links"></div>
                     <div class="row row--15 mt-5">
                         @foreach ($products as $product)
                             <div class="col-xl-4 col-lg-4 col-sm-6 col-12 mb--30">
@@ -132,4 +138,65 @@
         <!-- End .container -->
     </div>
     <!-- End Shop Area  -->
+@endsection
+
+
+@section('script')
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js"
+        integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
+    <script>
+        $(document).ready(function() {
+            fetchProducts();
+
+            function fetchProducts(page = 1) {
+                let sortBy = $('#sort_by').val();
+                let category = $('#category_filter').val();
+
+                $.ajax({
+                    url: "/shop-api?page=" + page,
+                    type: "GET",
+                    data: {
+                        sort_by: sortBy,
+                        category: category
+                    },
+                    success: function(response) {
+                        $('#product_list').html('');
+                        $.each(response.data, function(index, product) {
+                            $('#product_list').append(
+                                `<div class="product">
+                                <h3>${product.name}</h3>
+                                <p>Price: ${product.price}</p>
+                                <p>Category: ${product.category_id}</p>
+                            </div>`
+                            );
+                        });
+
+                        // Pagination Links
+                        $('#pagination_links').html('');
+                        if (response.links) {
+                            $.each(response.links, function(index, link) {
+                                if (link.url) {
+                                    $('#pagination_links').append(
+                                        `<button class="pagination-link" data-page="${link.url}">${link.label}</button>`
+                                    );
+                                }
+                            });
+                        }
+                    }
+                });
+            }
+
+            // Sort and Filter Change Events
+            $('#sort_by, #category_filter').change(function() {
+                fetchProducts();
+            });
+
+            // Handle Pagination Click
+            $(document).on('click', '.pagination-link', function() {
+                let pageUrl = $(this).data('page');
+                let pageNumber = pageUrl.split('=')[1]; // Extract page number
+                fetchProducts(pageNumber);
+            });
+        });
+    </script>
 @endsection
