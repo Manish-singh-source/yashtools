@@ -38,8 +38,30 @@ class HomeController extends Controller
         return view('user.shop', compact('categories', 'brands', 'subcategories', 'products'));
     }
 
-    public function shopViewAPI()
+    public function shopViewAPI(Request $request)
     {
+        $query = Product::query();
+
+        // Apply category filter if selected
+        if ($request->has('category') && $request->category != '') {
+            $query->where('product_category_id', $request->category);
+        }
+
+        // Apply sorting
+        if ($request->has('sort_by')) {
+            if ($request->sort_by == 'latest') {
+                $query->orderBy('updated_at', 'asc');
+            } elseif ($request->sort_by == 'by_name') {
+                $query->orderBy('product_name', 'asc');
+            }
+        }
+
+        // Fetch paginated data (10 products per page)
+        $products = $query->paginate(12);
+
+        // Return JSON response
+        return response()->json($products);
+
         $categories = Categories::orderby('updated_at', 'desc')->limit(8)->get();
         $subcategories = SubCategories::orderby('updated_at', 'desc')->limit(8)->get();
         $brands = Brand::orderby('updated_at', 'desc')->limit(8)->get();

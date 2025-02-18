@@ -83,9 +83,9 @@
                                     class="category-select align-items-center justify-content-lg-end justify-content-between">
                                     <!-- Start Single Select  -->
                                     <span class="filter-results">
-                                        Showing {{ $products->firstItem() }}-{{ $products->lastItem() }} of
+                                        {{-- Showing {{ $products->firstItem() }}-{{ $products->lastItem() }} of
                                         {{ $products->total() }}
-                                        results
+                                        results --}}
                                     </span>
                                     <select class="single-select" id="sort_by">
                                         <option value="">Sort By</option>
@@ -107,30 +107,6 @@
 
                     <!-- Pagination Links -->
                     <div id="pagination_links"></div>
-                    <div class="row row--15 mt-5">
-                        @foreach ($products as $product)
-                            <div class="col-xl-4 col-lg-4 col-sm-6 col-12 mb--30">
-                                <div class="axil-product product-style-one">
-                                    <div class="thumbnail">
-                                        <a href="{{ route('user.product.details', $product->product_slug) }}">
-                                            <img data-sal="fade" data-sal-delay="100" data-sal-duration="1500"
-                                                src="{{ asset('uploads/products/thumbnails/' . $product->product_thumbain) }}"
-                                                alt="Product Images">
-                                        </a>
-
-                                    </div>
-                                    <div class="product-content">
-                                        <div class="inner">
-                                            <h5 class="title"><a
-                                                    href="{{ route('user.product.details', $product->product_slug) }}">{{ $product->product_name }}</a>
-                                            </h5>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        @endforeach
-                    </div>
-                    {{ $products->links('user.layouts.pagination') }}
 
                 </div>
             </div>
@@ -162,12 +138,27 @@
                     success: function(response) {
                         $('#product_list').html('');
                         $.each(response.data, function(index, product) {
+                            console.log(index);
+                            console.log(product);
                             $('#product_list').append(
-                                `<div class="product">
-                                <h3>${product.name}</h3>
-                                <p>Price: ${product.price}</p>
-                                <p>Category: ${product.category_id}</p>
-                            </div>`
+                                `<div class="col-xl-4 col-lg-4 col-sm-6 col-12 mb--30">
+                                    <div class="axil-product product-style-one">
+                                        <div class="thumbnail">
+                                            <a href="/product-detail-info/${product.product_slug}">
+                                                <img data-sal="fade" data-sal-delay="100" data-sal-duration="1500"
+                                                    src="{{ asset('uploads/products/thumbnails/${product.product_thumbain}') }}"
+                                                    alt="Product Images">
+                                            </a>
+                                        </div>
+                                        <div class="product-content">
+                                            <div class="inner">
+                                                <h5 class="title"><a
+                                                        href="/product-detail-info/${product.product_slug}">${product.product_name}</a>
+                                                </h5>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>`
                             );
                         });
 
@@ -177,7 +168,15 @@
                             $.each(response.links, function(index, link) {
                                 if (link.url) {
                                     $('#pagination_links').append(
-                                        `<button class="pagination-link" data-page="${link.url}">${link.label}</button>`
+                                        `<div class="text-center pt--30">
+                                            <div class="center">
+                                                <div class="pagination">
+                                                    <a href="#">&laquo;</a>
+                                                    <a href="${link.url}" class="active">${link.label}</a>
+                                                    <a href="#">&raquo;</a>
+                                                </div>
+                                            </div>
+                                        </div>`
                                     );
                                 }
                             });
