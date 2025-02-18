@@ -8,6 +8,7 @@ use App\Models\Categories;
 use Illuminate\Http\Request;
 use App\Models\SubCategories;
 use App\Http\Controllers\Controller;
+use App\Models\Banner;
 use App\Models\Event;
 use Illuminate\Support\Facades\File;
 use Maatwebsite\Excel\Facades\Excel;
@@ -22,7 +23,8 @@ class HomeController extends Controller
         $categories = Categories::orderby('updated_at', 'desc')->limit(8)->get();
         $subcategories = SubCategories::orderby('updated_at', 'desc')->limit(8)->get();
         $brands = Brand::orderby('updated_at', 'desc')->limit(8)->get();
-        return view('user.index', compact('categories', 'brands', 'subcategories'));
+        $banners = Banner::where('status', '1')->latest()->take(3)->get();
+        return view('user.index', compact('categories', 'brands', 'subcategories', 'banners'));
     }
 
     public function shopView()
