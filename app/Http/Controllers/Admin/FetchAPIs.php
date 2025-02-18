@@ -13,6 +13,7 @@ use Illuminate\Http\Request;
 use App\Models\SubCategories;
 use Flasher\Prime\FlasherInterface;
 use App\Http\Controllers\Controller;
+use App\Models\Enquiry;
 use Illuminate\Support\Facades\Auth;
 
 class FetchAPIs extends Controller
@@ -350,6 +351,38 @@ class FetchAPIs extends Controller
         flash()->success('Added to Favourites Successfully.');
         return response()->json([
             'status' => true,
+            'message' => 'Added to Favourites Successfully.',
+        ]);
+    }
+
+    public function changeOrderStatus(Request $request)
+    {
+        $enquiryid = $request->enquiryid;
+        $enquiryStatus = $request->enquiryStatus;
+
+        if (!isset($enquiryid)) {
+            return response()->json([
+                'status' => false,
+                'message' => 'enquiry ID is required.',
+            ], 400);
+        }
+
+        $enquiry = Enquiry::where('id', $enquiryid)->first();
+        $enquiry->status = $enquiryStatus;
+        $enquiry->save();
+
+
+        if (!$enquiry) {
+            return response()->json([
+                'status' => false,
+                'message' => 'No Product found.',
+                'data' => $enquiry,
+            ], 404);
+        }
+
+        flash()->success('Added to Favourites Successfully.');
+        return response()->json([
+            'status' => $enquiry,
             'message' => 'Added to Favourites Successfully.',
         ]);
     }
