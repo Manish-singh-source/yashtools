@@ -173,7 +173,7 @@ Route::middleware(AdminAuthMiddleware::class . ':admin,superadmin')->group(funct
     Route::get('/edit-product/{slug}', [ProductsController::class, 'editProduct'])->name('admin.edit.product');
     Route::put('/update-product', [ProductsController::class, 'updateProduct'])->name('admin.update.product');
 
-    Route::get('/product-detail/{id}', [ProductsController::class, 'detailProduct'])->name('admin.product.details');
+    Route::get('/product-detail/{slug}', [ProductsController::class, 'detailProduct'])->name('admin.product.details');
     Route::post('/fetch-sub-categories', [FetchAPIs::class, 'fetchSubCategories'])->name('admin.fetch.sub.categories')->middleware('web');
 
     // Toggle Status

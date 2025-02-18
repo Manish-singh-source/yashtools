@@ -270,9 +270,10 @@ class ProductsController extends Controller
         return redirect()->route('admin.table.product');
     }
 
-    public function detailProduct(String $id)
+    public function detailProduct(String $slug)
     {
-        $productDetails = Product::with('categories')->with('subcategories')->with('brands')->where('id', $id)->first();
+        $productDetails = Product::with('categories')->with('subcategories')->with('brands')->where('product_slug', $slug)->first();
+        // dd($productDetails);
         return view('admin.product-details', compact('productDetails'));
     }
 }

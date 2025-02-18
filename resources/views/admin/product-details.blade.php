@@ -7,8 +7,13 @@
                 <div class="card-body d-flex">
                     <div class="clearfix">
                         <div class="d-inline-block position-relative me-sm-4 me-3 mb-3 mb-lg-0">
-                            <img src="{{ asset('uploads/products/thumbnails/' . $productDetails->product_thumbain) }}"
-                                alt="" class="rounded-4 profile-avatar">
+                            @if ($productDetails->product_thumbain != '')
+                                <img src="{{ asset('uploads/products/thumbnails/' . $productDetails->product_thumbain) }}"
+                                    alt="" class="rounded-4 profile-avatar">
+                            @else
+                                <img src="{{ asset('uploads/products/thumbnails/' . $productDetails->product_thumbain) }}"
+                                    alt="" class="rounded-4 profile-avatar">
+                            @endif
                         </div>
                     </div>
                     <div class="clearfix d-xl-flex flex-grow-1">
@@ -28,42 +33,56 @@
                             </ul>
                             <div class="p-md-4 p-3 mt-3 border-opacity-10 rounded">
                                 <div class="row g-3">
-                                    <div class="col-lg-3 col-sm-6">
-                                        <div class="d-flex align-items-center">
-                                            <div class="me-3">
-                                                <img src="{{ asset('admin/assets/images/files/pdf.png') }}" width="35"
-                                                    alt="">
-                                            </div>
-                                            <div class="clearfix">
-                                                <h6 class="mb-0">PDF</h6>
-                                                <span class="fs-13">1.5MB</span>
-                                            </div>
+                                    @if ($productDetails->product_pdf != '')
+                                        <div class="col-lg-3 col-sm-6">
+                                            <a href="{{ asset('uploads/products/pdf/' . $productDetails->product_pdf) }}">
+                                                <div class="d-flex align-items-center">
+                                                    <div class="me-3">
+                                                        <img src="{{ asset('admin/assets/images/files/pdf.png') }}"
+                                                            width="35" alt="">
+                                                    </div>
+                                                    <div class="clearfix">
+                                                        <h6 class="mb-0">PDF</h6>
+                                                        <span class="fs-13">1.5MB</span>
+                                                    </div>
+                                                </div>
+                                            </a>
                                         </div>
-                                    </div>
-                                    <div class="col-lg-3 col-sm-6">
-                                        <div class="d-flex align-items-center">
-                                            <div class="me-3">
-                                                <img src="{{ asset('admin/assets/images/files/pdf.png') }}" width="35"
-                                                    alt="">
-                                            </div>
-                                            <div class="clearfix">
-                                                <h6 class="mb-0">Drawing</h6>
-                                                <span class="fs-13">1.5MB</span>
-                                            </div>
+                                    @endif
+                                    @if ($productDetails->product_drawing != '')
+                                        <div class="col-lg-3 col-sm-6">
+                                            <a
+                                                href="{{ asset('uploads/products/drawing/' . $productDetails->product_drawing) }}">
+                                                <div class="d-flex align-items-center">
+                                                    <div class="me-3">
+                                                        <img src="{{ asset('admin/assets/images/files/pdf.png') }}"
+                                                            width="35" alt="">
+                                                    </div>
+                                                    <div class="clearfix">
+                                                        <h6 class="mb-0">Drawing</h6>
+                                                        <span class="fs-13">1.5MB</span>
+                                                    </div>
+                                                </div>
+                                            </a>
                                         </div>
-                                    </div>
-                                    <div class="col-lg-3 col-sm-6">
-                                        <div class="d-flex align-items-center">
-                                            <div class="me-3">
-                                                <img src="{{ asset('admin/assets/images/files/pdf.png') }}" width="35"
-                                                    alt="">
-                                            </div>
-                                            <div class="clearfix">
-                                                <h6 class="mb-0">Catalogue</h6>
-                                                <span class="fs-13">1.5MB</span>
-                                            </div>
+                                    @endif
+                                    @if ($productDetails->product_catalouge != '')
+                                        <div class="col-lg-3 col-sm-6">
+                                            <a
+                                                href="{{ asset('uploads/products/catalogue/' . $productDetails->product_catalouge) }}">
+                                                <div class="d-flex align-items-center">
+                                                    <div class="me-3">
+                                                        <img src="{{ asset('admin/assets/images/files/pdf.png') }}"
+                                                            width="35" alt="">
+                                                    </div>
+                                                    <div class="clearfix">
+                                                        <h6 class="mb-0">Catalogue</h6>
+                                                        <span class="fs-13">1.5MB</span>
+                                                    </div>
+                                                </div>
+                                            </a>
                                         </div>
-                                    </div>
+                                    @endif
                                 </div>
                             </div>
 

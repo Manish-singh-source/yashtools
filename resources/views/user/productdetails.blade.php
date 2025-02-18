@@ -253,12 +253,6 @@
                                         </a>
                                     </div>
                                 </div>
-                                {{-- <div class="product-quick-view position-view">
-                                    <a href="https://dq2c38sk8yrcb.cloudfront.net/product_group/line_drawing/VB1.1LineDrawing.jpg"
-                                        class="popup-zoom">
-                                        <i class="far fa-search-plus"></i>
-                                    </a>
-                                </div> --}}
                             </div>
                         </div>
                         <div class="col-lg-5 mb--40">

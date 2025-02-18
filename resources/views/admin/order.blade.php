@@ -2,8 +2,8 @@
 
 @section('content-body')
     <!--**********************************
-                                            Content body start
-                                        ***********************************-->
+                                                    Content body start
+                                                ***********************************-->
     <div class="content-body">
         <div class="container-fluid">
             <div class="row">
@@ -75,19 +75,19 @@
 
                                                 <td class="py-2 text-end">
                                                     @if ($order->status == 'confirmed')
-                                                        <span class="badge badge-primary">{{ $order->status }}<span
-                                                                class="ms-1 fa fa-check"></span></span>
+                                                        <span class="text-success"><span class="ms-1 fa fa-check"></span>
+                                                            {{ $order->status }}</span>
                                                     @elseif($order->status == 'dismissed')
-                                                        <span class="badge badge-danger">{{ $order->status }}<span
-                                                                class="ms-1 fa fa-check"></span></span>
+                                                        <span class="text-danger"><span class="ms-1 fa fa-check"></span>
+                                                            {{ $order->status }}</span>
                                                     @elseif($order->status == 'delivered')
-                                                        <span class="badge badge-success">{{ $order->status }}<span
-                                                                class="ms-1 fa fa-check"></span></span>
+                                                        <span class="text-success"><span class="ms-1 fa fa-check"></span>
+                                                            {{ $order->status }}</span>
                                                     @elseif($order->status == 'payment_received')
-                                                        <span class="badge badge-success">{{ $order->status }}<span
-                                                                class="ms-1 fa fa-check"></span></span>
+                                                        <span class="text-primary"><span class="ms-1 fa fa-check"></span>
+                                                            {{ $order->status }}</span>
                                                     @else
-                                                        <span class="badge badge-success">Enquiry<span
+                                                        <span class="text-success">Enquiry<span
                                                                 class="ms-1 fa fa-check"></span></span>
                                                     @endif
                                                 </td>
@@ -205,8 +205,8 @@
         </div>
     </div>
     <!--**********************************
-                                            Content body end
-                                        ***********************************-->
+                                                    Content body end
+                                                ***********************************-->
 
     <script>
         $('input[name="dates"]').daterangepicker();

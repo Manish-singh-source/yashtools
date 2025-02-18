@@ -73,7 +73,7 @@
                                                         <img src="{{ asset('uploads/products/thumbnails/' . $product->product_thumbain) }}"
                                                             class="rounded-lg me-2" width="40" alt="">
                                                         <div>
-                                                            <a href="{{ route('admin.product.details', $product->id) }}">
+                                                            <a href="{{ route('admin.product.details', $product->product_slug) }}">
                                                                 <h6 class="w-space-no mb-0 fs-14 font-w600">
                                                                     {{ $product->product_name }}
                                                                 </h6>
