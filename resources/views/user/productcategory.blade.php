@@ -145,7 +145,7 @@
                                     <div class="axil-product product-style-one">
                                         <div class="thumbnail">
                                             <a href="/product-detail-info/${product.product_slug}">
-                                                <img data-sal="fade" data-sal-delay="100" data-sal-duration="1500"
+                                                <img
                                                     src="{{ asset('uploads/products/thumbnails/${product.product_thumbain}') }}"
                                                     alt="Product Images">
                                             </a>
