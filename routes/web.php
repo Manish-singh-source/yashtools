@@ -204,4 +204,8 @@ Route::middleware(AdminAuthMiddleware::class . ':admin,superadmin')->group(funct
     // Enquiry Orders
     Route::get('/order', [EnquiryOrdersController::class, 'showOrders'])->name('admin.order');
     Route::get('/order-details/{id}', [EnquiryOrdersController::class, 'showOrderDetails'])->name('admin.order.details');
+
+    // Add to Cart Through API 
+    Route::post('/order-status', [FetchAPIs::class, 'changeOrderStatus'])->middleware('web');
+
 });

@@ -1,9 +1,13 @@
 @extends('admin.layouts.app')
 
+@section('csrf-token')
+    <meta name="csrf-token" content="{{ csrf_token() }}">
+@endsection
+
 @section('content-body')
     <!--**********************************
-                                                    Content body start
-                                                ***********************************-->
+                                                                            Content body start
+                                                                        ***********************************-->
     <div class="content-body">
         <div class="container-fluid">
             <div class="row">
@@ -119,13 +123,23 @@
                                                                 </svg></span></button>
                                                         <div class="dropdown-menu dropdown-menu-end border py-0"
                                                             aria-labelledby="order-dropdown-0">
-                                                            <div class="py-2"><a class="dropdown-item"
-                                                                    href="#!">Enquiry Enquiry Dismissed</a><a
-                                                                    class="dropdown-item" href="#!">Order
-                                                                    Confirmeded</a><a class="dropdown-item"
-                                                                    href="#!">Order Delivered</a><a
-                                                                    class="dropdown-item" href="#!">Payment
-                                                                    Received</a>
+                                                            <div class="py-2">
+                                                                <a class="dropdown-item changeStatus"
+                                                                    data-orderid="{{ $order->id }}"
+                                                                    data-orderstatus="dismissed" href="#!">Enquiry
+                                                                    Dismissed</a>
+                                                                <a class="dropdown-item changeStatus"
+                                                                    data-orderid="{{ $order->id }}"
+                                                                    data-orderstatus="confirmed" href="#!">Order
+                                                                    Confirmeded</a>
+                                                                <a class="dropdown-item changeStatus"
+                                                                    data-orderid="{{ $order->id }}"
+                                                                    data-orderstatus="delivered" href="#!">Order
+                                                                    Delivered</a>
+                                                                <a class="dropdown-item changeStatus"
+                                                                    data-orderid="{{ $order->id }}"
+                                                                    data-orderstatus="payment_received"
+                                                                    href="#!">Payment Received</a>
                                                             </div>
                                                         </div>
                                                     </div>
@@ -205,10 +219,54 @@
         </div>
     </div>
     <!--**********************************
-                                                    Content body end
-                                                ***********************************-->
+                                                                            Content body end
+                                                                        ***********************************-->
 
     <script>
         $('input[name="dates"]').daterangepicker();
+    </script>
+@endsection
+
+@section('scripts')
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js"
+        integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
+    <script>
+        $(document).ready(function() {
+            $.ajaxSetup({
+                headers: {
+                    "X-CSRF-TOKEN": $('meta[name="csrf-token"]').attr("content"),
+                },
+            });
+
+            $(document).on("click", ".changeStatus", function() {
+                let id = parseInt($(this).data('orderid')) || 0;
+                let status = $(this).data('orderstatus') || 0;
+
+                console.log(id);
+                console.log(status);
+
+                $.ajax({
+                    url: '/order-status',
+                    type: "POST",
+                    data: {
+                        enquiryid: id,
+                        enquiryStatus: status,
+                    },
+                    success: function(data) {
+                        if (data.status) {
+                            console.log(data.status);
+                            console.log(data.message)
+                            console.log(data.data)
+                            location.reload();
+                        }
+                    },
+                    error: function(xhr, status, error) {
+                        console.log(xhr);
+                        console.log(status);
+                        console.log(error);
+                    },
+                });
+            });
+        });
     </script>
 @endsection
