@@ -8,6 +8,8 @@ $(document).ready(function () {
     $(document).on("click", "#wishlistBtn", function () {
         let productid = $(this).data("productid");
         let productStatus = $(this).siblings(".status").val() || 0;
+        console.log(productid)
+        console.log(productStatus)
 
         $.ajax({
             url: "/add-to-favourite",
