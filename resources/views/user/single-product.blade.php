@@ -1,5 +1,9 @@
 @extends('user.layouts.app')
 
+@section('csrf-token')
+    <meta name="csrf-token" content="{{ csrf_token() }}">
+@endsection
+
 @section('style')
     <style>
         input[type=text1] {
@@ -309,9 +313,11 @@
                                         </ul>
                                     </div>
 
-                                    <a class="wishlist-btn margbot" id="wishlistBtn">
+                                    <a class="wishlist-btn margbot" id="wishlistBtn"
+                                        data-productid="{{ $selectedProduct->id }}">
                                         <i class="fas fa-heart"></i> Add to Favourites
                                     </a>
+                                    <input type="hidden" value="{{ $selectedProduct->status }}" class="status">
 
                                 </div>
                             </div>
@@ -354,11 +360,11 @@
                                                 </thead>
                                                 <tbody>
                                                     @foreach (array_slice($sheetData, 1) as $row)
-                                                        <tr data-code="{{ $row[0] }}" data-d1="{{ $row[1] }}"
-                                                            data-d2="{{ $row[2] }}" data-d3="{{ $row[3] }}"
-                                                            data-k="{{ $row[4] }}" data-l="{{ $row[5] }}"
-                                                            data-l1="{{ $row[6] }}" data-l2="{{ $row[7] }}"
-                                                            data-l3="{{ $row[8] }}">
+                                                        <tr data-code="{{ $row[0] }}"
+                                                            data-d1="{{ $row[1] }}" data-d2="{{ $row[2] }}"
+                                                            data-d3="{{ $row[3] }}" data-k="{{ $row[4] }}"
+                                                            data-l="{{ $row[5] }}" data-l1="{{ $row[6] }}"
+                                                            data-l2="{{ $row[7] }}" data-l3="{{ $row[8] ?? '' }}">
 
                                                             <td data-label="Code">{{ $row[0] }}</td>
                                                             <td data-label="d1">{{ $row[1] }}</td>
@@ -368,7 +374,7 @@
                                                             <td data-label="L">{{ $row[5] }}</td>
                                                             <td data-label="L1">{{ $row[6] }}</td>
                                                             <td data-label="L2">{{ $row[7] }}</td>
-                                                            <td data-label="L3">{{ $row[8] }}</td>
+                                                            <td data-label="L3">{{ $row[8] ?? '' }}</td>
                                                             <td>{{ $row[9] ?? '---' }}</td>
                                                             <td data-label="Action"><button class="action-btn">3D</button>
                                                             </td>
@@ -610,4 +616,5 @@
         //     });
         // }
     </script>
+    <script src="{{ asset('assets/js/add-to-fav.js') }}"></script>
 @endsection
