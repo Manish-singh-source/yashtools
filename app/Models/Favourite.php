@@ -22,4 +22,7 @@ class Favourite extends Model
         return Carbon::parse($value)->format('Y-M-d'); 
     }
 
+    public function products() {
+        return $this->belongsTo(Product::class, 'product_id');
+    }
 }
