@@ -61,12 +61,6 @@ class HomeController extends Controller
 
         // Return JSON response
         return response()->json($products);
-
-        $categories = Categories::orderby('updated_at', 'desc')->limit(8)->get();
-        $subcategories = SubCategories::orderby('updated_at', 'desc')->limit(8)->get();
-        $brands = Brand::orderby('updated_at', 'desc')->limit(8)->get();
-        $products = Product::orderby('updated_at', 'desc')->paginate(12);
-        return view('user.shop', compact('categories', 'brands', 'subcategories', 'products'));
     }
 
     public function singleProductView(String $slug)
