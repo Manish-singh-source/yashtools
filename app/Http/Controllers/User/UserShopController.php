@@ -34,10 +34,14 @@ class UserShopController extends Controller
         $selectedProduct = Product::with('brands')->where('product_slug', $slug)->orderby('updated_at', 'desc')->first();
         $favouritesProducts = Favourite::where('product_id', $selectedProduct->id)->where('user_id', Auth::id())->first();
 
+        $similarProducts = Product::where('product_category_id', $selectedProduct->product_category_id)->where('id', '!=', $selectedProduct->id)->limit(4)->get();
+        // dd($similarProducts);
+        if ($similarProducts->isEmpty()) {
+            $similarProducts = Product::where('id', '!=', $selectedProduct->id)->limit(4)->get();
+        }
         if (!empty($selectedProduct->product_specs)) {
             $path = public_path('uploads/products/product_specs/' . $selectedProduct->product_specs);
 
-            // dd($selectedProduct);
             if (!file_exists($path)) {
                 die('File not found: ' . $path);
             }
@@ -47,8 +51,8 @@ class UserShopController extends Controller
                 $sheetData = $data[0];
             }
             $spreadsheet = \PhpOffice\PhpSpreadsheet\IOFactory::load($path);
-            return view('user.productdetails', compact('categories', 'brands', 'subcategories', 'selectedProduct', 'sheetData', 'favouritesProducts'));
+            return view('user.productdetails', compact('categories', 'brands', 'subcategories', 'selectedProduct', 'sheetData', 'favouritesProducts', 'similarProducts'));
         }
-        return view('user.productdetails', compact('categories', 'brands', 'subcategories', 'selectedProduct', 'favouritesProducts'));
+        return view('user.productdetails', compact('categories', 'brands', 'subcategories', 'selectedProduct', 'favouritesProducts', 'similarProducts'));
     }
 }
