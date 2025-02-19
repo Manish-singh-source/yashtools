@@ -475,74 +475,26 @@
                     <h2 class="title">Recently Viewed Items</h2>
                 </div>
                 <div class="row row--15">
-                    <div class="col-xl-3 col-lg-4 col-sm-6 col-12 mb--30">
-                        <div class="axil-product product-style-one">
-                            <div class="thumbnail">
-                                <a href="single-product.php">
-                                    <img data-sal="fade" data-sal-delay="100" data-sal-duration="1500"
-                                        src="{{ asset('assets\images\product\1.png') }}" alt="Product Images">
-                                </a>
-
-                            </div>
-                            <div class="product-content">
-                                <div class="inner">
-                                    <h5 class="title"><a href="single-product.php">SLIDES & ACCESSORIES</a></h5>
+                    @foreach ($similarProducts as $product)
+                        <div class="col-xl-3 col-lg-4 col-sm-6 col-12 mb--30">
+                            <div class="axil-product product-style-one">
+                                <div class="thumbnail">
+                                    <a href="{{ route('user.single.product', $product->product_slug) }}">
+                                        <img data-sal="fade" data-sal-delay="100" data-sal-duration="1500"
+                                            src="{{ asset('uploads/products/thumbnails/' . $product->product_thumbain) }}"
+                                            alt="Product Images">
+                                    </a>
+                                </div>
+                                <div class="product-content">
+                                    <div class="inner">
+                                        <h5 class="title"><a
+                                                href="{{ route('user.single.product', $product->product_slug) }}">{{ $product->product_name }}</a>
+                                        </h5>
+                                    </div>
                                 </div>
                             </div>
                         </div>
-                    </div>
-                    <!-- End Single Product  -->
-                    <div class="col-xl-3 col-lg-4 col-sm-6 col-12 mb--30">
-                        <div class="axil-product product-style-one">
-                            <div class="thumbnail">
-                                <a href="single-product.php">
-                                    <img data-sal="fade" data-sal-delay="100" data-sal-duration="1500"
-                                        src="{{ asset('assets\images\product\2.png') }}" alt="Product Images">
-                                </a>
-
-                            </div>
-                            <div class="product-content">
-                                <div class="inner">
-                                    <h5 class="title"><a href="single-product.php">Side Core Base</a></h5>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <!-- End Single Product  -->
-                    <div class="col-xl-3 col-lg-4 col-sm-6 col-12 mb--30">
-                        <div class="axil-product product-style-one">
-                            <div class="thumbnail">
-                                <a href="single-product.php">
-                                    <img data-sal="fade" data-sal-delay="100" data-sal-duration="1500"
-                                        src="{{ asset('assets\images\product\3.png') }}" alt="Product Images">
-                                </a>
-
-                            </div>
-                            <div class="product-content">
-                                <div class="inner">
-                                    <h5 class="title"><a href="single-product.php">Guide Rail</a></h5>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <!-- End Single Product  -->
-                    <div class="col-xl-3 col-lg-4 col-sm-6 col-12 mb--30">
-                        <div class="axil-product product-style-one">
-                            <div class="thumbnail">
-                                <a href="single-product.php">
-                                    <img data-sal="fade" data-sal-delay="100" data-sal-duration="1500"
-                                        src="{{ asset('assets\images\product\4.png') }}" alt="Product Images">
-                                </a>
-
-                            </div>
-                            <div class="product-content">
-                                <div class="inner">
-                                    <h5 class="title"><a href="single-product.php">center Guide Rail</a></h5>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
+                    @endforeach
                 </div>
             </div>
         </div>
