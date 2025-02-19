@@ -89,14 +89,17 @@ class EnvoiceController extends Controller
 
     public function ordersList(Request $request)
     {
-        
-        $query = Enquiry::where('customer_id', Auth::id())->with('invoice')->query();
-        $query->orderBy('updated_at', $request->sort_by ?? 'asc');
 
-        // Fetch paginated data (10 products per page)
-        $products = $query->where('customer_id', Auth::id())->with('invoice')->paginate(5);
+        $query = Enquiry::where('customer_id', Auth::id())->with('invoice');
+
+        // Apply sorting
+        $sortBy = in_array($request->sort_by, ['asc', 'desc']) ? $request->sort_by : 'desc';
+        $query->orderBy('updated_at', $sortBy);
+
+        // Fetch paginated data (5 records per page)
+        $products = $query->paginate(5);
 
         // Return JSON response
-        return response()->json(['success' => 'success']);
+        return response()->json($products);
     }
 }
