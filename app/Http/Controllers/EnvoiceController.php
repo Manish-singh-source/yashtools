@@ -2,9 +2,11 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\OrdersTrack;
+use App\Models\Enquiry;
 use App\Models\OrderTrack;
+use App\Models\OrdersTrack;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Validator;
 
 class EnvoiceController extends Controller
@@ -82,5 +84,19 @@ class EnvoiceController extends Controller
 
         flash()->success('Invoice Details Updated Successfully.');
         return redirect()->route('admin.order');
+    }
+
+
+    public function ordersList(Request $request)
+    {
+        
+        $query = Enquiry::where('customer_id', Auth::id())->with('invoice')->query();
+        $query->orderBy('updated_at', $request->sort_by ?? 'asc');
+
+        // Fetch paginated data (10 products per page)
+        $products = $query->where('customer_id', Auth::id())->with('invoice')->paginate(5);
+
+        // Return JSON response
+        return response()->json(['success' => 'success']);
     }
 }

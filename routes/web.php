@@ -25,11 +25,11 @@ Route::get('/signup', [UserController::class, 'signupView'])->name('signup');
 Route::post('/register-user', [UserController::class, 'registerData'])->name('register.user');
 Route::post('/signin-user', [UserController::class, 'authUser'])->name('auth.user');
 
-Route::get('/privacy-policy',[HomeController::class, 'privacypolicy'])->name('privacy.policy');
+Route::get('/privacy-policy', [HomeController::class, 'privacypolicy'])->name('privacy.policy');
 
-Route::get('/terms-conditions',[HomeController::class, 'termsconditions'])->name('terms.conditions');
-Route::get('/faq',[HomeController::class, 'faq'])->name('faq');
-Route::get('/feedback',[HomeController::class, 'feedback'])->name('feedback');
+Route::get('/terms-conditions', [HomeController::class, 'termsconditions'])->name('terms.conditions');
+Route::get('/faq', [HomeController::class, 'faq'])->name('faq');
+Route::get('/feedback', [HomeController::class, 'feedback'])->name('feedback');
 // user routes: pages
 Route::get('/', [HomeController::class, 'homeView'])->name('user.home');
 Route::get('/shop', [HomeController::class, 'shopView'])->name('user.shop');
@@ -46,8 +46,7 @@ Route::get('/cart', function () {
 
 Route::get('/contact-us', [HomeController::class, 'contactUs'])->name('user.contact.us');
 
-Route::get('/events', [HomeController::class, 'events'])->name('user.event');
-;
+Route::get('/events', [HomeController::class, 'events'])->name('user.event');;
 
 Route::middleware('isCustomerAuth:customer')->group(function () {
     Route::get('/dashboard', function () {
@@ -65,6 +64,9 @@ Route::middleware('isCustomerAuth:customer')->group(function () {
     })->name('user.favourites');
 
     Route::get('/account', [UserProfileController::class, 'userProfile'])->name('user.account');
+    Route::get('/orders', [EnvoiceController::class, 'ordersList']);
+
+
     Route::post('/update-account', [UserProfileController::class, 'updateProfile'])->name('user.update.account');
     Route::get('/product-detail-info/{slug}', [UserShopController::class, 'productDetails'])->name('user.product.details');
 
@@ -194,7 +196,7 @@ Route::middleware(AdminAuthMiddleware::class . ':admin,superadmin')->group(funct
     Route::post('/delete-brand-table', [FetchAPIs::class, 'deleteSelectedBrands'])->middleware('web');
     Route::post('/delete-event-table', [FetchAPIs::class, 'deleteSelectedEvents'])->middleware('web');
     Route::post('/delete-product-table', [FetchAPIs::class, 'deleteSelectedProducts'])->middleware('web');
-    
+
     // Invoice Routes
     Route::post('/add-invoice-details', [EnvoiceController::class, 'addInvoice'])->name('add.invoice');
     Route::put('/update-invoice-details', [EnvoiceController::class, 'updateInvoice'])->name('update.invoice');
@@ -209,5 +211,4 @@ Route::middleware(AdminAuthMiddleware::class . ':admin,superadmin')->group(funct
 
     // Add to Cart Through API 
     Route::post('/order-status', [FetchAPIs::class, 'changeOrderStatus'])->middleware('web');
-
 });

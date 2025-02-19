@@ -6,6 +6,8 @@ use App\Models\User;
 use App\Models\UserDetail;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use App\Models\Enquiry;
+use App\Models\OrdersTrack;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Validator;
 
@@ -14,7 +16,9 @@ class UserProfileController extends Controller
     public function userProfile()
     {
         $user = User::with('userDetail')->where('id', Auth::id())->first();
-        return view('user.mainorder', compact('user'));
+        $orders = Enquiry::where('customer_id', $user->id)->with('invoice')->get();
+        // dd($orders);
+        return view('user.mainorder', compact('user', 'orders'));
     }
 
     public function updateProfile(Request $request)
