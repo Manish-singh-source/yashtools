@@ -25,7 +25,11 @@ Route::get('/signup', [UserController::class, 'signupView'])->name('signup');
 Route::post('/register-user', [UserController::class, 'registerData'])->name('register.user');
 Route::post('/signin-user', [UserController::class, 'authUser'])->name('auth.user');
 
+Route::get('/privacy-policy',[HomeController::class, 'privacypolicy'])->name('privacy.policy');
 
+Route::get('/terms-conditions',[HomeController::class, 'termsconditions'])->name('terms.conditions');
+Route::get('/faq',[HomeController::class, 'faq'])->name('faq');
+Route::get('/feedback',[HomeController::class, 'feedback'])->name('feedback');
 // user routes: pages
 Route::get('/', [HomeController::class, 'homeView'])->name('user.home');
 Route::get('/shop', [HomeController::class, 'shopView'])->name('user.shop');
@@ -34,7 +38,7 @@ Route::get('/shop-api', [HomeController::class, 'shopViewAPI'])->name('user.shop
 
 Route::get('/single-product/{slug}', [HomeController::class, 'singleProductView'])->name('user.single.product');
 
-Route::get('/about-us',  [HomeController::class, 'homeView'])->name('user.about.us');
+Route::get('/about-us',  [HomeController::class, 'aboutUs'])->name('user.about.us');
 
 Route::get('/cart', function () {
     return view('user.cart');
@@ -43,14 +47,7 @@ Route::get('/cart', function () {
 Route::get('/contact-us', [HomeController::class, 'contactUs'])->name('user.contact.us');
 
 Route::get('/events', [HomeController::class, 'events'])->name('user.event');
-
-Route::get('/faq', function () {
-    return view('user.faq');
-})->name('user.faq');
-
-Route::get('/feedback', function () {
-    return view('user.feedback');
-})->name('user.feedback');
+;
 
 Route::middleware('isCustomerAuth:customer')->group(function () {
     Route::get('/dashboard', function () {

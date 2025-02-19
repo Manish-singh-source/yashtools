@@ -108,4 +108,47 @@ class HomeController extends Controller
         $events = Event::get();
         return view('user.contact', compact('categories', 'brands', 'subcategories', 'events'));
     }
+
+    public function aboutUs()
+    {
+        $categories = Categories::orderby('updated_at', 'desc')->limit(8)->get();
+        $subcategories = SubCategories::orderby('updated_at', 'desc')->limit(8)->get();
+        $brands = Brand::orderby('updated_at', 'desc')->limit(8)->get();
+        $events = Event::get();
+        return view('user.about-us', compact('categories', 'brands', 'subcategories', 'events'));
+    }
+
+    public function privacypolicy()
+    {
+        $categories = Categories::orderby('updated_at', 'desc')->limit(8)->get();
+        $subcategories = SubCategories::orderby('updated_at', 'desc')->limit(8)->get();
+        $brands = Brand::orderby('updated_at', 'desc')->limit(8)->get();
+        $events = Event::get();
+        return view('user.privacy-policy', compact('categories', 'brands', 'subcategories', 'events'));
+    }
+
+    public function termsconditions()
+    {
+        $categories = Categories::orderby('updated_at', 'desc')->limit(8)->get();
+        $subcategories = SubCategories::orderby('updated_at', 'desc')->limit(8)->get();
+        $brands = Brand::orderby('updated_at', 'desc')->limit(8)->get();
+        $events = Event::get();
+        return view('user.terms-conditions', compact('categories', 'brands', 'subcategories', 'events'));
+    }
+    public function faq()
+    {
+        $categories = Categories::orderby('updated_at', 'desc')->limit(8)->get();
+        $subcategories = SubCategories::orderby('updated_at', 'desc')->limit(8)->get();
+        $brands = Brand::orderby('updated_at', 'desc')->limit(8)->get();
+        $events = Event::get();
+        return view('user.faq', compact('categories', 'brands', 'subcategories', 'events'));
+    }
+    public function feedback()
+    {
+        $categories = Categories::orderby('updated_at', 'desc')->limit(8)->get();
+        $subcategories = SubCategories::orderby('updated_at', 'desc')->limit(8)->get();
+        $brands = Brand::orderby('updated_at', 'desc')->limit(8)->get();
+        $events = Event::get();
+        return view('user.feedback', compact('categories', 'brands', 'subcategories', 'events'));
+    }
 }

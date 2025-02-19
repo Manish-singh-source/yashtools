@@ -187,10 +187,10 @@
                             <h5 class="widget-title">Quick Links</h5>
                             <div class="inner">
                                 <ul>
-                                    <li><a href="sign-up.php">Login / Signup</a></li>
-                                    <li><a href="about-us.php">About US</a></li>
-                                    <li><a href="shop.php">Products</a></li>
-                                    <li><a href="event.php">Events</a></li>
+                                    <li><a href="{{ route('signin') }}">Login / Signup</a></li>
+                                    <li><a href="{{ route('user.about.us') }}">About US</a></li>
+                                    <li><a href="{{ route('user.shop') }}">Products</a></li>
+                                    <li><a href="{{ route('user.event') }}">Events</a></li>
                                 </ul>
                             </div>
                         </div>
@@ -202,10 +202,10 @@
                             <h5 class="widget-title">Support</h5>
                             <div class="inner">
                                 <ul>
-                                    <li><a href="privacy-policy.php">Privacy Policy</a></li>
-                                    <li><a href="terms-conditions.php">Terms and Conditions</a></li>
-                                    <li><a href="faq.php">FAQ's</a></li>
-                                    <li><a href="feedback.php">Feedback</a></li>
+                                    <li><a href="{{ route('privacy.policy') }}">Privacy Policy</a></li>
+                                    <li><a href="{{ route('terms.conditions') }}">Terms and Conditions</a></li>
+                                    <li><a href="{{ route('faq') }}">FAQ's</a></li>
+                                    <li><a href="{{ route('feedback') }}">Feedback</a></li>
                                 </ul>
                             </div>
                         </div>
@@ -247,8 +247,8 @@
                                     <li><a>If you have any questions ? please feel free to contact us.</a></li>
                                     <li>
                                         <div class="form-group mb--0">
-                                            <button name="submit" type="submit" id="submit"
-                                                class="axil-btn btn-bg-primary">Contact Us</button>
+                                            <a href="{{ route('user.contact.us')}}" type="submit" id="submit"
+                                                class="axil-btn btn-bg-primary">Contact Us</a>
                                         </div>
                                     </li>
                                 </ul>
