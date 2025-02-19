@@ -17,6 +17,7 @@ use App\Http\Controllers\Admin\CustomersController;
 use App\Http\Controllers\Admin\CategoriesController;
 use App\Http\Controllers\User\UserProfileController;
 use App\Http\Controllers\Admin\SubCategoryController;
+use App\Http\Controllers\EnvoiceController;
 
 // user routes: Authentication 
 Route::get('/signin', [UserController::class, 'signinView'])->name('signin');
@@ -196,6 +197,10 @@ Route::middleware(AdminAuthMiddleware::class . ':admin,superadmin')->group(funct
     Route::post('/delete-brand-table', [FetchAPIs::class, 'deleteSelectedBrands'])->middleware('web');
     Route::post('/delete-event-table', [FetchAPIs::class, 'deleteSelectedEvents'])->middleware('web');
     Route::post('/delete-product-table', [FetchAPIs::class, 'deleteSelectedProducts'])->middleware('web');
+    
+    // Invoice Routes
+    Route::post('/add-invoice-details', [EnvoiceController::class, 'addInvoice'])->name('add.invoice');
+    Route::put('/update-invoice-details', [EnvoiceController::class, 'updateInvoice'])->name('update.invoice');
 
     // Profile Routes
     Route::get('/profile', [AdminController::class, 'profileView'])->name('admin.profile');
@@ -203,7 +208,7 @@ Route::middleware(AdminAuthMiddleware::class . ':admin,superadmin')->group(funct
 
     // Enquiry Orders
     Route::get('/order', [EnquiryOrdersController::class, 'showOrders'])->name('admin.order');
-    Route::get('/order-details/{id}', [EnquiryOrdersController::class, 'showOrderDetails'])->name('admin.order.details');
+    Route::get('/order-details/{id}/{invoice_id?}', [EnquiryOrdersController::class, 'showOrderDetails'])->name('admin.order.details');
 
     // Add to Cart Through API 
     Route::post('/order-status', [FetchAPIs::class, 'changeOrderStatus'])->middleware('web');

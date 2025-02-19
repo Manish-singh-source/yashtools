@@ -1,7 +1,6 @@
 @extends('admin.layouts.app')
 
 @section('content-body')
-
     <div class="content-body">
         <div class="container-fluid">
             <div class="row">
@@ -81,38 +80,189 @@
                             </table>
                         </div>
                     </div>
-                    <div class="card h-auto">
-                        <div class="card-header py-3">
-                            <h4 class="card-title--medium mb-0">Upload File</h4>
+
+
+                    @if ($invoiceDetails != null)
+                        <div class="card h-auto">
+                            <div class="card-header py-3">
+                                <h4 class="card-title--medium mb-0">Upload Invoice Details</h4>
+                            </div>
+                            <form action="{{ route('update.invoice') }}" method="POST" enctype="multipart/form-data">
+                                @csrf
+                                @method('PUT')
+
+                                <div class="card">
+                                    <div class="card-body">
+                                        <div class="row">
+                                            <div class="col-md-6 mb-3">
+                                                <label for="formFile" class="form-label">Attached Invoice</label>
+                                                <input class="form-control @error('invoice_file') is-invalid @enderror"
+                                                    type="file" name="invoice_file" id="formFile" accept=".pdf">
+                                                @error('invoice_file')
+                                                    <div class="invalid-feedback">
+                                                        {{ $message }}
+                                                    </div>
+                                                @enderror
+                                            </div>
+                                            <div class="col-md-6 mb-3">
+                                                <label class="form-label">Courier Name</label>
+                                                <input class="form-control" name="enquiry_id"
+                                                    value="{{ $order->enquiry_id }}" type="hidden" required>
+                                                <input class="form-control" name="invoice_id"
+                                                    value="{{ $invoiceDetails->id }}" type="hidden" required>
+                                                <input class="form-control @error('courier_name') is-invalid @enderror"
+                                                    name="courier_name" value="{{ $invoiceDetails->courier_name }}"
+                                                    type="text">
+                                                @error('courier_name')
+                                                    <div class="invalid-feedback">
+                                                        {{ $message }}
+                                                    </div>
+                                                @enderror
+                                            </div>
+                                            <div class="col-md-6 mb-3">
+                                                <label class="form-label">Courier Number</label>
+                                                <input class="form-control @error('courier_number') is-invalid @enderror"
+                                                    name="courier_number" value="{{ $invoiceDetails->courier_number }}"
+                                                    type="text">
+                                                @error('courier_number')
+                                                    <div class="invalid-feedback">
+                                                        {{ $message }}
+                                                    </div>
+                                                @enderror
+                                            </div>
+                                            <div class="col-md-6 mb-3">
+                                                <label class="form-label">Courier Website</label>
+                                                <input class="form-control @error('courier_website') is-invalid @enderror"
+                                                    name="courier_website"
+                                                    value="{{ $invoiceDetails->courier_website }}"type="text">
+                                                @error('courier_website')
+                                                    <div class="invalid-feedback">
+                                                        {{ $message }}
+                                                    </div>
+                                                @enderror
+                                            </div>
+                                        </div>
+                                        <div class="text-end">
+                                            <button type="submit" class="btn btn-primary btn-sm">Upload</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </form>
                         </div>
-                        <form>
+                    @elseif($invoice == null)
+                        <div class="card h-auto">
+                            <div class="card-header py-3">
+                                <h4 class="card-title--medium mb-0">Upload Invoice Details</h4>
+                            </div>
+                            <form action="{{ route('add.invoice') }}" method="POST" enctype="multipart/form-data">
+                                @csrf
+                                @method('POST')
+
+                                <div class="card">
+                                    <div class="card-body">
+                                        <div class="row">
+                                            <div class="col-md-6 mb-3">
+                                                <label for="formFile" class="form-label">Attached Invoice</label>
+                                                <input class="form-control @error('invoice_file') is-invalid @enderror"
+                                                    type="file" name="invoice_file" accept=".pdf" id="formFile">
+                                                @error('invoice_file')
+                                                    <div class="invalid-feedback">
+                                                        {{ $message }}
+                                                    </div>
+                                                @enderror
+                                            </div>
+                                            <div class="col-md-6 mb-3">
+                                                <label class="form-label">Courier Name</label>
+                                                <input class="form-control" name="enquiry_id"
+                                                    value="{{ $order->enquiry_id }}" type="hidden" required>
+                                                <input class="form-control @error('courier_name') is-invalid @enderror"
+                                                    name="courier_name" type="text">
+                                                @error('courier_name')
+                                                    <div class="invalid-feedback">
+                                                        {{ $message }}
+                                                    </div>
+                                                @enderror
+                                            </div>
+                                            <div class="col-md-6 mb-3">
+                                                <label class="form-label">Courier Number</label>
+                                                <input class="form-control @error('courier_number') is-invalid @enderror"
+                                                    name="courier_number" type="text">
+                                                @error('courier_number')
+                                                    <div class="invalid-feedback">
+                                                        {{ $message }}
+                                                    </div>
+                                                @enderror
+                                            </div>
+                                            <div class="col-md-6 mb-3">
+                                                <label class="form-label">Courier Website</label>
+                                                <input class="form-control @error('courier_website') is-invalid @enderror"
+                                                    name="courier_website" type="text">
+                                                @error('courier_website')
+                                                    <div class="invalid-feedback">
+                                                        {{ $message }}
+                                                    </div>
+                                                @enderror
+                                            </div>
+                                        </div>
+                                        <div class="text-end">
+                                            <button type="submit" class="btn btn-primary btn-sm">Upload</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                    @elseif($invoice != null)
+                        <div class="card h-auto">
+                            <div class="card-header py-3">
+                                <h4 class="card-title--medium mb-0">View Invoice Details</h4>
+                            </div>
+
                             <div class="card">
                                 <div class="card-body">
                                     <div class="row">
                                         <div class="col-md-6 mb-3">
-                                            <label for="formFile" class="form-label">Attached Invoice</label>
-                                            <input class="form-control" type="file" id="formFile">
+                                            <div>Attached Invoice</div>
+                                            <div>
+                                                <div class="col-lg-3 col-sm-6">
+                                                    <a href="{{ asset('uploads/invoices/' . $invoice->invoice_file) }}" target="_blank">
+                                                        <div class="d-flex align-items-center">
+                                                            <div class="me-3">
+                                                                <img src="{{ asset('admin/assets/images/files/pdf.png') }}"
+                                                                    width="35" alt="">
+                                                            </div>
+                                                            <div class="clearfix">
+                                                                <h6 class="mb-0">PDF</h6>
+                                                                <span class="fs-13">1.5MB</span>
+                                                            </div>
+                                                        </div>
+                                                    </a>
+                                                </div>
+                                            </div>
                                         </div>
                                         <div class="col-md-6 mb-3">
-                                            <label class="form-label">Courier Name</label>
-                                            <input class="form-control" type="text" required>
+                                            <div>Courier Name</div>
+                                            <div>{{ $invoice->courier_name }}</div>
+
                                         </div>
                                         <div class="col-md-6 mb-3">
-                                            <label class="form-label">Courier Number</label>
-                                            <input class="form-control" type="text" required>
+                                            <div>Courier Number</div>
+                                            <div>{{ $invoice->courier_number }}</div>
+
                                         </div>
                                         <div class="col-md-6 mb-3">
-                                            <label class="form-label">Courier Website</label>
-                                            <input class="form-control" type="text" required>
+                                            <div>Courier Website</div>
+                                            <div>{{ $invoice->courier_website }}</div>
                                         </div>
                                     </div>
                                     <div class="text-end">
-                                        <a href="#" class="btn btn-primary btn-sm">Upload</a>
+                                        <a href="{{ route('admin.order.details', [$order->id, $invoice->id]) }}"
+                                            class="btn btn-primary btn-sm">Update</a>
                                     </div>
                                 </div>
                             </div>
-                        </form>
-                    </div>
+                        </div>
+                    @endif
+
 
                 </div>
                 <div class="col-md-4">
