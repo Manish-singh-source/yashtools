@@ -18,6 +18,7 @@ use App\Http\Controllers\Admin\CategoriesController;
 use App\Http\Controllers\User\UserProfileController;
 use App\Http\Controllers\Admin\SubCategoryController;
 use App\Http\Controllers\EnvoiceController;
+use App\Http\Controllers\FavouritesController;
 
 // user routes: Authentication 
 Route::get('/signin', [UserController::class, 'signinView'])->name('signin');
@@ -59,9 +60,7 @@ Route::middleware('isCustomerAuth:customer')->group(function () {
         return view('user.maincart');
     })->name('user.maincart');
 
-    Route::get('/favourites', function () {
-        return view('user.maincollection');
-    })->name('user.favourites');
+    Route::get('/favourites', [FavouritesController::class, 'favouriteItems'])->name('user.favourites');
 
     Route::get('/account', [UserProfileController::class, 'userProfile'])->name('user.account');
     Route::get('/orders', [EnvoiceController::class, 'ordersList']);
