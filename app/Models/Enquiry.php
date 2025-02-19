@@ -30,4 +30,8 @@ class Enquiry extends Model
     {
         return $this->hasMany(EnquiryProducts::class,  'enquiry_id');
     }
+
+    public function invoice() {
+        return $this->hasOne(OrdersTrack::class, 'enquiry_id', 'enquiry_id');
+    }
 }

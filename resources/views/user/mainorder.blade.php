@@ -1,5 +1,9 @@
 @extends('user.layouts.masterlayout')
 
+@section('csrf-token')
+    <meta name="csrf-token" content="{{ csrf_token() }}">
+@endsection
+
 @section('style')
     <style>
         .date-filter {
@@ -112,9 +116,10 @@
                                             <div class="col-lg-3">
                                                 <div class="category-select mt_md--10 mt_sm--10 justify-content-lg-end">
                                                     <!-- Start Single Select  -->
-                                                    <select class="single-select">
-                                                        <option>Sort by Ascending</option>
-                                                        <option>Sort by Descending</option>
+                                                    <select class="single-select" id="sort_by">
+                                                        <option value="">--Select --</option>
+                                                        <option value="asc">Sort by Ascending</option>
+                                                        <option value="desc">Sort by Descending</option>
                                                     </select>
                                                     <!-- End Single Select  -->
                                                 </div>
@@ -126,7 +131,7 @@
                                             <table class="table">
                                                 <thead>
                                                     <tr>
-                                                        <th scope="col">Sr No</th>
+                                                        <th scope="col">Enquiry Id</th>
                                                         <th scope="col">Invoice Date</th>
                                                         <th scope="col">Invoice Number</th>
                                                         <th scope="col">Invoice</th>
@@ -134,61 +139,43 @@
                                                         <th scope="col">Status</th>
                                                     </tr>
                                                 </thead>
-                                                <tbody>
-                                                    <tr>
-                                                        <th scope="row">1</th>
-                                                        <td>September 10, 2020</td>
-                                                        <td>#1254</td>
-                                                        <td><a href="#" target="_blank">
-                                                                <i class="fas fa-file-pdf fs"></i>
-                                                            </a></td>
-                                                        <td>Track ID</td>
+                                                <tbody id="product_list">
+                                                    @forelse ($orders as $order)
+                                                        <tr>
+                                                            <td>{{ $order->enquiry_id }}</td>
+                                                            <td>{{ $order->invoice->updated_at ?? 'NA' }}</td>
+                                                            <td>{{ $order->invoice->courier_number ?? 'NA' }}</td>
+                                                            @isset($order->invoice->invoice_file)
+                                                                <td>
+                                                                    <a href="{{ asset('uploads/invoices/' . ($order->invoice->invoice_file ?? '')) }}"
+                                                                        target="_blank">
+                                                                        <i class="fas fa-file-pdf fs"></i>
+                                                                    </a>
+                                                                </td>
+                                                            @else
+                                                                <td>NA</td>
+                                                            @endisset
+                                                            <td>
+                                                                <div>{{ $order->invoice->courier_name ?? 'NA' }} </div>
+                                                                <br>
+                                                                @isset($order->invoice->courier_website)
+                                                                    <div><a
+                                                                            href="{{ $order->invoice->courier_website ?? 'NA' }}">Visit
+                                                                            Courier Website</a></div>
+                                                                @endisset
+                                                            </td>
+                                                            @isset($order->invoice->id)
+                                                                <td>{{ $order->status }}</td>
+                                                            @else
+                                                                <td class="text-danger">Pending</td>
+                                                            @endisset
+                                                        </tr>
+                                                    @empty
+                                                        <tr>
+                                                            <th rowspan="6">No Invoice Found</th>
+                                                        </tr>
+                                                    @endforelse
 
-                                                        <td>Complete</td>
-                                                    </tr>
-                                                    <tr>
-                                                        <th scope="row">2</th>
-                                                        <td>September 10, 2020</td>
-                                                        <td>#1254</td>
-                                                        <td><a href="#" target="_blank">
-                                                                <i class="fas fa-file-pdf fs"></i>
-                                                            </a></td>
-                                                        <td>Track ID</td>
-
-                                                        <td>Incomplete</td>
-                                                    </tr>
-                                                    <tr>
-                                                        <th scope="row">3</th>
-                                                        <td>September 10, 2020</td>
-                                                        <td>#1254</td>
-                                                        <td><a href="#" target="_blank">
-                                                                <i class="fas fa-file-pdf fs"></i>
-                                                            </a></td>
-                                                        <td>Track ID</td>
-
-                                                        <td>Complete</td>
-                                                    </tr>
-                                                    <tr>
-                                                        <th scope="row">4</th>
-                                                        <td>September 10, 2020</td>
-                                                        <td>#1254</td>
-                                                        <td><a href="#" target="_blank">
-                                                                <i class="fas fa-file-pdf fs"></i>
-                                                            </a></td>
-                                                        <td>Track ID</td>
-
-                                                        <td>Complete</td>
-                                                    </tr>
-                                                    <tr>
-                                                        <th scope="row">5</th>
-                                                        <td>September 10, 2020</td>
-                                                        <td>#1254</td>
-                                                        <td><a href="#" target="_blank">
-                                                                <i class="fas fa-file-pdf fs"></i>
-                                                            </a></td>
-                                                        <td>Track ID</td>
-                                                        <td>Complete</td>
-                                                    </tr>
                                                 </tbody>
                                             </table>
                                         </div>
@@ -197,8 +184,8 @@
                                 <div class="tab-pane fade" id="nav-account" role="tabpanel">
                                     <div class="col-lg-12">
                                         <div class="axil-dashboard-account">
-                                            <form class="account-details-form" action="{{ route('user.update.account') }}"
-                                                method="POST">
+                                            <form class="account-details-form"
+                                                action="{{ route('user.update.account') }}" method="POST">
                                                 @csrf
                                                 @method('POST')
 
@@ -295,4 +282,92 @@
 
     </main>
     <!-- Start Footer Area  -->
+@endsection
+
+
+@section('script')
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js"
+        integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
+    <script>
+        $(document).ready(function() {
+            fetchProducts();
+
+            function fetchProducts(page = 1) {
+                let sortBy = $('#sort_by').val();
+                let dateRange = $('#category_filter').val();
+                console.log(sortBy);
+
+                $.ajax({
+                    url: "/orders?page=" + page,
+                    type: "GET",
+                    data: {
+                        sort_by: sortBy,
+                    },
+                    success: function(response) {
+                        $('#product_list').html('');
+                        console.log(response.data);
+                        $.each(response.data, function(index, product) {
+                            console.log(index);
+                            console.log(product);
+
+                            $('#product_list').append(
+                                `<tr>
+                                    <td>${product.enquiry_id}</td>
+                                    <td>${product.invoice.updated_at ?? 'NA'}</td>
+                                    <td>${product.invoice.courier_number ?? 'NA'}</td>
+                                    <td>
+                                        <a href="{{ asset('uploads/invoices/${product.invoice.invoice_file}') }}"
+                                            target="_blank">
+                                            <i class="fas fa-file-pdf fs"></i>
+                                        </a>
+                                    </td>
+                                    <td>
+                                        <div>${product.invoice.courier_name ?? 'NA'} </div>
+                                        <br>
+                                        <div><a
+                                                href="${product.invoice.courier_website ?? 'NA'}">Visit
+                                                Courier Website</a></div>
+                                    </td>
+                                    <td>${product.status ?? 'NA'}</td>
+                                </tr>`
+                            );
+                        });
+
+                        // Pagination Links
+                        $('#pagination_links').html('');
+                        if (response.links) {
+                            $.each(response.links, function(index, link) {
+                                if (link.url) {
+                                    $('#pagination_links').append(
+                                        `<div class="text-center pt--30">
+                                            <div class="center">
+                                                <div class="pagination">
+                                                    <a href="#">&laquo;</a>
+                                                    <a href="${link.url}" class="active">${link.label}</a>
+                                                    <a href="#">&raquo;</a>
+                                                </div>
+                                            </div>
+                                        </div>`
+                                    );
+                                }
+                            });
+                        }
+                    }
+                });
+            }
+
+
+            // Sort and Filter Change Events
+            $('#sort_by, #category_filter').change(function() {
+                fetchProducts();
+            });
+
+            // Handle Pagination Click
+            $(document).on('click', '.pagination-link', function() {
+                let pageUrl = $(this).data('page');
+                let pageNumber = pageUrl.split('=')[1]; // Extract page number
+                fetchProducts(pageNumber);
+            });
+        });
+    </script>
 @endsection
