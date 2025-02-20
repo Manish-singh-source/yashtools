@@ -395,6 +395,19 @@
                                                     @endforeach
                                                 </tbody>
                                             </table>
+                                        @elseif($selectedProduct->product_optional_pdf != '')
+                                            <div class="single-product-thumbnail-wrap zoom-gallery">
+                                                <div
+                                                    class="single-product-thumbnail product-large-thumbnail-3 axil-product">
+                                                    <div class="thumbnail">
+                                                        <a href="{{ asset('uploads/products/product_optional_pdf/' . $selectedProduct->product_optional_pdf) }}"
+                                                            class="popup-zoom">
+                                                            <img src="{{ asset('uploads/products/product_optional_pdf/' . $selectedProduct->product_optional_pdf) }}"
+                                                                alt="Product Images">
+                                                        </a>
+                                                    </div>
+                                                </div>
+                                            </div>
                                         @else
                                             <p>No data available or the file is empty.</p>
                                         @endif
@@ -437,76 +450,30 @@
         <div class="axil-product-area bg-color-white axil-section-gap pb--50 pb_sm--30">
             <div class="container">
                 <div class="section-title-wrapper">
+
                     <h2 class="title">Recently Viewed Items</h2>
                 </div>
                 <div class="row row--15">
-                    <div class="col-xl-3 col-lg-4 col-sm-6 col-12 mb--30">
-                        <div class="axil-product product-style-one">
-                            <div class="thumbnail">
-                                <a href="single-product.php">
-                                    <img data-sal="fade" data-sal-delay="100" data-sal-duration="1500"
-                                        src="{{ asset('assets\images\product\1.png') }}" alt="Product Images">
-                                </a>
-                            </div>
-                            <div class="product-content">
-                                <div class="inner">
-                                    <h5 class="title"><a href="single-product.php">SLIDES & ACCESSORIES</a></h5>
+                    @foreach ($similarProducts as $product)
+                        <div class="col-xl-3 col-lg-4 col-sm-6 col-12 mb--30">
+                            <div class="axil-product product-style-one">
+                                <div class="thumbnail">
+                                    <a href="{{ route('user.single.product', $product->product_slug) }}">
+                                        <img data-sal="fade" data-sal-delay="100" data-sal-duration="1500"
+                                            src="{{ asset('uploads/products/thumbnails/' . $product->product_thumbain) }}"
+                                            alt="Product Images">
+                                    </a>
+                                </div>
+                                <div class="product-content">
+                                    <div class="inner">
+                                        <h5 class="title"><a
+                                                href="{{ route('user.single.product', $product->product_slug) }}">{{ $product->product_name }}</a>
+                                        </h5>
+                                    </div>
                                 </div>
                             </div>
                         </div>
-                    </div>
-                    <!-- End Single Product  -->
-                    <div class="col-xl-3 col-lg-4 col-sm-6 col-12 mb--30">
-                        <div class="axil-product product-style-one">
-                            <div class="thumbnail">
-                                <a href="single-product.php">
-                                    <img data-sal="fade" data-sal-delay="100" data-sal-duration="1500"
-                                        src="{{ asset('assets\images\product\2.png') }}" alt="Product Images">
-                                </a>
-
-                            </div>
-                            <div class="product-content">
-                                <div class="inner">
-                                    <h5 class="title"><a href="single-product.php">Side Core Base</a></h5>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <!-- End Single Product  -->
-                    <div class="col-xl-3 col-lg-4 col-sm-6 col-12 mb--30">
-                        <div class="axil-product product-style-one">
-                            <div class="thumbnail">
-                                <a href="single-product.php">
-                                    <img data-sal="fade" data-sal-delay="100" data-sal-duration="1500"
-                                        src="{{ asset('assets\images\product\3.png') }}" alt="Product Images">
-                                </a>
-
-                            </div>
-                            <div class="product-content">
-                                <div class="inner">
-                                    <h5 class="title"><a href="single-product.php">Guide Rail</a></h5>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <!-- End Single Product  -->
-                    <div class="col-xl-3 col-lg-4 col-sm-6 col-12 mb--30">
-                        <div class="axil-product product-style-one">
-                            <div class="thumbnail">
-                                <a href="single-product.php">
-                                    <img data-sal="fade" data-sal-delay="100" data-sal-duration="1500"
-                                        src="{{ asset('assets\images\product\4.png') }}" alt="Product Images">
-                                </a>
-
-                            </div>
-                            <div class="product-content">
-                                <div class="inner">
-                                    <h5 class="title"><a href="single-product.php">center Guide Rail</a></h5>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
+                    @endforeach
                 </div>
             </div>
         </div>
@@ -656,7 +623,7 @@
                             $("#showError").show();
                             $("#showError").html(
                                 "Please <a href='/signin'>register</a> to add Product to favourites"
-                                ); // Show login popup
+                            ); // Show login popup
                             return;
                         }
 

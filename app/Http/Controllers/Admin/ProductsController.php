@@ -7,11 +7,14 @@ use App\Models\Product;
 use App\Models\Categories;
 use Illuminate\Http\Request;
 use App\Models\SubCategories;
+use Intervention\Image\Image;
 use Flasher\Prime\FlasherInterface;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\File;
+use Intervention\Image\ImageManager;
 use Maatwebsite\Excel\Facades\Excel;
 use Illuminate\Support\Facades\Validator;
+use Intervention\Image\Drivers\Gd\Driver;
 
 class ProductsController extends Controller
 {
@@ -37,6 +40,7 @@ class ProductsController extends Controller
             'product_image' => 'required|image',
             'product_pdf' => 'mimes:pdf|max:2048',
             'product_catalogue' => 'mimes:pdf|max:2048',
+            'product_optional_pdf' => 'image',
             'product_drawing' => 'image',
             'product_category' => 'required',
             'product_sub_category' => 'required',
@@ -65,12 +69,40 @@ class ProductsController extends Controller
             $product->product_specs = $filename;
         }
 
+        if (!empty($request->product_optional_pdf)) {
+            $product_optional_pdf = $request->product_optional_pdf;
+            $opPdfFile = $product_optional_pdf->getClientOriginalExtension();
+            $opFile = time() . "." . $opPdfFile;
+            $product_optional_pdf->move(public_path('uploads/products/product_optional_pdf'), $opFile);
+            $product->product_optional_pdf = $opFile;
+        }
+
         if (!empty($request->product_image)) {
             $image1 = $request->product_image;
             $ext1 = $image1->getClientOriginalExtension();
             $imageName1 = time() . "." . $ext1;
             $image1->move(public_path('uploads/products/thumbnails'), $imageName1);
             $product->product_thumbain = $imageName1;
+
+
+            // $image = ImageManager::imagick()->read('/uploads/products/thumbnails/' . $imageName1);
+            // $image = $image->resizeDown(500, 500); // 800 x 100
+
+            // resize only image width to 200 pixel and do not exceed the origial width
+            // $image->resizeDown(width: 200);
+
+            // converting image as thumbnail
+            $manager = new ImageManager(Driver::class);
+            $img = $manager->read(public_path('/uploads/products/thumbnails/' . $imageName1));
+            $img->cover(150, 150);
+
+
+            $thumbPath = public_path('/uploads/products/thumbnails/thumb/');
+            if (!file_exists($thumbPath)) {
+                mkdir($thumbPath, 0755, true); // Create thumbnail directory if it doesn't exist
+            }
+
+            $img->save($thumbPath . '/' . $imageName1);
         }
 
         // Handle PDF upload
@@ -122,6 +154,9 @@ class ProductsController extends Controller
     public function deleteProduct(Request $request)
     {
         $customer = Product::where('product_slug', $request->product_slug)->first();
+        if (!empty($customer->product_optional_pdf)) {
+            File::delete(public_path('/uploads/products/product_optional_pdf/' . $customer->product_optional_pdf));
+        }
         if (!empty($customer->product_catalouge)) {
             File::delete(public_path('/uploads/products/catalogue/' . $customer->product_catalouge));
         }
@@ -167,6 +202,7 @@ class ProductsController extends Controller
             'product_description' => 'required',
             'product_brand' => 'required',
             'product_image' => 'image',
+            'product_optional_pdf' => 'image',
             'product_pdf' => 'mimes:pdf|max:10240',
             'product_catalogue' => 'mimes:pdf|max:10240',
             'product_drawing' => 'image',
@@ -178,8 +214,6 @@ class ProductsController extends Controller
         if ($validations->fails()) {
             return back()->withErrors($validations)->withInput();
         }
-
-
         // Create new product
         $product = Product::find($request->productId);
         $product->product_name = $request->product_name;
@@ -202,10 +236,19 @@ class ProductsController extends Controller
             $product->product_specs = $filename;
         }
 
+        if (!empty($request->product_optional_pdf)) {
+            if (!empty($product->product_optional_pdf)) {
+                File::delete(public_path('/uploads/products/product_optional_pdf/' . $product->product_optional_pdf));
+            }
+            $product_optional_pdf = $request->product_optional_pdf;
+            $opPdfFile = $product_optional_pdf->getClientOriginalExtension();
+            $opFile = time() . "." . $opPdfFile;
+            $product_optional_pdf->move(public_path('uploads/products/product_optional_pdf'), $opFile);
+            $product->product_optional_pdf = $opFile;
+        }
 
         // Handle image upload
         if (!empty($request->product_image)) {
-
             if (!empty($product->product_thumbain)) {
                 File::delete(public_path('/uploads/products/thumbnails/' . $product->product_thumbain));
             }
