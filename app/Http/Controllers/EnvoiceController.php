@@ -92,7 +92,12 @@ class EnvoiceController extends Controller
 
         $query = Enquiry::where('customer_id', Auth::id())->with('invoice');
 
-        // Apply sorting
+        // Apply date filtering only if both dates are provided
+        if ($request->filled('toDate')) {
+            $query->whereBetween('created_at', [$request->fromDate, $request->toDate]);
+        }
+
+        // Ensure sort_by has only valid values
         $sortBy = in_array($request->sort_by, ['asc', 'desc']) ? $request->sort_by : 'desc';
         $query->orderBy('updated_at', $sortBy);
 
