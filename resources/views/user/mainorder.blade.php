@@ -294,41 +294,52 @@
 
             function fetchProducts(page = 1) {
                 let sortBy = $('#sort_by').val();
-                let dateRange = $('#category_filter').val();
-                console.log(sortBy);
+                let fromDate = $('#from-date').val();
+                let toDate = $('#to-date').val();
+
+                console.log(fromDate);
+                console.log(toDate);
 
                 $.ajax({
                     url: "/orders?page=" + page,
                     type: "GET",
                     data: {
                         sort_by: sortBy,
+                        fromDate: fromDate,
+                        toDate: toDate,
                     },
                     success: function(response) {
-                        $('#product_list').html('');
                         console.log(response.data);
+                        $('#product_list').html('');
                         $.each(response.data, function(index, product) {
-                            console.log(index);
-                            console.log(product);
 
                             $('#product_list').append(
                                 `<tr>
                                     <td>${product.enquiry_id}</td>
-                                    <td>${product.invoice.updated_at ?? 'NA'}</td>
-                                    <td>${product.invoice.courier_number ?? 'NA'}</td>
+                                    <td>${product.invoice?.updated_at ? product.invoice.updated_at : 'NA'}</td>
+                                    <td>${product.invoice?.courier_number ? product.invoice.courier_number : 'NA'}</td>
                                     <td>
-                                        <a href="{{ asset('uploads/invoices/${product.invoice.invoice_file}') }}"
-                                            target="_blank">
-                                            <i class="fas fa-file-pdf fs"></i>
-                                        </a>
+                                        ${product.invoice?.invoice_file 
+                                        ? `<a href="{{ asset('uploads/invoices/${product.invoice.invoice_file}') }}" target="_blank">
+                                                                                    <i class="fas fa-file-pdf fs"></i>
+                                                                                </a>`
+                                        : 'NA'}
                                     </td>
                                     <td>
-                                        <div>${product.invoice.courier_name ?? 'NA'} </div>
+                                        <div>${product.invoice?.courier_name ?? 'NA'} </div>
                                         <br>
-                                        <div><a
-                                                href="${product.invoice.courier_website ?? 'NA'}">Visit
-                                                Courier Website</a></div>
+                                        <div>
+                                            ${product.invoice?.courier_website
+                                            ? `<a href="${product.invoice?.courier_website ?? 'NA'}">Visit
+                                                                                    Courier Website</a>`
+                                            : ''}
+                                        </div>
                                     </td>
-                                    <td>${product.status ?? 'NA'}</td>
+                                    <td>
+                                        ${product.invoice?.id
+                                            ? `${product.status}`
+                                            : 'Pending'}
+                                        </td>
                                 </tr>`
                             );
                         });
@@ -358,7 +369,7 @@
 
 
             // Sort and Filter Change Events
-            $('#sort_by, #category_filter').change(function() {
+            $('#sort_by, .date-filter').change(function() {
                 fetchProducts();
             });
 
