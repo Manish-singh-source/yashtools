@@ -150,8 +150,6 @@
 
 
     @yield('content')
-    @yield('script')
-
 
     <!-- Start Footer Area  -->
     <footer class="axil-footer-area footer-style-1 footer-dark">
@@ -321,9 +319,6 @@
     <script src="{{ asset('assets/js/vendor/isotope.pkgd.min.js') }}"></script>
     <script src="{{ asset('assets/js/vendor/counterup.js') }}"></script>
     <script src="{{ asset('assets/js/vendor/waypoints.min.js') }}"></script>
-
-    <!-- Main JS -->
-    <script src="{{ asset('assets/js/main.js') }}"></script>
 
     <!-- Main JS -->
     <script src="{{ asset('assets/js/main.js') }}"></script>
