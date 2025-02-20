@@ -35,7 +35,6 @@ class UserShopController extends Controller
         $favouritesProducts = Favourite::where('product_id', $selectedProduct->id)->where('user_id', Auth::id())->first();
 
         $similarProducts = Product::where('product_category_id', $selectedProduct->product_category_id)->where('id', '!=', $selectedProduct->id)->limit(4)->get();
-        // dd($similarProducts);
         if ($similarProducts->isEmpty()) {
             $similarProducts = Product::where('id', '!=', $selectedProduct->id)->limit(4)->get();
         }

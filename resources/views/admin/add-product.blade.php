@@ -86,7 +86,7 @@
                                 </div>
                                 <div class="card h-auto">
                                     <div class="card-header py-3">
-                                        <h4 class="card-title--medium mb-0">Media</h4>
+                                        <h4 class="card-title--medium mb-0">Specifications</h4>
                                     </div>
                                     <div class="card-body">
                                         <div class="dz-default ic-message upload-img mb-3">
@@ -97,6 +97,16 @@
                                             </div>
                                         </div>
                                         @error('excelFile')
+                                            {{ $message }}
+                                        @enderror
+                                    </div>
+                                    <div class="card-body">
+                                        <div class="mb-3">
+                                            <label for="formFileMultiple" class="form-label">Upload PDF (Optional)</label>
+                                            <input class="form-control" type="file" id="formFileMultiple"
+                                                name="product_optional_pdf" accept=".png, .jpg, .jpeg, .webp">
+                                        </div>
+                                        @error('product_optional_pdf')
                                             {{ $message }}
                                         @enderror
                                     </div>
@@ -146,14 +156,14 @@
                                             <div class="avatar-upload d-flex align-items-center">
                                                 <div class=" position-relative ">
                                                     <div class="avatar-preview">
-                                                        <div id="imagePreview"
-                                                            style="background-image: url(assets/images/no-img-avatar.png);">
-                                                        </div>
+                                                        <img id="imagePreview"
+                                                            src="{{ asset('admin/assets/images/no-img-avatar.png') }}"
+                                                            alt="Image Preview" style="width: 200px; height: auto;">
                                                     </div>
                                                     <div class="change-btn d-flex align-items-center flex-wrap">
                                                         <input type='file'
                                                             class="form-control d-none @error('product_image') is-invalid @enderror"
-                                                            id="imageUpload" accept=".png, .jpg, .jpeg"
+                                                            id="imageUpload" accept=".png, .jpg, .jpeg, .webp"
                                                             name="product_image">
                                                         <label for="imageUpload"
                                                             class="btn btn-sm btn-primary light ms-0">Select
@@ -271,4 +281,8 @@
     <script src="{{ asset('assets/vendor/ckeditor/ckeditor.js') }}" type="text/javascript"></script>
     <script src="{{ asset('assets/vendor/dropzone/dist/dropzone.js') }}" type="text/javascript"></script>
     <script src="{{ asset('admin/assets/js/category-filter.js') }}"></script>
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js"
+        integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
+    <script src="{{ asset('admin/assets/js/image-preview.js') }}" type="text/javascript"></script>
+
 @endsection

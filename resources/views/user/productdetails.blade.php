@@ -429,6 +429,19 @@
                                                         @endforeach
                                                     </tbody>
                                                 </table>
+                                            @elseif($selectedProduct->product_optional_pdf != '')
+                                                <div class="single-product-thumbnail-wrap zoom-gallery">
+                                                    <div
+                                                        class="single-product-thumbnail product-large-thumbnail-3 axil-product">
+                                                        <div class="thumbnail">
+                                                            <a href="{{ asset('uploads/products/product_optional_pdf/' . $selectedProduct->product_optional_pdf) }}"
+                                                                class="popup-zoom">
+                                                                <img src="{{ asset('uploads/products/product_optional_pdf/' . $selectedProduct->product_optional_pdf) }}"
+                                                                    alt="Product Images">
+                                                            </a>
+                                                        </div>
+                                                    </div>
+                                                </div>
                                             @else
                                                 <p>No data available or the file is empty.</p>
                                             @endif

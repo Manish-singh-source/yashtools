@@ -40,19 +40,22 @@
                                             <div class="avatar-upload d-flex align-items-center">
                                                 <div class="position-relative">
                                                     <div class="avatar-preview">
-                                                        @if ($banner->banner_image)
+                                                        {{-- @if ($banner->banner_image)
                                                             <div id="imagePreview"
-                                                                style="background-image: url({{ asset('uploads/banner/' . $banner->banner_image) }});">
+                                                                style="background-image: url({{ asset('uploads/banner/' . $banner->banner_image) }});" class="img-fluid">
                                                             </div>
                                                         @else
                                                             <div id="imagePreview"
                                                                 style="background-image: url({{ asset('admin/assets/images/no-img-avatar.png') }});">
                                                             </div>
-                                                        @endif
+                                                        @endif --}}
+                                                        <img id="imagePreview"
+                                                            src="{{ asset('uploads/banner/' . $banner->banner_image) }}"
+                                                            alt="Image Preview" style="width: 200px; height: auto;">
                                                     </div>
                                                     <div class="change-btn d-flex align-items-center flex-wrap">
                                                         <input type="file" class="form-control d-none @error('banner_image') is-invalid @enderror" id="imageUpload"
-                                                            accept=".png, .jpg, .jpeg" name="banner_image">
+                                                            accept=".png, .jpg, .jpeg, .webp" name="banner_image">
                                                         <label for="imageUpload"
                                                             class="btn btn-sm btn-primary light ms-0">Select
                                                             Slider</label>
@@ -82,4 +85,9 @@
     <!--**********************************
                                                                                     Content body end
                                                                                 ***********************************-->
+@endsection
+@section('scripts')
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js"
+        integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
+    <script src="{{ asset('admin/assets/js/image-preview.js') }}" type="text/javascript"></script>
 @endsection

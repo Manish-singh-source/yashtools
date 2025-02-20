@@ -41,14 +41,14 @@
                                             <div class="avatar-upload d-flex align-items-center">
                                                 <div class=" position-relative ">
                                                     <div class="avatar-preview">
-                                                        <div id="imagePreview"
-                                                            style="background-image: url({{asset('uploads/brands/'. $selectedbrand->brand_image) }});">
-                                                        </div>
+                                                        <img id="imagePreview"
+                                                            src="{{asset('uploads/brands/'. $selectedbrand->brand_image) }}"
+                                                            alt="Image Preview" style="width: 200px; height: auto;">
                                                     </div>
                                                     <div class="change-btn d-flex align-items-center flex-wrap">
                                                         <input type='file'
                                                             class="form-control d-none @error('brandImage') is-invalid @enderror"
-                                                            id="imageUpload" name="brandImage" accept=".png, .jpg, .jpeg">
+                                                            id="imageUpload" name="brandImage" accept=".png, .jpg, .jpeg, .webp">
                                                         <label for="imageUpload"
                                                             class="btn btn-sm btn-primary light ms-0">Select
                                                             Image</label>
@@ -77,4 +77,9 @@
     <!--**********************************
                                             Content body end
                                         ***********************************-->
+@endsection
+@section('scripts')
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js"
+        integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
+    <script src="{{ asset('admin/assets/js/image-preview.js') }}" type="text/javascript"></script>
 @endsection
