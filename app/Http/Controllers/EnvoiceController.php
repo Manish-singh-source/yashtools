@@ -6,6 +6,7 @@ use App\Models\Enquiry;
 use App\Models\OrderTrack;
 use App\Models\OrdersTrack;
 use Illuminate\Http\Request;
+use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Validator;
 
@@ -92,19 +93,21 @@ class EnvoiceController extends Controller
 
         $query = Enquiry::where('customer_id', Auth::id())->with('invoice');
 
-        // Apply date filtering only if both dates are provided
-        if ($request->filled('toDate')) {
-            $query->whereBetween('created_at', [$request->fromDate, $request->toDate]);
+        // if ($request->filled('toDate')) {
+        //     $query->where('created_at', '>=', $request->fromDate);
+        //     $query->where('created_at', '<=', $request->toDate);
+        // }
+        if ($request->filled('fromDate') && $request->filled('toDate')) {
+            $fromDate = Carbon::parse($request->fromDate)->startOfDay(); // Sets time to 00:00:00
+            $toDate = Carbon::parse($request->toDate)->endOfDay(); // Sets time to 23:59:59
+
+            $query->whereBetween('created_at', [$fromDate, $toDate]);
         }
 
-        // Ensure sort_by has only valid values
         $sortBy = in_array($request->sort_by, ['asc', 'desc']) ? $request->sort_by : 'desc';
         $query->orderBy('updated_at', $sortBy);
-
-        // Fetch paginated data (5 records per page)
         $products = $query->paginate(5);
 
-        // Return JSON response
         return response()->json($products);
     }
 }

@@ -297,6 +297,9 @@
                 let fromDate = $('#from-date').val();
                 let toDate = $('#to-date').val();
 
+                console.log(fromDate);
+                console.log(toDate);
+
                 $.ajax({
                     url: "/orders?page=" + page,
                     type: "GET",
@@ -306,8 +309,8 @@
                         toDate: toDate,
                     },
                     success: function(response) {
-                        $('#product_list').html('');
                         console.log(response.data);
+                        $('#product_list').html('');
                         $.each(response.data, function(index, product) {
 
                             $('#product_list').append(
