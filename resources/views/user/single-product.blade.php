@@ -282,12 +282,12 @@
                                         </div>
                                         <div class="dropdown-options">
                                             <input type="text1" class="search-box" placeholder="Search...">
-                                            <div>VB1.1/001</div>
+                                            {{-- <div>VB1/001</div>
                                             <div class="selected">VB1.1/002</div>
                                             <div>VB1.1/003</div>
                                             <div>VB1.1/004</div>
                                             <div>VB1.1/005</div>
-                                            <div>VB1.1/006</div>
+                                            <div>VB1.1/006</div> --}}
                                         </div>
                                     </div>
                                     <ul class="product-meta margbot">
@@ -574,6 +574,7 @@
 
                 let $defaultOption = $("<option>").val("").text("All");
                 $select.append($defaultOption);
+                let iteration = 0;
 
                 if (uniqueValues[columnLabel]) {
                     uniqueValues[columnLabel].forEach(value => {
@@ -584,6 +585,25 @@
                 $(this).append($select);
             }
         });
+
+
+        // if (iteration < 1) {
+        //     iteration++;
+        // }
+
+        $rows.each(function() {
+            let partNumbers = {};
+            let $row = $(this).find("td");
+
+            let key = $row.eq(0).text().trim(); // Get the first <td> text
+            partNumbers[key] = key;
+
+            console.log(key); // Correct way to log the text
+            if (key) {
+                $(".dropdown-options").append(`<div>${key}</div>`);
+            }
+        });
+
 
         function filterTable(columnIndex, value) {
             $rows.each(function() {
