@@ -73,7 +73,7 @@
                                 </ul>
                             </div>
                         </div>
-                        <button class="axil-btn btn-bg-primary">All Reset</button>
+                        <button class="axil-btn btn-bg-primary" id="resetFilters">All Reset</button>
                     </div>
                     <!-- End .axil-shop-sidebar -->
                 </div>
@@ -228,6 +228,21 @@
                 let pageUrl = $(this).data('page');
                 let pageNumber = pageUrl.split('=')[1]; // Extract page number
                 fetchProducts(pageNumber);
+            });
+
+            $(document).on('click', '#resetFilters', function() {
+                $("#category_filter li").map((index, element) => {
+                    $(element).removeClass("chosen");
+                });
+
+                $("#brand_filter li").map((index, element) => {
+                    $(element).removeClass("chosen");
+                });
+
+                $("#tags_filter li").map((index, element) => {
+                    $(element).removeClass("chosen");
+                });
+                fetchProducts();
             });
         });
     </script>
