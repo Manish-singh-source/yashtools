@@ -11,7 +11,6 @@ class EmailController extends Controller
 {
     public function sendEmail(){
         $toEmail="itwebdeveloper7@gmail.com";
-        $message="This is a test email";
         $subject="Test Email";
         $name="Manish";
        
@@ -19,7 +18,7 @@ class EmailController extends Controller
         // exit();
 
 
-        Mail::to($toEmail)->send(new welcomeemail($subject,$message,$name));
+        Mail::to($toEmail)->send(new welcomeemail($name));
 
         
     }
