@@ -6,6 +6,7 @@ use App\Models\Enquiry;
 use App\Models\OrderTrack;
 use App\Models\OrdersTrack;
 use Illuminate\Http\Request;
+use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Validator;
 
@@ -89,14 +90,24 @@ class EnvoiceController extends Controller
 
     public function ordersList(Request $request)
     {
-        
-        $query = Enquiry::where('customer_id', Auth::id())->with('invoice')->query();
-        $query->orderBy('updated_at', $request->sort_by ?? 'asc');
 
-        // Fetch paginated data (10 products per page)
-        $products = $query->where('customer_id', Auth::id())->with('invoice')->paginate(5);
+        $query = Enquiry::where('customer_id', Auth::id())->with('invoice');
 
-        // Return JSON response
-        return response()->json(['success' => 'success']);
+        // if ($request->filled('toDate')) {
+        //     $query->where('created_at', '>=', $request->fromDate);
+        //     $query->where('created_at', '<=', $request->toDate);
+        // }
+        if ($request->filled('fromDate') && $request->filled('toDate')) {
+            $fromDate = Carbon::parse($request->fromDate)->startOfDay(); // Sets time to 00:00:00
+            $toDate = Carbon::parse($request->toDate)->endOfDay(); // Sets time to 23:59:59
+
+            $query->whereBetween('created_at', [$fromDate, $toDate]);
+        }
+
+        $sortBy = in_array($request->sort_by, ['asc', 'desc']) ? $request->sort_by : 'desc';
+        $query->orderBy('updated_at', $sortBy);
+        $products = $query->paginate(5);
+
+        return response()->json($products);
     }
 }

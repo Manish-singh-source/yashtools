@@ -1,4 +1,11 @@
 @extends('user.layouts.masterlayout')
+
+
+@section('csrf-token')
+    <meta name="csrf-token" content="{{ csrf_token() }}">
+@endsection
+
+
 @section('style')
     <style>
         .date-filter {
@@ -47,7 +54,7 @@
         <!-- Start Shop Area  -->
         <div class="axil-shop-area axil-section-gap bg-color-white">
             <div class="container">
-                
+
                 <div class="row row--15 mt-5">
                     @forelse ($favouriteItems as $item)
                         <div class="col-xl-3 col-lg-4 col-sm-6 col-12 mb--30">
@@ -60,8 +67,29 @@
                                     </a>
                                     <div class="product-hover-action">
                                         <ul class="cart-action">
-                                            <li class="wishlist"><a href="#" contenteditable="false"
-                                                    style="cursor: pointer;"><i class="far fa-bookmark"></i>
+                                            <li class="wishlist">
+                                                @isset($favouriteItems->status)
+                                                    @if ($favouriteItems->status == '1')
+                                                        <a class="wishlist-btn text-danger" id="wishlistBtn"
+                                                            data-productid="{{ $favouriteItems->id }}">
+                                                            <i class="fas fa-heart text-danger"></i>
+                                                        </a>
+                                                        <input type="hidden" value="active" class="status">
+                                                    @else
+                                                        <a class="wishlist-btn" id="wishlistBtn"
+                                                            data-productid="{{ $favouriteItems->id }}">
+                                                            <i class="fas fa-heart"></i>
+                                                        </a>
+                                                        <input type="hidden" value="inactive" class="status">
+                                                    @endif
+                                                @else
+                                                    <a class="wishlist-btn" id="wishlistBtn"
+                                                        data-productid="{{ $item->products->id }}">
+                                                        <i class="fas fa-heart"></i>
+                                                    </a>
+                                                @endisset
+                                            </li>
+                                        </ul>
                                     </div>
                                 </div>
                                 <div class="product-content">
@@ -88,4 +116,63 @@
 
 
     </main>
+@endsection
+
+@section('script')
+    <script>
+        $(document).ready(function() {
+
+            $("#showError").hide();
+            $.ajaxSetup({
+                headers: {
+                    "X-CSRF-TOKEN": $('meta[name="csrf-token"]').attr("content"),
+                },
+            });
+
+            $(document).on("click", "#wishlistBtn", function() {
+                let productid = $(this).data("productid");
+                let productStatus = $(this).siblings(".status").val() || 0;
+
+                console.log(productid)
+                console.log(productStatus)
+
+                $.ajax({
+                    url: "/check-auth", // Check if the user is logged in
+                    type: "GET",
+                    success: function(response) {
+                        if (!response.isAuthenticated) {
+                            $("#showError").show();
+                            $("#showError").html(
+                                "Please <a href='/signin'>register</a> to add Product to favourites"
+                            ); // Show login popup
+                            return;
+                        }
+
+                        $.ajax({
+                            url: "/add-to-favourite",
+                            type: "POST",
+                            data: {
+                                productid: productid,
+                                productStatus: productStatus,
+                            },
+                            success: function(data) {
+                                if (data.status) {
+                                    console.log(data.status);
+                                    console.log(data.message);
+                                    console.log(data.data);
+                                    location.reload();
+                                }
+                            },
+                            error: function(xhr, status, error) {
+                                console.log(xhr);
+                                console.log(status);
+                                console.log(error);
+                            },
+                        });
+
+                    }
+                });
+            });
+        });
+    </script>
 @endsection

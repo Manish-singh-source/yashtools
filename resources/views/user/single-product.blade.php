@@ -234,9 +234,19 @@
                         <div class="col-lg-12">
                             <nav aria-label="breadcrumb">
                                 <ol class="breadcrumb">
-                                    <li class="breadcrumb-item"><a href="#">Home</a></li>
+                                    @foreach ($breadcrumbs as $breadcrumb)
+                                        @if (!$loop->last)
+                                            <li class="breadcrumb-item">
+                                                <a href="{{ $breadcrumb['url'] }}">{{ $breadcrumb['name'] }}</a>
+                                            </li>
+                                        @else
+                                            <li class="breadcrumb-item active" aria-current="page">{{ $breadcrumb['name'] }}
+                                            </li>
+                                        @endif
+                                    @endforeach
+                                    {{-- <li class="breadcrumb-item"><a href="#">Home</a></li>
                                     <li class="breadcrumb-item"><a href="#">Category</a></li>
-                                    <li class="breadcrumb-item active" aria-current="page">Current Page</li>
+                                    <li class="breadcrumb-item active" aria-current="page">Current Page</li> --}}
                                 </ol>
                             </nav>
                         </div>
@@ -348,7 +358,7 @@
                         <a class="active" id="description-tab" data-bs-toggle="tab" href="#description" role="tab"
                             aria-controls="description" aria-selected="true">Specifications</a>
                     </li>
-                    <li class="nav-item" role="presentation">
+                    <li class="nav-item " role="presentation">
                         <a id="additional-info-tab" data-bs-toggle="tab" href="#additional-info" role="tab"
                             aria-controls="additional-info" aria-selected="false">Description</a>
                     </li>
@@ -366,292 +376,281 @@
                                                 <thead>
                                                     <tr>
                                                         @foreach ($sheetData[0] as $column)
-                                                            <th>{{ $column }}</th>
+                                                            @if (!empty($column))
+                                                                <th>{{ $column }}</th>
+                                                            @endif
                                                         @endforeach
                                                         <th>Action</th>
                                                     </tr>
                                                 </thead>
                                                 <tbody>
                                                     @foreach (array_slice($sheetData, 1) as $row)
-                                                        <tr data-code="{{ $row[0] }}"
-                                                            data-d1="{{ $row[1] }}" data-d2="{{ $row[2] }}"
-                                                            data-d3="{{ $row[3] }}" data-k="{{ $row[4] }}"
-                                                            data-l="{{ $row[5] }}" data-l1="{{ $row[6] }}"
-                                                            data-l2="{{ $row[7] }}" data-l3="{{ $row[8] ?? '' }}">
-
-                                                            <td data-label="Code">{{ $row[0] }}</td>
-                                                            <td data-label="d1">{{ $row[1] }}</td>
-                                                            <td data-label="d2">{{ $row[2] }}</td>
-                                                            <td data-label="d3">{{ $row[3] }}</td>
-                                                            <td data-label="k">{{ $row[4] }}</td>
-                                                            <td data-label="L">{{ $row[5] }}</td>
-                                                            <td data-label="L1">{{ $row[6] }}</td>
-                                                            <td data-label="L2">{{ $row[7] }}</td>
-                                                            <td data-label="L3">{{ $row[8] ?? '' }}</td>
-                                                            <td>{{ $row[9] ?? '---' }}</td>
-                                                            <td data-label="Action"><button class="action-btn">3D</button>
-                                                            </td>
-                                                        </tr>
-                                                    @endforeach
-                                                </tbody>
-                                            </table>
-                                        @elseif($selectedProduct->product_optional_pdf != '')
-                                            <div class="single-product-thumbnail-wrap zoom-gallery">
-                                                <div
-                                                    class="single-product-thumbnail product-large-thumbnail-3 axil-product">
-                                                    <div class="thumbnail">
-                                                        <a href="{{ asset('uploads/products/product_optional_pdf/' . $selectedProduct->product_optional_pdf) }}"
-                                                            class="popup-zoom">
-                                                            <img src="{{ asset('uploads/products/product_optional_pdf/' . $selectedProduct->product_optional_pdf) }}"
-                                                                alt="Product Images">
-                                                        </a>
-                                                    </div>
+                                                        <tr
+                                                            @foreach ($row as $key => $value)
+                                                            @if (!empty($value)) data-col{{ $key }}="{{ $value }}" @endif @endforeach>
+                                                            @foreach ($row as $key => $value)
+                                                                @if (!empty($value))
+                                                                    <td data-label="Column {{ $key }}">
+                                                                        {{ $value }}</td>
+                                                                @endif
+                                                            @endforeach
+                                                            @foreach ($row as $key => $value)
+                                                                @if (!empty($value))
+                                                                    <td data-label="Action"><button
+                                                                            class="action-btn">3D</button>
+                                                                    </td>
+                                                                @endif
+                                                            @break
+                                                        @endforeach
+                                                    </tr>
+                                                @endforeach
+                                            </tbody>
+                                        </table>
+                                    @elseif($selectedProduct->product_optional_pdf != '')
+                                        <div class="single-product-thumbnail-wrap zoom-gallery">
+                                            <div
+                                                class="single-product-thumbnail product-large-thumbnail-3 axil-product">
+                                                <div class="thumbnail">
+                                                    <a href="{{ asset('uploads/products/product_optional_pdf/' . $selectedProduct->product_optional_pdf) }}"
+                                                        class="popup-zoom">
+                                                        <img src="{{ asset('uploads/products/product_optional_pdf/' . $selectedProduct->product_optional_pdf) }}"
+                                                            alt="Product Images">
+                                                    </a>
                                                 </div>
                                             </div>
-                                        @else
-                                            <p>No data available or the file is empty.</p>
-                                        @endif
-                                    </div>
-
+                                        </div>
+                                    @else
+                                        <p>No data available or the file is empty.</p>
+                                    @endif
                                 </div>
-                                <!-- End .col-lg-6 -->
-                            </div>
-                            <!-- End .row -->
 
-                            <!-- End .row -->
-                        </div>
-                        <!-- End .product-desc-wrapper -->
-                    </div>
-                    <div class="tab-pane fade" id="additional-info" role="tabpanel"
-                        aria-labelledby="additional-info-tab">
-                        <div class="product-desc-wrapper">
-                            <div class="row">
-                                <div class="col-lg-12 mb--30">
-                                    <div class="single-desc">
-                                        <p>{{ $selectedProduct->product_discription }}</p>
-                                    </div>
-                                </div>
-                                <!-- End .col-lg-6 -->
                             </div>
-                            <!-- End .row -->
-                            <!-- End .row -->
+                            <!-- End .col-lg-6 -->
                         </div>
-                    </div>
+                        <!-- End .row -->
 
+                        <!-- End .row -->
+                    </div>
+                    <!-- End .product-desc-wrapper -->
                 </div>
+                <div class="tab-pane fade" id="additional-info" role="tabpanel"
+                    aria-labelledby="additional-info-tab">
+                    <div class="product-desc-wrapper">
+                        <div class="row">
+                            <div class="col-lg-12 mb--30">
+                                <div class="single-desc">
+                                    <p>{{ $selectedProduct->product_discription }}</p>
+                                </div>
+                            </div>
+                            <!-- End .col-lg-6 -->
+                        </div>
+                        <!-- End .row -->
+                        <!-- End .row -->
+                    </div>
+                </div>
+
             </div>
         </div>
-        <!-- woocommerce-tabs -->
+    </div>
+    <!-- woocommerce-tabs -->
 
-        </div>
-        <!-- End Shop Area  -->
+    </div>
+    <!-- End Shop Area  -->
 
-        <!-- Start Recently Viewed Product Area  -->
-        <div class="axil-product-area bg-color-white axil-section-gap pb--50 pb_sm--30">
-            <div class="container">
-                <div class="section-title-wrapper">
+    <!-- Start Recently Viewed Product Area  -->
+    <div class="axil-product-area bg-color-white axil-section-gap pb--50 pb_sm--30">
+        <div class="container">
+            <div class="section-title-wrapper">
 
-                    <h2 class="title">Recently Viewed Items</h2>
-                </div>
-                <div class="row row--15">
-                    @foreach ($similarProducts as $product)
-                        <div class="col-xl-3 col-lg-4 col-sm-6 col-12 mb--30">
-                            <div class="axil-product product-style-one">
-                                <div class="thumbnail">
-                                    <a href="{{ route('user.single.product', $product->product_slug) }}">
-                                        <img data-sal="fade" data-sal-delay="100" data-sal-duration="1500"
-                                            src="{{ asset('uploads/products/thumbnails/' . $product->product_thumbain) }}"
-                                            alt="Product Images">
-                                    </a>
-                                </div>
-                                <div class="product-content">
-                                    <div class="inner">
-                                        <h5 class="title"><a
-                                                href="{{ route('user.single.product', $product->product_slug) }}">{{ $product->product_name }}</a>
-                                        </h5>
-                                    </div>
+                <h2 class="title">Recently Viewed Items</h2>
+            </div>
+            <div class="row row--15">
+                @foreach ($similarProducts as $product)
+                    <div class="col-xl-3 col-lg-4 col-sm-6 col-12 mb--30">
+                        <div class="axil-product product-style-one">
+                            <div class="thumbnail">
+                                <a href="{{ route('user.single.product', $product->product_slug) }}">
+                                    <img data-sal="fade" data-sal-delay="100" data-sal-duration="1500"
+                                        src="{{ asset('uploads/products/thumbnails/' . $product->product_thumbain) }}"
+                                        alt="Product Images">
+                                </a>
+                            </div>
+                            <div class="product-content">
+                                <div class="inner">
+                                    <h5 class="title"><a
+                                            href="{{ route('user.single.product', $product->product_slug) }}">{{ $product->product_name }}</a>
+                                    </h5>
                                 </div>
                             </div>
                         </div>
-                    @endforeach
-                </div>
+                    </div>
+                @endforeach
             </div>
         </div>
-        <!-- End Recently Viewed Product Area  -->
+    </div>
+    <!-- End Recently Viewed Product Area  -->
 
-    </main>
+</main>
 @endsection
 
 
 @section('script')
-    <script>
-        const dropdown = document.getElementById('dropdown');
-        const selected = dropdown.querySelector('.dropdown-selected');
-        const options = dropdown.querySelector('.dropdown-options');
-        const searchBox = dropdown.querySelector('.search-box');
-        const optionItems = options.querySelectorAll('div');
+<script>
+    const dropdown = document.getElementById('dropdown');
+    const selected = dropdown.querySelector('.dropdown-selected');
+    const options = dropdown.querySelector('.dropdown-options');
+    const searchBox = dropdown.querySelector('.search-box');
+    const optionItems = options.querySelectorAll('div');
 
-        // Toggle dropdown visibility
-        selected.addEventListener('click', () => {
-            options.style.display = options.style.display === 'block' ? 'none' : 'block';
+    // Toggle dropdown visibility
+    selected.addEventListener('click', () => {
+        options.style.display = options.style.display === 'block' ? 'none' : 'block';
+    });
+
+    // Filter options based on search input
+    searchBox.addEventListener('input', () => {
+        const filter = searchBox.value.toLowerCase();
+        optionItems.forEach(option => {
+            if (option.textContent.toLowerCase().includes(filter)) {
+                option.style.display = '';
+            } else {
+                option.style.display = 'none';
+            }
         });
+    });
 
-        // Filter options based on search input
-        searchBox.addEventListener('input', () => {
-            const filter = searchBox.value.toLowerCase();
-            optionItems.forEach(option => {
-                if (option.textContent.toLowerCase().includes(filter)) {
-                    option.style.display = '';
-                } else {
-                    option.style.display = 'none';
+    // Select an option
+    options.addEventListener('click', (event) => {
+        if (event.target.tagName === 'DIV') {
+            selected.childNodes[0].textContent = event.target.textContent;
+            options.style.display = 'none';
+            optionItems.forEach(option => option.classList.remove('selected'));
+            event.target.classList.add('selected');
+        }
+    });
+
+    // Close dropdown when clicking outside
+    document.addEventListener('click', (event) => {
+        if (!dropdown.contains(event.target)) {
+            options.style.display = 'none';
+        }
+    });
+</script>
+<script src="https://code.jquery.com/jquery-3.7.1.min.js"
+    integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
+<script>
+    $(document).ready(function() {
+        let $table = $("table");
+        if ($table.length === 0) return;
+
+        let $headers = $table.find("thead th");
+        let $rows = $table.find("tbody tr");
+
+        let uniqueValues = {};
+
+        $rows.each(function() {
+            let $cells = $(this).find("td");
+            $cells.each(function(index) {
+                if (!$headers.eq(index).length) return;
+                let columnLabel = $headers.eq(index).data("column") || $.trim($headers.eq(index)
+                    .text());
+                let value = $.trim($(this).text());
+
+                if (!uniqueValues[columnLabel]) {
+                    uniqueValues[columnLabel] = new Set();
                 }
-            });
-        });
-
-        // Select an option
-        options.addEventListener('click', (event) => {
-            if (event.target.tagName === 'DIV') {
-                selected.childNodes[0].textContent = event.target.textContent;
-                options.style.display = 'none';
-                optionItems.forEach(option => option.classList.remove('selected'));
-                event.target.classList.add('selected');
-            }
-        });
-
-        // Close dropdown when clicking outside
-        document.addEventListener('click', (event) => {
-            if (!dropdown.contains(event.target)) {
-                options.style.display = 'none';
-            }
-        });
-    </script>
-    <script>
-        document.addEventListener("DOMContentLoaded", function() {
-            let table = document.querySelector("table");
-            let headers = table.querySelectorAll("thead th");
-            let rows = table.querySelectorAll("tbody tr");
-
-            let uniqueValues = {};
-
-            // Collect unique values for each column
-            rows.forEach(row => {
-                let cells = row.querySelectorAll("td");
-                cells.forEach((cell, index) => {
-                    let columnLabel = headers[index].dataset.column || headers[index].innerText
-                        .trim();
-                    let value = cell.innerText.trim();
-
-                    if (!uniqueValues[columnLabel]) {
-                        uniqueValues[columnLabel] = new Set();  
-                    }
+                if (value !== "") { // Ignore empty values
                     uniqueValues[columnLabel].add(value);
-                });
-            });
-
-            // Populate <select> elements
-            headers.forEach((header, index) => {
-                let columnLabel = header.dataset.column || header.innerText.trim();
-                if (uniqueValues[columnLabel]) {
-                    let select = document.createElement("select");
-                    select.setAttribute("onchange", `filterTable(${index}, this.value)`);
-
-                    let defaultOption = document.createElement("option");
-                    defaultOption.value = "";
-                    defaultOption.textContent = "All";
-                    select.appendChild(defaultOption);
-
-                    uniqueValues[columnLabel].forEach(value => {
-                        let option = document.createElement("option");
-                        option.value = value;
-                        option.textContent = value;
-                        select.appendChild(option);
-                    });
-
-                    // Clear existing content and append new elements
-                    header.innerHTML = `${columnLabel} <br>`;
-                    header.appendChild(select);
                 }
             });
         });
 
-        // Function to filter table rows
-        function filterTable(columnIndex, value) {
-            let rows = document.querySelectorAll("tbody tr");
+        $headers.each(function(index) {
+            let columnLabel = $(this).data("column") || $.trim($(this).text());
+            if (columnLabel) {
+                let $select = $("<select>").on("change", function() {
+                    filterTable(index, $(this).val());
+                });
 
-            rows.forEach(row => {
-                let cell = row.cells[columnIndex];
-                if (cell) {
-                    let cellValue = cell.innerText.trim();
-                    row.style.display = value === "" || cellValue === value ? "" : "none";
+                let $defaultOption = $("<option>").val("").text("All");
+                $select.append($defaultOption);
+
+                if (uniqueValues[columnLabel]) {
+                    uniqueValues[columnLabel].forEach(value => {
+                        let $option = $("<option>").val(value).text(value);
+                        $select.append($option);
+                    });
+                }
+                $(this).append($select);
+            }
+        });
+
+        function filterTable(columnIndex, value) {
+            $rows.each(function() {
+                let $cell = $(this).find("td").eq(columnIndex);
+                if ($cell.length) {
+                    let cellValue = $.trim($cell.text());
+                    $(this).toggle(value === "" || cellValue === value);
                 }
             });
         }
+    });
+</script>
 
+<script>
+    $(document).ready(function() {
 
-        // function filterTable(column, value) {
-        //     const rows = document.querySelectorAll("tbody tr");
-        //     rows.forEach(row => {
-        //         const cellValue = row.dataset[column];
-        //         row.style.display = value === "" || cellValue === value ? "" : "none";
-        //     });
-        // }
-    </script>
-    <script src="https://code.jquery.com/jquery-3.7.1.min.js"
-        integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
-    <script>
-        $(document).ready(function() {
+        $("#showError").hide();
+        $.ajaxSetup({
+            headers: {
+                "X-CSRF-TOKEN": $('meta[name="csrf-token"]').attr("content"),
+            },
+        });
 
-            $("#showError").hide();
-            $.ajaxSetup({
-                headers: {
-                    "X-CSRF-TOKEN": $('meta[name="csrf-token"]').attr("content"),
-                },
-            });
+        $(document).on("click", "#wishlistBtn", function() {
+            let productid = $(this).data("productid");
+            let productStatus = $(this).siblings(".status").val() || 0;
 
-            $(document).on("click", "#wishlistBtn", function() {
-                let productid = $(this).data("productid");
-                let productStatus = $(this).siblings(".status").val() || 0;
+            console.log(productid)
+            console.log(productStatus)
 
-                console.log(productid)
-                console.log(productStatus)
-
-                $.ajax({
-                    url: "/check-auth", // Check if the user is logged in
-                    type: "GET",
-                    success: function(response) {
-                        if (!response.isAuthenticated) {
-                            $("#showError").show();
-                            $("#showError").html(
-                                "Please <a href='/signin'>register</a> to add Product to favourites"
-                            ); // Show login popup
-                            return;
-                        }
-
-                        $.ajax({
-                            url: "/add-to-favourite",
-                            type: "POST",
-                            data: {
-                                productid: productid,
-                                productStatus: productStatus,
-                            },
-                            success: function(data) {
-                                if (data.status) {
-                                    console.log(data.status);
-                                    console.log(data.message);
-                                    console.log(data.data);
-                                    location.reload();
-                                }
-                            },
-                            error: function(xhr, status, error) {
-                                console.log(xhr);
-                                console.log(status);
-                                console.log(error);
-                            },
-                        });
-
+            $.ajax({
+                url: "/check-auth", // Check if the user is logged in
+                type: "GET",
+                success: function(response) {
+                    if (!response.isAuthenticated) {
+                        $("#showError").show();
+                        $("#showError").html(
+                            "Please <a href='/signin'>register</a> to add Product to favourites"
+                        ); // Show login popup
+                        return;
                     }
-                });
+
+                    $.ajax({
+                        url: "/add-to-favourite",
+                        type: "POST",
+                        data: {
+                            productid: productid,
+                            productStatus: productStatus,
+                        },
+                        success: function(data) {
+                            if (data.status) {
+                                console.log(data.status);
+                                console.log(data.message);
+                                console.log(data.data);
+                                location.reload();
+                            }
+                        },
+                        error: function(xhr, status, error) {
+                            console.log(xhr);
+                            console.log(status);
+                            console.log(error);
+                        },
+                    });
+
+                }
             });
         });
-    </script>
+    });
+</script>
 @endsection

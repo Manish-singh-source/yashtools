@@ -65,7 +65,7 @@ Route::middleware('isCustomerAuth:customer')->group(function () {
     Route::get('/favourites', [FavouritesController::class, 'favouriteItems'])->name('user.favourites');
 
     Route::get('/account', [UserProfileController::class, 'userProfile'])->name('user.account');
-    Route::get('/orders', [EnvoiceController::class, 'ordersList']);
+    Route::get('/orders', [EnvoiceController::class, 'ordersList'])->middleware('web');
 
 
     Route::post('/update-account', [UserProfileController::class, 'updateProfile'])->name('user.update.account');
@@ -73,6 +73,7 @@ Route::middleware('isCustomerAuth:customer')->group(function () {
 
     Route::get('/customer-logout', [UserController::class, 'logout'])->name('customer.logout');
 
+    
 
 
     // Add to Cart Through API 

@@ -13,9 +13,21 @@
                     <div class="col-lg-6 col-md-8">
                         <div class="inner">
                             <ul class="axil-breadcrumb">
+                                @foreach ($breadcrumbs as $breadcrumb)
+                                    @if (!$loop->last)
+                                        <li class="breadcrumb-item">
+                                            <a href="{{ $breadcrumb['url'] }}">{{ $breadcrumb['name'] }}</a>
+                                        </li>
+                                    @else
+                                        <li class="breadcrumb-item active" aria-current="page">{{ $breadcrumb['name'] }}
+                                        </li>
+                                    @endif
+                                @endforeach
+                                {{-- 
                                 <li class="axil-breadcrumb-item"><a href="index.php">Home</a></li>
                                 <li class="separator"></li>
-                                <li class="axil-breadcrumb-item active" aria-current="page">My Account</li>
+                                <li class="axil-breadcrumb-item active" aria-current="page">My Account</li> 
+                                --}}
                             </ul>
                             <h1 class="title">Explore All Products</h1>
                         </div>
@@ -80,7 +92,9 @@
                                     <div
                                         class="category-select align-items-center justify-content-lg-end justify-content-between">
                                         <!-- Start Single Select  -->
-                                        <span class="filter-results">Showing {{ $products->firstItem() }}-{{ $products->lastItem() }} of {{ $products->total() }}
+                                        <span class="filter-results">Showing
+                                            {{ $products->firstItem() }}-{{ $products->lastItem() }} of
+                                            {{ $products->total() }}
                                             results</span>
                                         <select class="single-select">
                                             <option>Short by Latest</option>
