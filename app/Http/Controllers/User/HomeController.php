@@ -46,11 +46,27 @@ class HomeController extends Controller
 
     public function shopViewAPI(Request $request)
     {
+
         $query = Product::query();
 
         // Apply category filter if selected
         if ($request->has('category') && $request->category != '') {
-            $query->where('product_category_id', $request->category);
+            $query->whereIn('product_category_id', $request->category);
+        }
+        // Apply brand filter if selected
+        if ($request->has('brand') && $request->brand != '') {
+            $query->whereIn('product_brand_id', $request->brand);
+        }
+
+        // Apply brand filter if selected
+        if ($request->has('tags') && !empty($request->tags)) {
+            if (in_array('new', $request->tags)) {
+                $query->where('product_arrivals', 'new');
+            }
+
+            if (in_array('offer', $request->tags)) {
+                $query->where('product_sale', 'offer');
+            }
         }
 
         // Apply sorting
@@ -82,7 +98,7 @@ class HomeController extends Controller
             ['name' => 'shop', 'url' => route('user.shop')],
             ['name' => $selectedProduct->product_name, 'url' => route('user.single.product', $selectedProduct->product_slug)],
         ];
-        
+
         $similarProducts = Product::where('product_category_id', $selectedProduct->product_category_id)->where('id', '!=', $selectedProduct->id)->limit(4)->get();
         if ($similarProducts->isEmpty()) {
             $similarProducts = Product::where('id', '!=', $selectedProduct->id)->limit(4)->get();
