@@ -4,8 +4,11 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\Admin\FetchAPIs;
+use App\Http\Controllers\EmailController;
+use App\Http\Controllers\EnvoiceController;
 use App\Http\Middleware\AdminAuthMiddleware;
 use App\Http\Controllers\User\HomeController;
+use App\Http\Controllers\FavouritesController;
 use App\Http\Controllers\Admin\AdminController;
 use App\Http\Controllers\Admin\BrandController;
 use App\Http\Controllers\Admin\EventController;
@@ -17,10 +20,9 @@ use App\Http\Controllers\Admin\CustomersController;
 use App\Http\Controllers\Admin\CategoriesController;
 use App\Http\Controllers\User\UserProfileController;
 use App\Http\Controllers\Admin\SubCategoryController;
-use App\Http\Controllers\EnvoiceController;
-use App\Http\Controllers\FavouritesController;
 
 // user routes: Authentication 
+Route::get('send-email', [EmailController::class, 'sendEmail']);
 Route::get('/signin', [UserController::class, 'signinView'])->name('signin');
 Route::get('/signup', [UserController::class, 'signupView'])->name('signup');
 Route::post('/register-user', [UserController::class, 'registerData'])->name('register.user');
@@ -210,4 +212,6 @@ Route::middleware(AdminAuthMiddleware::class . ':admin,superadmin')->group(funct
 
     // Add to Cart Through API 
     Route::post('/order-status', [FetchAPIs::class, 'changeOrderStatus'])->middleware('web');
+
+   
 });

@@ -11,6 +11,8 @@ use Illuminate\Http\Request;
 use App\Models\SubCategories;
 use Flasher\Prime\FlasherInterface;
 use Illuminate\Support\Facades\Auth;
+use App\Mail\welcomeemail;
+use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Validator;
 
 class UserController extends Controller
@@ -70,6 +72,9 @@ class UserController extends Controller
         $userDetail->pincode = $request->pin_code;
         $userDetail->gstin = $request->gstin;
         $userDetail->save();
+        $message="hello yash";
+        $subject="Test Email";
+        Mail::to($request->email)->send(new welcomeemail($subject,$message,$request->fullname));
 
         return redirect()->route('signin');
     }

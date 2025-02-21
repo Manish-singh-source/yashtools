@@ -240,9 +240,9 @@
                                 </ol>
                             </nav>
                         </div>
-                        <div class="col-lg-7 mb--40">
+                        <div class="col-lg-6 mb--40">
                             <div class="single-product-thumbnail-wrap zoom-gallery">
-                                <div class="single-product-thumbnail product-large-thumbnail-3 axil-product">
+                                <div class="single-product-thumbnail product-large-thumbnail-3">
                                     <div class="thumbnail">
                                         <a href="{{ asset('uploads/products/thumbnails/' . $selectedProduct->product_thumbain) }}"
                                             class="popup-zoom">
@@ -259,7 +259,7 @@
                                 </div> --}}
                             </div>
                         </div>
-                        <div class="col-lg-5 mb--40">
+                        <div class="col-lg-6 mb--40">
                             <div class="single-product-content">
                                 <div class="inner">
                                     <h2 class="product-title margbot">{{ $selectedProduct->product_name }}</h2>
@@ -542,7 +542,7 @@
                     let value = cell.innerText.trim();
 
                     if (!uniqueValues[columnLabel]) {
-                        uniqueValues[columnLabel] = new Set();
+                        uniqueValues[columnLabel] = new Set();  
                     }
                     uniqueValues[columnLabel].add(value);
                 });
