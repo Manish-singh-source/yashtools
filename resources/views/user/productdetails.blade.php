@@ -337,7 +337,6 @@
                                                 <i class="fab fa-whatsapp"></i> <a href="">WhatsApp Enquiry</a>
                                             </li>
                                             <li>
-
                                                 @isset($favouritesProducts->status)
                                                     @if ($favouritesProducts->status == '1')
                                                         <a class="wishlist-btn text-danger" id="wishlistBtn"

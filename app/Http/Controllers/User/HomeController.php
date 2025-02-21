@@ -35,7 +35,13 @@ class HomeController extends Controller
         $subcategories = SubCategories::orderby('updated_at', 'desc')->limit(8)->get();
         $brands = Brand::orderby('updated_at', 'desc')->limit(8)->get();
         $products = Product::orderby('updated_at', 'desc')->paginate(12);
-        return view('user.shop', compact('categories', 'brands', 'subcategories', 'products'));
+
+        $breadcrumbs = [
+            ['name' => 'Home', 'url' => route('user.home')],
+            ['name' => 'shop', 'url' => route('user.shop')],
+        ];
+
+        return view('user.shop', compact('categories', 'brands', 'subcategories', 'products', 'breadcrumbs'));
     }
 
     public function shopViewAPI(Request $request)
@@ -71,6 +77,12 @@ class HomeController extends Controller
         $selectedProduct = Product::with('brands')->where('product_slug', $slug)->orderby('updated_at', 'desc')->first();
         $favouritesProducts = Favourite::where('product_id', $selectedProduct->id)->where('user_id', Auth::id())->first();
 
+        $breadcrumbs = [
+            ['name' => 'Home', 'url' => route('user.home')],
+            ['name' => 'shop', 'url' => route('user.shop')],
+            ['name' => $selectedProduct->product_name, 'url' => route('user.single.product', $selectedProduct->product_slug)],
+        ];
+        
         $similarProducts = Product::where('product_category_id', $selectedProduct->product_category_id)->where('id', '!=', $selectedProduct->id)->limit(4)->get();
         if ($similarProducts->isEmpty()) {
             $similarProducts = Product::where('id', '!=', $selectedProduct->id)->limit(4)->get();
@@ -89,9 +101,9 @@ class HomeController extends Controller
                 $sheetData = $data[0];
             }
             $spreadsheet = \PhpOffice\PhpSpreadsheet\IOFactory::load($path);
-            return view('user.single-product', compact('categories', 'brands', 'subcategories', 'selectedProduct', 'sheetData', 'favouritesProducts', 'similarProducts'));
+            return view('user.single-product', compact('categories', 'brands', 'subcategories', 'selectedProduct', 'sheetData', 'favouritesProducts', 'similarProducts', 'breadcrumbs'));
         }
-        return view('user.single-product', compact('categories', 'brands', 'subcategories', 'selectedProduct', 'favouritesProducts', 'similarProducts'));
+        return view('user.single-product', compact('categories', 'brands', 'subcategories', 'selectedProduct', 'favouritesProducts', 'similarProducts', 'breadcrumbs'));
     }
 
     public function events()
