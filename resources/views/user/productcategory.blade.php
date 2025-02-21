@@ -84,15 +84,13 @@
                                 <div
                                     class="category-select align-items-center justify-content-lg-end justify-content-between">
                                     <!-- Start Single Select  -->
-                                    <span class="filter-results">
-                                        {{-- Showing {{ $products->firstItem() }}-{{ $products->lastItem() }} of
+                                    <span class="filter-results">Showing
+                                        {{ $products->firstItem() }}-{{ $products->lastItem() }} of
                                         {{ $products->total() }}
-                                        results --}}
-                                    </span>
-                                    <select class="single-select" id="sort_by">
-                                        <option value="">Sort By</option>
-                                        <option value="latest">Short by Latest</option>
-                                        <option value="by_name">Short by Name</option>
+                                        results</span>
+                                    <select class="single-select">
+                                        <option>Short by Latest</option>
+                                        <option>Short by Name</option>
                                     </select>
                                     <!-- End Single Select  -->
                                 </div>
