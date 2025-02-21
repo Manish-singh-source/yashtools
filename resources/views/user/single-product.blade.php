@@ -282,12 +282,6 @@
                                         </div>
                                         <div class="dropdown-options">
                                             <input type="text1" class="search-box" placeholder="Search...">
-                                            {{-- <div>VB1/001</div>
-                                            <div class="selected">VB1.1/002</div>
-                                            <div>VB1.1/003</div>
-                                            <div>VB1.1/004</div>
-                                            <div>VB1.1/005</div>
-                                            <div>VB1.1/006</div> --}}
                                         </div>
                                     </div>
                                     <ul class="product-meta margbot">
@@ -586,10 +580,6 @@
             }
         });
 
-
-        // if (iteration < 1) {
-        //     iteration++;
-        // }
 
         $rows.each(function() {
             let partNumbers = {};

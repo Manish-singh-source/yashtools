@@ -23,11 +23,6 @@
                                         </li>
                                     @endif
                                 @endforeach
-                                {{-- 
-                                <li class="axil-breadcrumb-item"><a href="index.php">Home</a></li>
-                                <li class="separator"></li>
-                                <li class="axil-breadcrumb-item active" aria-current="page">My Account</li> 
-                                --}}
                             </ul>
                             <h1 class="title">Explore All Products</h1>
                         </div>
@@ -93,11 +88,6 @@
                                     <div
                                         class="category-select align-items-center justify-content-lg-end justify-content-between">
                                         <!-- Start Single Select  -->
-                                        {{-- <span class="filter-results">Showing
-                                            {{ $products->firstItem() }}-{{ $products->lastItem() }} of
-                                            {{ $products->total() }}
-                                            results</span> --}}
-
                                         <select class="single-select" id="sort_by">
                                             <option value="">Sort By</option>
                                             <option value="latest">Short by Latest</option>
@@ -171,7 +161,7 @@
                                 `<div class="col-xl-4 col-lg-4 col-sm-6 col-12 mb--30">
                                     <div class="axil-product product-style-one">
                                         <div class="thumbnail">
-                                            <a href="/product-detail-info/${product.product_slug}">
+                                            <a href="/single-product/${product.product_slug}">
                                                 <img
                                                     src="{{ asset('uploads/products/thumbnails/${product.product_thumbain}') }}"
                                                     alt="Product Images">
@@ -180,7 +170,7 @@
                                         <div class="product-content">
                                             <div class="inner">
                                                 <h5 class="title"><a
-                                                        href="/product-detail-info/${product.product_slug}">${product.product_name}</a>
+                                                        href="/single-product/${product.product_slug}">${product.product_name}</a>
                                                 </h5>
                                             </div>
                                         </div>
