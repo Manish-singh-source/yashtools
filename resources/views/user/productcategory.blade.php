@@ -41,9 +41,10 @@
                         <div class="toggle-list product-categories active">
                             <h6 class="title">CATEGORIES</h6>
                             <div class="shop-submenu">
-                                <ul>
+                                <ul id="category_filter">
                                     @forelse ($categories as $category)
-                                        <li><a href="#">{{ $category->category_name }}</a></li>
+                                        <li data-categoryid="{{ $category->id }}"><a
+                                                href="#">{{ $category->category_name }}</a></li>
                                     @empty
                                         <li class="current-cat"><a href="#">Night Care</a></li>
                                     @endforelse
@@ -53,9 +54,10 @@
                         <div class="toggle-list product-categories product-gender active">
                             <h6 class="title">Brand</h6>
                             <div class="shop-submenu">
-                                <ul>
+                                <ul id="brand_filter">
                                     @forelse ($brands as $brand)
-                                        <li><a href="#">{{ $brand->brand_name }}</a></li>
+                                        <li data-brandid="{{ $brand->id }}"><a
+                                                href="#">{{ $brand->brand_name }}</a></li>
                                     @empty
                                         <li class="chosen"><a href="#">Men (40)</a></li>
                                     @endforelse
@@ -65,9 +67,9 @@
                         <div class="toggle-list product-categories product-gender active">
                             <h6 class="title">New & Sale</h6>
                             <div class="shop-submenu">
-                                <ul>
-                                    <li class="chosen"><a href="#">New Products</a></li>
-                                    <li><a href="#">Sale</a></li>
+                                <ul id="tags_filter">
+                                    <li data-tagid="new"><a href="#">New Products</a></li>
+                                    <li data-tagid="offer"><a href="#">Sale</a></li>
                                 </ul>
                             </div>
                         </div>
@@ -126,20 +128,36 @@
 
             function fetchProducts(page = 1) {
                 let sortBy = $('#sort_by').val();
-                let category = $('#category_filter').val();
+
+                // Get all selected categories
+                let selectedCategories = $("#category_filter li.chosen").map(function() {
+                    return $(this).data("categoryid");
+                }).get(); // Convert jQuery object to an array
+
+                // Get all selected categories
+                let selectedBrand = $("#brand_filter li.chosen").map(function() {
+                    return $(this).data("brandid");
+                }).get(); // Convert jQuery object to an array
+
+                // Get all selected categories
+                let selectedTags = $("#tags_filter li.chosen").map(function() {
+                    return $(this).data("tagid");
+                }).get(); // Convert jQuery object to an array
 
                 $.ajax({
                     url: "/shop-api?page=" + page,
                     type: "GET",
                     data: {
                         sort_by: sortBy,
-                        category: category
+                        category: selectedCategories,
+                        brand: selectedBrand,
+                        tags: selectedTags
                     },
                     success: function(response) {
                         $('#product_list').html('');
                         $.each(response.data, function(index, product) {
-                            console.log(index);
-                            console.log(product);
+                            // console.log(index);
+                            // console.log(product);
                             $('#product_list').append(
                                 `<div class="col-xl-4 col-lg-4 col-sm-6 col-12 mb--30">
                                     <div class="axil-product product-style-one">
@@ -186,7 +204,22 @@
             }
 
             // Sort and Filter Change Events
-            $('#sort_by, #category_filter').change(function() {
+            $('#sort_by').change(function() {
+                fetchProducts();
+            });
+
+            $("#category_filter").on("click", "li", function() {
+                $(this).toggleClass("chosen");
+                fetchProducts();
+            });
+
+            $("#brand_filter").on("click", "li", function() {
+                $(this).toggleClass("chosen");
+                fetchProducts();
+            });
+
+            $("#tags_filter").on("click", "li", function() {
+                $(this).toggleClass("chosen");
                 fetchProducts();
             });
 
