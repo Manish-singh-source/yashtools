@@ -68,26 +68,19 @@
                                     <div class="product-hover-action">
                                         <ul class="cart-action">
                                             <li class="wishlist">
-                                                @isset($favouriteItems->status)
-                                                    @if ($favouriteItems->status == '1')
-                                                        <a class="wishlist-btn text-danger" id="wishlistBtn"
-                                                            data-productid="{{ $favouriteItems->id }}">
-                                                            <i class="fas fa-heart text-danger"></i>
-                                                        </a>
-                                                        <input type="hidden" value="active" class="status">
-                                                    @else
-                                                        <a class="wishlist-btn" id="wishlistBtn"
-                                                            data-productid="{{ $favouriteItems->id }}">
-                                                            <i class="fas fa-heart"></i>
-                                                        </a>
-                                                        <input type="hidden" value="inactive" class="status">
-                                                    @endif
+                                                @if ($item->status == '1')
+                                                    <a class="wishlist-btn text-danger" id="wishlistBtn"
+                                                        data-productid="{{ $item->id }}">
+                                                        <i class="fas fa-heart text-danger"></i>
+                                                    </a>
+                                                    <input type="hidden" value="active" class="status">
                                                 @else
                                                     <a class="wishlist-btn" id="wishlistBtn"
-                                                        data-productid="{{ $item->products->id }}">
+                                                        data-productid="{{ $item->id }}">
                                                         <i class="fas fa-heart"></i>
                                                     </a>
-                                                @endisset
+                                                    <input type="hidden" value="inactive" class="status">
+                                                @endif
                                             </li>
                                         </ul>
                                     </div>
@@ -149,7 +142,7 @@
                         }
 
                         $.ajax({
-                            url: "/add-to-favourite",
+                            url: "/remove-from-favourite",
                             type: "POST",
                             data: {
                                 productid: productid,

@@ -2,6 +2,7 @@
 
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\CartController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\Admin\FetchAPIs;
 use App\Http\Controllers\EmailController;
@@ -20,7 +21,6 @@ use App\Http\Controllers\Admin\CustomersController;
 use App\Http\Controllers\Admin\CategoriesController;
 use App\Http\Controllers\User\UserProfileController;
 use App\Http\Controllers\Admin\SubCategoryController;
-use App\Http\Controllers\CartController;
 
 // user routes: Authentication 
 Route::get('send-email', [EmailController::class, 'sendEmail']);
@@ -80,6 +80,7 @@ Route::middleware('isCustomerAuth:customer')->group(function () {
 
     // Add to Cart Through API 
     Route::post('/add-to-favourite', [FetchAPIs::class, 'addToFav'])->middleware('web');
+    Route::post('/remove-from-favourite', [FetchAPIs::class, 'removeFromFav'])->middleware('web');
 
     Route::get('/check-auth', function () {
         return response()->json(['isAuthenticated' => Auth::check()]);

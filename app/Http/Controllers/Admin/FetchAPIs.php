@@ -354,6 +354,37 @@ class FetchAPIs extends Controller
         ]);
     }
 
+    // addToFav 
+    public function removeFromFav(Request $request)
+    {
+        $productid = $request->productid;
+        $productStatus = $request->productStatus;
+
+        if (!isset($productid)) {
+            return response()->json([
+                'status' => false,
+                'message' => 'Product ID is required.',
+            ], 400);
+        }
+
+        $favItem = Favourite::find($productid);
+        $favItem->delete();
+
+        if (!$favItem) {
+            return response()->json([
+                'status' => false,
+                'message' => 'No Product found.',
+                'data' => $favItem,
+            ], 404);
+        }
+
+        flash()->success('Removed From Favourites List Successfully.');
+        return response()->json([
+            'status' => true,
+            'message' => 'Removed From Favourites List Successfully.',
+        ]);
+    }
+
     public function changeOrderStatus(Request $request)
     {
         $enquiryid = $request->enquiryid;
