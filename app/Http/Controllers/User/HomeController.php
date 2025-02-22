@@ -29,19 +29,28 @@ class HomeController extends Controller
         return view('user.index', compact('categories', 'brands', 'subcategories', 'banners'));
     }
 
-    public function shopView()
+    public function shopView($category = null)
     {
         $categories = Categories::orderby('updated_at', 'desc')->limit(8)->get();
         $subcategories = SubCategories::orderby('updated_at', 'desc')->limit(8)->get();
         $brands = Brand::orderby('updated_at', 'desc')->limit(8)->get();
-        $products = Product::orderby('updated_at', 'desc')->paginate(12);
+        $products = Product::query();
+        $products->orderby('updated_at', 'desc')->paginate(12);
 
         $breadcrumbs = [
             ['name' => 'Home', 'url' => route('user.home')],
             ['name' => 'shop', 'url' => route('user.shop')],
         ];
 
-        return view('user.shop', compact('categories', 'brands', 'subcategories', 'products', 'breadcrumbs'));
+        if ($category) {
+            $selectedCategories = $category;
+            // dd($selectedCategories);
+        } else {
+
+            $selectedCategories = null;
+        }
+
+        return view('user.shop', compact('categories', 'brands', 'subcategories', 'products', 'breadcrumbs', 'selectedCategories'));
     }
 
     public function shopViewAPI(Request $request)

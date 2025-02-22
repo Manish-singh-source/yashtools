@@ -36,7 +36,7 @@ Route::get('/faq', [HomeController::class, 'faq'])->name('faq');
 Route::get('/feedback', [HomeController::class, 'feedback'])->name('feedback');
 // user routes: pages
 Route::get('/', [HomeController::class, 'homeView'])->name('user.home');
-Route::get('/shop', [HomeController::class, 'shopView'])->name('user.shop');
+Route::get('/shop/{category?}', [HomeController::class, 'shopView'])->name('user.shop');
 
 Route::get('/shop-api', [HomeController::class, 'shopViewAPI'])->name('user.shop.api');
 
