@@ -180,6 +180,7 @@
                                             </table>
                                         </div>
                                     </div>
+                                    <div id="pagination_links"></div>
                                 </div>
                                 <div class="tab-pane fade" id="nav-account" role="tabpanel">
                                     <div class="col-lg-12">
@@ -321,8 +322,8 @@
                                     <td>
                                         ${product.invoice?.invoice_file 
                                         ? `<a href="{{ asset('uploads/invoices/${product.invoice.invoice_file}') }}" target="_blank">
-                                                                                    <i class="fas fa-file-pdf fs"></i>
-                                                                                </a>`
+                                                                                                                <i class="fas fa-file-pdf fs"></i>
+                                                                                                            </a>`
                                         : 'NA'}
                                     </td>
                                     <td>
@@ -331,7 +332,7 @@
                                         <div>
                                             ${product.invoice?.courier_website
                                             ? `<a href="${product.invoice?.courier_website ?? 'NA'}">Visit
-                                                                                    Courier Website</a>`
+                                                                                                                Courier Website</a>`
                                             : ''}
                                         </div>
                                     </td>
@@ -347,21 +348,17 @@
                         // Pagination Links
                         $('#pagination_links').html('');
                         if (response.links) {
+                            $('#pagination_links').append(
+                                `<div class="text-center pt--30"><div class="center"><div class="pagination"><a href="#">&laquo;</a>`
+                            );
                             $.each(response.links, function(index, link) {
                                 if (link.url) {
                                     $('#pagination_links').append(
-                                        `<div class="text-center pt--30">
-                                            <div class="center">
-                                                <div class="pagination">
-                                                    <a href="#">&laquo;</a>
-                                                    <a href="${link.url}" class="active">${link.label}</a>
-                                                    <a href="#">&raquo;</a>
-                                                </div>
-                                            </div>
-                                        </div>`
+                                        `<a href="${link.url}" class="active">${link.label}</a>`
                                     );
                                 }
                             });
+                            $('#pagination_links').append(`<a href="#">&raquo;</a></div></div></div>`);
                         }
                     }
                 });
