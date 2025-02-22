@@ -1,4 +1,7 @@
 @extends('user.layouts.masterlayout')
+@section('csrf-token')
+    <meta name="csrf-token" content="{{ csrf_token() }}">
+@endsection
 
 @section('content')
     <!-- Start Breadcrumb Area  -->
@@ -28,7 +31,7 @@
                         <a href="{{ route('user.product.category') }}" class="conts">Please Continue Shopping to Add
                             Products</a>
                     </div>
-                    <div class="">
+                    <div class="clear-all-cart">
                         <a href="#" class="crlar">Clear Shoping Cart</a>
                     </div>
                 </div>
@@ -48,7 +51,7 @@
                                     <th scope="col" class="product-remove">Action</th>
                                 </tr>
                             </thead>
-                            @foreach ($groupedCartItems as $date => $cartItems)
+                            @forelse ($groupedCartItems as $date => $cartItems)
                                 <tbody class="cart-items-list">
                                     @foreach ($cartItems as $index => $cartItem)
                                         <tr>
@@ -58,36 +61,48 @@
                                                 </td>
                                             @endif
                                             <td class="product-thumbnail">
-                                                <a href="single-product.php"><img src="assets/images/myimg/cart.png"
+                                                <a
+                                                    href="{{ route('user.product.details', $cartItem->products->product_slug) }}"><img
+                                                        src="{{ asset('uploads/products/thumbnails/' . $cartItem->products->product_thumbain) }}"
                                                         alt="Digital Product"></a>
                                             </td>
                                             <td class="product-title">
-                                                <a href="single-product.php">{{ $cartItem->products->product_name }}</a>
+                                                <a
+                                                    href="{{ route('user.product.details', $cartItem->products->product_slug) }}">{{ $cartItem->products->product_name }}</a>
                                             </td>
-                                            <td class="product-price" data-title="Price">{{ $cartItem->part_number }}</td>
-                                            <td class="product-quantity" data-title="Qty">
+                                            <td class="partNumber">{{ $cartItem->part_number }}</td>
+                                            <input type="hidden" name="productId" class="productId"
+                                                value="{{ $cartItem->products->id }}">
+                                            <input type="hidden" name="userId" class="userId"
+                                                value="{{ Auth::id() }}">
+                                            <input type="hidden" class="cartId" value="{{ $cartItem->id }}">
+                                            <td class="product-info" data-title="Qty">
                                                 <div class="pro-qty">
-                                                    <input type="number" class="quantity-input" value="1">
+                                                    <input type="number" class="enquiryQuantity" value="1">
                                                 </div>
                                             </td>
                                             <td class="product-remove">
-                                                <input type="hidden" value="{{ $cartItem->id }}">
-                                                <a href="#" class="remove-wishlist"><i class="fal fa-times"></i></a>
+                                                <a href="#" data-cartid="{{ $cartItem->id }}"
+                                                    class="remove-wishlist"><i class="fal fa-times"></i></a>
                                             </td>
                                             @if ($index === 0)
-                                                <td rowspan="{{ $cartItems->count() }}" class="vlt">
-                                                    <a href="shop.php" class="cartbtn">Send Enquiry</a>
+                                                <td rowspan="{{ $cartItems->count() }}" id="addEnquiry" class="vlt">
+                                                    <a href="#" class="cartbtn">Send Enquiry</a>
                                                 </td>
                                             @endif
                                         </tr>
                                     @endforeach
                                 </tbody>
-                            @endforeach
-
+                            @empty
+                                <tbody>
+                                    <tr>
+                                        <td class="text-center" colspan="7">You Don't have any cart itmes <a
+                                                href="{{ route('user.product.category') }}">Shop Now</a></td>
+                                    </tr>
+                                </tbody>
+                            @endforelse
                         </table>
                     </div>
-
-
                 </div>
             </div>
         </div>
@@ -96,5 +111,147 @@
 @endsection
 
 @section('script')
-    <script></script>
+    <script>
+        $.ajaxSetup({
+            headers: {
+                "X-CSRF-TOKEN": $('meta[name="csrf-token"]').attr("content"),
+            },
+        });
+        $(document).on("click", ".remove-wishlist", function() {
+            let cartid = $(this).data("cartid");
+            console.log(cartid);
+
+            $.ajax({
+                url: "/check-auth", // Check if the user is logged in
+                type: "GET",
+                success: function(response) {
+                    if (!response.isAuthenticated) {
+                        $("#showError").show();
+                        $("#showError").html(
+                            "Please <a href='/signin'>register</a> to add Product to favourites"
+                        ); // Show login popup
+                        return;
+                    }
+
+                    $.ajax({
+                        url: "/remove-cart-item",
+                        type: "POST",
+                        data: {
+                            cartid: cartid,
+                        },
+                        success: function(data) {
+                            if (data.status) {
+                                console.log(data.status);
+                                console.log(data.message);
+                                console.log(data.data);
+                                location.reload();
+                            }
+                        },
+                        error: function(xhr, status, error) {
+                            console.log(xhr);
+                            console.log(status);
+                            console.log(error);
+                        },
+                    });
+
+                }
+            });
+        });
+
+
+        $(document).on("click", "#addEnquiry", function() {
+            let productId = $(this).siblings(".productId").val();
+            let userId = $(this).siblings(".userId").val();
+            let enquiryQuantity = $(this).siblings().find(".enquiryQuantity").val();
+            let partNumber = $(this).siblings(".partNumber").text();
+
+            console.log(productId);
+            console.log(userId);
+            console.log(enquiryQuantity);
+            console.log(partNumber);
+            $.ajax({
+                url: "/check-auth", // Check if the user is logged in
+                type: "GET",
+                success: function(response) {
+                    if (!response.isAuthenticated) {
+                        $("#showError").show();
+                        $("#showError").html(
+                            "Please <a href='/signin'>register</a> to add Product to favourites"
+                        );
+                        return;
+                    }
+
+                    $.ajax({
+                        url: "/add-enquiry",
+                        type: "POST",
+                        data: {
+                            userId: userId,
+                            productId: productId,
+                            enquiryQuantity: enquiryQuantity,
+                            partNumber: partNumber,
+                        },
+                        success: function(data) {
+                            if (data.status) {
+                                console.log(data.status);
+                                console.log(data.message);
+                                console.log(data.data);
+                                location.reload();
+                            }
+                        },
+                        error: function(xhr, status, error) {
+                            console.log(xhr);
+                            console.log(status);
+                            console.log(error);
+                        },
+                    });
+
+                }
+            });
+
+        });
+
+        $(document).on("click", ".clear-all-cart", function() {
+            var cartItems = [];
+
+            $('.cartId').each(function() {
+                cartItems.push($(this).val());
+            });
+
+            $.ajax({
+                url: "/check-auth", // Check if the user is logged in
+                type: "GET",
+                success: function(response) {
+                    if (!response.isAuthenticated) {
+                        $("#showError").show();
+                        $("#showError").html(
+                            "Please <a href='/signin'>register</a> to add Product to favourites"
+                        );
+                        return;
+                    }
+
+                    $.ajax({
+                        url: "/remove-all-cart-item",
+                        type: "POST",
+                        data: {
+                            cartItems: cartItems
+                        },
+                        success: function(data) {
+                            if (data.status) {
+                                console.log(data.status);
+                                console.log(data.message);
+                                console.log(data.data);
+                                location.reload();
+                            }
+                        },
+                        error: function(xhr, status, error) {
+                            console.log(xhr);
+                            console.log(status);
+                            console.log(error);
+                        },
+                    });
+
+                }
+            });
+        });
+    </script>
 @endsection

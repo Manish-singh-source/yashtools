@@ -11,7 +11,7 @@ class CartController extends Controller
 {
     public function addCart(Request $request)
     {
-        
+
         $cart = new Cart();
         $cart->user_id = $request->userId;
         $cart->product_id = $request->productId;
@@ -41,5 +41,45 @@ class CartController extends Controller
         });
         // dd($groupedCartItems);
         return view('user.maincart', compact('groupedCartItems'));
+    }
+
+    public function removeCartItem(Request $request)
+    {
+        $cart = Cart::findOrFail($request->cartid);
+        $cart->delete();
+
+        if ($cart) {
+            flash()->success('Successfull Product deleted From cart.');
+            return response()->json([
+                'status' => true,
+                'message' =>  'Successfull Product deleted From cart',
+            ]);
+        }
+
+        flash()->error('Failed.');
+        return response()->json([
+            'status' => false,
+            'error' => 'Failed',
+        ]);
+    }
+
+    public function allRemoveCartItems(Request $request)
+    {
+
+        $cart = Cart::destroy($request->cartItems);
+
+        if ($cart) {
+            flash()->success('Successfull Cleared cart Items.');
+            return response()->json([
+                'status' => true,
+                'message' =>  'Successfull Cleared cart Items',
+            ]);
+        }
+
+        flash()->error('Failed.');
+        return response()->json([
+            'status' => false,
+            'error' => 'Failed',
+        ]);
     }
 }

@@ -74,6 +74,8 @@ Route::middleware('isCustomerAuth:customer')->group(function () {
 
     Route::post('/add-enquiry', [EnquiryOrdersController::class, 'addEnquiry'])->name('add.enquiry');
     Route::post('/add-to-cart', [CartController::class, 'addCart'])->name('add.cart');
+    Route::post('/remove-cart-item', [CartController::class, 'removeCartItem'])->name('remove.cart.item');
+    Route::post('/remove-all-cart-item', [CartController::class, 'allRemoveCartItems'])->name('remove.all.cart.item');
 
 
     // Add to Cart Through API 
