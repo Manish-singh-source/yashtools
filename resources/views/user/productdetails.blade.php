@@ -263,17 +263,19 @@
                                             class="spnc">{{ $selectedProduct->brands->brand_name }}</span></h6>
                                     <div class="custom-dropdown margbot" id="dropdown">
                                         <div class="dropdown-selected">
-                                            Part Number
-                                            <span>▼</span>
+                                            Select Part Number
                                         </div>
                                         <div class="dropdown-options">
                                             <input type="text1" class="search-box" placeholder="Search...">
                                         </div>
                                     </div>
-
+                                    <input type="hidden" name="productId" class="productId"
+                                        value="{{ $selectedProduct->id }}">
+                                    <input type="hidden" name="userId" class="userId" value="{{ Auth::id() }}">
                                     <div class="product-variation quantity-variant-wrapper margbot">
                                         <h6 class="title">Quantity</h6>
-                                        <div class="pro-qty"><input type="text" value="1"></div>
+                                        <div class="pro-qty"><input class="enquiryQuantity" type="text" value="1">
+                                        </div>
                                     </div>
                                     <ul class="product-meta margbot">
                                         @if ($selectedProduct->product_quantity > 0)
@@ -290,13 +292,13 @@
 
                                         <!-- Start Product Action  -->
                                         <ul class="product-action d-flex-center mb--0">
-                                            <li class="add-to-cart"><a href="checkout.php" class="axil-btn btn-bg-secondary"
-                                                    contenteditable="false" style="cursor: pointer;"><i
-                                                        class="far fa-envelope"></i>
+                                            <li class="add-to-cart" id="addEnquiry"><a href="#"
+                                                    class="axil-btn btn-bg-secondary" contenteditable="false"
+                                                    style="cursor: pointer;"><i class="far fa-envelope"></i>
                                                     Send Enquiry</a></li>
-                                            <li class="add-to-cart"><a href="cart.php" class="axil-btn btn-bg-primary"
-                                                    contenteditable="false" style="cursor: pointer;"><i
-                                                        class="far fa-shopping-cart"></i> Add
+                                            <li class="add-to-cart" id="addCart"><a href="#"
+                                                    class="axil-btn btn-bg-primary" contenteditable="false"
+                                                    style="cursor: pointer;"><i class="far fa-shopping-cart"></i> Add
                                                     to Cart</a></li>
 
 
@@ -632,6 +634,104 @@
             headers: {
                 "X-CSRF-TOKEN": $('meta[name="csrf-token"]').attr("content"),
             },
+        });
+
+        $(document).on("click", "#addEnquiry", function() {
+            let enquiryQuantity = $(".enquiryQuantity").val();
+            let productId = $(".productId").val();
+            let userId = $(".userId").val();
+            let partNumber = $(".dropdown-selected").text();
+
+
+            $.ajax({
+                url: "/check-auth", // Check if the user is logged in
+                type: "GET",
+                success: function(response) {
+                    if (!response.isAuthenticated) {
+                        $("#showError").show();
+                        $("#showError").html(
+                            "Please <a href='/signin'>register</a> to add Product to favourites"
+                        ); // Show login popup
+                        return;
+                    }
+
+                    $.ajax({
+                        url: "/add-enquiry",
+                        type: "POST",
+                        data: {
+                            userId: userId,
+                            productId: productId,
+                            enquiryQuantity: enquiryQuantity,
+                            partNumber: partNumber,
+                        },
+                        success: function(data) {
+                            if (data.status) {
+                                console.log(data.status);
+                                console.log(data.message);
+                                console.log(data.data);
+                                location.reload();
+                            }
+                        },
+                        error: function(xhr, status, error) {
+                            console.log(xhr);
+                            console.log(status);
+                            console.log(error);
+                        },
+                    });
+
+                }
+            });
+
+        });
+
+        $(document).on("click", "#addCart", function() {
+            let productId = $(".productId").val();
+            let userId = $(".userId").val();
+            let partNumber = $(".dropdown-selected").text();
+
+            if (partNumber.trim() == 'Select Part Number') {
+                if (confirm('Please Select Part Number')) {
+                    return;
+                }
+            }
+            $.ajax({
+                url: "/check-auth", // Check if the user is logged in
+                type: "GET",
+                success: function(response) {
+                    if (!response.isAuthenticated) {
+                        $("#showError").show();
+                        $("#showError").html(
+                            "Please <a href='/signin'>register</a> to add Product to favourites"
+                        ); // Show login popup
+                        return;
+                    }
+
+                    $.ajax({
+                        url: "/add-to-cart",
+                        type: "POST",
+                        data: {
+                            userId: userId,
+                            productId: productId,
+                            partNumber: partNumber,
+                        },
+                        success: function(data) {
+                            if (data.status) {
+                                console.log(data.status);
+                                console.log(data.message);
+                                console.log(data.data);
+                                location.reload();
+                            }
+                        },
+                        error: function(xhr, status, error) {
+                            console.log(xhr);
+                            console.log(status);
+                            console.log(error);
+                        },
+                    });
+
+                }
+            });
+
         });
 
         $(document).on("click", "#wishlistBtn", function() {

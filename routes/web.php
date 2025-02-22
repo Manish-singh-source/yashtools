@@ -20,6 +20,7 @@ use App\Http\Controllers\Admin\CustomersController;
 use App\Http\Controllers\Admin\CategoriesController;
 use App\Http\Controllers\User\UserProfileController;
 use App\Http\Controllers\Admin\SubCategoryController;
+use App\Http\Controllers\CartController;
 
 // user routes: Authentication 
 Route::get('send-email', [EmailController::class, 'sendEmail']);
@@ -58,9 +59,7 @@ Route::middleware('isCustomerAuth:customer')->group(function () {
 
     Route::get('/product-categories', [UserShopController::class, 'productShop'])->name('user.product.category');
 
-    Route::get('/maincart', function () {
-        return view('user.maincart');
-    })->name('user.maincart');
+    Route::get('/maincart', [CartController::class, 'viewCartItems'])->name('user.maincart');
 
     Route::get('/favourites', [FavouritesController::class, 'favouriteItems'])->name('user.favourites');
 
@@ -73,7 +72,8 @@ Route::middleware('isCustomerAuth:customer')->group(function () {
 
     Route::get('/customer-logout', [UserController::class, 'logout'])->name('customer.logout');
 
-    
+    Route::post('/add-enquiry', [EnquiryOrdersController::class, 'addEnquiry'])->name('add.enquiry');
+    Route::post('/add-to-cart', [CartController::class, 'addCart'])->name('add.cart');
 
 
     // Add to Cart Through API 
@@ -213,6 +213,4 @@ Route::middleware(AdminAuthMiddleware::class . ':admin,superadmin')->group(funct
 
     // Add to Cart Through API 
     Route::post('/order-status', [FetchAPIs::class, 'changeOrderStatus'])->middleware('web');
-
-   
 });

@@ -6,8 +6,8 @@
 
 @section('content-body')
     <!--**********************************
-                                                                                                                                                                                                                                                                                                                                                                                        Content body start
-                                                                                                                                                                                                                                                                                                                                                                                    ***********************************-->
+                                                                                                                                                                                                                                                                                                                                                                                            Content body start
+                                                                                                                                                                                                                                                                                                                                                                                        ***********************************-->
     <div class="content-body">
         <div class="container-fluid">
 
@@ -92,7 +92,8 @@
                                         <div class="dz-default ic-message upload-img mb-3">
                                             <div class="dropzone">
                                                 <div class="fallback">
-                                                    <input type="file" accept=".xlsx, .csv, .xls" name="product_specs" multiple>
+                                                    <input type="file" accept=".xlsx, .csv, .xls" name="product_specs"
+                                                        multiple>
                                                 </div>
                                             </div>
                                         </div>
@@ -220,7 +221,6 @@
                                             <select class="form-control h-auto wide" id="product_sub_category"
                                                 name="product_sub_category">
                                                 <option value="0">Select Sub Category</option>
-
                                             </select>
                                             @error('product_sub_category')
                                                 {{ $message }}
@@ -284,5 +284,4 @@
     <script src="https://code.jquery.com/jquery-3.7.1.min.js"
         integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
     <script src="{{ asset('admin/assets/js/image-preview.js') }}" type="text/javascript"></script>
-
 @endsection

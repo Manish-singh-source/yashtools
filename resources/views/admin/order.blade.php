@@ -5,9 +5,7 @@
 @endsection
 
 @section('content-body')
-    <!--**********************************
-                                                                            Content body start
-                                                                        ***********************************-->
+
     <div class="content-body">
         <div class="container-fluid">
             <div class="row">
@@ -218,9 +216,6 @@
             </div>
         </div>
     </div>
-    <!--**********************************
-                                                                            Content body end
-                                                                        ***********************************-->
 
     <script>
         $('input[name="dates"]').daterangepicker();
