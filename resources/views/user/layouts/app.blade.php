@@ -71,9 +71,12 @@
                                             <h4 class="menu-title">Category</h4>
                                             <ul>
                                                 @forelse ($categories as $category)
-                                                    <li><a href="shop.php">{{ $category->category_name }}</a></li>
+                                                    <li><a
+                                                            href="{{ route('user.shop', $category->id) }}">{{ $category->category_name }}</a>
+                                                    </li>
                                                 @empty
-                                                    <li><a href="shop.php">Please Add Category</a></li>
+                                                    <li><a href="{{ route('user.shop', $category->id) }}">Please Add
+                                                            Category</a></li>
                                                 @endforelse
                                             </ul>
                                         </div>
@@ -81,10 +84,10 @@
                                             <h4 class="menu-title">Sub Category</h4>
                                             <ul>
                                                 @forelse ($subcategories as $subcategory)
-                                                    <li><a href="shop.php">{{ $subcategory->sub_category_name }}</a>
+                                                    <li><a href="#">{{ $subcategory->sub_category_name }}</a>
                                                     </li>
                                                 @empty
-                                                    <li><a href="shop.php">Please Add Category</a></li>
+                                                    <li><a href="#">Please Add Category</a></li>
                                                 @endforelse
                                             </ul>
                                         </div>
@@ -92,11 +95,11 @@
                                             <h4 class="menu-title">Brands</h4>
                                             <ul>
                                                 @forelse ($brands as $brand)
-                                                    <li><a href="shop.php">{{ $brand->brand_name }}</a></li>
+                                                    <li><a href="#">{{ $brand->brand_name }}</a></li>
                                                 @empty
-                                                    <li><a href="shop.php">Manish1</a></li>
-                                                    <li><a href="shop.php">Manish2</a></li>
-                                                    <li><a href="shop.php">Manish</a></li>
+                                                    <li><a href="#">Manish1</a></li>
+                                                    <li><a href="#">Manish2</a></li>
+                                                    <li><a href="#">Manish</a></li>
                                                 @endforelse
                                             </ul>
                                         </div>
@@ -245,7 +248,7 @@
                                     <li><a>If you have any questions ? please feel free to contact us.</a></li>
                                     <li>
                                         <div class="form-group mb--0">
-                                            <a href="{{ route('user.contact.us')}}" type="submit" id="submit"
+                                            <a href="{{ route('user.contact.us') }}" type="submit" id="submit"
                                                 class="axil-btn btn-bg-primary">Contact Us</a>
                                         </div>
                                     </li>

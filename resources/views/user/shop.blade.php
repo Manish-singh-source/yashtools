@@ -47,8 +47,13 @@
                                 <div class="shop-submenu">
                                     <ul id="category_filter">
                                         @forelse ($categories as $category)
-                                            <li data-categoryid="{{ $category->id }}"><a
-                                                    href="#">{{ $category->category_name }}</a></li>
+                                            @if (!is_null($selectedCategories) && $selectedCategories == $category->id)
+                                                <li class="chosen" data-categoryid="{{ $category->id }}"><a
+                                                        href="#">{{ $category->category_name }}</a></li>
+                                            @else
+                                                <li data-categoryid="{{ $category->id }}"><a
+                                                        href="#">{{ $category->category_name }}</a></li>
+                                            @endif
                                         @empty
                                             <li class="current-cat"><a href="#">Night Care</a></li>
                                         @endforelse
