@@ -316,7 +316,6 @@ class FetchAPIs extends Controller
         $productid = $request->productid;
         $productStatus = $request->productStatus;
 
-
         if (!isset($productid)) {
             return response()->json([
                 'status' => false,

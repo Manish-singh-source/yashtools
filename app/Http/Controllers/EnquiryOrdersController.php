@@ -48,6 +48,11 @@ class EnquiryOrdersController extends Controller
         $enquiry_product->product_id = $request->productId;
         $enquiry_product->save();
 
+        $cartItem = Cart::where('user_id', Auth::id())->where('product_id', $request->productId)->first();
+        if ($cartItem) {
+            $cartItem->delete();
+        }
+
         if ($enquiry_product) {
             flash()->success('Your Enquiry Successfull.');
             return response()->json([
@@ -62,6 +67,4 @@ class EnquiryOrdersController extends Controller
             'error' => 'Your Enquiry Failed',
         ]);
     }
-
-    
 }
