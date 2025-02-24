@@ -6,8 +6,8 @@
 
 @section('content-body')
     <!--**********************************
-                                                                                                                                                                                                                                                                                                                                                                                                Content body start
-                                                                                                                                                                                                                                                                                                                                                                                            ***********************************-->
+                                                                                                                                                                                                                                                                                                                                                                                                    Content body start
+                                                                                                                                                                                                                                                                                                                                                                                                ***********************************-->
     <div class="content-body">
         <div class="container-fluid">
 
@@ -280,8 +280,6 @@
         var asset_url = 'assets/index.html'
     </script>
 
-<script src="https://code.jquery.com/jquery-3.7.1.min.js"
-    integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
     <script src="{{ asset('assets/vendor/ckeditor/ckeditor.js') }}" type="text/javascript"></script>
     <script src="{{ asset('assets/vendor/dropzone/dist/dropzone.js') }}" type="text/javascript"></script>
     <script src="{{ asset('admin/assets/js/category-filter.js') }}"></script>

@@ -221,11 +221,6 @@
 
 @section('scripts')
     <script>
-        $('input[name="dates"]').daterangepicker();
-    </script>
-    <script src="https://code.jquery.com/jquery-3.7.1.min.js"
-        integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
-    <script>
         $(document).ready(function() {
             $.ajaxSetup({
                 headers: {
@@ -265,4 +260,29 @@
         });
     </script>
     <script src="{{ asset('admin/assets/js/delete-selected.js') }}"></script>
+
+    <script>
+        $('input[name="dates"]').daterangepicker();
+
+        $('input[name="dates"]').on('apply.daterangepicker', function(ev, picker) {
+            let startDate = picker.startDate.format('YYYY-MM-DD'); // Format as needed
+            let endDate = picker.endDate.format('YYYY-MM-DD');
+
+            console.log("Start Date:", startDate);
+            console.log("End Date:", endDate);
+
+            // Example: Send data to backend using AJAX
+            $.ajax({
+                url: '/get-data-between-dates',
+                type: 'POST',
+                data: {
+                    start_date: startDate,
+                    end_date: endDate
+                },
+                success: function(response) {
+                    console.log(response); // Handle response from backend
+                }
+            });
+        });
+    </script>
 @endsection
