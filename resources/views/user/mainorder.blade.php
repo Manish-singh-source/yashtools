@@ -104,13 +104,6 @@
 
                                                     <label class="mks" for="to-date">To:</label>
                                                     <input type="date" id="to-date" class="date-filter">
-
-
-                                                    <!-- End Single Select  -->
-
-
-
-
                                                 </div>
                                             </div>
                                             <div class="col-lg-3">
@@ -322,8 +315,8 @@
                                     <td>
                                         ${product.invoice?.invoice_file 
                                         ? `<a href="{{ asset('uploads/invoices/${product.invoice.invoice_file}') }}" target="_blank">
-                                                                                                                        <i class="fas fa-file-pdf fs"></i>
-                                                                                                                    </a>`
+                                                                                                                <i class="fas fa-file-pdf fs"></i>
+                                                                                                            </a>`
                                         : 'NA'}
                                     </td>
                                     <td>
@@ -332,7 +325,7 @@
                                         <div>
                                             ${product.invoice?.courier_website
                                             ? `<a href="${product.invoice?.courier_website ?? 'NA'}">Visit
-                                                                                                                        Courier Website</a>`
+                                                                                                                Courier Website</a>`
                                             : ''}
                                         </div>
                                     </td>
@@ -346,39 +339,19 @@
                         });
 
                         // Pagination Links
-                        // $('#pagination_links').html('');
-                        // if (response.links) {
-                        //     $('#pagination_links').append(
-                        //         `<div class="text-center pt--30"><div class="center"><div class="pagination"><a href="#">&laquo;</a>`
-                        //     );
-                        //     $.each(response.links, function(index, link) {
-                        //         if (link.url) {
-                        //             $('#pagination_links').append(
-                        //                 `<a href="${link.url}" class="active">${link.label}</a>`
-                        //             );
-                        //         }
-                        //     });
-                        //     $('#pagination_links').append(`<a href="#">&raquo;</a></div></div></div>`);
-                        // }
-
-                        $('#pagination_links').html(''); // Clear existing pagination
-
+                        $('#pagination_links').html('');
                         if (response.links) {
-                            let paginationHtml = `<div class="text-center pt--30">
-                            <div class="center">
-                                <div class="pagination">`;
-
+                            $('#pagination_links').append(
+                                `<div class="text-center pt--30"><div class="center"><div class="pagination"><a href="#">&laquo;</a>`
+                            );
                             $.each(response.links, function(index, link) {
                                 if (link.url) {
-                                    let activeClass = link.active ? 'active' : '';
-                                    paginationHtml +=
-                                        `<a href="javascript:void(0)" class="pagination-link ${activeClass}" data-page="${link.url}">${link.label}</a>`;
+                                    $('#pagination_links').append(
+                                        `<a href="${link.url}" class="active">${link.label}</a>`
+                                    );
                                 }
                             });
-
-                            paginationHtml += `</div></div></div>`;
-
-                            $('#pagination_links').append(paginationHtml);
+                            $('#pagination_links').append(`<a href="#">&raquo;</a></div></div></div>`);
                         }
                     }
                 });
@@ -393,14 +366,9 @@
             // Handle Pagination Click
             $(document).on('click', '.pagination-link', function() {
                 let pageUrl = $(this).data('page');
-                let urlParams = new URLSearchParams(pageUrl.split('?')[1]);
-                let pageNumber = urlParams.get('page'); // Extract page number from URL
-
-                if (pageNumber) {
-                    fetchProducts(pageNumber);
-                }
+                let pageNumber = pageUrl.split('=')[1]; // Extract page number
+                fetchProducts(pageNumber);
             });
-
         });
     </script>
 @endsection
