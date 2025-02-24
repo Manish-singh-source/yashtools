@@ -321,12 +321,40 @@ class FetchAPIs extends Controller
                 'data' => $rows,
             ], 404);
         }
-        
+
 
         flash()->success('Deleted Selected Customer Successfully.');
         return response()->json([
             'status' => true,
             'message' => 'Deleted Selected Customer Successfully.',
+        ]);
+    }
+
+    public function deleteSelectedOrder(Request $request)
+    {
+        $checkedValues = $request->checkValues;
+        if (!$checkedValues) {
+            return response()->json([
+                'status' => false,
+                'message' => 'Enquiry ID is required.',
+            ], 400);
+        }
+
+        $rows = Enquiry::destroy($checkedValues);
+
+        if (!$rows) {
+            return response()->json([
+                'status' => false,
+                'message' => 'No Enquiries found.',
+                'data' => $rows,
+            ], 404);
+        }
+
+
+        flash()->success('Deleted Selected Enquiries Successfully.');
+        return response()->json([
+            'status' => true,
+            'message' => 'Deleted Selected Enquiries Successfully.',
         ]);
     }
 

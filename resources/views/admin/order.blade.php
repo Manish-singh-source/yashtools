@@ -5,7 +5,6 @@
 @endsection
 
 @section('content-body')
-
     <div class="content-body">
         <div class="container-fluid">
             <div class="row">
@@ -42,8 +41,9 @@
                                     <thead>
                                         <tr>
                                             <th class="align-middle">
-                                                <div class="form-check custom-checkbox">
-                                                    <input type="checkbox" class="form-check-input" id="checkAll">
+                                                <div class="form-check custom-checkbox checkbox-primary  me-3">
+                                                    <input type="checkbox" class="form-check-input" id="checkAll"
+                                                        value="0" required="">
                                                     <label class="form-check-label" for="checkAll"></label>
                                                 </div>
                                             </th>
@@ -58,9 +58,10 @@
                                         @forelse ($orders as $order)
                                             <tr class="btn-reveal-trigger">
                                                 <td class="py-2">
-                                                    <div class="form-check custom-checkbox checkbox-success">
-                                                        <input type="checkbox" class="form-check-input" id="checkbox">
-                                                        <label class="form-check-label" for="checkbox"></label>
+                                                    <div class="form-check custom-checkbox checkbox-primary me-3">
+                                                        <input type="checkbox" class="form-check-input multiSelectCheckbox"
+                                                            id="customCheckBox2" value="{{ $order->id }}" required="">
+                                                        <label class="form-check-label" for="customCheckBox2"></label>
                                                     </div>
                                                 </td>
                                                 <td class="py-2">
@@ -264,4 +265,5 @@
             });
         });
     </script>
+    <script src="{{ asset('admin/assets/js/delete-selected.js') }}"></script>
 @endsection
