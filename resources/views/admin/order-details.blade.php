@@ -53,8 +53,8 @@
                                         <tr>
                                             <td>
                                                 <div class="d-flex align-items-center">
-                                                    <img src="assets/images/category-images/d14.jpg" class="rounded-lg me-2"
-                                                        width="40" alt="">
+                                                    <img src="{{ asset('uploads/products/thumbnails/' . $product->product->product_thumbain) }}"
+                                                        class="rounded-lg me-2" width="40" alt="">
                                                     <div>
                                                         <h6 class="w-space-no mb-0 fs-14 font-w600">
                                                             {{ $product->product->product_name }}
@@ -63,8 +63,9 @@
                                                     </div>
                                                 </div>
                                             </td>
-                                            <td class="product_price">${{ $product->product->product_price }}</td>
-                                            <td>{{ $product->product->product_quantity }}</td>
+                                            <td>$<span class="product_price">{{ $product->product->product_price }}</span>
+                                            </td>
+                                            <td>{{ $order->quantity }}</td>
                                         </tr>
                                         <!-- Add more products as needed -->
                                     </tbody>
@@ -224,7 +225,8 @@
                                             <div>Attached Invoice</div>
                                             <div>
                                                 <div class="col-lg-3 col-sm-6">
-                                                    <a href="{{ asset('uploads/invoices/' . $invoice->invoice_file) }}" target="_blank">
+                                                    <a href="{{ asset('uploads/invoices/' . $invoice->invoice_file) }}"
+                                                        target="_blank">
                                                         <div class="d-flex align-items-center">
                                                             <div class="me-3">
                                                                 <img src="{{ asset('admin/assets/images/files/pdf.png') }}"
@@ -297,7 +299,7 @@
                         <div class="card-body">
                             <div class="summary-item">
                                 <strong>Total Price:</strong>
-                                <strong>$3,129</strong>
+                                <strong>$<span class="totalPrice">0</span></strong>
                             </div>
                         </div>
                     </div>
@@ -305,4 +307,18 @@
             </div>
         </div>
     </div>
+@endsection
+
+@section('scripts')
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js"
+        integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
+    <script>
+        let sum = 0;
+        $(".product_price").each(function() {
+            sum += parseFloat($(this).text());
+        });
+
+        $(".totalPrice").html(sum);
+        console.log(sum);
+    </script>
 @endsection
