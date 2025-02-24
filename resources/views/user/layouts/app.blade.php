@@ -80,7 +80,7 @@
                                                 @endforelse
                                             </ul>
                                         </div>
-                                        <div class="megamenu-column">
+                                        {{-- <div class="megamenu-column">
                                             <h4 class="menu-title">Sub Category</h4>
                                             <ul>
                                                 @forelse ($subcategories as $subcategory)
@@ -91,7 +91,7 @@
                                                     <li><a href="#">Please Add Category</a></li>
                                                 @endforelse
                                             </ul>
-                                        </div>
+                                        </div> --}}
                                         <div class="megamenu-column">
                                             <h4 class="menu-title">Brands</h4>
                                             <ul>

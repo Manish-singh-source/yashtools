@@ -117,6 +117,7 @@
                 "X-CSRF-TOKEN": $('meta[name="csrf-token"]').attr("content"),
             },
         });
+
         $(document).on("click", ".remove-wishlist", function() {
             let cartid = $(this).data("cartid");
             console.log(cartid);
@@ -160,55 +161,59 @@
 
 
         $(document).on("click", "#addEnquiry", function() {
-            let productId = $(this).siblings(".productId").val();
-            let userId = $(this).siblings(".userId").val();
-            let enquiryQuantity = $(this).siblings().find(".enquiryQuantity").val();
-            let partNumber = $(this).siblings(".partNumber").text();
+            let cartList = $(".cart-items-list tr");
+            let cartData = [];
 
-            console.log(productId);
-            console.log(userId);
-            console.log(enquiryQuantity);
-            console.log(partNumber);
+            cartList.each(function() {
+                let productId = $(this).find(".productId").val();
+                let userId = $(this).find(".userId").val();
+                let enquiryQuantity = $(this).find(".enquiryQuantity").val();
+                let partNumber = $(this).find(".partNumber").text();
+
+                cartData.push({
+                    productId: productId,
+                    userId: userId,
+                    enquiryQuantity: enquiryQuantity,
+                    partNumber: partNumber
+                });
+            });
+
+            console.log(cartData); // Debugging
+
+            // Check authentication before sending enquiry
             $.ajax({
-                url: "/check-auth", // Check if the user is logged in
+                url: "/check-auth",
                 type: "GET",
                 success: function(response) {
                     if (!response.isAuthenticated) {
-                        $("#showError").show();
-                        $("#showError").html(
-                            "Please <a href='/signin'>register</a> to add Product to favourites"
+                        $("#showError").show().html(
+                            "Please <a href='/signin'>register</a> to send an enquiry."
                         );
                         return;
                     }
 
+                    // Send all items in a single request
                     $.ajax({
                         url: "/add-enquiry",
                         type: "POST",
                         data: {
-                            userId: userId,
-                            productId: productId,
-                            enquiryQuantity: enquiryQuantity,
-                            partNumber: partNumber,
+                            cartData: cartData
                         },
                         success: function(data) {
                             if (data.status) {
-                                console.log(data.status);
                                 console.log(data.message);
-                                console.log(data.data);
-                                location.reload();
+                                location.reload(); // Reload page after successful enquiry
                             }
                         },
                         error: function(xhr, status, error) {
-                            console.log(xhr);
-                            console.log(status);
-                            console.log(error);
-                        },
+                            console.error("Error:", error);
+                        }
                     });
 
                 }
             });
-
         });
+
 
         $(document).on("click", ".clear-all-cart", function() {
             var cartItems = [];
