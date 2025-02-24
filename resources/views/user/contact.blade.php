@@ -31,38 +31,39 @@
                                 <p>If you are looking to work with us or have any enquiry?</p>
                                 <h3 class="title mb--10">Send Us a Message</h3>
 
-                                <form id="contact-form" method="POST"
-                                    action="https://new.axilthemes.com/demo/template/etrade/mail.php"
-                                    class="axil-contact-form">
+                                <form  method="POST"
+                                    action="{{route('user.contact.store')}}"
+                                   >
+                                    @csrf
+                                    @method('POST')
                                     <div class="row row--10">
                                         <div class="col-lg-4">
                                             <div class="form-group">
                                                 <label for="contact-name">Name <span>*</span></label>
-                                                <input type="text" name="contact-name" id="contact-name">
+                                                <input type="text" name="name">
                                             </div>
                                         </div>
                                         <div class="col-lg-4">
                                             <div class="form-group">
                                                 <label for="contact-phone">Phone <span>*</span></label>
-                                                <input type="text" name="contact-phone" id="contact-phone">
+                                                <input type="text" name="phone" >
                                             </div>
                                         </div>
                                         <div class="col-lg-4">
                                             <div class="form-group">
                                                 <label for="contact-email">E-mail <span>*</span></label>
-                                                <input type="email" name="contact-email" id="contact-email">
+                                                <input type="email" name="email" >
                                             </div>
                                         </div>
                                         <div class="col-12">
                                             <div class="form-group">
                                                 <label for="contact-message">Your Message<span>*</span></label>
-                                                <textarea name="contact-message" id="contact-message" cols="1" rows="2"></textarea>
+                                                <textarea name="message" cols="1" rows="2"></textarea>
                                             </div>
                                         </div>
                                         <div class="col-12">
                                             <div class="form-group mb--0">
-                                                <button name="submit" type="submit" id="submit"
-                                                    class="axil-btn btn-bg-primary">Send Message</button>
+                                                <button type="submit"  class="axil-btn btn-bg-primary" value="">Send Message</button>
                                             </div>
                                         </div>
                                     </div>
