@@ -66,10 +66,10 @@
                                     <ul id="brand_filter">
                                         @forelse ($brands as $brand)
                                             @if (!is_null($selectedCategories) && $selectedCategories == $brand->brand_slug)
-                                                <li class="chosen" data-brandid="{{ $brand->brand_slug }}"><a
+                                                <li class="chosen" data-brandid="{{ $brand->id }}"><a
                                                         href="#">{{ $brand->brand_name }}</a></li>
                                             @else
-                                                <li data-brandid="{{ $brand->brand_slug }}"><a
+                                                <li data-brandid="{{ $brand->id }}"><a
                                                         href="#">{{ $brand->brand_name }}</a></li>
                                             @endif
                                         @empty
