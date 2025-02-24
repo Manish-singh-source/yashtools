@@ -180,24 +180,26 @@
                         });
 
                         // Pagination Links
-                        $('#pagination_links').html('');
+                        $('#pagination_links').html(''); // Clear existing pagination
+
                         if (response.links) {
+                            let paginationHtml = `<div class="text-center pt--30">
+                            <div class="center">
+                                <div class="pagination">`;
+
                             $.each(response.links, function(index, link) {
                                 if (link.url) {
-                                    $('#pagination_links').append(
-                                        `<div class="text-center pt--30">
-                                            <div class="center">
-                                                <div class="pagination">
-                                                    <a href="#">&laquo;</a>
-                                                    <a href="${link.url}" class="active">${link.label}</a>
-                                                    <a href="#">&raquo;</a>
-                                                </div>
-                                            </div>
-                                        </div>`
-                                    );
+                                    let activeClass = link.active ? 'active' : '';
+                                    paginationHtml +=
+                                        `<a href="javascript:void(0)" class="pagination-link ${activeClass}" data-page="${link.url}">${link.label}</a>`;
                                 }
                             });
+
+                            paginationHtml += `</div></div></div>`;
+
+                            $('#pagination_links').append(paginationHtml);
                         }
+
                     }
                 });
             }
@@ -225,8 +227,12 @@
             // Handle Pagination Click
             $(document).on('click', '.pagination-link', function() {
                 let pageUrl = $(this).data('page');
-                let pageNumber = pageUrl.split('=')[1]; // Extract page number
-                fetchProducts(pageNumber);
+                let urlParams = new URLSearchParams(pageUrl.split('?')[1]);
+                let pageNumber = urlParams.get('page'); // Extract page number from URL
+
+                if (pageNumber) {
+                    fetchProducts(pageNumber);
+                }
             });
 
             $(document).on('click', '#resetFilters', function() {

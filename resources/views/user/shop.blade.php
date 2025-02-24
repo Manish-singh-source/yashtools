@@ -47,7 +47,7 @@
                                 <div class="shop-submenu">
                                     <ul id="category_filter">
                                         @forelse ($categories as $category)
-                                            @if (!is_null($selectedCategories) && $selectedCategories == $category->id)
+                                            @if (!is_null($selectedCategories) && $selectedCategories == $category->category_slug)
                                                 <li class="chosen" data-categoryid="{{ $category->id }}"><a
                                                         href="#">{{ $category->category_name }}</a></li>
                                             @else
@@ -65,8 +65,13 @@
                                 <div class="shop-submenu">
                                     <ul id="brand_filter">
                                         @forelse ($brands as $brand)
-                                            <li data-brandid="{{ $brand->id }}"><a
-                                                    href="#">{{ $brand->brand_name }}</a></li>
+                                            @if (!is_null($selectedCategories) && $selectedCategories == $brand->brand_slug)
+                                                <li class="chosen" data-brandid="{{ $brand->brand_slug }}"><a
+                                                        href="#">{{ $brand->brand_name }}</a></li>
+                                            @else
+                                                <li data-brandid="{{ $brand->brand_slug }}"><a
+                                                        href="#">{{ $brand->brand_name }}</a></li>
+                                            @endif
                                         @empty
                                             <li class="chosen"><a href="#">Men (40)</a></li>
                                         @endforelse
@@ -184,25 +189,27 @@
                             );
                         });
 
-                        // Pagination Links
-                        $('#pagination_links').html('');
+
+                        $('#pagination_links').html(''); // Clear existing pagination
+
                         if (response.links) {
+                            let paginationHtml = `<div class="text-center pt--30">
+                            <div class="center">
+                                <div class="pagination">`;
+
                             $.each(response.links, function(index, link) {
                                 if (link.url) {
-                                    $('#pagination_links').append(
-                                        `<div class="text-center pt--30">
-                                            <div class="center">
-                                                <div class="pagination">
-                                                    <a href="#">&laquo;</a>
-                                                    <a href="${link.url}" class="active">${link.label}</a>
-                                                    <a href="#">&raquo;</a>
-                                                </div>
-                                            </div>
-                                        </div>`
-                                    );
+                                    let activeClass = link.active ? 'active' : '';
+                                    paginationHtml +=
+                                        `<a href="javascript:void(0)" class="pagination-link ${activeClass}" data-page="${link.url}">${link.label}</a>`;
                                 }
                             });
+
+                            paginationHtml += `</div></div></div>`;
+
+                            $('#pagination_links').append(paginationHtml);
                         }
+
                     }
                 });
             }
@@ -227,12 +234,16 @@
                 fetchProducts();
             });
 
-            // Handle Pagination Click
             $(document).on('click', '.pagination-link', function() {
                 let pageUrl = $(this).data('page');
-                let pageNumber = pageUrl.split('=')[1]; // Extract page number
-                fetchProducts(pageNumber);
+                let urlParams = new URLSearchParams(pageUrl.split('?')[1]);
+                let pageNumber = urlParams.get('page'); // Extract page number from URL
+
+                if (pageNumber) {
+                    fetchProducts(pageNumber);
+                }
             });
+
 
             $(document).on('click', '#resetFilters', function() {
                 $("#category_filter li").map((index, element) => {

@@ -72,7 +72,7 @@
                                             <ul>
                                                 @forelse ($categories as $category)
                                                     <li><a
-                                                            href="{{ route('user.shop', $category->id) }}">{{ $category->category_name }}</a>
+                                                            href="{{ route('user.shop', $category->category_slug) }}">{{ $category->category_name }}</a>
                                                     </li>
                                                 @empty
                                                     <li><a href="{{ route('user.shop', $category->id) }}">Please Add
@@ -84,7 +84,8 @@
                                             <h4 class="menu-title">Sub Category</h4>
                                             <ul>
                                                 @forelse ($subcategories as $subcategory)
-                                                    <li><a href="#">{{ $subcategory->sub_category_name }}</a>
+                                                    <li><a
+                                                            href="{{ route('user.shop', $subcategory->subcategory_slug) }}">{{ $subcategory->sub_category_name }}</a>
                                                     </li>
                                                 @empty
                                                     <li><a href="#">Please Add Category</a></li>
@@ -95,7 +96,9 @@
                                             <h4 class="menu-title">Brands</h4>
                                             <ul>
                                                 @forelse ($brands as $brand)
-                                                    <li><a href="#">{{ $brand->brand_name }}</a></li>
+                                                    <li><a
+                                                            href="{{ route('user.shop', $brand->brand_slug) }}">{{ $brand->brand_name }}</a>
+                                                    </li>
                                                 @empty
                                                     <li><a href="#">Manish1</a></li>
                                                     <li><a href="#">Manish2</a></li>

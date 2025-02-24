@@ -175,7 +175,7 @@
                             <div class="col-xl-3 col-lg-4 col-sm-6 col-12 mb--30">
                                 <div class="axil-product product-style-one">
                                     <div class="thumbnail">
-                                        <a href="{{ route('user.shop') }}">
+                                        <a href="{{ route('user.shop', $category->category_slug) }}">
                                             <img data-sal="fade" data-sal-delay="100" data-sal-duration="1500"
                                                 src="{{ asset('uploads/categories/' . $category->category_image) }}"
                                                 alt="Product Images">
@@ -184,7 +184,7 @@
                                     <div class="product-content">
                                         <div class="inner">
                                             <h5 class="title"><a
-                                                    href="{{ route('user.shop') }}">{{ $category->category_name }}</a></h5>
+                                                    href="{{ route('user.shop', $category->category_slug) }}">{{ $category->category_name }}</a></h5>
                                         </div>
                                     </div>
                                 </div>
@@ -224,7 +224,7 @@
                             <div class="col-xl-3 col-lg-4 col-sm-6 col-12 mb--30">
                                 <div class="axil-product product-style-one">
                                     <div class="thumbnail">
-                                        <a href="{{ route('user.shop') }}">
+                                        <a href="{{ route('user.shop', $brand->brand_slug) }}">
                                             <img data-sal="fade" data-sal-delay="100" data-sal-duration="1500"
                                                 src="{{ asset('uploads/brands/' . $brand->brand_image) }}"
                                                 alt="Product Images">
@@ -233,7 +233,7 @@
                                     <div class="product-content">
                                         <div class="inner">
                                             <h5 class="title"><a
-                                                    href="{{ route('user.shop') }}">{{ $brand->brand_name }}</a></h5>
+                                                    href="{{ route('user.shop', $brand->brand_slug) }}">{{ $brand->brand_name }}</a></h5>
                                         </div>
                                     </div>
                                 </div>
