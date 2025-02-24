@@ -24,6 +24,10 @@ use App\Http\Controllers\Admin\SubCategoryController;
 
 // user routes: Authentication 
 Route::get('send-email', [EmailController::class, 'sendEmail']);
+Route::get('contact', [EmailController::class, 'contactForm'])->name('user.contact.us');
+Route::post('contact', [EmailController::class, 'sendContactEmail'])->name('user.contact.store');
+
+
 Route::get('/signin', [UserController::class, 'signinView'])->name('signin');
 Route::get('/signup', [UserController::class, 'signupView'])->name('signup');
 Route::post('/register-user', [UserController::class, 'registerData'])->name('register.user');
@@ -48,7 +52,7 @@ Route::get('/cart', function () {
     return view('user.cart');
 })->name('user.cart');
 
-Route::get('/contact-us', [HomeController::class, 'contactUs'])->name('user.contact.us');
+// Route::get('/contact-us', [HomeController::class, 'contactUs'])->name('user.contact.us');
 
 Route::get('/events', [HomeController::class, 'events'])->name('user.event');;
 
