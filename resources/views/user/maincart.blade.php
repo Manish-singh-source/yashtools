@@ -44,7 +44,7 @@
                                 <tr>
                                     <th scope="col" class="product-thumbnail">Date</th>
                                     <th scope="col" class="product-thumbnail">Product</th>
-                                    <th scope="col" class="product-title"></th>
+                                    <th scope="col" class="product-title">Title</th>
                                     <th scope="col" class="product-price">Part No</th>
                                     <th scope="col" class="product-quantity">Quantity</th>
                                     <th scope="col" class="product-remove"></th>

@@ -302,6 +302,90 @@ class FetchAPIs extends Controller
         ]);
     }
 
+    public function deleteSelectedCustomers(Request $request)
+    {
+        $checkedValues = $request->checkValues;
+        if (!$checkedValues) {
+            return response()->json([
+                'status' => false,
+                'message' => 'Customer ID is required.',
+            ], 400);
+        }
+
+        $rows = User::destroy($checkedValues);
+
+        if (!$rows) {
+            return response()->json([
+                'status' => false,
+                'message' => 'No Customer found.',
+                'data' => $rows,
+            ], 404);
+        }
+
+
+        flash()->success('Deleted Selected Customer Successfully.');
+        return response()->json([
+            'status' => true,
+            'message' => 'Deleted Selected Customer Successfully.',
+        ]);
+    }
+
+    public function deleteSelectedOrder(Request $request)
+    {
+        $checkedValues = $request->checkValues;
+        if (!$checkedValues) {
+            return response()->json([
+                'status' => false,
+                'message' => 'Enquiry ID is required.',
+            ], 400);
+        }
+
+        $rows = Enquiry::destroy($checkedValues);
+
+        if (!$rows) {
+            return response()->json([
+                'status' => false,
+                'message' => 'No Enquiries found.',
+                'data' => $rows,
+            ], 404);
+        }
+
+
+        flash()->success('Deleted Selected Enquiries Successfully.');
+        return response()->json([
+            'status' => true,
+            'message' => 'Deleted Selected Enquiries Successfully.',
+        ]);
+    }
+
+
+    public function deleteSelectedMultiAdmin(Request $request)
+    {
+        $checkedValues = $request->checkValues;
+        if (!$checkedValues) {
+            return response()->json([
+                'status' => false,
+                'message' => 'Admin ID is required.',
+            ], 400);
+        }
+
+        $rows = User::destroy($checkedValues);
+
+        if (!$rows) {
+            return response()->json([
+                'status' => false,
+                'message' => 'No Admins found.',
+                'data' => $rows,
+            ], 404);
+        }
+
+
+        flash()->success('Deleted Selected Admins Successfully.');
+        return response()->json([
+            'status' => true,
+            'message' => 'Deleted Selected Admins Successfully.',
+        ]);
+    }
 
 
 

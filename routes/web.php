@@ -201,6 +201,9 @@ Route::middleware(AdminAuthMiddleware::class . ':admin,superadmin')->group(funct
     Route::post('/delete-brand-table', [FetchAPIs::class, 'deleteSelectedBrands'])->middleware('web');
     Route::post('/delete-event-table', [FetchAPIs::class, 'deleteSelectedEvents'])->middleware('web');
     Route::post('/delete-product-table', [FetchAPIs::class, 'deleteSelectedProducts'])->middleware('web');
+    Route::post('/delete-customers-list', [FetchAPIs::class, 'deleteSelectedCustomers'])->middleware('web');
+    Route::post('/delete-order', [FetchAPIs::class, 'deleteSelectedOrder'])->middleware('web');
+    Route::post('/delete-multi-admin', [FetchAPIs::class, 'deleteSelectedMultiAdmin'])->middleware('web');
 
     // Invoice Routes
     Route::post('/add-invoice-details', [EnvoiceController::class, 'addInvoice'])->name('add.invoice');

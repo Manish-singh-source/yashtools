@@ -48,7 +48,13 @@
                                 <table class="table display" id="projectlist">
                                     <thead>
                                         <tr>
-                                            <th></th>
+                                            <th style="width:50px;">
+                                                <div class="form-check custom-checkbox checkbox-primary  me-3">
+                                                    <input type="checkbox" class="form-check-input" id="checkAll"
+                                                        value="0" required="">
+                                                    <label class="form-check-label" for="checkAll"></label>
+                                                </div>
+                                            </th>
                                             <th>Coustomer</th>
                                             <th>State</th>
                                             <th>Date</th>
@@ -60,7 +66,13 @@
                                     <tbody>
                                         @forelse ($customers as $customer)
                                             <tr>
-                                                <td></td>
+                                                <td>
+                                                    <div class="form-check custom-checkbox checkbox-primary me-3">
+                                                        <input type="checkbox" class="form-check-input multiSelectCheckbox"
+                                                            id="customCheckBox2" value="{{ $customer->id }}" required="">
+                                                        <label class="form-check-label" for="customCheckBox2"></label>
+                                                    </div>
+                                                </td>
                                                 <td>
                                                     <div class="media style-1">
                                                         <div class="media-body">
@@ -176,4 +188,5 @@
     <script src="{{ asset('assets/vendor/ckeditor/ckeditor.js') }}" type="text/javascript"></script>
     <script src="{{ asset('assets/vendor/dropzone/dist/dropzone.js') }}" type="text/javascript"></script>
     <script src="{{ asset('admin/assets/js/toggle-status.js') }}"></script>
+    <script src="{{ asset('admin/assets/js/delete-selected.js') }}"></script>
 @endsection
