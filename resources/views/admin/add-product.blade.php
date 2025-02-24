@@ -6,8 +6,8 @@
 
 @section('content-body')
     <!--**********************************
-                                                                                                                                                                                                                                                                                                                                                                                            Content body start
-                                                                                                                                                                                                                                                                                                                                                                                        ***********************************-->
+                                                                                                                                                                                                                                                                                                                                                                                                Content body start
+                                                                                                                                                                                                                                                                                                                                                                                            ***********************************-->
     <div class="content-body">
         <div class="container-fluid">
 
@@ -188,6 +188,7 @@
                                             <label class="form-label">Select Brand</label>
                                             <select class="form-control default-select h-auto wide"
                                                 aria-label="Default select example" name="product_brand">
+                                                <option value="0">Select Brand</option>
                                                 @foreach ($brands as $brand)
                                                     <option value="{{ $brand->id }}">{{ $brand->brand_name }}
                                                     </option>
@@ -207,6 +208,7 @@
                                             <label class="form-label">Select Catogery</label>
                                             <select class="form-control h-auto product_category"
                                                 aria-label="Default select example" name="product_category">
+                                                <option value="0">Select Category</option>
                                                 @foreach ($categories as $category)
                                                     <option value="{{ $category->id }}">{{ $category->category_name }}
                                                     </option>
@@ -278,10 +280,10 @@
         var asset_url = 'assets/index.html'
     </script>
 
+<script src="https://code.jquery.com/jquery-3.7.1.min.js"
+    integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
     <script src="{{ asset('assets/vendor/ckeditor/ckeditor.js') }}" type="text/javascript"></script>
     <script src="{{ asset('assets/vendor/dropzone/dist/dropzone.js') }}" type="text/javascript"></script>
     <script src="{{ asset('admin/assets/js/category-filter.js') }}"></script>
-    <script src="https://code.jquery.com/jquery-3.7.1.min.js"
-        integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
     <script src="{{ asset('admin/assets/js/image-preview.js') }}" type="text/javascript"></script>
 @endsection
