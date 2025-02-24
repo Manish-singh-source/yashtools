@@ -63,7 +63,7 @@
                                                     </div>
                                                 </div>
                                             </td>
-                                            <td>$<span class="product_price">{{ $product->product->product_price }}</span>
+                                            <td>₹<span class="product_price">{{ $product->product->product_price }}</span>
                                             </td>
                                             <td>{{ $order->quantity }}</td>
                                         </tr>
@@ -299,7 +299,7 @@
                         <div class="card-body">
                             <div class="summary-item">
                                 <strong>Total Price:</strong>
-                                <strong>$<span class="totalPrice">0</span></strong>
+                                <strong>₹<span class="totalPrice">0</span></strong>
                             </div>
                         </div>
                     </div>

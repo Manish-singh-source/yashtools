@@ -359,6 +359,35 @@ class FetchAPIs extends Controller
     }
 
 
+    public function deleteSelectedMultiAdmin(Request $request)
+    {
+        $checkedValues = $request->checkValues;
+        if (!$checkedValues) {
+            return response()->json([
+                'status' => false,
+                'message' => 'Admin ID is required.',
+            ], 400);
+        }
+
+        $rows = User::destroy($checkedValues);
+
+        if (!$rows) {
+            return response()->json([
+                'status' => false,
+                'message' => 'No Admins found.',
+                'data' => $rows,
+            ], 404);
+        }
+
+
+        flash()->success('Deleted Selected Admins Successfully.');
+        return response()->json([
+            'status' => true,
+            'message' => 'Deleted Selected Admins Successfully.',
+        ]);
+    }
+
+
 
 
 

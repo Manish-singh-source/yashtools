@@ -1,9 +1,11 @@
 @extends('admin.layouts.app')
 
+@section('csrf-token')
+    <meta name="csrf-token" content="{{ csrf_token() }}">
+@endsection
+
 @section('content-body')
-    <!--**********************************
-                                                                                            Content body start
-                                                                                        ***********************************-->
+
     <div class="content-body">
         <!-- row -->
         <div class="container-fluid">
@@ -15,34 +17,27 @@
                             <div class="card-header">
                                 <h4 class="card-title">Add Admin</h4>
                             </div>
-                            <div class="dropdown text-sans-serif text-end"><button
-                                class="btn btn-primary tp-btn-light sharp" type="button"
-                                id="order-dropdown-0" data-bs-toggle="dropdown"
-                                data-boundary="viewport" aria-haspopup="true"
-                                aria-expanded="false"><span><svg xmlns="http://www.w3.org/2000/svg"
-                                        xmlns:xlink="http://www.w3.org/1999/xlink" width="18px"
-                                        height="18px" viewBox="0 0 24 24" version="1.1">
-                                        <g stroke="none" stroke-width="1" fill="none"
-                                            fill-rule="evenodd">
-                                            <rect x="0" y="0" width="24" height="24"></rect>
-                                            <circle fill="#000000" cx="5" cy="12"
-                                                r="2">
-                                            </circle>
-                                            <circle fill="#000000" cx="12" cy="12"
-                                                r="2">
-                                            </circle>
-                                            <circle fill="#000000" cx="19" cy="12"
-                                                r="2">
-                                            </circle>
-                                        </g>
-                                    </svg></span></button>
-                            <div class="dropdown-menu dropdown-menu-end border py-0"
-                                aria-labelledby="order-dropdown-0">
-                                <div class="py-2"><a class="dropdown-item" id="deleteAll">Delete
-                                        All</a>
+                            <div class="dropdown text-sans-serif text-end"><button class="btn btn-primary tp-btn-light sharp"
+                                    type="button" id="order-dropdown-0" data-bs-toggle="dropdown" data-boundary="viewport"
+                                    aria-haspopup="true" aria-expanded="false"><span><svg xmlns="http://www.w3.org/2000/svg"
+                                            xmlns:xlink="http://www.w3.org/1999/xlink" width="18px" height="18px"
+                                            viewBox="0 0 24 24" version="1.1">
+                                            <g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+                                                <rect x="0" y="0" width="24" height="24"></rect>
+                                                <circle fill="#000000" cx="5" cy="12" r="2">
+                                                </circle>
+                                                <circle fill="#000000" cx="12" cy="12" r="2">
+                                                </circle>
+                                                <circle fill="#000000" cx="19" cy="12" r="2">
+                                                </circle>
+                                            </g>
+                                        </svg></span></button>
+                                <div class="dropdown-menu dropdown-menu-end border py-0" aria-labelledby="order-dropdown-0">
+                                    <div class="py-2"><a class="dropdown-item" id="deleteAll">Delete
+                                            All</a>
+                                    </div>
                                 </div>
                             </div>
-                        </div>
                             <div class="card-body">
                                 <div class="basic-form">
                                     <form action="{{ route('add.admin') }}" method="POST" enctype="multipart/form-data">
@@ -118,34 +113,27 @@
                         <div class="card-header">
                             <h4 class="card-title">Admin List</h4>
                         </div>
-                        <div class="dropdown text-sans-serif text-end"><button
-                            class="btn btn-primary tp-btn-light sharp" type="button"
-                            id="order-dropdown-0" data-bs-toggle="dropdown"
-                            data-boundary="viewport" aria-haspopup="true"
-                            aria-expanded="false"><span><svg xmlns="http://www.w3.org/2000/svg"
-                                    xmlns:xlink="http://www.w3.org/1999/xlink" width="18px"
-                                    height="18px" viewBox="0 0 24 24" version="1.1">
-                                    <g stroke="none" stroke-width="1" fill="none"
-                                        fill-rule="evenodd">
-                                        <rect x="0" y="0" width="24" height="24"></rect>
-                                        <circle fill="#000000" cx="5" cy="12"
-                                            r="2">
-                                        </circle>
-                                        <circle fill="#000000" cx="12" cy="12"
-                                            r="2">
-                                        </circle>
-                                        <circle fill="#000000" cx="19" cy="12"
-                                            r="2">
-                                        </circle>
-                                    </g>
-                                </svg></span></button>
-                        <div class="dropdown-menu dropdown-menu-end border py-0"
-                            aria-labelledby="order-dropdown-0">
-                            <div class="py-2"><a class="dropdown-item" id="deleteAll">Delete
-                                    All</a>
+                        <div class="dropdown text-sans-serif text-end"><button class="btn btn-primary tp-btn-light sharp"
+                                type="button" id="order-dropdown-0" data-bs-toggle="dropdown" data-boundary="viewport"
+                                aria-haspopup="true" aria-expanded="false"><span><svg xmlns="http://www.w3.org/2000/svg"
+                                        xmlns:xlink="http://www.w3.org/1999/xlink" width="18px" height="18px"
+                                        viewBox="0 0 24 24" version="1.1">
+                                        <g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+                                            <rect x="0" y="0" width="24" height="24"></rect>
+                                            <circle fill="#000000" cx="5" cy="12" r="2">
+                                            </circle>
+                                            <circle fill="#000000" cx="12" cy="12" r="2">
+                                            </circle>
+                                            <circle fill="#000000" cx="19" cy="12" r="2">
+                                            </circle>
+                                        </g>
+                                    </svg></span></button>
+                            <div class="dropdown-menu dropdown-menu-end border py-0" aria-labelledby="order-dropdown-0">
+                                <div class="py-2"><a class="dropdown-item" id="deleteAll">Delete
+                                        All</a>
+                                </div>
                             </div>
                         </div>
-                    </div>
                         <div class="card-body">
                             <div class="table-responsive">
                                 <table id="projectlist" class="display">
@@ -154,7 +142,7 @@
                                             <th style="width:50px;">
                                                 <div class="form-check custom-checkbox checkbox-primary  me-3">
                                                     <input type="checkbox" class="form-check-input" id="checkAll"
-                                                        required="">
+                                                        value="0" required="">
                                                     <label class="form-check-label" for="checkAll"></label>
                                                 </div>
                                             </th>
@@ -171,7 +159,9 @@
                                             <tr>
                                                 <td>
                                                     <div class="form-check custom-checkbox checkbox-primary me-3">
-                                                        <input type="checkbox" class="form-check-input" id="customCheckBox2"
+                                                        <input type="checkbox"
+                                                            class="form-check-input multiSelectCheckbox"
+                                                            id="customCheckBox2" value="{{ $admin->id }}"
                                                             required="">
                                                         <label class="form-check-label" for="customCheckBox2"></label>
                                                     </div>
@@ -231,7 +221,18 @@
 
         </div>
     </div>
-    <!--**********************************
-                                                                                            Content body end
-                                                                                        ***********************************-->
+@endsection
+
+
+@section('scripts')
+    <script>
+        var enableSupportButton = '1'
+    </script>
+    <script>
+        var asset_url = 'assets/index.html'
+    </script>
+
+    <script src="{{ asset('assets/vendor/ckeditor/ckeditor.js') }}" type="text/javascript"></script>
+    <script src="{{ asset('assets/vendor/dropzone/dist/dropzone.js') }}" type="text/javascript"></script>
+    <script src="{{ asset('admin/assets/js/delete-selected.js') }}"></script>
 @endsection
