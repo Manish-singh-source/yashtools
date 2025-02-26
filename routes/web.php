@@ -37,7 +37,8 @@ Route::get('/privacy-policy', [HomeController::class, 'privacypolicy'])->name('p
 
 Route::get('/terms-conditions', [HomeController::class, 'termsconditions'])->name('terms.conditions');
 Route::get('/faq', [HomeController::class, 'faq'])->name('faq');
-Route::get('/feedback', [HomeController::class, 'feedback'])->name('feedback');
+Route::get('/feedback', [EmailController::class, 'feedback'])->name('feedback');
+Route::post('feedback', [EmailController::class, 'sendFeedbackEmail'])->name('user.feedback.store');
 // user routes: pages
 Route::get('/', [HomeController::class, 'homeView'])->name('user.home');
 Route::get('/shop/{category?}', [HomeController::class, 'shopView'])->name('user.shop');

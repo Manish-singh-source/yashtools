@@ -3065,7 +3065,7 @@ button.axil-btn.btn-bg-primary {
 }
 
 a.axil-btn.btn-bg-primary:before, button.axil-btn.btn-bg-primary:before {
-    background-color: #e20026;
+    background-color: #343667;
 }
 a.axil-btn.btn-bg-primary i,
 button.axil-btn.btn-bg-primary i {
@@ -3652,7 +3652,7 @@ button.axil-btn.btn-size-md i {
 }
 
 .newsletter-form button:before {
-    background-color: #e70023;
+    background-color: #343667;
 }
 
 .newsletter-form button:hover {
@@ -21189,8 +21189,8 @@ body.open .closeMask {
   .headerlist {
     font-size: 15px!important;
     padding: 6px 15px;
-    background-color: #e70023;
-    border: 1px solid #e70023;
+    background-color: #323667;
+    border: 1px solid #343667;
     border-radius: 58px;
 }
 .useraccount {
