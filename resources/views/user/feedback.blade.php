@@ -31,43 +31,53 @@
                                 <p>Your Suggestions, Our Progress!</p>
                                 <h3 class="title mb--10">Send Us a Message</h3>
 
-                                <form method="POST"
-                                    action="{{ route('user.feedback.store') }}">
+                                <form method="POST" action="{{ route('user.feedback.store') }}">
                                     @csrf
                                     @method('POST')
                                     <div class="row row--10">
                                         <div class="col-lg-4">
                                             <div class="form-group">
                                                 <label for="contact-name">Name <span>*</span></label>
-                                                <input type="text" name="name">
+                                                <input type="text" name="name" value="{{ old('name') }}">
+                                                @if ($errors->has('name'))
+                                                    <span class="text-danger">{{ $errors->first('name') }}</span>
+                                                @endif
                                             </div>
                                         </div>
                                         <div class="col-lg-4">
                                             <div class="form-group">
                                                 <label for="contact-phone">Phone <span>*</span></label>
-                                                <input type="text" name="phone">
+                                                <input type="text" name="phone" value="{{ old('phone') }}">
+                                                @if ($errors->has('phone'))
+                                                    <span class="text-danger">{{ $errors->first('phone') }}</span>
+                                                @endif
                                             </div>
                                         </div>
                                         <div class="col-lg-4">
                                             <div class="form-group">
                                                 <label for="contact-email">E-mail <span>*</span></label>
-                                                <input type="email" name="email" >
+                                                <input type="email" name="email" value="{{ old('email') }}">
+                                                @if ($errors->has('email'))
+                                                    <span class="text-danger">{{ $errors->first('email') }}</span>
+                                                @endif
                                             </div>
                                         </div>
                                         <div class="col-12">
                                             <div class="form-group">
                                                 <label for="contact-message">Your Message<span>*</span></label>
-                                                <textarea name="message"  cols="1" rows="2"></textarea>
+                                                <textarea name="message" cols="1" rows="2">{{ old('message') }}</textarea>
+                                                @if ($errors->has('message'))
+                                                    <span class="text-danger">{{ $errors->first('message') }}</span>
+                                                @endif
                                             </div>
                                         </div>
                                         <div class="col-12">
                                             <div class="form-group mb--0">
-                                                <button type="submit" 
-                                                    class="axil-btn btn-bg-primary">Send Feedback</button>
+                                                <button type="submit" class="axil-btn btn-bg-primary">Send Feedback</button>
                                             </div>
                                         </div>
                                     </div>
-                                </form>
+                                </form>     
                             </div>
                         </div>
                     </div>
