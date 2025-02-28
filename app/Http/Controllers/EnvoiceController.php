@@ -93,10 +93,6 @@ class EnvoiceController extends Controller
 
         $query = Enquiry::where('customer_id', Auth::id())->with('invoice');
 
-        // if ($request->filled('toDate')) {
-        //     $query->where('created_at', '>=', $request->fromDate);
-        //     $query->where('created_at', '<=', $request->toDate);
-        // }
         if ($request->filled('fromDate') && $request->filled('toDate')) {
             $fromDate = Carbon::parse($request->fromDate)->startOfDay(); // Sets time to 00:00:00
             $toDate = Carbon::parse($request->toDate)->endOfDay(); // Sets time to 23:59:59

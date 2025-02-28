@@ -6,6 +6,7 @@ use App\Models\Cart;
 use App\Models\Enquiry;
 use App\Models\OrdersTrack;
 use Illuminate\Http\Request;
+use Illuminate\Support\Carbon;
 use App\Models\EnquiryProducts;
 use Illuminate\Support\Facades\Auth;
 
@@ -14,7 +15,7 @@ class EnquiryOrdersController extends Controller
     //
     public function showOrders()
     {
-        $orders = Enquiry::with('customer')->get();
+        $orders = Enquiry::with('customer')->orderBy('id', 'desc')->get();
         return view('admin.order', compact('orders'));
     }
 
@@ -59,5 +60,63 @@ class EnquiryOrdersController extends Controller
             'status' => true,
             'message' => 'Your enquiry has been successfully submitted.'
         ]);
+    }
+
+    public function getEnquiriesBetweenDates(Request $request)
+    {
+        $start_date = $request->start_date;
+        $end_date = $request->end_date;
+
+        // Validate input dates
+        // if (!$start_date || !$end_date) {
+        //     return response()->json([
+        //         'status' => false,
+        //         'message' => 'Start date and end date are required.',
+        //     ], 400);
+        // }
+
+        // Validate date format
+        // if (!strtotime($start_date) || !strtotime($end_date)) {
+        //     return response()->json([
+        //         'status' => false,
+        //         'message' => 'Invalid date format. Please use YYYY-MM-DD.',
+        //     ], 400); 
+        // }
+
+        // Ensure start date is not greater than end date
+        if ($start_date > $end_date) {
+            return response()->json([
+                'status' => false,
+                'message' => 'Start date cannot be greater than end date.',
+            ], 400);
+        }
+
+
+        // Fetch enquiries
+        $query = Enquiry::with('customer');
+
+        if ($request->filled('start_date') && $request->filled('end_date')) {
+            $start_date = Carbon::parse($request->start_date)->startOfDay(); // Sets time to 00:00:00
+            $end_date = Carbon::parse($request->end_date)->endOfDay(); // Sets time to 23:59:59
+
+            $query->whereBetween('updated_at', [$start_date, $end_date]);
+        }
+
+        $enquiries = $query->orderBy('id', 'desc')->paginate(10);
+
+        // Check if any records exist
+        if ($enquiries->isEmpty()) {
+            return response()->json([
+                'status' => false,
+                'message' => 'No enquiries found for the given date range.',
+                'data' => [],
+            ], 404);
+        }
+
+        return response()->json([
+            'status' => true,
+            'message' => 'Data fetched successfully.',
+            'data' => $enquiries,
+        ], 200);
     }
 }

@@ -29,17 +29,42 @@
     <!-- FAVICONS ICON -->
     <link rel="shortcut icon" type="image/png" href="{{ asset('admin/assets/images/favicon.png') }}">
 
+    <!-- Swiper CSS -->
     <link href="{{ asset('admin/assets/vendor/swiper/css/swiper-bundle.min.css') }}" rel="stylesheet" type="text/css" />
+
+    <!-- DataTables CSS -->
     <link href="{{ asset('admin/assets/vendor/datatables/css/jquery.dataTables.min.css') }}" rel="stylesheet"
         type="text/css" />
+
+    <!-- jQvMap CSS -->
     <link href="{{ asset('admin/assets/vendor/jqvmap/css/jqvmap.min.css') }}" rel="stylesheet" type="text/css" />
+
+    <!-- Bootstrap Select CSS -->
     <link href="{{ asset('admin/assets/vendor/bootstrap-select/css/bootstrap-select.min.css') }}" rel="stylesheet"
         type="text/css" />
+
+    <!-- Dropzone CSS -->
+    <link href="{{ asset('admin/assets/vendor/dropzone/dist/dropzone.css') }}" rel="stylesheet" type="text/css" />
+
+    <!-- Select2 CSS -->
+    <link href="{{ asset('admin/assets/vendor/select2/css/select2.min.css') }}" rel="stylesheet" type="text/css" />
+
+    <!-- Custom Style CSS -->
     <link href="{{ asset('admin/assets/css/style.css') }}" rel="stylesheet" type="text/css" />
 
-    <link href="{{ asset('admin/assets/vendor/dropzone/dist/dropzone.css') }}" rel="stylesheet" type="text/css" />
-    <link href="{{ asset('admin/assets/vendor/select2/css/select2.min.css') }}" rel="stylesheet" type="text/css" />
+    <!-- jQuery -->
+    <script src="https://cdn.jsdelivr.net/jquery/latest/jquery.min.js"></script>
+
+    <!-- Moment.js -->
+    <script src="https://cdn.jsdelivr.net/momentjs/latest/moment.min.js"></script>
+
+    <!-- Date Range Picker -->
+    <script src="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.min.js"></script>
+    <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.css" />
+
+    <!-- Popup Message Script -->
     <script src="{{ asset('admin/assets/js/popup-message.js') }}"></script>
+
     <style>
         .bootstrap-select .btn {
             border: 1px solid var(--border);
@@ -450,42 +475,55 @@
 
     </div>
     <!--**********************************
-                Main wrapper end
-            ***********************************-->
+        Main wrapper end
+        ***********************************-->
 
     <!--**********************************
-                Scripts
+            Scripts
             ***********************************-->
     <!-- Required vendors -->
     <script>
-        var enableSupportButton = '1'
-    </script>
-    <script>
-        var asset_url = "{{ asset('admin/assets/index.php') }}"
+        var enableSupportButton = '1';
+        var asset_url = "{{ asset('admin/assets/') }}"; // Ensure proper asset path
     </script>
 
+    @yield('scripts')
+    <!-- CKEditor -->
+    <script src="{{ asset('admin/assets/vendor/ckeditor/ckeditor.js') }}"></script>
 
-    <script src="{{ asset('admin/assets/vendor/ckeditor/ckeditor.js') }}" type="text/javascript"></script>
-    <script src="{{ asset('admin/assets/vendor/dropzone/dist/dropzone.js') }}" type="text/javascript"></script>
+    <!-- Dropzone (Uncomment if needed) -->
+    <!-- <script src="{{ asset('admin/assets/vendor/dropzone/dist/dropzone.js') }}"></script> -->
 
-    <script src="{{ asset('admin/assets/vendor/global/global.min.js') }}" type="text/javascript"></script>
-    <script src="{{ asset('admin/assets/vendor/bootstrap-select/js/bootstrap-select.min.js') }}" type="text/javascript">
-    </script>
-    <script src="{{ asset('admin/assets/vendor/apexchart/apexchart.js') }}" type="text/javascript"></script>
-    <script src="{{ asset('admin/assets/vendor/chart-js/chart.bundle.min.js') }}" type="text/javascript"></script>
-    <script src="{{ asset('admin/assets/vendor/peity/jquery.peity.min.js') }}" type="text/javascript"></script>
-    <script src="{{ asset('admin/assets/vendor/datatables/js/jquery.dataTables.min.js') }}" type="text/javascript">
-    </script>
-    <script src="{{ asset('admin/assets/js/plugins-init/datatables.init.js') }}" type="text/javascript"></script>
-    <script src="{{ asset('admin/assets/vendor/jqvmap/js/jquery.vmap.min.js') }}" type="text/javascript"></script>
-    <script src="{{ asset('admin/assets/vendor/jqvmap/js/jquery.vmap.world.js') }}" type="text/javascript"></script>
-    <script src="{{ asset('admin/assets/vendor/jqvmap/js/jquery.vmap.usa.js') }}" type="text/javascript"></script>
-    <script src="{{ asset('admin/assets/js/dashboard/dashboard-1.js') }}" type="text/javascript"></script>
-    <script src="{{ asset('admin/assets/vendor/swiper/js/swiper-bundle.min.js') }}" type="text/javascript"></script>
-    <script src="{{ asset('admin/assets/js/custom.js') }}" type="text/javascript"></script>
-    <script src="{{ asset('admin/assets/js/ic-sidenav-init.js') }}" type="text/javascript"></script>
-    <script src="{{ asset('admin/assets/js/demo.js') }}" type="text/javascript"></script>
-    <!-- <script src="assets/js/styleSwitcher.js') }}" type="text/javascript"></script> -->
+    <!-- Global Dependencies -->
+    <script src="{{ asset('admin/assets/vendor/global/global.min.js') }}"></script>
+    <script src="{{ asset('admin/assets/vendor/bootstrap-select/js/bootstrap-select.min.js') }}"></script>
+
+    <!-- Charts & Data Visualization -->
+    <script src="{{ asset('admin/assets/vendor/apexchart/apexchart.js') }}"></script>
+    <script src="{{ asset('admin/assets/vendor/chart-js/chart.bundle.min.js') }}"></script>
+    <script src="{{ asset('admin/assets/vendor/peity/jquery.peity.min.js') }}"></script>
+
+    <!-- DataTables -->
+    <script src="{{ asset('admin/assets/vendor/datatables/js/jquery.dataTables.min.js') }}"></script>
+    <script src="{{ asset('admin/assets/js/plugins-init/datatables.init.js') }}"></script>
+
+    <!-- Maps -->
+    <script src="{{ asset('admin/assets/vendor/jqvmap/js/jquery.vmap.min.js') }}"></script>
+    <script src="{{ asset('admin/assets/vendor/jqvmap/js/jquery.vmap.world.js') }}"></script>
+    <script src="{{ asset('admin/assets/vendor/jqvmap/js/jquery.vmap.usa.js') }}"></script>
+
+    <!-- Dashboard -->
+    <script src="{{ asset('admin/assets/js/dashboard/dashboard-1.js') }}"></script>
+
+    <!-- Swiper -->
+    <script src="{{ asset('admin/assets/vendor/swiper/js/swiper-bundle.min.js') }}"></script>
+
+    <!-- Custom Scripts -->
+    <script src="{{ asset('admin/assets/js/custom.js') }}"></script>
+    <script src="{{ asset('admin/assets/js/ic-sidenav-init.js') }}"></script>
+    <script src="{{ asset('admin/assets/js/demo.js') }}"></script>
+
+    {{-- <script src="{{ asset('admin/assets/js/styleSwitcher.js') }}" type="text/javascript"></script>  --}}
 
     <!-- Initialize Swiper -->
     <script>
@@ -531,7 +569,6 @@
         });
     </script>
 
-    @yield('scripts')
 
 </body>
 

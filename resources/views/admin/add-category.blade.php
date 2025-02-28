@@ -2,8 +2,8 @@
 
 @section('content-body')
     <!--**********************************
-                                                                Content body start
-                                                            ***********************************-->
+                                                                        Content body start
+                                                                    ***********************************-->
     <div class="content-body">
         <div class="container-fluid">
 
@@ -75,11 +75,10 @@
         </div>
     </div>
     <!--**********************************
-                                                                Content body end
-                                                            ***********************************-->
+                                                                        Content body end
+                                                                    ***********************************-->
 @endsection
+
 @section('scripts')
-    <script src="https://code.jquery.com/jquery-3.7.1.min.js"
-        integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
     <script src="{{ asset('admin/assets/js/image-preview.js') }}" type="text/javascript"></script>
 @endsection
