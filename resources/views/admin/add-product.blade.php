@@ -6,14 +6,14 @@
 
 @section('content-body')
     <!--**********************************
-                                                                                                                                                                                                                                                                                                                                                                                                Content body start
-                                                                                                                                                                                                                                                                                                                                                                                            ***********************************-->
+                                                                                                                                                                                                                                                                                                                                                                                                                            Content body start
+                                                                                                                                                                                                                                                                                                                                                                                                                        ***********************************-->
     <div class="content-body">
         <div class="container-fluid">
 
             <!-- Row -->
             <div class="row">
-                <form action="{{ route('admin.add.product') }}" method="POST" enctype="multipart/form-data">
+                <form action="{{ route('admin.add.product') }}" id="myForm" method="POST" enctype="multipart/form-data">
                     @csrf
                     @method('POST')
 
@@ -74,8 +74,17 @@
                                             @enderror
                                         </div>
                                         <div class="mb-3">
-                                            <label class="form-label">Description</label>
+                                            {{-- <label class="form-label">Description</label>
                                             <textarea class="form-control @error('product_description') is-invalid @enderror" name="product_description"></textarea>
+                                            @error('product_description')
+                                                <div class="invalid-feedback">
+                                                    {{ $message }}
+                                                </div>
+                                            @enderror --}}
+                                            <label class="form-label">Description</label>
+                                            <div id="ckeditor"></div>
+                                            <textarea class="form-control @error('product_description') is-invalid @enderror" name="product_description" style="display: none"
+                                                id="editorContent"></textarea>
                                             @error('product_description')
                                                 <div class="invalid-feedback">
                                                     {{ $message }}
@@ -279,11 +288,19 @@
     <script>
         var asset_url = 'assets/index.html'
     </script>
+    <script>
+        $("#myForm").submit(function(event) {
+            event.preventDefault(); // Prevent default form submission
 
-<script src="https://code.jquery.com/jquery-3.7.1.min.js"
-    integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
-    <script src="{{ asset('assets/vendor/ckeditor/ckeditor.js') }}" type="text/javascript"></script>
-    <script src="{{ asset('assets/vendor/dropzone/dist/dropzone.js') }}" type="text/javascript"></script>
+            let content = editor.getData(); // Get CKEditor content
+            $("#editorContent").val(content); // Set it in textarea
+            console.log(content);
+            alert(content);
+            this.submit(); // Submit the form
+        });
+    </script>
+    <script src="{{ asset('admin/assets/vendor/ckeditor/ckeditor.js') }}" type="text/javascript"></script>
+    <script src="{{ asset('admin/assets/vendor/dropzone/dist/dropzone.js') }}" type="text/javascript"></script>
     <script src="{{ asset('admin/assets/js/category-filter.js') }}"></script>
     <script src="{{ asset('admin/assets/js/image-preview.js') }}" type="text/javascript"></script>
 @endsection

@@ -26,11 +26,11 @@
                             <h6>Sub Category Name :- <span>{{ $productDetails->subcategories->sub_category_name }}</span>
                             </h6>
                             <h6>Description :-</h6>
-                            <ul class="d-flex flex-wrap fs-6 align-items-center">
-                                <li class="me-3 d-inline-flex align-items-center">
-                                    {{ $productDetails->product_discription }}
-                                </li>
-                            </ul>
+                            {{-- <ul class="d-flex flex-wrap fs-6 align-items-center"> --}}
+                                {{-- <li class="me-3 d-inline-flex align-items-center"> --}}
+                                    {!! $productDetails->product_discription !!}
+                                {{-- </li> --}}
+                            {{-- </ul> --}}
                             <div class="p-md-4 p-3 mt-3 border-opacity-10 rounded">
                                 <div class="row g-3">
                                     @if ($productDetails->product_pdf != '')
