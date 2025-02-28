@@ -30,11 +30,10 @@ class EnquiryOrdersController extends Controller
     public function addEnquiry(Request $request)
     {
         $cartData = $request->cartData; // Expecting an array of cart items
+        $lastEnquiry = Enquiry::orderBy('id', 'desc')->first();
+        $nextEnquiryId = $lastEnquiry ? $lastEnquiry->enquiry_id + 1 : 90000;
 
         foreach ($cartData as $item) {
-            $lastEnquiry = Enquiry::orderBy('id', 'desc')->first();
-            $nextEnquiryId = $lastEnquiry ? $lastEnquiry->enquiry_id + 1 : 90000;
-
             // Handle Part Number
             $partNumber = $item['partNumber'] == 'Select Part Number' ? null : $item['partNumber'];
 
