@@ -178,8 +178,8 @@
                                 <div class="tab-pane fade" id="nav-account" role="tabpanel">
                                     <div class="col-lg-12">
                                         <div class="axil-dashboard-account">
-                                            <form class="account-details-form"
-                                                action="{{ route('user.update.account') }}" method="POST">
+                                            <form class="account-details-form" action="{{ route('user.update.account') }}"
+                                                method="POST">
                                                 @csrf
                                                 @method('POST')
 
@@ -311,8 +311,8 @@
                             <td>
                                 ${product.invoice?.invoice_file 
                                     ? `<a href="/uploads/invoices/${product.invoice.invoice_file}" target="_blank">
-                                            <i class="fas fa-file-pdf fs"></i>
-                                           </a>` 
+                                                <i class="fas fa-file-pdf fs"></i>
+                                               </a>` 
                                     : 'NA'}
                             </td>
                             <td>
@@ -333,17 +333,13 @@
                         $('#pagination_links').html(''); // Clear existing pagination
 
                         if (response.links) {
-                            let paginationHtml = `<div class="text-center pt--30">
-                    <div class="center">
-                        <div class="pagination">`;
+                            let paginationHtml = `<div class="text-center pt--30"><div class="center"><div class="pagination">`;
 
                             $.each(response.links, function(index, link) {
                                 if (link.url) {
-                                    let pageNum = new URL(link.url).searchParams.get(
-                                    "page"); // Extract page number correctly
+                                    let pageNum = new URL(link.url).searchParams.get("page"); 
                                     let activeClass = link.active ? 'active' : '';
-                                    paginationHtml +=
-                                        `<a href="javascript:void(0)" class="pagination-link ${activeClass}" data-page="${pageNum}">${link.label}</a>`;
+                                    paginationHtml += `<a href="javascript:void(0)" class="pagination-link ${activeClass}" data-page="${pageNum}">${link.label}</a>`;
                                 }
                             });
 
