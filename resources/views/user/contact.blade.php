@@ -31,38 +31,49 @@
                                 <p>If you are looking to work with us or have any enquiry?</p>
                                 <h3 class="title mb--10">Send Us a Message</h3>
 
-                                <form id="contact-form" method="POST"
-                                    action="https://new.axilthemes.com/demo/template/etrade/mail.php"
-                                    class="axil-contact-form">
+                                <form method="POST" action="{{ route('user.contact.store') }}">
+                                    @csrf
+                                    @method('POST')
                                     <div class="row row--10">
                                         <div class="col-lg-4">
                                             <div class="form-group">
                                                 <label for="contact-name">Name <span>*</span></label>
-                                                <input type="text" name="contact-name" id="contact-name">
+                                                <input type="text" name="name" value="{{ old('name') }}">
+                                                @if ($errors->has('name'))
+                                                    <span class="text-danger">{{ $errors->first('name') }}</span>
+                                                @endif
                                             </div>
                                         </div>
                                         <div class="col-lg-4">
                                             <div class="form-group">
                                                 <label for="contact-phone">Phone <span>*</span></label>
-                                                <input type="text" name="contact-phone" id="contact-phone">
+                                                <input type="text" name="phone" value="{{ old('phone') }}">
+                                                @if ($errors->has('phone'))
+                                                    <span class="text-danger">{{ $errors->first('phone') }}</span>
+                                                @endif
                                             </div>
                                         </div>
                                         <div class="col-lg-4">
                                             <div class="form-group">
                                                 <label for="contact-email">E-mail <span>*</span></label>
-                                                <input type="email" name="contact-email" id="contact-email">
+                                                <input type="email" name="email" value="{{ old('email') }}">
+                                                @if ($errors->has('email'))
+                                                    <span class="text-danger">{{ $errors->first('email') }}</span>
+                                                @endif
                                             </div>
                                         </div>
                                         <div class="col-12">
                                             <div class="form-group">
                                                 <label for="contact-message">Your Message<span>*</span></label>
-                                                <textarea name="contact-message" id="contact-message" cols="1" rows="2"></textarea>
+                                                <textarea name="message" cols="1" rows="2">{{ old('message') }}</textarea>
+                                                @if ($errors->has('message'))
+                                                    <span class="text-danger">{{ $errors->first('message') }}</span>
+                                                @endif
                                             </div>
                                         </div>
                                         <div class="col-12">
                                             <div class="form-group mb--0">
-                                                <button name="submit" type="submit" id="submit"
-                                                    class="axil-btn btn-bg-primary">Send Message</button>
+                                                <button type="submit" class="axil-btn btn-bg-primary" value="">Send Message</button>
                                             </div>
                                         </div>
                                     </div>

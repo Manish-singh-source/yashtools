@@ -24,6 +24,10 @@ use App\Http\Controllers\Admin\SubCategoryController;
 
 // user routes: Authentication 
 Route::get('send-email', [EmailController::class, 'sendEmail']);
+Route::get('contact', [EmailController::class, 'contactForm'])->name('user.contact.us');
+Route::post('contact', [EmailController::class, 'sendContactEmail'])->name('user.contact.store');
+
+
 Route::get('/signin', [UserController::class, 'signinView'])->name('signin');
 Route::get('/signup', [UserController::class, 'signupView'])->name('signup');
 Route::post('/register-user', [UserController::class, 'registerData'])->name('register.user');
@@ -33,7 +37,8 @@ Route::get('/privacy-policy', [HomeController::class, 'privacypolicy'])->name('p
 
 Route::get('/terms-conditions', [HomeController::class, 'termsconditions'])->name('terms.conditions');
 Route::get('/faq', [HomeController::class, 'faq'])->name('faq');
-Route::get('/feedback', [HomeController::class, 'feedback'])->name('feedback');
+Route::get('/feedback', [EmailController::class, 'feedback'])->name('feedback');
+Route::post('feedback', [EmailController::class, 'sendFeedbackEmail'])->name('user.feedback.store');
 // user routes: pages
 Route::get('/', [HomeController::class, 'homeView'])->name('user.home');
 Route::get('/shop/{category?}', [HomeController::class, 'shopView'])->name('user.shop');
@@ -48,7 +53,7 @@ Route::get('/cart', function () {
     return view('user.cart');
 })->name('user.cart');
 
-Route::get('/contact-us', [HomeController::class, 'contactUs'])->name('user.contact.us');
+// Route::get('/contact-us', [HomeController::class, 'contactUs'])->name('user.contact.us');
 
 Route::get('/events', [HomeController::class, 'events'])->name('user.event');;
 

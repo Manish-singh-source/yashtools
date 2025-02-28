@@ -59,7 +59,8 @@
                                                         <h6 class="w-space-no mb-0 fs-14 font-w600">
                                                             {{ $product->product->product_name }}
                                                         </h6>
-                                                        <small>{{ $product->product->product_discription }}</small>
+                                                        <small
+                                                            style="-webkit-line-clamp: 2;-webkit-box-orient: vertical;display: -webkit-box;overflow: hidden;">{!! $product->product->product_discription !!}</small>
                                                     </div>
                                                 </div>
                                             </td>

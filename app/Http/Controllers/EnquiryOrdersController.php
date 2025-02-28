@@ -30,43 +30,35 @@ class EnquiryOrdersController extends Controller
 
     public function addEnquiry(Request $request)
     {
+        $cartData = $request->cartData; // Expecting an array of cart items
         $lastEnquiry = Enquiry::orderBy('id', 'desc')->first();
-        $nextEnquiryId = $lastEnquiry ? $lastEnquiry->enquiry_id + 1 : 90000; // Default to 1 if no records exist
-        $partNumber = $request->partNumber;
+        $nextEnquiryId = $lastEnquiry ? $lastEnquiry->enquiry_id + 1 : 90000;
 
-        if ($partNumber == 'Select Part Number') {
-            $partNumber = null;
-        }
+        foreach ($cartData as $item) {
+            // Handle Part Number
+            $partNumber = $item['partNumber'] == 'Select Part Number' ? null : $item['partNumber'];
 
-        $enquiry = new Enquiry();
-        $enquiry->customer_id = $request->userId;
-        $enquiry->enquiry_id = $nextEnquiryId;
-        $enquiry->quantity = $request->enquiryQuantity;
-        $enquiry->part_number = $partNumber;
-        $enquiry->save();
-
-        $enquiry_product = new EnquiryProducts();
-        $enquiry_product->enquiry_id = $enquiry->id;
-        $enquiry_product->product_id = $request->productId;
-        $enquiry_product->save();
-
-        $cartItem = Cart::where('user_id', Auth::id())->where('product_id', $request->productId)->first();
-        if ($cartItem) {
-            $cartItem->delete();
-        }
-
-        if ($enquiry_product) {
-            flash()->success('Your Enquiry Successfull.');
-            return response()->json([
-                'status' => true,
-                'message' =>  'Your Enquiry Successfull',
+            // Create Enquiry
+            $enquiry = Enquiry::create([
+                'customer_id' => $item['userId'],
+                'enquiry_id' => $nextEnquiryId,
+                'quantity' => $item['enquiryQuantity'],
+                'part_number' => $partNumber
             ]);
+
+            // Add Product to EnquiryProducts
+            EnquiryProducts::create([
+                'enquiry_id' => $enquiry->id,
+                'product_id' => $item['productId']
+            ]);
+
+            // Remove from Cart
+            Cart::where('user_id', Auth::id())->where('product_id', $item['productId'])->delete();
         }
 
-        flash()->error('Your Enquiry Failed.');
         return response()->json([
-            'status' => false,
-            'error' => 'Your Enquiry Failed',
+            'status' => true,
+            'message' => 'Your enquiry has been successfully submitted.'
         ]);
     }
 
