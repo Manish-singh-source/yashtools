@@ -453,7 +453,7 @@
                             <div class="row">
                                 <div class="col-lg-12 mb--30">
                                     <div class="single-desc">
-                                        <p>{{ $selectedProduct->product_discription }}</p>
+                                        <p>{!! $selectedProduct->product_discription !!}</p>
                                     </div>
                                 </div>
                                 <!-- End .col-lg-6 -->

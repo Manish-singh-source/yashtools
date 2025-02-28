@@ -60,7 +60,7 @@
                                                             {{ $product->product->product_name }}
                                                         </h6>
                                                         <small
-                                                            style="-webkit-line-clamp: 2;-webkit-box-orient: vertical;display: -webkit-box;overflow: hidden;">{{ $product->product->product_discription }}</small>
+                                                            style="-webkit-line-clamp: 2;-webkit-box-orient: vertical;display: -webkit-box;overflow: hidden;">{!! $product->product->product_discription !!}</small>
                                                     </div>
                                                 </div>
                                             </td>
