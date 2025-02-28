@@ -82,11 +82,13 @@ Route::middleware('isCustomerAuth:customer')->group(function () {
     Route::post('/add-to-favourite', [FetchAPIs::class, 'addToFav'])->middleware('web');
     Route::post('/remove-from-favourite', [FetchAPIs::class, 'removeFromFav'])->middleware('web');
 
-    Route::get('/check-auth', function () {
-        return response()->json(['isAuthenticated' => Auth::check()]);
-    });
+    // Enquiry 
+
 });
 
+Route::get('/check-auth', function () {
+    return response()->json(['isAuthenticated' => Auth::check()]);
+});
 
 
 
@@ -216,6 +218,7 @@ Route::middleware(AdminAuthMiddleware::class . ':admin,superadmin')->group(funct
     // Enquiry Orders
     Route::get('/order', [EnquiryOrdersController::class, 'showOrders'])->name('admin.order');
     Route::get('/order-details/{id}/{invoice_id?}', [EnquiryOrdersController::class, 'showOrderDetails'])->name('admin.order.details');
+    Route::post('/get-data-between-dates', [EnquiryOrdersController::class, 'getEnquiriesBetweenDates'])->middleware('web');
 
     // Add to Cart Through API 
     Route::post('/order-status', [FetchAPIs::class, 'changeOrderStatus'])->middleware('web');

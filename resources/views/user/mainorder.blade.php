@@ -133,7 +133,7 @@
                                                     </tr>
                                                 </thead>
                                                 <tbody id="product_list">
-                                                    @forelse ($orders as $order)
+                                                    {{-- @forelse ($orders as $order)
                                                         <tr>
                                                             <td>{{ $order->enquiry_id }}</td>
                                                             <td>{{ $order->invoice->updated_at ?? 'NA' }}</td>
@@ -167,7 +167,7 @@
                                                         <tr>
                                                             <th rowspan="6">No Invoice Found</th>
                                                         </tr>
-                                                    @endforelse
+                                                    @endforelse --}}
 
                                                 </tbody>
                                             </table>
@@ -291,9 +291,6 @@
                 let fromDate = $('#from-date').val();
                 let toDate = $('#to-date').val();
 
-                console.log(fromDate);
-                console.log(toDate);
-
                 $.ajax({
                     url: "/orders?page=" + page,
                     type: "GET",
@@ -303,70 +300,64 @@
                         toDate: toDate,
                     },
                     success: function(response) {
-                        console.log(response.data);
                         $('#product_list').html('');
-                        $.each(response.data, function(index, product) {
 
+                        $.each(response.data, function(index, product) {
                             $('#product_list').append(
                                 `<tr>
-                                    <td>${product.enquiry_id}</td>
-                                    <td>${product.invoice?.updated_at ? product.invoice.updated_at : 'NA'}</td>
-                                    <td>${product.invoice?.courier_number ? product.invoice.courier_number : 'NA'}</td>
-                                    <td>
-                                        ${product.invoice?.invoice_file 
-                                        ? `<a href="{{ asset('uploads/invoices/${product.invoice.invoice_file}') }}" target="_blank">
-                                                                                                                <i class="fas fa-file-pdf fs"></i>
-                                                                                                            </a>`
-                                        : 'NA'}
-                                    </td>
-                                    <td>
-                                        <div>${product.invoice?.courier_name ?? 'NA'} </div>
-                                        <br>
-                                        <div>
-                                            ${product.invoice?.courier_website
-                                            ? `<a href="${product.invoice?.courier_website ?? 'NA'}">Visit
-                                                                                                                Courier Website</a>`
-                                            : ''}
-                                        </div>
-                                    </td>
-                                    <td>
-                                        ${product.invoice?.id
-                                            ? `${product.status}`
-                                            : 'Pending'}
-                                        </td>
-                                </tr>`
+                            <td>${product.enquiry_id}</td>
+                            <td>${product.invoice?.updated_at ? product.invoice.updated_at : 'NA'}</td>
+                            <td>${product.invoice?.courier_number ? product.invoice.courier_number : 'NA'}</td>
+                            <td>
+                                ${product.invoice?.invoice_file 
+                                    ? `<a href="/uploads/invoices/${product.invoice.invoice_file}" target="_blank">
+                                            <i class="fas fa-file-pdf fs"></i>
+                                           </a>` 
+                                    : 'NA'}
+                            </td>
+                            <td>
+                                <div>${product.invoice?.courier_name ?? 'NA'}</div>
+                                <br>
+                                <div>
+                                    ${product.invoice?.courier_website 
+                                        ? `<a href="${product.invoice.courier_website}" target="_blank">Visit Courier Website</a>` 
+                                        : ''}
+                                </div>
+                            </td>
+                            <td>${product.invoice?.id ? `${product.status}` : 'Pending'}</td>
+                        </tr>`
                             );
                         });
 
-                        // Pagination Links
-                        $('#pagination_links').html('');
+                        // Update Pagination Links
+                        $('#pagination_links').html(''); // Clear existing pagination
+
                         if (response.links) {
-                            $('#pagination_links').append(
-                                `<div class="text-center pt--30"><div class="center"><div class="pagination"><a href="#">&laquo;</a>`
-                            );
+                            let paginationHtml = `<div class="text-center pt--30">
+                    <div class="center">
+                        <div class="pagination">`;
+
                             $.each(response.links, function(index, link) {
                                 if (link.url) {
-                                    $('#pagination_links').append(
-                                        `<a href="${link.url}" class="active">${link.label}</a>`
-                                    );
+                                    let pageNum = new URL(link.url).searchParams.get(
+                                    "page"); // Extract page number correctly
+                                    let activeClass = link.active ? 'active' : '';
+                                    paginationHtml +=
+                                        `<a href="javascript:void(0)" class="pagination-link ${activeClass}" data-page="${pageNum}">${link.label}</a>`;
                                 }
                             });
-                            $('#pagination_links').append(`<a href="#">&raquo;</a></div></div></div>`);
+
+                            paginationHtml += `</div></div></div>`;
+
+                            $('#pagination_links').append(paginationHtml);
                         }
                     }
                 });
             }
 
-
-            // Sort and Filter Change Events
-            $('#sort_by, .date-filter').change(function() {
-                fetchProducts();
-            });
-
             // Handle Pagination Click
             $(document).on('click', '.pagination-link', function() {
-                let pageUrl = $(this).data('page');
-                let pageNumber = pageUrl.split('=')[1]; // Extract page number
+                let pageNumber = $(this).data('page'); // Get page number directly
                 fetchProducts(pageNumber);
             });
         });

@@ -14,7 +14,7 @@ class EnquiryOrdersController extends Controller
     //
     public function showOrders()
     {
-        $orders = Enquiry::with('customer')->get();
+        $orders = Enquiry::with('customer')->orderBy('id', 'desc')->get();
         return view('admin.order', compact('orders'));
     }
 
@@ -67,5 +67,56 @@ class EnquiryOrdersController extends Controller
             'status' => false,
             'error' => 'Your Enquiry Failed',
         ]);
+    }
+
+    public function getEnquiriesBetweenDates(Request $request)
+    {
+        $start_date = $request->start_date;
+        $end_date = $request->end_date;
+
+        // Validate input dates
+        if (!$start_date || !$end_date) {
+            return response()->json([
+                'status' => false,
+                'message' => 'Start date and end date are required.',
+            ], 400);
+        }
+
+        // Validate date format
+        if (!strtotime($start_date) || !strtotime($end_date)) {
+            return response()->json([
+                'status' => false,
+                'message' => 'Invalid date format. Please use YYYY-MM-DD.',
+            ], 400);
+        }
+
+        // Ensure start date is not greater than end date
+        if ($start_date > $end_date) {
+            return response()->json([
+                'status' => false,
+                'message' => 'Start date cannot be greater than end date.',
+            ], 400);
+        }
+
+        // Fetch enquiries
+        $enquiries = Enquiry::whereBetween('updated_at', [$start_date, $end_date])
+            ->with('customer')
+            ->orderBy('id', 'desc')
+            ->paginate(10);
+
+        // Check if any records exist
+        if ($enquiries->isEmpty()) {
+            return response()->json([
+                'status' => false,
+                'message' => 'No enquiries found for the given date range.',
+                'data' => [],
+            ], 404);
+        }
+
+        return response()->json([
+            'status' => true,
+            'message' => 'Data fetched successfully.',
+            'data' => $enquiries,
+        ], 200);
     }
 }
