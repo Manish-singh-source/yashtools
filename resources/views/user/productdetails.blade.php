@@ -330,7 +330,8 @@
                                         </ul>
                                         <ul class="icon-list-row">
                                             <li>
-                                                <i class="fab fa-whatsapp"></i> <a href="">WhatsApp Enquiry</a>
+                                                <i class="fab fa-whatsapp"></i> 
+                                                <a href="#" id="whatsapp-enquiry">WhatsApp Enquiry</a>
                                             </li>
                                             <li>
                                                 @isset($favouritesProducts->status)
@@ -785,4 +786,30 @@
         });
     });
 </script>
+<script>
+    document.getElementById("whatsapp-enquiry").addEventListener("click", function (event) {
+        event.preventDefault(); // Prevent default link behavior
+
+        // WhatsApp Number (Fixed Number)
+        var whatsappNumber = "917039553407"; // Replace with your WhatsApp number (Use country code)
+
+        // Product Details
+        var productName = document.querySelector(".product-title").innerText; // Fetch product name dynamically
+        var productUrl = window.location.href; // Current page URL
+
+        // WhatsApp message format (Plain URL for Clickable Link)
+        var message = "Hello, I want to inquire about:\n\n" +
+                      "📌 *Product:* " + productName + "\n" +
+                      "🔗 *Link:* " + productUrl + "\n\n" +
+                      "Please provide more details.";
+
+        // WhatsApp API URL with fixed number
+        var whatsappUrl = "https://wa.me/" + whatsappNumber + "?text=" + encodeURIComponent(message);
+
+        // Open WhatsApp in a new tab
+        window.open(whatsappUrl, "_blank");
+    });
+</script>
+
+
 @endsection
