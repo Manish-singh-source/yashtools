@@ -642,6 +642,14 @@
             let userId = $(".userId").val();
             let partNumber = $(".dropdown-selected").text();
 
+            let cartData = [];
+
+            cartData.push({
+                userId: userId,
+                productId: productId,
+                enquiryQuantity: enquiryQuantity,
+                partNumber: partNumber,
+            });
 
             $.ajax({
                 url: "/check-auth", // Check if the user is logged in
@@ -659,10 +667,7 @@
                         url: "/add-enquiry",
                         type: "POST",
                         data: {
-                            userId: userId,
-                            productId: productId,
-                            enquiryQuantity: enquiryQuantity,
-                            partNumber: partNumber,
+                            cartData: cartData
                         },
                         success: function(data) {
                             if (data.status) {

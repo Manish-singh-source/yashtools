@@ -8,6 +8,7 @@ use App\Models\OrdersTrack;
 use Illuminate\Http\Request;
 use Illuminate\Support\Carbon;
 use App\Models\EnquiryProducts;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Auth;
 
 class EnquiryOrdersController extends Controller
@@ -15,7 +16,11 @@ class EnquiryOrdersController extends Controller
     //
     public function showOrders()
     {
-        $orders = Enquiry::with('customer')->orderBy('id', 'desc')->get();
+        // $orders = Enquiry::with('customer')->orderBy('id', 'desc')->get();
+        $enquiryIds = Enquiry::distinct()->pluck('enquiry_id');
+        $orders = Enquiry::whereIn('enquiry_id', $enquiryIds)->get();
+        // dd($orders);
+
         return view('admin.order', compact('orders'));
     }
 

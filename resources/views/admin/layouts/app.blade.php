@@ -486,10 +486,11 @@
         var enableSupportButton = '1';
         var asset_url = "{{ asset('admin/assets/') }}"; // Ensure proper asset path
     </script>
-
-    @yield('scripts')
     <!-- CKEditor -->
+    
     <script src="{{ asset('admin/assets/vendor/ckeditor/ckeditor.js') }}"></script>
+    {{-- <script src="https://cdn.ckeditor.com/ckeditor5/35.3/classic/ckeditor.js"></script> --}}
+    @yield('scripts')
 
     <!-- Dropzone (Uncomment if needed) -->
     <!-- <script src="{{ asset('admin/assets/vendor/dropzone/dist/dropzone.js') }}"></script> -->
