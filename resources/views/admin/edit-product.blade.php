@@ -105,8 +105,10 @@
                                         <div class="dz-default ic-message upload-img mb-3">
                                             <div class="dropzone">
                                                 <div class="fallback">
-                                                    <input type="file" accept=".xlsx, .csv, .xls" name="product_specs"
-                                                        multiple>
+                                                    <input type="file" accept=".xlsx, .csv, .xls" name="product_specs" multiple id="fileInput">
+                                                    <span id="removeFile" style="cursor: pointer; color: rgb(0, 0, 0); font-weight: bold; margin-left: 10px; display: none;">
+                                                        ❌
+                                                    </span>
                                                 </div>
                                             </div>
                                         </div>
@@ -114,6 +116,22 @@
                                             {{ $message }}
                                         @enderror
                                     </div>
+                                    
+                                    <script>
+                                        document.getElementById('fileInput').addEventListener('change', function () {
+                                            let removeBtn = document.getElementById('removeFile');
+                                            if (this.files.length > 0) {
+                                                removeBtn.style.display = 'inline'; // Show cross button
+                                            }
+                                        });
+                                    
+                                        document.getElementById('removeFile').addEventListener('click', function () {
+                                            let fileInput = document.getElementById('fileInput');
+                                            fileInput.value = ""; // Clear selected file
+                                            this.style.display = 'none'; // Hide cross button
+                                        });
+                                    </script>
+                                    
                                     <div class="card-body">
                                         <div class="mb-3">
                                             <label for="formFileMultiple" class="form-label">Upload PDF (Optional)</label>
@@ -125,37 +143,77 @@
                                         @enderror
                                     </div>
                                 </div>
+
                                 <div class="card h-auto">
                                     <div class="card-header py-3">
                                         <h4 class="card-title--medium mb-0">Upload File</h4>
                                     </div>
                                     <div class="card">
                                         <div class="card-body">
+                                            <!-- Upload Catalogue -->
                                             <div class="mb-3">
                                                 <label for="formFile" class="form-label">Upload Catalogue</label>
-                                                <input class="form-control" type="file" id="formFile"
-                                                    name="product_catalogue" accept=".pdf">
+                                                <div class="d-flex align-items-center">
+                                                    <input class="form-control" type="file" id="formFile" name="product_catalogue" accept=".pdf" onchange="showDeleteButton('formFile', 'deleteFileBtn')">
+                                                    <button type="button" class="btn btn-danger ms-2 d-none" id="deleteFileBtn" onclick="removeFile('formFile', 'deleteFileBtn')">&#10006;</button>
+                                                </div>
                                             </div>
                                             @error('product_catalogue')
-                                                {{ $message }}
+                                                <div class="text-danger">{{ $message }}</div>
                                             @enderror
+                                        
+                                            <!-- Upload PDF -->
                                             <div class="mb-3">
                                                 <label for="formFileMultiple" class="form-label">Upload PDF</label>
-                                                <input class="form-control" type="file" id="formFileMultiple"
-                                                    name="product_pdf" accept=".pdf">
+                                                <div class="d-flex align-items-center">
+                                                    <input class="form-control" type="file" id="formFileMultiple" name="product_pdf" accept=".pdf" onchange="showDeleteButton('formFileMultiple', 'deleteFileBtn2')">
+                                                    <button type="button" class="btn btn-danger ms-2 d-none" id="deleteFileBtn2" onclick="removeFile('formFileMultiple', 'deleteFileBtn2')">&#10006;</button>
+                                                </div>
                                             </div>
                                             @error('product_pdf')
-                                                {{ $message }}
+                                                <div class="text-danger">{{ $message }}</div>
                                             @enderror
+                                        
+                                            <!-- Upload Drawing -->
                                             <div class="mb-3">
                                                 <label for="formFileDisabled" class="form-label">Upload Drawing</label>
-                                                <input class="form-control" type="file" id="formFileDisabled"
-                                                    name="product_drawing" accept=".png, .jpg, .jpeg, .webp">
+                                                <div class="d-flex align-items-center">
+                                                    <input class="form-control" type="file" id="formFileDisabled" name="product_drawing" accept=".png, .jpg, .jpeg, .webp" onchange="showDeleteButton('formFileDisabled', 'deleteFileBtn3')">
+                                                    <button type="button" class="btn btn-danger ms-2 d-none" id="deleteFileBtn3" onclick="removeFile('formFileDisabled', 'deleteFileBtn3')">&#10006;</button>
+                                                </div>
                                             </div>
                                             @error('product_drawing')
-                                                {{ $message }}
+                                                <div class="text-danger">{{ $message }}</div>
                                             @enderror
                                         </div>
+                                        
+                                        <script>
+                                            function showDeleteButton(fileInputId, deleteBtnId) {
+                                                let fileInput = document.getElementById(fileInputId);
+                                                let deleteBtn = document.getElementById(deleteBtnId);
+                                                
+                                                // Ensure the button shows only if a file is selected
+                                                if (fileInput && fileInput.files.length > 0) {
+                                                    deleteBtn.classList.remove('d-none');
+                                                } else {
+                                                    deleteBtn.classList.add('d-none');
+                                                }
+                                            }
+                                        
+                                            function removeFile(fileInputId, deleteBtnId) {
+                                                let fileInput = document.getElementById(fileInputId);
+                                                let deleteBtn = document.getElementById(deleteBtnId);
+                                                
+                                                // Reset file input and hide delete button
+                                                if (fileInput) {
+                                                    fileInput.value = "";
+                                                }
+                                                if (deleteBtn) {
+                                                    deleteBtn.classList.add('d-none');
+                                                }
+                                            }
+                                        </script>
+                                        
 
                                     </div>
                                 </div>
