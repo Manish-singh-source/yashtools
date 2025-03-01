@@ -54,4 +54,5 @@ class UserShopController extends Controller
         }
         return view('user.productdetails', compact('categories', 'brands', 'subcategories', 'selectedProduct', 'favouritesProducts', 'similarProducts'));
     }
+    
 }
