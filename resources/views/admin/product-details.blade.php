@@ -35,7 +35,7 @@
                                 <div class="row g-3">
                                     @if ($productDetails->product_pdf != '')
                                         <div class="col-lg-3 col-sm-6">
-                                            <a href="{{ asset('uploads/products/pdf/' . $productDetails->product_pdf) }}">
+                                            <a href="{{ asset('uploads/products/pdf/' . $productDetails->product_pdf) }}" target="_blank">
                                                 <div class="d-flex align-items-center">
                                                     <div class="me-3">
                                                         <img src="{{ asset('admin/assets/images/files/pdf.png') }}"
@@ -52,7 +52,7 @@
                                     @if ($productDetails->product_drawing != '')
                                         <div class="col-lg-3 col-sm-6">
                                             <a
-                                                href="{{ asset('uploads/products/drawing/' . $productDetails->product_drawing) }}">
+                                                href="{{ asset('uploads/products/drawing/' . $productDetails->product_drawing) }}" target="_blank">
                                                 <div class="d-flex align-items-center">
                                                     <div class="me-3">
                                                         <img src="{{ asset('admin/assets/images/files/pdf.png') }}"
@@ -69,7 +69,7 @@
                                     @if ($productDetails->product_catalouge != '')
                                         <div class="col-lg-3 col-sm-6">
                                             <a
-                                                href="{{ asset('uploads/products/catalogue/' . $productDetails->product_catalouge) }}">
+                                                href="{{ asset('uploads/products/catalogue/' . $productDetails->product_catalouge) }}" target="_blank">
                                                 <div class="d-flex align-items-center">
                                                     <div class="me-3">
                                                         <img src="{{ asset('admin/assets/images/files/pdf.png') }}"
