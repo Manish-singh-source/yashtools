@@ -30,10 +30,11 @@ class EnquiryOrdersController extends Controller
 
     public function showOrderDetails($id, $invoice_id = null)
     {
-        $order = Enquiry::with('customer')->with('enquiries')->with('products.product')->where('enquiry_id', $id)->first();
+        $order = Enquiry::with('customer')->with('enquiries')->with('products.product')->where('enquiry_id', $id)->get();
         $invoiceDetails = OrdersTrack::where('id', $invoice_id)->first();
+        // fetch product detail using order tracks table
         $invoice = OrdersTrack::with('orders.products.product')->where('enquiry_id', $id)->first();
-        // dd($invoice);
+        // dd($order);
         return view('admin.order-details', compact('order', 'invoice', 'invoiceDetails'));
     }   
 

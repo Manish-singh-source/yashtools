@@ -35,7 +35,7 @@
                 <div class="col-md-8">
                     <div class="card h-auto">
                         <div class="card-header">
-                            <h5>Enquiry No - <span class="text-primary">{{ $order->enquiry_id }}</span></h5>
+                            <h5>Enquiry No - <span class="text-primary">{{ $order[0]->enquiry_id }}</span></h5>
                             <span class="float-right text-muted">Estimated delivery: 30 Nov 2023</span>
                         </div>
                         <div class="card-body">
@@ -47,8 +47,8 @@
                                         <th>Quantity</th>
                                     </tr>
                                 </thead>
-                                @isset ($invoice->orders)
-                                    @foreach ($invoice->orders as $product)
+                                @isset ($order)
+                                    @foreach ($order as $product)
                                         <tbody>
                                             <!-- Repeat this TR block for each product -->
                                             <tr>
@@ -178,7 +178,7 @@
                                             <div class="col-md-6 mb-3">
                                                 <label class="form-label">Courier Name</label>
                                                 <input class="form-control" name="enquiry_id"
-                                                    value="{{ $order->enquiry_id }}" type="hidden" required>
+                                                    value="{{ $order[0]->enquiry_id }}" type="hidden" required>
                                                 <input class="form-control @error('courier_name') is-invalid @enderror"
                                                     name="courier_name" type="text">
                                                 @error('courier_name')
@@ -260,7 +260,7 @@
                                         </div>
                                     </div>
                                     <div class="text-end">
-                                        <a href="{{ route('admin.order.details', [$order->id, $invoice->id]) }}"
+                                        <a href="{{ route('admin.order.details', [$order[0]->enquiry_id, $invoice->id]) }}"
                                             class="btn btn-primary btn-sm">Update</a>
                                     </div>
                                 </div>
