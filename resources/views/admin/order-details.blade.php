@@ -111,7 +111,7 @@
                                             <div class="col-md-6 mb-3">
                                                 <label class="form-label">Courier Name</label>
                                                 <input class="form-control" name="enquiry_id"
-                                                    value="{{ $order->enquiry_id }}" type="hidden" required>
+                                                    value="{{ $invoiceDetails->enquiry_id }}" type="hidden" required>
                                                 <input class="form-control" name="invoice_id"
                                                     value="{{ $invoiceDetails->id }}" type="hidden" required>
                                                 <input class="form-control @error('courier_name') is-invalid @enderror"

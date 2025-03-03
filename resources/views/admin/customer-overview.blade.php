@@ -118,7 +118,7 @@
                                             @forelse ($customerDetail->enquiries as $products)
                                                 <tr>
                                                     <td>
-                                                        <a href="{{ route('admin.order.details', $products->id) }}">
+                                                        <a href="{{ route('admin.order.details', $products->enquiry_id) }}">
 
                                                             {{ $products->enquiry_id }}
                                                         </a>

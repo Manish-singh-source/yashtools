@@ -4,26 +4,26 @@
     <div class="container-fluid">
         <div class="row text-center mhedc">
             <div class="col-lg-3">
-                <a href="productcategory.php">
-                    <div class="w-100 tagnew1 cth"><i class="fa fa-list"></i>
+                <a href="#">
+                    <div class="w-100 tagnew1 cth category-tab-link"><i class="fa fa-list"></i>
                         Categories</div>
                 </a>
             </div>
             <div class="col-lg-3">
-                <a href="productbrand.php">
-                    <div class="w-100 tagnew1"><i class="fa fa-briefcase"></i>
+                <a href="#">
+                    <div class="w-100 tagnew1 category-tab-link"><i class="fa fa-briefcase"></i>
                         Brand</div>
                 </a>
             </div>
             <div class="col-lg-3">
                 <a href="#">
-                    <div class="w-100 tagnew1"><i class="fa fa-tags"></i>
+                    <div class="w-100 tagnew1 category-tab-link"><i class="fa fa-tags"></i>
                         New Products</div>
                 </a>
             </div>
             <div class="col-lg-3">
                 <a href="#">
-                    <div class="w-100 tagnew1"><i class="fa fa-tags"></i>
+                    <div class="w-100 tagnew1 category-tab-link"><i class="fa fa-tags"></i>
                         Sale</div>
                 </a>
             </div>
@@ -33,12 +33,12 @@
     <div class="axil-shop-area axil-section-gap bg-color-white">
         <div class="container">
             <div class="row">
-                <div class="col-lg-3">
+                <div class="col-lg-3" id="filter-section">
                     <div class="axil-shop-sidebar">
                         <div class="d-lg-none">
                             <button class="sidebar-close filter-close-btn"><i class="fas fa-times"></i></button>
                         </div>
-                        <div class="toggle-list product-categories active">
+                        <div class="toggle-list product-categories product-categories-section active">
                             <h6 class="title">CATEGORIES</h6>
                             <div class="shop-submenu">
                                 <ul id="category_filter">
@@ -51,7 +51,7 @@
                                 </ul>
                             </div>
                         </div>
-                        <div class="toggle-list product-categories product-gender active">
+                        <div class="toggle-list product-categories product-brands-section product-gender active">
                             <h6 class="title">Brand</h6>
                             <div class="shop-submenu">
                                 <ul id="brand_filter">
@@ -64,7 +64,7 @@
                                 </ul>
                             </div>
                         </div>
-                        <div class="toggle-list product-categories product-gender active">
+                        <div class="toggle-list product-categories product-new-n-sale-section product-gender active">
                             <h6 class="title">New & Sale</h6>
                             <div class="shop-submenu">
                                 <ul id="tags_filter">
@@ -77,7 +77,7 @@
                     </div>
                     <!-- End .axil-shop-sidebar -->
                 </div>
-                <div class="col-lg-9">
+                <div class="col-lg-9" id="products-section">
                     <div class="row">
                         <div class="col-lg-12">
                             <div class="axil-shop-top mb--20">
@@ -235,7 +235,7 @@
                 }
             });
 
-            $(document).on('click', '#resetFilters', function() {
+            function resetFilters() {
                 $("#category_filter li").map((index, element) => {
                     $(element).removeClass("chosen");
                 });
@@ -248,6 +248,44 @@
                     $(element).removeClass("chosen");
                 });
                 fetchProducts();
+            }
+            $(document).on('click', '#resetFilters', function() {
+                resetFilters()
+            });
+
+            $(document).on("click", ".category-tab-link", function() {
+                // select tab and add active class
+                let tab = $(this).text().trim();
+                $(".category-tab-link").removeClass("cth");
+                $(this).addClass("cth");
+
+                // display and hide filters
+                if (tab == 'Categories') {
+                    $("#filter-section").show()
+                    $("#products-section").removeClass("col-lg-12");
+                    $(".product-categories-section").show();
+                    $(".product-brands-section").hide();
+                    $(".product-new-n-sale-section").hide();
+                } else if (tab == 'Brand') {
+                    $("#filter-section").show()
+                    $("#products-section").removeClass("col-lg-12");
+                    $(".product-categories-section").hide();
+                    $(".product-brands-section").show();
+                    $(".product-new-n-sale-section").hide();
+                } else if (tab == 'Sale') {
+                    resetFilters()
+                    $("#filter-section").hide()
+                    $("#products-section").addClass("col-lg-12");
+                    $("#tags_filter").children("[data-tagid='new']").addClass("chosen");
+                    fetchProducts();
+                } else if (tab == 'New Products') {
+                    resetFilters()
+                    $("#products-section").addClass("col-lg-12");
+                    $("#filter-section").hide()
+                    $("#tags_filter").children("[data-tagid='offer']").addClass("chosen");
+                    fetchProducts();
+                }
+                console.log(tab);
             });
         });
     </script>
