@@ -9,6 +9,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Carbon;
 use App\Models\EnquiryProducts;
 use Illuminate\Support\Facades\DB;
+use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
 
 class EnquiryOrdersController extends Controller
@@ -16,22 +17,25 @@ class EnquiryOrdersController extends Controller
     //
     public function showOrders()
     {
-        // $orders = Enquiry::with('customer')->orderBy('id', 'desc')->get();
-        $enquiryIds = Enquiry::distinct()->pluck('enquiry_id');
-        $orders = Enquiry::whereIn('enquiry_id', $enquiryIds)->get();
-        // dd($orders);
 
+        $orders = Enquiry::whereIn('id', function ($query) {
+            $query->selectRaw('MIN(id)')
+                ->from('enquiries')
+                ->groupBy('enquiry_id');
+        })
+        ->with('customer')->get();
+        
         return view('admin.order', compact('orders'));
     }
 
     public function showOrderDetails($id, $invoice_id = null)
     {
-        $order = Enquiry::with('customer')->with('enquiries')->with('products.product')->where('id', $id)->first();
+        $order = Enquiry::with('customer')->with('enquiries')->with('products.product')->where('enquiry_id', $id)->first();
         $invoiceDetails = OrdersTrack::where('id', $invoice_id)->first();
-        $invoice = OrdersTrack::where('enquiry_id', $order->enquiry_id)->first();
-        // dd($order);
+        $invoice = OrdersTrack::with('orders.products.product')->where('enquiry_id', $id)->first();
+        // dd($invoice);
         return view('admin.order-details', compact('order', 'invoice', 'invoiceDetails'));
-    }
+    }   
 
     public function addEnquiry(Request $request)
     {

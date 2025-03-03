@@ -47,30 +47,31 @@
                                         <th>Quantity</th>
                                     </tr>
                                 </thead>
-                                @forelse ($order->products as $product)
-                                    <tbody>
-                                        <!-- Repeat this TR block for each product -->
-                                        <tr>
-                                            <td>
-                                                <div class="d-flex align-items-center">
-                                                    <img src="{{ asset('uploads/products/thumbnails/' . $product->product->product_thumbain) }}"
-                                                        class="rounded-lg me-2" width="40" alt="">
-                                                    <div>
-                                                        <h6 class="w-space-no mb-0 fs-14 font-w600">
-                                                            {{ $product->product->product_name }}
-                                                        </h6>
-                                                        <small
-                                                            style="-webkit-line-clamp: 2;-webkit-box-orient: vertical;display: -webkit-box;overflow: hidden;">{!! $product->product->product_discription !!}</small>
+                                @isset ($invoice->orders)
+                                    @foreach ($invoice->orders as $product)
+                                        <tbody>
+                                            <!-- Repeat this TR block for each product -->
+                                            <tr>
+                                                <td>
+                                                    <div class="d-flex align-items-center">
+                                                        <img src="{{ asset('uploads/products/thumbnails/' . $product->products[0]->product->product_thumbain) }}"
+                                                            class="rounded-lg me-2" width="40" alt="">
+                                                        <div>
+                                                            <h6 class="w-space-no mb-0 fs-14 font-w600">
+                                                                {{ $product->products[0]->product->product_name }}
+                                                            </h6>
+                                                        </div>
                                                     </div>
-                                                </div>
-                                            </td>
-                                            <td>₹<span class="product_price">{{ $product->product->product_price }}</span>
-                                            </td>
-                                            <td>{{ $order->quantity }}</td>
-                                        </tr>
-                                        <!-- Add more products as needed -->
-                                    </tbody>
-                                @empty
+                                                </td>
+                                                <td>₹<span
+                                                        class="product_price">{{ $product->products[0]->product->product_price }}</span>
+                                                </td>
+                                                <td>{{ $product->quantity }}</td>
+                                            </tr>
+                                            <!-- Add more products as needed -->
+                                        </tbody>
+                                    @endforeach
+                                @else
                                     <tbody>
                                         <!-- Repeat this TR block for each product -->
                                         <tr>
@@ -78,7 +79,8 @@
                                         </tr>
                                         <!-- Add more products as needed -->
                                     </tbody>
-                                @endforelse
+                                @endisset
+
                             </table>
                         </div>
                     </div>
