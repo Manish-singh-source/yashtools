@@ -290,7 +290,6 @@
                     $("#tags_filter").children("[data-tagid='offer']").addClass("chosen");
                     fetchProducts();
                 }
-                console.log(tab);
             });
         });
     </script>
