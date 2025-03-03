@@ -266,12 +266,14 @@
 
                 // display and hide filters
                 if (tab == 'Categories') {
+                    resetFilters()
                     $("#filter-section").show()
                     $("#products-section").removeClass("col-lg-12");
                     $(".product-categories-section").show();
                     $(".product-brands-section").hide();
                     $(".product-new-n-sale-section").hide();
                 } else if (tab == 'Brand') {
+                    resetFilters()
                     $("#filter-section").show()
                     $("#products-section").removeClass("col-lg-12");
                     $(".product-categories-section").hide();
