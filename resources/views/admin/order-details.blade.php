@@ -47,24 +47,22 @@
                                         <th>Quantity</th>
                                     </tr>
                                 </thead>
-                                @forelse ($order->products as $product)
+                                @forelse ($invoice->orders as $product)
                                     <tbody>
                                         <!-- Repeat this TR block for each product -->
                                         <tr>
                                             <td>
                                                 <div class="d-flex align-items-center">
-                                                    <img src="{{ asset('uploads/products/thumbnails/' . $product->product->product_thumbain) }}"
+                                                    <img src="{{ asset('uploads/products/thumbnails/' . $product->product_thumbain) }}"
                                                         class="rounded-lg me-2" width="40" alt="">
                                                     <div>
                                                         <h6 class="w-space-no mb-0 fs-14 font-w600">
-                                                            {{ $product->product->product_name }}
+                                                            {{ $product->product_name }}
                                                         </h6>
-                                                        <small
-                                                            style="-webkit-line-clamp: 2;-webkit-box-orient: vertical;display: -webkit-box;overflow: hidden;">{!! $product->product->product_discription !!}</small>
                                                     </div>
                                                 </div>
                                             </td>
-                                            <td>₹<span class="product_price">{{ $product->product->product_price }}</span>
+                                            <td>₹<span class="product_price">{{ $product->product_price }}</span>
                                             </td>
                                             <td>{{ $order->quantity }}</td>
                                         </tr>

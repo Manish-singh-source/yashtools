@@ -20,4 +20,14 @@ class OrdersTrack extends Model
     {
         return Carbon::parse($value)->format('Y-M-d');
     }
+
+    public function orders()
+    {
+        return $this->hasMany(Enquiry::class, 'enquiry_id', 'enquiry_id');
+    }
+
+    public function products()
+    {
+        return $this->hasMany(EnquiryProducts::class,  'enquiry_id');
+    }
 }
