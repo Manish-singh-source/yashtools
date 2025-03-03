@@ -23,6 +23,7 @@ class EnquiryOrdersController extends Controller
                 ->from('enquiries')
                 ->groupBy('enquiry_id');
         })
+        ->orderBy('id', 'desc')
         ->with('customer')->get();
         
         return view('admin.order', compact('orders'));
@@ -34,7 +35,6 @@ class EnquiryOrdersController extends Controller
         $invoiceDetails = OrdersTrack::where('id', $invoice_id)->first();
         // fetch product detail using order tracks table
         $invoice = OrdersTrack::with('orders.products.product')->where('enquiry_id', $id)->first();
-        // dd($order);
         return view('admin.order-details', compact('order', 'invoice', 'invoiceDetails'));
     }   
 

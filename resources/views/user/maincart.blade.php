@@ -161,7 +161,8 @@
 
 
         $(document).on("click", "#addEnquiry", function() {
-            let cartList = $(".cart-items-list tr");
+            let parentTBody = $(this).closest(".cart-items-list");
+            let cartList = $(parentTBody).children();
             let cartData = [];
 
             cartList.each(function() {
