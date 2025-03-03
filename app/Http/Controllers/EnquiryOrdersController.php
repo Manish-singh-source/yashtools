@@ -32,7 +32,7 @@ class EnquiryOrdersController extends Controller
     {
         $order = Enquiry::with('customer')->with('enquiries')->with('products.product')->where('enquiry_id', $id)->first();
         $invoiceDetails = OrdersTrack::where('id', $invoice_id)->first();
-        $invoice = OrdersTrack::with('orders')->with('products.product')->where('enquiry_id', $id)->first();
+        $invoice = OrdersTrack::with('orders.products.product')->where('enquiry_id', $id)->first();
         // dd($invoice);
         return view('admin.order-details', compact('order', 'invoice', 'invoiceDetails'));
     }   
