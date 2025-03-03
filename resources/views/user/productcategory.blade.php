@@ -123,6 +123,11 @@
         integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
     <script>
         $(document).ready(function() {
+            $("#filter-section").show()
+            $("#products-section").removeClass("col-lg-12");
+            $(".product-categories-section").show();
+            $(".product-brands-section").hide();
+            $(".product-new-n-sale-section").hide();
             fetchProducts();
 
             function fetchProducts(page = 1) {
