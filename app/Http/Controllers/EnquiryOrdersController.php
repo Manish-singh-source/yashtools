@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Cart;
+use App\Models\User;
 use App\Models\Enquiry;
 use App\Models\OrdersTrack;
 use Illuminate\Http\Request;
@@ -23,9 +24,9 @@ class EnquiryOrdersController extends Controller
                 ->from('enquiries')
                 ->groupBy('enquiry_id');
         })
-        ->orderBy('id', 'desc')
-        ->with('customer')->get();
-        
+            ->orderBy('id', 'desc')
+            ->with('customer')->get();
+
         return view('admin.order', compact('orders'));
     }
 
@@ -36,7 +37,7 @@ class EnquiryOrdersController extends Controller
         // fetch product detail using order tracks table
         $invoice = OrdersTrack::with('orders.products.product')->where('enquiry_id', $id)->first();
         return view('admin.order-details', compact('order', 'invoice', 'invoiceDetails'));
-    }   
+    }
 
     public function addEnquiry(Request $request)
     {
@@ -128,5 +129,13 @@ class EnquiryOrdersController extends Controller
             'message' => 'Data fetched successfully.',
             'data' => $enquiries,
         ], 200);
+    }
+
+    public function productInfo($enquiry_id)
+    {
+        $user = User::with('userDetail')->where('id', Auth::id())->first();
+        $data = Enquiry::with('products.product')->where('enquiry_id', $enquiry_id)->get();
+        // dd($data);
+        return view('user.product-info', compact('data', 'user'));
     }
 }

@@ -31,6 +31,11 @@ class Enquiry extends Model
         return $this->hasMany(EnquiryProducts::class,  'enquiry_id');
     }
 
+    public function product()
+    {
+        return $this->belongsToMany(EnquiryProducts::class,  'enquiry_id');
+    }
+
     public function enquiries() {
         return $this->hasOne(Enquiry::class, 'enquiry_id');
     }

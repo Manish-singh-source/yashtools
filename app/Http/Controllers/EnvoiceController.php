@@ -91,7 +91,7 @@ class EnvoiceController extends Controller
     public function ordersList(Request $request)
     {
 
-        $query = Enquiry::where('customer_id', Auth::id())->with('invoice');
+        $query = Enquiry::where('customer_id', Auth::id())->with('invoice')->with('products.product');
 
         if ($request->filled('fromDate') && $request->filled('toDate')) {
             $fromDate = Carbon::parse($request->fromDate)->startOfDay(); // Sets time to 00:00:00
@@ -103,7 +103,7 @@ class EnvoiceController extends Controller
         $sortBy = in_array($request->sort_by, ['asc', 'desc']) ? $request->sort_by : 'desc';
         $query->orderBy('updated_at', $sortBy);
         $products = $query->paginate(5);
-
+        
         return response()->json($products);
     }
 }
