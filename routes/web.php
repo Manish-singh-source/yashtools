@@ -88,7 +88,7 @@ Route::middleware('isCustomerAuth:customer')->group(function () {
     Route::post('/remove-from-favourite', [FetchAPIs::class, 'removeFromFav'])->middleware('web');
 
     // Enquiry 
-
+    Route::get('/product-info/{id}', [EnquiryOrdersController::class, 'productInfo']);
 });
 
 Route::get('/check-auth', function () {

@@ -69,11 +69,11 @@
                                             role="tab" aria-selected="true"><i class="fas fa-th-large"></i>Dashboard</a>
                                         <a class="nav-item nav-link" data-bs-toggle="tab" href="#nav-orders" role="tab"
                                             aria-selected="false"><i class="fas fa-shopping-basket"></i>Orders</a>
-
-
                                         <a class="nav-item nav-link" data-bs-toggle="tab" href="#nav-account" role="tab"
                                             aria-selected="false"><i class="fas fa-user"></i>Account
                                             Details</a>
+                                        <a class="nav-item nav-link" data-bs-toggle="tab" href="#nav-forgot" role="tab"
+                                            aria-selected="false"><i class="fas fa-key"></i>Change Password</a>
                                         <a class="nav-item nav-link" href="{{ route('customer.logout') }}"><i
                                                 class="fal fa-sign-out"></i>Logout</a>
                                     </div>
@@ -125,50 +125,14 @@
                                                 <thead>
                                                     <tr>
                                                         <th scope="col">Enquiry Id</th>
-                                                        <th scope="col">Invoice Date</th>
-                                                        <th scope="col">Invoice Number</th>
-                                                        <th scope="col">Invoice</th>
-                                                        <th scope="col">Tracking Details</th>
+                                                        <th scope="col">Product Image</th>
+                                                        <th scope="col">Product Name</th>
+                                                        <th scope="col">Quantity</th>
                                                         <th scope="col">Status</th>
+                                                        <th scope="col">Action</th>
                                                     </tr>
                                                 </thead>
                                                 <tbody id="product_list">
-                                                    {{-- @forelse ($orders as $order)
-                                                        <tr>
-                                                            <td>{{ $order->enquiry_id }}</td>
-                                                            <td>{{ $order->invoice->updated_at ?? 'NA' }}</td>
-                                                            <td>{{ $order->invoice->courier_number ?? 'NA' }}</td>
-                                                            @isset($order->invoice->invoice_file)
-                                                                <td>
-                                                                    <a href="{{ asset('uploads/invoices/' . ($order->invoice->invoice_file ?? '')) }}"
-                                                                        target="_blank">
-                                                                        <i class="fas fa-file-pdf fs"></i>
-                                                                    </a>
-                                                                </td>
-                                                            @else
-                                                                <td>NA</td>
-                                                            @endisset
-                                                            <td>
-                                                                <div>{{ $order->invoice->courier_name ?? 'NA' }} </div>
-                                                                <br>
-                                                                @isset($order->invoice->courier_website)
-                                                                    <div><a
-                                                                            href="{{ $order->invoice->courier_website ?? 'NA' }}">Visit
-                                                                            Courier Website</a></div>
-                                                                @endisset
-                                                            </td>
-                                                            @isset($order->invoice->id)
-                                                                <td>{{ $order->status }}</td>
-                                                            @else
-                                                                <td class="text-danger">Pending</td>
-                                                            @endisset
-                                                        </tr>
-                                                    @empty
-                                                        <tr>
-                                                            <th rowspan="6">No Invoice Found</th>
-                                                        </tr>
-                                                    @endforelse --}}
-
                                                 </tbody>
                                             </table>
                                         </div>
@@ -240,7 +204,25 @@
                                                         <input type="text" class="form-control"
                                                             value="{{ $user->userDetail->pincode }}" name="pin_code">
                                                     </div>
-                                                    {{-- <div class="col-12">
+                                                    <div class="form-group mb--0">
+                                                        <input type="submit" class="axil-btn" value="Save Changes">
+                                                    </div>
+
+                                                </div>
+                                            </form>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="tab-pane fade" id="nav-forgot" role="tabpanel">
+                                    <div class="col-lg-12">
+                                        <div class="axil-dashboard-account">
+                                            <form class="account-details-form"
+                                                action="{{ route('user.update.account') }}" method="POST">
+                                                @csrf
+                                                @method('POST')
+
+                                                <div class="row">
+                                                    <div class="col-12">
                                                         <h5 class="title">Password Change</h5>
                                                         <div class="form-group">
                                                             <label>Password</label>
@@ -255,11 +237,10 @@
                                                             <label>Confirm New Password</label>
                                                             <input type="password" class="form-control">
                                                         </div>
-                                                    </div> --}}
+                                                    </div>
                                                     <div class="form-group mb--0">
                                                         <input type="submit" class="axil-btn" value="Save Changes">
                                                     </div>
-
                                                 </div>
                                             </form>
                                         </div>
@@ -272,7 +253,6 @@
             </div>
         </div>
         <!-- End My Account Area  -->
-
 
     </main>
     <!-- Start Footer Area  -->
@@ -309,49 +289,20 @@
                             $('#product_list').append(
                                 `<tr>
                                     <td>${product.enquiry_id}</td>
-                                    <td>${product.invoice?.updated_at ? product.invoice.updated_at : 'NA'}</td>
-                                    <td>${product.invoice?.courier_number ? product.invoice.courier_number : 'NA'}</td>
-                                    <td>
-                                        ${product.invoice?.invoice_file 
-                                        ? `<a href="{{ asset('uploads/invoices/${product.invoice.invoice_file}') }}" target="_blank">
-                                                                                                                            <i class="fas fa-file-pdf fs"></i>
-                                                                                                                        </a>`
-                                        : 'NA'}
-                                    </td>
-                                    <td>
-                                        <div>${product.invoice?.courier_name ?? 'NA'} </div>
-                                        <br>
-                                        <div>
-                                            ${product.invoice?.courier_website
-                                            ? `<a href="${product.invoice?.courier_website ?? 'NA'}">Visit
-                                                                                                                            Courier Website</a>`
-                                            : ''}
-                                        </div>
-                                    </td>
+                                    <td><img src='uploads/products/thumbnails/${product.products[0]?.product.product_thumbain}' /></td>
+                                    <td>${product.products[0]?.product.product_name ? product.products[0]?.product.product_name : 'NA'}</td>
+                                    <td>${product.quantity}</td>
                                     <td>
                                         ${product.invoice?.id
                                             ? `${product.status}`
                                             : 'Pending'}
-                                        </td>
+                                    </td>
+                                    <td>
+                                        <div><a href='/product-info/${product.enquiry_id}'>View</a> </div>
+                                    </td>
                                 </tr>`
                             );
                         });
-
-                        // Pagination Links
-                        // $('#pagination_links').html('');
-                        // if (response.links) {
-                        //     $('#pagination_links').append(
-                        //         `<div class="text-center pt--30"><div class="center"><div class="pagination"><a href="#">&laquo;</a>`
-                        //     );
-                        //     $.each(response.links, function(index, link) {
-                        //         if (link.url) {
-                        //             $('#pagination_links').append(
-                        //                 `<a href="${link.url}" class="active">${link.label}</a>`
-                        //             );
-                        //         }
-                        //     });
-                        //     $('#pagination_links').append(`<a href="#">&raquo;</a></div></div></div>`);
-                        // }
 
                         $('#pagination_links').html(''); // Clear existing pagination
 
