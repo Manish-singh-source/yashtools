@@ -154,10 +154,8 @@
 
         <div class="slider">
             @foreach ($banners as $banner)
-                {{-- <div class="slide" style="var()">            </div> --}}
-                <div class="slide" style="--banner-image1: url({{ asset('uploads/banner/' . $banner->banner_image) }})">
+                <div class="slide" style="background-image: url({{ asset('uploads/banner/' . $banner->banner_image) }})">
                 </div>
-                {{-- <div class="slide"></div> --}}
                 <ul class="slide-nav"></ul>
             @endforeach
         </div>
