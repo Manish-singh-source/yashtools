@@ -1,9 +1,6 @@
 @extends('admin.layouts.app')
 
 @section('content-body')
-    <!--**********************************
-                                                                                                        Content body start
-                                                                                                    ***********************************-->
     <div class="content-body default-height">
         <div class="container-fluid">
 
@@ -115,17 +112,34 @@
                                             </tr>
                                         </thead>
                                         <tbody>
-                                            @forelse ($customerDetail->enquiries as $products)
+                                            @forelse ($orders as $products)
                                                 <tr>
                                                     <td>
                                                         <a href="{{ route('admin.order.details', $products->enquiry_id) }}">
-
                                                             {{ $products->enquiry_id }}
                                                         </a>
                                                     </td>
-                                                    <td>Nov 01, 2024</td>
-                                                    <td><span
-                                                            class="badge badge-sm badge-success light border-0">Completed</span>
+                                                    <td>{{ $products->updated_at }}</td>
+                                                    <td>
+                                                        @if ($products->status == 'confirmed')
+                                                            <span class="badge badge-sm badge-success light border-0"><span
+                                                                    class="ms-1 fa fa-check"></span>
+                                                                {{ $products->status }}</span>
+                                                        @elseif($products->status == 'dismissed')
+                                                            <span class="badge badge-sm badge-danger light border-0"><span class="ms-1 fa fa-check"></span>
+                                                                {{ $products->status }}</span>
+                                                        @elseif($products->status == 'delivered')
+                                                            <span class="badge badge-sm badge-success light border-0"><span
+                                                                    class="ms-1 fa fa-check"></span>
+                                                                {{ $products->status }}</span>
+                                                        @elseif($products->status == 'payment_received')
+                                                            <span class="badge badge-sm badge-primary light border-0"><span
+                                                                    class="ms-1 fa fa-check"></span>
+                                                                Payment Received</span>
+                                                        @else
+                                                            <span class="badge badge-sm badge-danger light border-0"><span
+                                                                    class="ms-1 fa fa-check"></span>Pending Enquiry</span>
+                                                        @endif
                                                     </td>
                                                 </tr>
                                             @empty

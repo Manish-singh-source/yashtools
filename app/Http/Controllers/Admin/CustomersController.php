@@ -3,11 +3,13 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Models\User;
+use App\Models\Enquiry;
 use App\Models\UserDetail;
 use Illuminate\Http\Request;
-use App\Http\Controllers\Controller;
-use Illuminate\Support\Facades\Validator;
 use Flasher\Prime\FlasherInterface;
+use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Validator;
 
 class CustomersController extends Controller
 {
@@ -31,8 +33,15 @@ class CustomersController extends Controller
     public function customerOverview(String $id)
     {
         $customerDetail = User::with('userDetail')->with('enquiries.products')->where('role', 'customer')->find($id);
-        // dd($customerDetail);
-        return view('admin.customer-overview', compact('customerDetail'));
+        $orders = Enquiry::where('customer_id', $id)->whereIn('id', function ($query) {
+            $query->selectRaw('MIN(id)')
+                ->from('enquiries')
+                ->groupBy('enquiry_id');
+            })
+            ->orderBy('id', 'desc')
+            ->with('customer')->get();
+        // dd($orders);
+        return view('admin.customer-overview', compact('customerDetail', 'orders'));
     }
 
     public function editCustomerDetails(String $id)
