@@ -100,13 +100,8 @@ class BannerController extends Controller
         }
 
         $banner = Banner::find($request->bannerId);
-        if (!empty($request->bannerTitle)) {
-            $banner->banner_title = $request->bannerTitle;
-        }
-
-        if (!empty($request->bannerDesciption)) {
-            $banner->banner_description = $request->bannerDesciption;
-        }
+        $banner->banner_title = $request->bannerTitle;
+        $banner->banner_description = $request->bannerDesciption;
 
         if (!empty($request->banner_image)) {
             if (!empty($banner->banner_image)) {
