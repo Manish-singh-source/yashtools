@@ -91,14 +91,6 @@ class EnvoiceController extends Controller
     public function ordersList(Request $request)
     {
 
-        // $orders = Enquiry::whereIn('id', function ($query) {
-        //     $query->selectRaw('MIN(id)')
-        //         ->from('enquiries')
-        //         ->groupBy('enquiry_id');
-        //     })
-        //     ->orderBy('id', 'desc')
-        //     ->with('customer')->get();
-
         $query = Enquiry::where('customer_id', Auth::id())->with('invoice')->with('products.product');
 
         if ($request->filled('fromDate') && $request->filled('toDate')) {
