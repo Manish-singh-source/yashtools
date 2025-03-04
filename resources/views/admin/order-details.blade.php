@@ -47,7 +47,7 @@
                                         <th>Quantity</th>
                                     </tr>
                                 </thead>
-                                @isset ($order)
+                                @isset($order)
                                     @foreach ($order as $product)
                                         <tbody>
                                             <!-- Repeat this TR block for each product -->
@@ -276,22 +276,55 @@
                             <h5>Order Tracking</h5>
                         </div>
                         <div class="card-body">
-                            <div class="status">Status: <span class="text-success">Shipping</span></div>
-                            <div class="step">
-                                <div class="icon bg-primary text-white">1</div>
-                                <div class="text">Order Confirm</div>
-                                <div class="ml-auto">May 15</div>
-                            </div>
-                            <div class="step">
-                                <div class="icon bg-primary text-white">2</div>
-                                <div class="text">Order Delivered</div>
-                                <div class="ml-auto">jun 15</div>
-                            </div>
-                            <div class="step">
-                                <div class="icon bg-primary text-white">3</div>
-                                <div class="text">Payment Received</div>
-                                <div class="ml-auto">jun 26</div>
-                            </div>
+
+                            @if ($order[0]->status == 'confirmed')
+                                <div class="status">Status: <span class="text-success">{{ $order[0]->status }}</span>
+                                </div>
+                                <div class="step">
+                                    <div class="icon bg-primary text-white">1</div>
+                                    <div class="text">Order Confirm</div>
+                                    <div class="ml-auto">{{ $order[0]->created_at }}</div>
+                                </div>
+                            @elseif($order[0]->status == 'delivered')
+                                <div class="status">Status: <span class="text-success">{{ $order[0]->status }}</span>
+                                </div>
+                                <div class="step">
+                                    <div class="icon bg-primary text-white">1</div>
+                                    <div class="text">Order Confirm</div>
+                                    <div class="ml-auto">{{ $order[0]->created_at }}</div>
+                                </div>
+                                <div class="step">
+                                    <div class="icon bg-primary text-white">2</div>
+                                    <div class="text">Order Delivered</div>
+                                    <div class="ml-auto">{{ $order[0]->created_at }}</div>
+                                </div>
+                            @elseif($order[0]->status == 'payment_received')
+                                <div class="status">Status: <span class="text-success">{{ $order[0]->status }}</span>
+                                </div>
+                                <div class="step">
+                                    <div class="icon bg-primary text-white">1</div>
+                                    <div class="text">Order Confirm</div>
+                                    <div class="ml-auto">{{ $order[0]->created_at }}</div>
+                                </div>
+                                <div class="step">
+                                    <div class="icon bg-primary text-white">2</div>
+                                    <div class="text">Order Delivered</div>
+                                    <div class="ml-auto">{{ $order[0]->created_at }}</div>
+                                </div>
+                                <div class="step">
+                                    <div class="icon bg-primary text-white">3</div>
+                                    <div class="text">Payment Received</div>
+                                    <div class="ml-auto">{{ $order[0]->created_at }}</div>
+                                </div>
+                            @else
+                                <div class="status">Status: <span class="text-danger">{{ $order[0]->status }}</span>
+                                </div>
+                                <div class="step">
+                                    <div class="icon bg-danger text-white">1</div>
+                                    <div class="text text-danger">Order Dismissed</div>
+                                    <div class="ml-auto text-danger">{{ $order[0]->created_at }}</div>
+                                </div>
+                            @endif
                             <!-- Repeat for other steps -->
                         </div>
                     </div>
