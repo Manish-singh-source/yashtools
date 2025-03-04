@@ -49,7 +49,6 @@
             background-size: 100% 100%;
             color: #fff;
             height: 100%;
-            padding: 90px 0 0;
             position: absolute;
             width: 100%;
         }
@@ -143,9 +142,42 @@
             background-repeat: no-repeat;
             background-attachment: fixed;
         }
-
+       .banner-heding {
+    font-size: 48px;
+    color: red;
+    filter: drop-shadow(1px 2px 1px black);
+}
         /* Hide nested submenus by default */
         /* General Dropdown Styling */
+        .slide {
+        background-repeat: no-repeat;
+        background-size: 100% 100%;
+        color: #fff;
+        height: 100%;
+        position: absolute;
+        width: 100%;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        text-align: center;
+    }
+
+    .slide div {
+        max-width: 80%;
+    }
+
+    .banner-heding {
+        font-size: 48px;
+        color: red;
+        filter: drop-shadow(1px 2px 1px black);
+    }
+    @media(max-width: 768px) {
+        .banner-heding {
+    font-size: 27px;
+    color: red;
+    filter: drop-shadow(1px 2px 1px black);
+}
+    }
     </style>
 @endsection
 
@@ -155,6 +187,10 @@
         <div class="slider">
             @foreach ($banners as $banner)
                 <div class="slide" style="background-image: url({{ asset('uploads/banner/' . $banner->banner_image) }})">
+                    <div>
+                        <h1 class="banner-heding">{{$banner->banner_title}}</h1>
+                        <p>{{$banner->banner_description}}</p>
+                    </div>
                 </div>
                 <ul class="slide-nav"></ul>
             @endforeach
