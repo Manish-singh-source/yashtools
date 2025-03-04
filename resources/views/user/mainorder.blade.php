@@ -85,7 +85,8 @@
                                 <div class="tab-pane fade show active" id="nav-dashboard" role="tabpanel">
                                     <div class="axil-dashboard-overview">
                                         <div class="welcome-text">Hello {{ $user->fullname }} (not
-                                            <span>{{ $user->fullname }}?</span> <a href="{{ route('customer.logout') }}">Log Out</a>)
+                                            <span>{{ $user->fullname }}?</span> <a href="{{ route('customer.logout') }}">Log
+                                                Out</a>)
                                         </div>
                                         <p>From your account dashboard you can view your recent orders, manage your
                                             shipping and billing addresses, and edit your password and account details.
@@ -317,9 +318,7 @@
                                     <td>${product.products[0]?.product.product_name ? product.products[0]?.product.product_name : 'NA'}</td>
                                     <td>${product.quantity}</td>
                                     <td>
-                                        ${product.invoice?.id
-                                            ? `${product.status}`
-                                            : 'Pending'}
+                                        ${product.status === 'payment_received' ? 'Payment Done' : product.status ? product.status : 'Pending'}
                                     </td>
                                     <td>
                                         <div><a href='/product-info/${product.enquiry_id}'>View</a> </div>

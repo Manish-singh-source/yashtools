@@ -90,10 +90,10 @@
                                                             {{ $order->status }}</span>
                                                     @elseif($order->status == 'payment_received')
                                                         <span class="text-primary"><span class="ms-1 fa fa-check"></span>
-                                                            {{ $order->status }}</span>
+                                                            Payment Received</span>
                                                     @else
-                                                        <span class="text-success">Enquiry<span
-                                                                class="ms-1 fa fa-check"></span></span>
+                                                        <span class="text-primary"><span
+                                                            class="ms-1 fa fa-check"></span>Pending Enquiry</span>
                                                     @endif
                                                 </td>
 
