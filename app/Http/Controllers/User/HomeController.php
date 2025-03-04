@@ -34,7 +34,7 @@ class HomeController extends Controller
         $categories = Categories::orderby('updated_at', 'desc')->limit(8)->get();
         $subcategories = SubCategories::orderby('updated_at', 'desc')->limit(8)->get();
         $brands = Brand::orderby('updated_at', 'desc')->limit(8)->get();
-        $products = Product::query();
+        $products = Product::query()->where('status', '1');
         $products->orderby('updated_at', 'desc')->paginate(4);
 
         $breadcrumbs = [
@@ -87,7 +87,7 @@ class HomeController extends Controller
         }
 
         // Fetch paginated data (10 products per page)
-        $products = $query->paginate(9);
+        $products = $query->where('status', '1')->paginate(9);
 
         // Return JSON response
         return response()->json($products);

@@ -104,10 +104,6 @@
         </div>
         <!-- End Shop Area  -->
 
-        </div>
-        <!-- End Wishlist Area  -->
-
-
     </main>
 @endsection
 
