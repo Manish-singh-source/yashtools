@@ -284,6 +284,11 @@
                                             <li class="text-danger"><i class="fal fa-times"></i>Out of stock</li>
                                         @endif
                                     </ul>
+                                    @if ($selectedProduct->product_sale != null)
+                                        <div class="product-variation quantity-variant-wrapper margbot">
+                                            <h6 class="title">Price</h6>₹{{ $selectedProduct->product_price }}
+                                        </div>
+                                    @endif
                                     <h6 class="title margbot">Days to Dispatch :<span class="spnc">
                                             {{ $selectedProduct->product_dispatch }}</span>
                                     </h6>
@@ -330,7 +335,7 @@
                                         </ul>
                                         <ul class="icon-list-row">
                                             <li>
-                                                <i class="fab fa-whatsapp"></i> 
+                                                <i class="fab fa-whatsapp"></i>
                                                 <a href="#" id="whatsapp-enquiry">WhatsApp Enquiry</a>
                                             </li>
                                             <li>
@@ -787,7 +792,7 @@
     });
 </script>
 <script>
-    document.getElementById("whatsapp-enquiry").addEventListener("click", function (event) {
+    document.getElementById("whatsapp-enquiry").addEventListener("click", function(event) {
         event.preventDefault(); // Prevent default link behavior
 
         // WhatsApp Number (Fixed Number)
@@ -799,9 +804,9 @@
 
         // WhatsApp message format (Plain URL for Clickable Link)
         var message = "Hello, I want to inquire about:\n\n" +
-                      "📌 *Product:* " + productName + "\n" +
-                      "🔗 *Link:* " + productUrl + "\n\n" +
-                      "Please provide more details.";
+            "📌 *Product:* " + productName + "\n" +
+            "🔗 *Link:* " + productUrl + "\n\n" +
+            "Please provide more details.";
 
         // WhatsApp API URL with fixed number
         var whatsappUrl = "https://wa.me/" + whatsappNumber + "?text=" + encodeURIComponent(message);
@@ -810,6 +815,4 @@
         window.open(whatsappUrl, "_blank");
     });
 </script>
-
-
 @endsection
