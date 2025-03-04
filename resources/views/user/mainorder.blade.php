@@ -85,7 +85,7 @@
                                 <div class="tab-pane fade show active" id="nav-dashboard" role="tabpanel">
                                     <div class="axil-dashboard-overview">
                                         <div class="welcome-text">Hello {{ $user->fullname }} (not
-                                            <span>{{ $user->fullname }}?</span> <a href="sign-in.php">Log Out</a>)
+                                            <span>{{ $user->fullname }}?</span> <a href="{{ route('customer.logout') }}">Log Out</a>)
                                         </div>
                                         <p>From your account dashboard you can view your recent orders, manage your
                                             shipping and billing addresses, and edit your password and account details.
@@ -216,30 +216,54 @@
                                 <div class="tab-pane fade" id="nav-forgot" role="tabpanel">
                                     <div class="col-lg-12">
                                         <div class="axil-dashboard-account">
+
                                             <form class="account-details-form"
-                                                action="{{ route('user.update.account') }}" method="POST">
+                                                action="{{ route('update.user.password') }}" method="POST">
                                                 @csrf
-                                                @method('POST')
+                                                @method('PUT')
 
                                                 <div class="row">
                                                     <div class="col-12">
                                                         <h5 class="title">Password Change</h5>
+                                                        <div class="text-end">
+                                                            @include('admin.layouts.session-messages')
+                                                        </div>
+
                                                         <div class="form-group">
                                                             <label>Password</label>
-                                                            <input type="password" class="form-control"
-                                                                value="123456789101112131415">
+                                                            <input type="hidden" name="id"
+                                                                value="{{ Auth::id() }}" class="form-control">
+                                                            <input type="password" name="password"
+                                                                class="form-control @error('password') is-invalid @enderror">
+                                                            @error('password')
+                                                                <div class="invalid-feedback">
+                                                                    {{ $message }}
+                                                                </div>
+                                                            @enderror
                                                         </div>
                                                         <div class="form-group">
                                                             <label>New Password</label>
-                                                            <input type="password" class="form-control">
+                                                            <input type="password" name="new_password"
+                                                                class="form-control @error('new_password') is-invalid @enderror">
+                                                            @error('new_password')
+                                                                <div class="invalid-feedback">
+                                                                    {{ $message }}
+                                                                </div>
+                                                            @enderror
                                                         </div>
                                                         <div class="form-group">
                                                             <label>Confirm New Password</label>
-                                                            <input type="password" class="form-control">
+                                                            <input type="password" name="new_password_confirmation"
+                                                                class="form-control @error('new_password_confirmation') is-invalid @enderror">
+                                                            @error('new_password_confirmation')
+                                                                <div class="invalid-feedback">
+                                                                    {{ $message }}
+                                                                </div>
+                                                            @enderror
                                                         </div>
                                                     </div>
                                                     <div class="form-group mb--0">
-                                                        <input type="submit" class="axil-btn" value="Save Changes">
+                                                        <input type="submit" class="axil-btn" value="UPDATE PASSWORD">
                                                     </div>
                                                 </div>
                                             </form>

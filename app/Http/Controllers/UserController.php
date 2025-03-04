@@ -18,20 +18,22 @@ use Illuminate\Support\Facades\Validator;
 class UserController extends Controller
 {
 
-    public function signinView() {
+    public function signinView()
+    {
         $categories = Categories::orderby('updated_at', 'desc')->limit(8)->get();
         $subcategories = SubCategories::orderby('updated_at', 'desc')->limit(8)->get();
         $brands = Brand::orderby('updated_at', 'desc')->limit(8)->get();
         return view('user.signin', compact('categories', 'brands', 'subcategories'));
     }
 
-    public function signupView() {
+    public function signupView()
+    {
         $categories = Categories::orderby('updated_at', 'desc')->limit(8)->get();
         $subcategories = SubCategories::orderby('updated_at', 'desc')->limit(8)->get();
         $brands = Brand::orderby('updated_at', 'desc')->limit(8)->get();
         return view('user.signup', compact('categories', 'brands', 'subcategories'));
     }
- 
+
     public function registerData(Request $request)
     {
         $validations = Validator::make($request->all(), [
@@ -72,8 +74,8 @@ class UserController extends Controller
         $userDetail->pincode = $request->pin_code;
         $userDetail->gstin = $request->gstin;
         $userDetail->save();
-        $subject="Yash Tools Registeration";
-        Mail::to($request->email)->send(new welcomeemail($subject,$request->fullname));
+        $subject = "Yash Tools Registeration";
+        Mail::to($request->email)->send(new welcomeemail($subject, $request->fullname));
 
         return redirect()->route('signin');
     }
@@ -144,6 +146,33 @@ class UserController extends Controller
         return back()->with('error', 'Please check your credentials.');
     }
 
+    public function updateUserPassword(Request $request)
+    {
+        $validations = Validator::make($request->all(), [
+            'id' => 'required|numeric',
+            "password" => "required|min:6",
+            "new_password" => "required|min:6|confirmed",
+            "new_password_confirmation" => "required|",
+        ]);
+
+        if ($validations->fails()) {
+            return back()->withErrors($validations)->withInput();
+        }
+
+        if (Auth::attempt(['id' => $request->id, 'password' => $request->password])) {
+
+            $user = User::find($request->id);
+            $user->password = $request->new_password;
+            $user->save();
+
+            Auth::logout();
+            
+            flash()->success('Your Password Has Been Updated.');
+            return redirect()->route('user.dashboard');
+        }
+
+        return back()->with('error', 'Please enter correct password');
+    }
 
     public function logout()
     {

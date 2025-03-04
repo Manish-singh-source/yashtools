@@ -22,40 +22,38 @@ use App\Http\Controllers\Admin\CategoriesController;
 use App\Http\Controllers\User\UserProfileController;
 use App\Http\Controllers\Admin\SubCategoryController;
 
-// user routes: Authentication 
+// user contact related routes
 Route::get('send-email', [EmailController::class, 'sendEmail']);
 Route::get('contact', [EmailController::class, 'contactForm'])->name('user.contact.us');
 Route::post('contact', [EmailController::class, 'sendContactEmail'])->name('user.contact.store');
 
 
+// user routes: Authentication 
 Route::get('/signin', [UserController::class, 'signinView'])->name('signin');
 Route::get('/signup', [UserController::class, 'signupView'])->name('signup');
 Route::post('/register-user', [UserController::class, 'registerData'])->name('register.user');
 Route::post('/signin-user', [UserController::class, 'authUser'])->name('auth.user');
 
-Route::get('/privacy-policy', [HomeController::class, 'privacypolicy'])->name('privacy.policy');
 
+Route::get('/privacy-policy', [HomeController::class, 'privacypolicy'])->name('privacy.policy');
 Route::get('/terms-conditions', [HomeController::class, 'termsconditions'])->name('terms.conditions');
 Route::get('/faq', [HomeController::class, 'faq'])->name('faq');
 Route::get('/feedback', [EmailController::class, 'feedback'])->name('feedback');
 Route::post('feedback', [EmailController::class, 'sendFeedbackEmail'])->name('user.feedback.store');
+Route::get('/about-us',  [HomeController::class, 'aboutUs'])->name('user.about.us');
+
 // user routes: pages
 Route::get('/', [HomeController::class, 'homeView'])->name('user.home');
 Route::get('/shop/{category?}', [HomeController::class, 'shopView'])->name('user.shop');
-
 Route::get('/shop-api', [HomeController::class, 'shopViewAPI'])->name('user.shop.api');
-
 Route::get('/single-product/{slug}', [HomeController::class, 'singleProductView'])->name('user.single.product');
-
-Route::get('/about-us',  [HomeController::class, 'aboutUs'])->name('user.about.us');
-
 Route::get('/cart', function () {
     return view('user.cart');
 })->name('user.cart');
-
-// Route::get('/contact-us', [HomeController::class, 'contactUs'])->name('user.contact.us');
-
 Route::get('/events', [HomeController::class, 'events'])->name('user.event');;
+
+
+
 
 Route::middleware('isCustomerAuth:customer')->group(function () {
     Route::get('/dashboard', function () {
@@ -63,25 +61,17 @@ Route::middleware('isCustomerAuth:customer')->group(function () {
     })->name('user.dashboard');
 
     Route::get('/product-categories', [UserShopController::class, 'productShop'])->name('user.product.category');
-
     Route::get('/maincart', [CartController::class, 'viewCartItems'])->name('user.maincart');
-
     Route::get('/favourites', [FavouritesController::class, 'favouriteItems'])->name('user.favourites');
-
     Route::get('/account', [UserProfileController::class, 'userProfile'])->name('user.account');
     Route::get('/orders', [EnvoiceController::class, 'ordersList'])->middleware('web');
-
-
     Route::post('/update-account', [UserProfileController::class, 'updateProfile'])->name('user.update.account');
     Route::get('/product-detail-info/{slug}', [UserShopController::class, 'productDetails'])->name('user.product.details');
-
     Route::get('/customer-logout', [UserController::class, 'logout'])->name('customer.logout');
-
     Route::post('/add-enquiry', [EnquiryOrdersController::class, 'addEnquiry'])->name('add.enquiry');
     Route::post('/add-to-cart', [CartController::class, 'addCart'])->name('add.cart');
     Route::post('/remove-cart-item', [CartController::class, 'removeCartItem'])->name('remove.cart.item');
     Route::post('/remove-all-cart-item', [CartController::class, 'allRemoveCartItems'])->name('remove.all.cart.item');
-
 
     // Add to Cart Through API 
     Route::post('/add-to-favourite', [FetchAPIs::class, 'addToFav'])->middleware('web');
@@ -89,21 +79,12 @@ Route::middleware('isCustomerAuth:customer')->group(function () {
 
     // Enquiry 
     Route::get('/product-info/{id}', [EnquiryOrdersController::class, 'productInfo']);
+    Route::put('/update-user-password', [UserController::class, 'updateUserPassword'])->name('update.user.password');
 });
 
 Route::get('/check-auth', function () {
     return response()->json(['isAuthenticated' => Auth::check()]);
 });
-
-
-
-
-
-
-
-
-
-
 
 
 
@@ -117,7 +98,6 @@ Route::get('/admin/signin', function () {
 Route::get('/admin/signup', function () {
     return view('admin.page-register');
 })->name('admin.signup');
-
 Route::post('/register-admin', [UserController::class, 'registerAdminData'])->name('register.admin');
 Route::post('/signin-admin', [UserController::class, 'authAdmin'])->name('auth.admin');
 

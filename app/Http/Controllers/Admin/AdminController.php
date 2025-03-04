@@ -196,6 +196,8 @@ class AdminController extends Controller
             $user->password = $request->new_password;
             $user->save();
 
+            Auth::logout();
+            
             flash()->success('Your Password Has Been Updated.');
             return redirect()->route('admin.dashboard');
         }
