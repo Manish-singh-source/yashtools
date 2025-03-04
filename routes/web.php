@@ -32,7 +32,7 @@ Route::post('contact', [EmailController::class, 'sendContactEmail'])->name('user
 Route::get('/signin', [UserController::class, 'signinView'])->name('signin');
 Route::get('/signup', [UserController::class, 'signupView'])->name('signup');
 Route::post('/register-user', [UserController::class, 'registerData'])->name('register.user');
-Route::post('/signin-user', [UserController::class, 'authUser'])->name('auth.user');
+Route::post('/signin-user', [UserController::class, 'authUser'])->name('auth.user')->middleware('throttle:3,1');
 
 
 Route::get('/privacy-policy', [HomeController::class, 'privacypolicy'])->name('privacy.policy');
@@ -99,7 +99,7 @@ Route::get('/admin/signup', function () {
     return view('admin.page-register');
 })->name('admin.signup');
 Route::post('/register-admin', [UserController::class, 'registerAdminData'])->name('register.admin');
-Route::post('/signin-admin', [UserController::class, 'authAdmin'])->name('auth.admin');
+Route::post('/signin-admin', [UserController::class, 'authAdmin'])->name('auth.admin')->middleware('throttle:3,1');
 
 
 // Admin and Super Admin Routes 
