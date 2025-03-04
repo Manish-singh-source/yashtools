@@ -102,7 +102,12 @@ class EnvoiceController extends Controller
 
         $sortBy = in_array($request->sort_by, ['asc', 'desc']) ? $request->sort_by : 'desc';
         $query->orderBy('updated_at', $sortBy);
-        $products = $query->paginate(5);
+        $products = $query->whereIn('id', function ($query) {
+            $query->selectRaw('MIN(id)')
+                ->from('enquiries')
+                ->groupBy('enquiry_id');
+            })
+            ->orderBy('id', 'desc')->paginate(5);
         
         return response()->json($products);
     }

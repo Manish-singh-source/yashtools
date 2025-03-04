@@ -23,7 +23,7 @@ class EnquiryOrdersController extends Controller
             $query->selectRaw('MIN(id)')
                 ->from('enquiries')
                 ->groupBy('enquiry_id');
-        })
+            })
             ->orderBy('id', 'desc')
             ->with('customer')->get();
 
