@@ -477,7 +477,7 @@ class FetchAPIs extends Controller
         if (!isset($enquiryid)) {
             return response()->json([
                 'status' => false,
-                'message' => 'enquiry ID is required.',
+                'message' => 'Enquiry ID is required.',
             ], 400);
         }
 
@@ -489,15 +489,15 @@ class FetchAPIs extends Controller
         if (!$enquiry) {
             return response()->json([
                 'status' => false,
-                'message' => 'No Product found.',
+                'message' => 'No Enquiry found.',
                 'data' => $enquiry,
             ], 404);
         }
 
-        flash()->success('Added to Favourites Successfully.');
+        flash()->success('Enquiry Status Changed Successfully.');
         return response()->json([
             'status' => $enquiry,
-            'message' => 'Added to Favourites Successfully.',
+            'message' => 'Enquiry Status Changed Successfully.',
         ]);
     }
 }
