@@ -49,8 +49,7 @@
                                             </th>
                                             <th class="align-middle">Enquiry ID </th>
                                             <th class="align-middle">Customer</th>
-                                            <th class="align-middle pr-7">Created Date</th>
-                                            <th class="align-middle pr-7">Updated Date</th>
+                                            <th class="align-middle pr-7">Date</th>
                                             <th class="align-middle text-end">Status</th>
                                             <th class="text-end">Action</th>
                                         </tr>
@@ -76,7 +75,6 @@
                                                 </td>
 
                                                 <td class="py-2">{{ $order->created_at }}</td>
-                                                <td class="py-2">{{ $order->updated_at }}</td>
 
                                                 <td class="py-2 text-end">
                                                     @if ($order->status == 'confirmed')
