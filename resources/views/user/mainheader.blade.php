@@ -18,7 +18,6 @@
     <div class="container-fluid">
         <!-- Hamburger Icon to open the sidebar on mobile -->
 
-
         <!-- Sidebar Menu -->
         <div class="sidebar" id="sidebarMenu">
             <div class="d-flex justify-content-between">
@@ -26,32 +25,33 @@
             </div>
             <div class="text-center">
                 <a href="{{ route('user.dashboard') }}" class="d-block mb-3">
-                    <div class="tagnew">
+                    <div class="tagnew {{ Route::currentRouteName() == 'user.dashboard' ? 'activeTab' : '' }}">
                         <i class="fa fa-home"></i>
                         Home
                     </div>
                 </a>
+                
                 <a href="{{ route('user.product.category') }}" class="d-block mb-3">
-                    <div class="tagnew">
+                    <div class="tagnew {{ Route::currentRouteName() == 'user.product.category' ? 'activeTab' : '' }}">
                         <i class="fa fa-shopping-bag"></i>
                         Products
                     </div>
                 </a>
                 <a href="{{ route('user.maincart') }}" class="d-block mb-3">
-                    <div class="tagnew">
+                    <div class="tagnew {{ Route::currentRouteName() == 'user.maincart' ? 'activeTab' : '' }}">
                         <i class="fa fa-shopping-cart"></i>
                         Cart
                     </div>
                 </a>
 
                 <a href="{{ route('user.favourites') }}">
-                    <div class="tagnew">
+                    <div class="tagnew {{ Route::currentRouteName() == 'user.favourites' ? 'activeTab' : '' }}">
                         <i class="fa fa-heart"></i>
                         Favourites
                     </div>
                 </a>
                 <a href="{{ route('user.account') }}" class="d-block mb-3">
-                    <div class="tagnew">
+                    <div class="tagnew {{ Route::currentRouteName() == 'user.account' ? 'activeTab' : '' }}">
                         <i class="fa fa-user"></i>
                         Orders
                     </div>
@@ -64,32 +64,32 @@
             <div class="col-12 d-none d-md-block">
                 <div class="mainhed">
                     <a href="{{ route('user.dashboard') }}">
-                        <div class="tagnew">
+                        <div class="tagnew {{ Route::currentRouteName() == 'user.dashboard' ? 'activeTab' : '' }}">
                             <i class="fa fa-home"></i>
                             Home
                         </div>
                     </a>
                     <a href="{{ route('user.product.category') }}">
-                        <div class="tagnew">
+                        <div class="tagnew {{ Route::currentRouteName() == 'user.product.category' ? 'activeTab' : '' }}">
                             <i class="fa fa-shopping-bag"></i>
                             Products
                         </div>
                     </a>
                     <a href="{{ route('user.maincart') }}">
-                        <div class="tagnew">
+                        <div class="tagnew {{ Route::currentRouteName() == 'user.maincart' ? 'activeTab' : '' }}">
                             <i class="fa fa-shopping-cart"></i>
                             Cart
                         </div>
                     </a>
 
                     <a href="{{ route('user.favourites') }}">
-                        <div class="tagnew">
+                        <div class="tagnew {{ Route::currentRouteName() == 'user.favourites' ? 'activeTab' : '' }}">
                             <i class="fa fa-heart"></i>
                             Favourites
                         </div>
                     </a>
                     <a href="{{ route('user.account') }}">
-                        <div class="tagnew">
+                        <div class="tagnew {{ Route::currentRouteName() == 'user.account' ? 'activeTab' : '' }}">
                             <i class="fa fa-user"></i>
                             My Account
                         </div>

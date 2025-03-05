@@ -26,6 +26,14 @@
     <link rel="stylesheet" href="{{ asset('assets/css/vendor/base.css') }}">
     <link rel="stylesheet" href="{{ asset('assets/css/style.min.css') }}">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css">
+    <style>
+        .activeTab {
+            background-color: #ffffff !important;
+            transition: background-color 0.5sease;
+            color: #303667;
+            border-radius: 26px;
+        }
+    </style>
     @yield('style')
 </head>
 
