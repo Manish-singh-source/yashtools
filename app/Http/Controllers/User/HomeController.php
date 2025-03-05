@@ -61,6 +61,10 @@ class HomeController extends Controller
         if ($request->has('category') && $request->category != '') {
             $query->whereIn('product_category_id', $request->category);
         }
+        
+        if ($request->has('subcategory') && $request->subcategory != '') {
+            $query->whereIn('product_sub_category_id', $request->subcategory);
+        }
         // Apply brand filter if selected
         if ($request->has('brand') && $request->brand != '') {
             $query->whereIn('product_brand_id', $request->brand);
@@ -91,6 +95,15 @@ class HomeController extends Controller
 
         // Return JSON response
         return response()->json($products);
+    }
+
+    public function subCategoriesFilter(Request $request)
+    {
+        if ($request->has('subcategory') && $request->subcategory != '') {
+            $subcategories = SubCategories::whereIn('category_id', $request->subcategory)->get();
+        }
+        // Return JSON response
+        return response()->json($subcategories);
     }
 
     public function singleProductView(String $slug)

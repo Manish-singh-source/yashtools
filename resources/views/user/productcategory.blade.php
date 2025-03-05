@@ -51,6 +51,14 @@
                                 </ul>
                             </div>
                         </div>
+                        <div class="toggle-list product-categories product-subcategories-section active">
+                            <h6 class="title">SUB CATEGORIES</h6>
+                            <div class="shop-submenu">
+                                <ul id="sub_category_filter">
+
+                                </ul>
+                            </div>
+                        </div>
                         <div class="toggle-list product-categories product-brands-section product-gender active">
                             <h6 class="title">Brand</h6>
                             <div class="shop-submenu">
@@ -127,7 +135,9 @@
             $("#products-section").removeClass("col-lg-12");
             $(".product-categories-section").show();
             $(".product-brands-section").hide();
+            $(".product-subcategories-section").hide();
             $(".product-new-n-sale-section").hide();
+            categoryFilter();
             fetchProducts();
 
             function fetchProducts(page = 1) {
@@ -136,6 +146,10 @@
                 // Get all selected categories
                 let selectedCategories = $("#category_filter li.chosen").map(function() {
                     return $(this).data("categoryid");
+                }).get(); // Convert jQuery object to an array
+                
+                let selectedSubCategories = $("#sub_category_filter li.chosen").map(function() {
+                    return $(this).data("subcategoryid");
                 }).get(); // Convert jQuery object to an array
 
                 // Get all selected categories
@@ -154,6 +168,7 @@
                     data: {
                         sort_by: sortBy,
                         category: selectedCategories,
+                        subcategory: selectedSubCategories,
                         brand: selectedBrand,
                         tags: selectedTags
                     },
@@ -211,10 +226,18 @@
 
             // Sort and Filter Change Events
             $('#sort_by').change(function() {
+                categoryFilter();
                 fetchProducts();
             });
 
             $("#category_filter").on("click", "li", function() {
+                $(this).toggleClass("chosen");
+                $(".product-subcategories-section").toggle();
+                categoryFilter();
+                fetchProducts();
+            });
+            
+            $("#sub_category_filter").on("click", "li", function() {
                 $(this).toggleClass("chosen");
                 fetchProducts();
             });
@@ -241,7 +264,12 @@
             });
 
             function resetFilters() {
+                $(".product-subcategories-section").hide();
                 $("#category_filter li").map((index, element) => {
+                    $(element).removeClass("chosen");
+                });
+                
+                $("#sub_category_filter li").map((index, element) => {
                     $(element).removeClass("chosen");
                 });
 
@@ -258,6 +286,8 @@
                 resetFilters()
             });
 
+
+            // category header tabs logic
             $(document).on("click", ".category-tab-link", function() {
                 // select tab and add active class
                 let tab = $(this).text().trim();
@@ -293,6 +323,29 @@
                     fetchProducts();
                 }
             });
+
+            function categoryFilter() {
+                let subcategories = $("#category_filter li.chosen").map(function() {
+                    return $(this).data("categoryid");
+                }).get(); 
+
+                $.ajax({
+                    url: "/shop-api-category-filter",
+                    type: "GET",
+                    data: {
+                        subcategory: subcategories,
+                    },
+                    success: function(response) {
+                        $('#sub_category_filter').html('');
+                        $.each(response, function(index, product) {
+                            $('#sub_category_filter').append(
+                                `<li data-subcategoryid="${product.id}"><a href="#">${product.sub_category_name}</a></li>`
+                            );
+                        });
+                    }
+                });
+            }
+
         });
     </script>
 @endsection
