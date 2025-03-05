@@ -46,6 +46,7 @@ Route::get('/about-us',  [HomeController::class, 'aboutUs'])->name('user.about.u
 Route::get('/', [HomeController::class, 'homeView'])->name('user.home');
 Route::get('/shop/{category?}', [HomeController::class, 'shopView'])->name('user.shop');
 Route::get('/shop-api', [HomeController::class, 'shopViewAPI'])->name('user.shop.api');
+Route::get('/shop-api-category-filter', [HomeController::class, 'subCategoriesFilter']);
 Route::get('/single-product/{slug}', [HomeController::class, 'singleProductView'])->name('user.single.product');
 Route::get('/cart', function () {
     return view('user.cart');

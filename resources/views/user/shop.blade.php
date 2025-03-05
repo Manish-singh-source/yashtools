@@ -60,6 +60,16 @@
                                     </ul>
                                 </div>
                             </div>
+
+                            <div class="toggle-list product-categories product-subcategories-section active">
+                                <h6 class="title">SUB CATEGORIES</h6>
+                                <div class="shop-submenu">
+                                    <ul id="sub_category_filter">
+
+                                    </ul>
+                                </div>
+                            </div>
+                            
                             <div class="toggle-list product-categories product-gender active">
                                 <h6 class="title">Brand</h6>
                                 <div class="shop-submenu">
@@ -133,6 +143,8 @@
         integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
     <script>
         $(document).ready(function() {
+            $(".product-subcategories-section").hide();
+            categoryFilter();
             fetchProducts();
 
             function fetchProducts(page = 1) {
@@ -141,6 +153,10 @@
                 // Get all selected categories
                 let selectedCategories = $("#category_filter li.chosen").map(function() {
                     return $(this).data("categoryid");
+                }).get(); // Convert jQuery object to an array
+
+                let selectedSubCategories = $("#sub_category_filter li.chosen").map(function() {
+                    return $(this).data("subcategoryid");
                 }).get(); // Convert jQuery object to an array
 
                 // Get all selected categories
@@ -159,6 +175,7 @@
                     data: {
                         sort_by: sortBy,
                         category: selectedCategories,
+                        subcategory: selectedSubCategories,
                         brand: selectedBrand,
                         tags: selectedTags
                     },
@@ -216,10 +233,18 @@
 
             // Sort and Filter Change Events
             $('#sort_by').change(function() {
+                categoryFilter();
                 fetchProducts();
             });
 
             $("#category_filter").on("click", "li", function() {
+                $(this).toggleClass("chosen");
+                $(".product-subcategories-section").toggle();
+                categoryFilter();
+                fetchProducts();
+            });
+
+            $("#sub_category_filter").on("click", "li", function() {
                 $(this).toggleClass("chosen");
                 fetchProducts();
             });
@@ -246,6 +271,7 @@
 
 
             $(document).on('click', '#resetFilters', function() {
+                $(".product-subcategories-section").hide();
                 $("#category_filter li").map((index, element) => {
                     $(element).removeClass("chosen");
                 });
@@ -259,6 +285,29 @@
                 });
                 fetchProducts();
             });
+
+            function categoryFilter() {
+                let subcategories = $("#category_filter li.chosen").map(function() {
+                    return $(this).data("categoryid");
+                }).get(); 
+
+                console.log(subcategories);
+                $.ajax({
+                    url: "/shop-api-category-filter",
+                    type: "GET",
+                    data: {
+                        subcategory: subcategories,
+                    },
+                    success: function(response) {
+                        $('#sub_category_filter').html('');
+                        $.each(response, function(index, product) {
+                            $('#sub_category_filter').append(
+                                `<li data-subcategoryid="${product.id}"><a href="#">${product.sub_category_name}</a></li>`
+                            );
+                        });
+                    }
+                });
+            }
         });
     </script>
 @endsection
