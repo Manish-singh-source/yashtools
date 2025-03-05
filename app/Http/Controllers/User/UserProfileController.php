@@ -26,7 +26,7 @@ class UserProfileController extends Controller
         $validations = Validator::make($request->all(), [
             'userId' => 'required',
             'fullname' => 'required',
-            "username" => "required",
+            "email" => "required|email",
             "company_name" => "required",
             "company_address" => "required",
             "mobile_number" => "required",
@@ -44,6 +44,7 @@ class UserProfileController extends Controller
         $userDetail = User::find($request->userId);
         $userDetail->fullname = $request->fullname;
         $userDetail->username = $request->username;
+        $userDetail->email = $request->email;
         $userDetail->mobile_number = $request->mobile_number;
         $userDetail->save();
 

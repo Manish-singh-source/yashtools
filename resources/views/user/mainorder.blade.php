@@ -165,6 +165,13 @@
                                                                 value="{{ $user->username }}">
                                                         </div>
                                                     </div>
+                                                    <div class="col-lg-6">
+                                                        <div class="form-group">
+                                                            <label>Email</label>
+                                                            <input type="email" class="form-control" name="email"
+                                                                value="{{ $user->email }}">
+                                                        </div>
+                                                    </div>
                                                     <div class="col-md-6 form-group">
                                                         <label>Company Name</label>
                                                         <input type="text" class="form-control"
