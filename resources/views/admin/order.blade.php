@@ -234,9 +234,6 @@
                 let id = parseInt($(this).data('orderid')) || 0;
                 let status = $(this).data('orderstatus') || 0;
 
-                console.log(id);
-                console.log(status);
-
                 $.ajax({
                     url: '/order-status',
                     type: "POST",
