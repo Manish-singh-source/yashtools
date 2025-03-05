@@ -79,7 +79,7 @@ Route::middleware('isCustomerAuth:customer')->group(function () {
     Route::post('/remove-from-favourite', [FetchAPIs::class, 'removeFromFav'])->middleware('web');
 
     // Enquiry 
-    Route::get('/product-info/{id}', [EnquiryOrdersController::class, 'productInfo']);
+    Route::get('/product-info/{id}', [EnquiryOrdersController::class, 'productInfo'])->name('product.info');
     Route::put('/update-user-password', [UserController::class, 'updateUserPassword'])->name('update.user.password');
 });
 

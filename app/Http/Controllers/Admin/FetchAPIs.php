@@ -9,6 +9,7 @@ use App\Models\Banner;
 use App\Models\Enquiry;
 use App\Models\Product;
 use App\Models\Favourite;
+use App\Mail\statusChange;
 use App\Models\Categories;
 use Illuminate\Http\Request;
 use App\Models\SubCategories;
@@ -498,7 +499,8 @@ class FetchAPIs extends Controller
         $user = User::where('id', $enquiry->customer_id)->first();
         $userEmail = $user->email;
 
-        Mail::to($userEmail)->send(new statusChange($user, $enquiry));
+        $enquiryData = Enquiry::where('id', $enquiryid)->first();
+        Mail::to($userEmail)->send(new statusChange($user, $enquiryData));
         
         flash()->success('Enquiry Status Changed Successfully.');
         return response()->json([

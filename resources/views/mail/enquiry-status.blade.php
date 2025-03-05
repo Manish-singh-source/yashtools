@@ -75,8 +75,8 @@
         <div class="content">
             <p>Dear <strong>{{ $user->fullname }}</strong>,</p>
             <p>Your order <strong>#{{ $enquiry->enquiry_id }}</strong> status has been updated.</p>
-            <p class="status {{ status_class }}">{{ $enquiry->status }}</p>
-            <a href="#" class="button">View Order</a>
+            <p class="status">{{ $enquiry->status }}</p>
+            <a href="{{ route('product.info', $enquiry->enquiry_id) }}" class="button">View Order</a>
         </div>
         <div class="footer">
             <p>&copy; 2025 Your Company. All rights reserved.</p>
