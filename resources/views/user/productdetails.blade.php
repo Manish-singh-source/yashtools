@@ -651,6 +651,9 @@
         });
 
         $(document).on("click", "#addEnquiry", function() {
+            var button = $(this).prop("disabled", true);
+            button.find("a").text("Processing...");
+
             let enquiryQuantity = $(".enquiryQuantity").val();
             let productId = $(".productId").val();
             let userId = $(".userId").val();
@@ -684,6 +687,7 @@
                             cartData: cartData
                         },
                         success: function(data) {
+
                             if (data.status) {
                                 console.log(data.status);
                                 console.log(data.message);

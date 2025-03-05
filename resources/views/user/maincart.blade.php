@@ -161,6 +161,9 @@
 
 
         $(document).on("click", "#addEnquiry", function() {
+            var button = $(this).prop("disabled", true);
+            button.find("a").text("Processing...");
+            
             let parentTBody = $(this).closest(".cart-items-list");
             let cartList = $(parentTBody).children();
             let cartData = [];

@@ -83,6 +83,7 @@ class EnquiryOrdersController extends Controller
         Mail::to($adminEmail)->send(new adminEnquiry($productData, $productQuantities, $nextEnquiryId, $user, $partNumber));
         Mail::to($userEmail)->send(new adminEnquiry($productData, $productQuantities, $nextEnquiryId, $user, $partNumber));
         
+        flash()->success('Your enquiry has been successfully submitted.');
         return response()->json([
             'status' => true,
             'message' => 'Your enquiry has been successfully submitted.'
