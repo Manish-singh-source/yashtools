@@ -6,8 +6,8 @@
 
 @section('content-body')
     <!--**********************************
-                                                                                                                                                                                                                                                    Content body start
-                                                                                                                                                                                                                                                ***********************************-->
+                                                                                                                                                                                                                                                                                    Content body start
+                                                                                                                                                                                                                                                                                ***********************************-->
     <div class="content-body">
         <div class="container-fluid">
 
@@ -90,7 +90,7 @@
                                             <label class="form-label">Description</label>
                                             <div id="ckeditor"></div>
                                             <textarea class="form-control @error('product_description') is-invalid @enderror" name="product_description"
-                                                id="editorContent">{{ $selectedProduct->product_discription }}</textarea>
+                                                style="display: none" id="editorContent">{{ $selectedProduct->product_discription }}</textarea>
                                             @error('product_description')
                                                 <div class="invalid-feedback">
                                                     {{ $message }}
@@ -104,43 +104,38 @@
                                         <h4 class="card-title--medium mb-0">Media</h4>
                                     </div>
                                     <div class="card-body">
-                                        <div class="dz-default ic-message upload-img mb-3">
-                                            <div class="dropzone">
-                                                <div class="fallback">
-                                                    <input type="file" accept=".xlsx, .csv, .xls" name="product_specs"
-                                                        multiple id="fileInput">
-                                                    <span id="removeFile"
-                                                        style="cursor: pointer; color: rgb(0, 0, 0); font-weight: bold; margin-left: 10px; display: none;">
-                                                        ❌
-                                                    </span>
-                                                </div>
+                                        <div class="mb-3">
+                                            <h6><i class="fas fa-file-alt"></i> Upload Product Description CSV</h6>
+                                            <div class="d-flex align-items-center justify-content-between">
+                                                <a id="product_specs_preview"
+                                                    href="{{ asset('uploads/products/product_specs/' . $selectedProduct->product_specs) }}"
+                                                    target="_blank" class="text-primary fw-bold">
+                                                    <i class="fas fa-eye"></i> View Catalogue
+                                                </a>
+                                                <input type="file" accept=".xlsx, .csv, .xls" name="product_specs"
+                                                    class="form-control w-50" id="product_specs">
                                             </div>
                                         </div>
-                                        @error('excelFile')
+
+                                        @error('product_specs')
                                             {{ $message }}
                                         @enderror
+
                                     </div>
-
-                                    <script>
-                                        document.getElementById('fileInput').addEventListener('change', function() {
-                                            let removeBtn = document.getElementById('removeFile');
-                                            if (this.files.length > 0) {
-                                                removeBtn.style.display = 'inline'; // Show cross button
-                                            }
-                                        });
-
-                                        document.getElementById('removeFile').addEventListener('click', function() {
-                                            let fileInput = document.getElementById('fileInput');
-                                            fileInput.value = ""; // Clear selected file
-                                            this.style.display = 'none'; // Hide cross button
-                                        });
-                                    </script>
 
                                     <div class="card-body">
                                         <div class="mb-3">
-                                            <label for="formFileMultiple" class="form-label">Upload PDF (Optional)</label>
-                                            <input class="form-control" type="file" id="formFileMultiple"
-                                                name="product_optional_pdf" accept=".png, .jpg, .jpeg, .webp">
+                                            <h6><i class="fas fa-file-alt"></i> Upload PDF (Optional)</h6>
+
+                                            <div class="d-flex align-items-center justify-content-between">
+                                                <a id="product_optional_pdf_preview"
+                                                    href="{{ asset('uploads/products/catalogue/' . $selectedProduct->product_catalouge) }}"
+                                                    target="_blank" class="text-primary fw-bold">
+                                                    <i class="fas fa-eye"></i> View Catalogue
+                                                </a>
+                                                <input class="form-control w-50" type="file" id="product_optional_pdf"
+                                                    name="product_optional_pdf" accept=".pdf">
+                                            </div>
                                         </div>
                                         @error('product_optional_pdf')
                                             {{ $message }}
@@ -154,84 +149,60 @@
                                     </div>
                                     <div class="card">
                                         <div class="card-body">
+
                                             <!-- Upload Catalogue -->
-                                            <div class="mb-3">
-                                                <label for="formFile" class="form-label">Upload Catalogue</label>
-                                                <div class="d-flex align-items-center">
-                                                    <input class="form-control" type="file" id="formFile"
-                                                        name="product_catalogue" accept=".pdf"
-                                                        onchange="showDeleteButton('formFile', 'deleteFileBtn')">
-                                                    <button type="button" class="btn btn-danger ms-2 d-none"
-                                                        id="deleteFileBtn"
-                                                        onclick="removeFile('formFile', 'deleteFileBtn')">&#10006;</button>
+                                            <div class="mb-4 p-3 border rounded ">
+                                                <h6><i class="fas fa-file-alt"></i> Upload Catalogue</h6>
+                                                <div class="d-flex align-items-center justify-content-between">
+                                                    <a id="product_catalogue_preview"
+                                                        href="{{ asset('uploads/products/catalogue/' . $selectedProduct->product_catalouge) }}"
+                                                        target="_blank" class="text-primary fw-bold">
+                                                        <i class="fas fa-eye"></i> View Catalogue
+                                                    </a>
+                                                    <input class="form-control w-50" type="file"
+                                                        id="product_catalogue" name="product_catalogue" accept=".pdf">
                                                 </div>
+                                                @error('product_catalogue')
+                                                    <div class="text-danger mt-2">{{ $message }}</div>
+                                                @enderror
                                             </div>
-                                            @error('product_catalogue')
-                                                <div class="text-danger">{{ $message }}</div>
-                                            @enderror
 
                                             <!-- Upload PDF -->
-                                            <div class="mb-3">
-                                                <label for="formFileMultiple" class="form-label">Upload PDF</label>
-                                                <div class="d-flex align-items-center">
-                                                    <input class="form-control" type="file" id="formFileMultiple"
-                                                        name="product_pdf" accept=".pdf"
-                                                        onchange="showDeleteButton('formFileMultiple', 'deleteFileBtn2')">
-                                                    <button type="button" class="btn btn-danger ms-2 d-none"
-                                                        id="deleteFileBtn2"
-                                                        onclick="removeFile('formFileMultiple', 'deleteFileBtn2')">&#10006;</button>
+                                            <div class="mb-4 p-3 border rounded ">
+                                                <h6><i class="fas fa-file-pdf"></i> Upload PDF</h6>
+                                                <div class="d-flex align-items-center justify-content-between">
+                                                    <a id="product_pdf_preview"
+                                                        href="{{ asset('uploads/products/pdf/' . $selectedProduct->product_pdf) }}"
+                                                        target="_blank" class="text-primary fw-bold">
+                                                        <i class="fas fa-eye"></i> View PDF
+                                                    </a>
+                                                    <input class="form-control w-50" type="file" id="product_pdf"
+                                                        name="product_pdf" accept=".pdf">
                                                 </div>
+                                                @error('product_pdf')
+                                                    <div class="text-danger mt-2">{{ $message }}</div>
+                                                @enderror
                                             </div>
-                                            @error('product_pdf')
-                                                <div class="text-danger">{{ $message }}</div>
-                                            @enderror
 
                                             <!-- Upload Drawing -->
-                                            <div class="mb-3">
-                                                <label for="formFileDisabled" class="form-label">Upload Drawing</label>
-                                                <div class="d-flex align-items-center">
-                                                    <input class="form-control" type="file" id="formFileDisabled"
-                                                        name="product_drawing" accept=".png, .jpg, .jpeg, .webp"
-                                                        onchange="showDeleteButton('formFileDisabled', 'deleteFileBtn3')">
-                                                    <button type="button" class="btn btn-danger ms-2 d-none"
-                                                        id="deleteFileBtn3"
-                                                        onclick="removeFile('formFileDisabled', 'deleteFileBtn3')">&#10006;</button>
+                                            <div class="mb-4 p-3 border rounded ">
+                                                <h6><i class="fas fa-image"></i> Upload Drawing</h6>
+                                                <div class="d-flex align-items-center justify-content-between">
+                                                    <img id="product_drawing_preview"
+                                                        src="{{ asset('uploads/products/drawing/' . $selectedProduct->product_drawing) }}"
+                                                        alt="Drawing Preview" class="rounded shadow-sm"
+                                                        style="width: 100px; height: auto;">
+                                                    <input class="form-control w-50" type="file" id="productDrawing"
+                                                        name="product_drawing" accept=".png, .jpg, .jpeg, .webp">
                                                 </div>
+                                                @error('product_drawing')
+                                                    <div class="text-danger mt-2">{{ $message }}</div>
+                                                @enderror
                                             </div>
-                                            @error('product_drawing')
-                                                <div class="text-danger">{{ $message }}</div>
-                                            @enderror
+
                                         </div>
-
-                                        <script>
-                                            function showDeleteButton(fileInputId, deleteBtnId) {
-                                                let fileInput = document.getElementById(fileInputId);
-                                                let deleteBtn = document.getElementById(deleteBtnId);
-
-                                                // Ensure the button shows only if a file is selected
-                                                if (fileInput && fileInput.files.length > 0) {
-                                                    deleteBtn.classList.remove('d-none');
-                                                } else {
-                                                    deleteBtn.classList.add('d-none');
-                                                }
-                                            }
-
-                                            function removeFile(fileInputId, deleteBtnId) {
-                                                let fileInput = document.getElementById(fileInputId);
-                                                let deleteBtn = document.getElementById(deleteBtnId);
-
-                                                // Reset file input and hide delete button
-                                                if (fileInput) {
-                                                    fileInput.value = "";
-                                                }
-                                                if (deleteBtn) {
-                                                    deleteBtn.classList.add('d-none');
-                                                }
-                                            }
-                                        </script>
-
-
                                     </div>
+
                                 </div>
                             </div>
                             <div class="col-xl-4">
