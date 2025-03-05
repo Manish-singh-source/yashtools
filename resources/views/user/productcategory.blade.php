@@ -313,13 +313,13 @@
                     resetFilters()
                     $("#filter-section").hide()
                     $("#products-section").addClass("col-lg-12");
-                    $("#tags_filter").children("[data-tagid='new']").addClass("chosen");
+                    $("#tags_filter").children("[data-tagid='offer']").addClass("chosen");
                     fetchProducts();
                 } else if (tab == 'New Products') {
                     resetFilters()
                     $("#products-section").addClass("col-lg-12");
                     $("#filter-section").hide()
-                    $("#tags_filter").children("[data-tagid='offer']").addClass("chosen");
+                    $("#tags_filter").children("[data-tagid='new']").addClass("chosen");
                     fetchProducts();
                 }
             });

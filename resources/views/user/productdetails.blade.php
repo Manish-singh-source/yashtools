@@ -651,14 +651,17 @@
         });
 
         $(document).on("click", "#addEnquiry", function() {
-            var button = $(this).prop("disabled", true);
-            button.find("a").text("Processing...");
+
 
             let enquiryQuantity = $(".enquiryQuantity").val();
             let productId = $(".productId").val();
             let userId = $(".userId").val();
             let partNumber = $(".dropdown-selected").text();
-
+            if (partNumber.trim() == 'Select Part Number') {
+                if (confirm('Please Select Part Number')) {
+                    return;
+                }
+            }
             let cartData = [];
 
             cartData.push({
@@ -667,6 +670,9 @@
                 enquiryQuantity: enquiryQuantity,
                 partNumber: partNumber,
             });
+
+            var button = $(this).prop("disabled", true);
+            button.find("a").text("Processing...");
 
             $.ajax({
                 url: "/check-auth", // Check if the user is logged in

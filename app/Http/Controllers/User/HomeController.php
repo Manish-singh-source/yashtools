@@ -61,7 +61,7 @@ class HomeController extends Controller
         if ($request->has('category') && $request->category != '') {
             $query->whereIn('product_category_id', $request->category);
         }
-        
+
         if ($request->has('subcategory') && $request->subcategory != '') {
             $query->whereIn('product_sub_category_id', $request->subcategory);
         }
@@ -75,7 +75,9 @@ class HomeController extends Controller
             if (in_array('new', $request->tags)) {
                 $query->where('product_arrivals', 'new');
             }
+        }
 
+        if ($request->has('tags') && !empty($request->tags)) {
             if (in_array('offer', $request->tags)) {
                 $query->where('product_sale', 'offer');
             }
