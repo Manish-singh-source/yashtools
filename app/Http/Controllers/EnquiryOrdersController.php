@@ -11,7 +11,10 @@ use Illuminate\Support\Carbon;
 use App\Models\EnquiryProducts;
 use Illuminate\Support\Facades\DB;
 use App\Http\Controllers\Controller;
+use App\Mail\adminEnquiry;
+use App\Models\Product;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Mail;
 
 class EnquiryOrdersController extends Controller
 {
@@ -46,6 +49,8 @@ class EnquiryOrdersController extends Controller
         $lastEnquiry = Enquiry::orderBy('id', 'desc')->first();
         $nextEnquiryId = $lastEnquiry ? $lastEnquiry->enquiry_id + 1 : 90000;
 
+        $productIds = [];
+        $productQuantities = [];
         foreach ($cartData as $item) {
             // Handle Part Number
             $partNumber = $item['partNumber'] == 'Select Part Number' ? null : $item['partNumber'];
@@ -64,10 +69,20 @@ class EnquiryOrdersController extends Controller
                 'product_id' => $item['productId']
             ]);
 
+            array_push($productIds, $item['productId']);
+            array_push($productQuantities, $item['enquiryQuantity']);
             // Remove from Cart
             Cart::where('user_id', Auth::id())->where('product_id', $item['productId'])->delete();
         }
+        
+        $productData = Product::whereIn('id', $productIds)->get();
+        $user = User::where('id', Auth::id())->first();
+        $adminEmail = "pradnya@technofra.com";
+        $userEmail = $user->email;
 
+        Mail::to($adminEmail)->send(new adminEnquiry($productData, $productQuantities, $nextEnquiryId, $user, $partNumber));
+        Mail::to($userEmail)->send(new adminEnquiry($productData, $productQuantities, $nextEnquiryId, $user, $partNumber));
+        
         return response()->json([
             'status' => true,
             'message' => 'Your enquiry has been successfully submitted.'
