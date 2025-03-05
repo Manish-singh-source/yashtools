@@ -6,6 +6,7 @@ use App\Models\User;
 use App\Models\Brand;
 use App\Models\Event;
 use App\Models\Banner;
+use App\Models\Enquiry;
 use App\Models\Product;
 use App\Models\Favourite;
 use App\Models\Categories;
@@ -13,8 +14,8 @@ use Illuminate\Http\Request;
 use App\Models\SubCategories;
 use Flasher\Prime\FlasherInterface;
 use App\Http\Controllers\Controller;
-use App\Models\Enquiry;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Mail;
 
 class FetchAPIs extends Controller
 {
@@ -494,6 +495,11 @@ class FetchAPIs extends Controller
             ], 404);
         }
 
+        $user = User::where('id', $enquiry->customer_id)->first();
+        $userEmail = $user->email;
+
+        Mail::to($userEmail)->send(new statusChange($user, $enquiry));
+        
         flash()->success('Enquiry Status Changed Successfully.');
         return response()->json([
             'status' => $enquiry,
