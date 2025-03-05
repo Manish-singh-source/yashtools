@@ -222,6 +222,13 @@
             border-color: #007bff;
             /* Focus border color */
         }
+
+        .single-product-content .inner .product-variation .title1 {
+            font-weight: 500;
+            font-size: 20px;
+            margin-bottom: 0;
+            min-width: 70px;
+        }
     </style>
 @endsection
 
@@ -286,7 +293,8 @@
                                     </ul>
                                     @if ($selectedProduct->product_sale != null)
                                         <div class="product-variation quantity-variant-wrapper margbot">
-                                            <h6 class="title">Price</h6>₹{{ $selectedProduct->product_price }}
+                                            <h6 class="title1">Price :</h6><span
+                                                class="spnc">₹{{ $selectedProduct->product_price }}</span>
                                         </div>
                                     @endif
                                     <h6 class="title margbot">Days to Dispatch :<span class="spnc">

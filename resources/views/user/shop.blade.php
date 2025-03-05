@@ -69,7 +69,7 @@
                                     </ul>
                                 </div>
                             </div>
-                            
+
                             <div class="toggle-list product-categories product-gender active">
                                 <h6 class="title">Brand</h6>
                                 <div class="shop-submenu">
@@ -239,7 +239,11 @@
 
             $("#category_filter").on("click", "li", function() {
                 $(this).toggleClass("chosen");
-                $(".product-subcategories-section").toggle();
+                if ($(this).find('chosen')) {
+                    $(".product-subcategories-section").show();
+                } else {
+                    $(".product-subcategories-section").show();
+                }
                 categoryFilter();
                 fetchProducts();
             });
@@ -276,6 +280,10 @@
                     $(element).removeClass("chosen");
                 });
 
+                $("#sub_category_filter li").map((index, element) => {
+                    $(element).removeClass("chosen");
+                });
+
                 $("#brand_filter li").map((index, element) => {
                     $(element).removeClass("chosen");
                 });
@@ -289,9 +297,16 @@
             function categoryFilter() {
                 let subcategories = $("#category_filter li.chosen").map(function() {
                     return $(this).data("categoryid");
-                }).get(); 
+                }).get();
 
-                console.log(subcategories);
+                if (subcategories.length === 0) {
+                    $("#sub_category_filter li").map((index, element) => {
+                        $(element).removeClass("chosen");
+                    });
+                    $(".product-subcategories-section").hide();
+                }
+
+                console.log(subcategories.length === 0);
                 $.ajax({
                     url: "/shop-api-category-filter",
                     type: "GET",

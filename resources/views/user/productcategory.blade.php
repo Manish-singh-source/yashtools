@@ -147,7 +147,7 @@
                 let selectedCategories = $("#category_filter li.chosen").map(function() {
                     return $(this).data("categoryid");
                 }).get(); // Convert jQuery object to an array
-                
+
                 let selectedSubCategories = $("#sub_category_filter li.chosen").map(function() {
                     return $(this).data("subcategoryid");
                 }).get(); // Convert jQuery object to an array
@@ -232,11 +232,11 @@
 
             $("#category_filter").on("click", "li", function() {
                 $(this).toggleClass("chosen");
-                $(".product-subcategories-section").toggle();
+                $(".product-subcategories-section").show();
                 categoryFilter();
                 fetchProducts();
             });
-            
+
             $("#sub_category_filter").on("click", "li", function() {
                 $(this).toggleClass("chosen");
                 fetchProducts();
@@ -268,7 +268,7 @@
                 $("#category_filter li").map((index, element) => {
                     $(element).removeClass("chosen");
                 });
-                
+
                 $("#sub_category_filter li").map((index, element) => {
                     $(element).removeClass("chosen");
                 });
@@ -327,7 +327,16 @@
             function categoryFilter() {
                 let subcategories = $("#category_filter li.chosen").map(function() {
                     return $(this).data("categoryid");
-                }).get(); 
+                }).get();
+
+                if (subcategories.length === 0) {
+                    $("#sub_category_filter li").map((index, element) => {
+                        $(element).removeClass("chosen");
+                    });
+                    $(".product-subcategories-section").hide();
+                }
+
+                console.log(subcategories.length === 0);
 
                 $.ajax({
                     url: "/shop-api-category-filter",
