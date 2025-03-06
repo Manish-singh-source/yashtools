@@ -630,7 +630,7 @@
                     if (!response.isAuthenticated) {
                         $("#showError").show();
                         $("#showError").html(
-                            "Please <a href='/signin'>register</a> to add Product to favourites"
+                            "Please <a href='/signup'>register</a>/<a href='/signin'>login</a> to add Product to favourites"
                         ); // Show login popup
                         return;
                     }
