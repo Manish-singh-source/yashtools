@@ -234,7 +234,7 @@ class UserController extends Controller
         ]);
 
         $user = User::where('password_reset_token', $request->token)->first();
-
+        $userRole = $user->role;
         if (!$user) {
             return back()->withErrors(['error' => 'Invalid or expired token.']);
         }
@@ -244,9 +244,10 @@ class UserController extends Controller
         $user->save();
 
         flash()->success('Password updated successfully! You can now log in.');
-        if($user->role == 'admin') {
+        if($userRole == 'admin' || $userRole == 'superadmin') {
             return redirect()->route('admin.signin')->with('message', 'Password updated successfully! You can now log in.');
+        }elseif($userRole == 'customer') {
+            return redirect()->route('signin')->with('message', 'Password updated successfully! You can now log in.');
         }
-        return redirect()->route('signin')->with('message', 'Password updated successfully! You can now log in.');
     }
 }
