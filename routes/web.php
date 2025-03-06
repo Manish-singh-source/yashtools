@@ -23,6 +23,7 @@ use App\Http\Controllers\User\UserProfileController;
 use App\Http\Controllers\Admin\SubCategoryController;
 
 // user contact related routes
+Route::post('/newsletter', [EmailController::class, 'sendNewsletter'])->name('Newsletter.store');
 Route::get('send-email', [EmailController::class, 'sendEmail']);
 Route::get('contact', [EmailController::class, 'contactForm'])->name('user.contact.us');
 Route::post('contact', [EmailController::class, 'sendContactEmail'])->name('user.contact.store');
