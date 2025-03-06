@@ -7,6 +7,7 @@ use App\Mail\contactEmail;
 use App\Mail\welcomeemail;
 use App\Models\Categories;
 use App\Mail\feedbackEmail;
+use App\Mail\newsletter;
 use Illuminate\Http\Request;
 use App\Models\SubCategories;
 use Illuminate\Support\Facades\Mail;
@@ -63,6 +64,23 @@ class EmailController extends Controller
             $userEmail = $request->email;
         $response = Mail::to($adminEmail)->send(new feedbackEmail($request->all()));
         $userresponse = Mail::to($userEmail)->send(new welcomeemail("Subject",$request->name));
+
+        if($response){
+            return redirect()->back()->with('success', 'Email has been sent successfully');
+        }else{
+            return redirect()->back()->with('error', 'Email has not been sent');
+        }
+        
+    }
+    public function sendNewsletter(Request $request){
+      
+        $request->validate([
+            'email' => 'required|email'
+        ]);
+            $adminEmail = "pradnya@technofra.com";
+            $userEmail = $request->email;
+        $response = Mail::to($adminEmail)->send(new newsletter($request->all()));
+       Mail::to($userEmail)->send(new welcomeemail("Subject",$request->name));
 
         if($response){
             return redirect()->back()->with('success', 'Email has been sent successfully');
