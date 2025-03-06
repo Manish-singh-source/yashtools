@@ -32,11 +32,13 @@
                                     <h3 class="title">Forgot Password?</h3>
                                     <p class="b2 mb--55">Enter the email address you used when you joined and we’ll send you
                                         instructions to reset your password.</p>
-                                    <form class="singin-form">
+                                    <form class="singin-form" action="{{ route('user.reset.pass.link') }}" method="POST">
+                                        @csrf
+                                        @method('POST')
                                         <div class="form-group">
                                             <label>Email</label>
                                             <input type="email" class="form-control" name="email"
-                                                value="annie@example.com">
+                                                placeholder="Enter Your E-mail">
                                         </div>
                                         <div class="form-group">
                                             <button type="submit" class="axil-btn btn-bg-primary submit-btn">Send Reset

@@ -204,4 +204,8 @@ class AdminController extends Controller
 
         return back()->with('error', 'Please enter correct password');
     }
+
+    public function adminForgotPassword() {
+        return view('admin.page-forgot-password');
+    }
 }
