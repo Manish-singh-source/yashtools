@@ -35,7 +35,7 @@ Route::get('/signup', [UserController::class, 'signupView'])->name('signup');
 Route::post('/register-user', [UserController::class, 'registerData'])->name('register.user');
 Route::post('/signin-user', [UserController::class, 'authUser'])->name('auth.user')->middleware('throttle:3,1');
 
-// User Forgot Password
+// User/admin/superadmin Forgot Password
 Route::get('/forgot-password', [UserController::class, 'forgotPassword'])->name('user.forgot.password');
 Route::get('/admin-forgot-password', [AdminController::class, 'adminForgotPassword'])->name('admin.forgot.password');
 Route::post('/forgot-password', [UserController::class, 'sendResetLink'])->name('user.reset.pass.link');

@@ -98,11 +98,11 @@
                                     </div>
                                     <div class="form-row d-flex justify-content-between mt-4 mb-2">
                                         <div class="mb-3">
-                                            <div class="form-check custom-checkbox ms-1">
-                                                <input type="checkbox" class="form-check-input" id="basic_checkbox_1">
+                                            {{-- <div class="form-check custom-checkbox ms-1">
+                                                <input type="checkbox" name="remember" class="form-check-input" id="basic_checkbox_1">
                                                 <label class="form-check-label" for="basic_checkbox_1">Remember my
                                                     preference</label>
-                                            </div>
+                                            </div> --}}
                                         </div>
                                         <div class="mb-3">
                                             <a href="{{ route('admin.forgot.password') }}">Forgot Password?</a>

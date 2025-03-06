@@ -141,7 +141,9 @@ class UserController extends Controller
             return back()->withErrors($validations)->withInput();
         }
 
-        if (Auth::attempt(['email' => $request->email, 'password' => $request->password])) {
+        $remember = $request->has('remember'); // Check if "Remember Me" is checked
+
+        if (Auth::attempt(['email' => $request->email, 'password' => $request->password], $remember)) {
             return redirect()->route('admin.dashboard');
         }
 
@@ -180,9 +182,13 @@ class UserController extends Controller
     {
         if (Auth::user()->role === 'superadmin') {
             Auth::logout();
+            session()->invalidate();
+            session()->regenerateToken();
             return redirect()->route('admin.signin');
         } else if (Auth::user()->role === 'admin') {
             Auth::logout();
+            session()->invalidate();
+            session()->regenerateToken();
             return redirect()->route('admin.signin');
         } else if (Auth::user()->role === 'customer') {
             Auth::logout();
@@ -206,6 +212,9 @@ class UserController extends Controller
         $token = Str::random(64);
 
         $user = User::where('email', $request->email)->first();
+        if(!$user) {
+            return back()->withErrors(['error' => 'Invalid Email Address.']);
+        }
         $user->password_reset_token = $token;
         $user->save();
 
@@ -244,9 +253,9 @@ class UserController extends Controller
         $user->save();
 
         flash()->success('Password updated successfully! You can now log in.');
-        if($userRole == 'admin' || $userRole == 'superadmin') {
+        if ($userRole == 'admin' || $userRole == 'superadmin') {
             return redirect()->route('admin.signin')->with('message', 'Password updated successfully! You can now log in.');
-        }elseif($userRole == 'customer') {
+        } elseif ($userRole == 'customer') {
             return redirect()->route('signin')->with('message', 'Password updated successfully! You can now log in.');
         }
     }
