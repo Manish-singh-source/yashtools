@@ -632,7 +632,9 @@
 
         <div class="axil-categorie-area statistic-section bg-color-white pb--0">
             <div class="container">
-                <div class="">
+                <form action="{{ route('Newsletter.store') }}" method="POST">
+                    @csrf
+                    @method('POST')
                     <div class="etrade-newsletter-wrapper bg_image ">
                         <!-- <div class="newsletter-content">
                                                                                                                 <span class="title-highlighter highlighter-primary2">Newsletter</span> -->
@@ -640,12 +642,12 @@
                         <h2 class="title mb--40 mb_sm--30">Subscribe to Stay Updated</h2>
                         <div class="input-group newsletter-form">
                             <div class="position-relative newsletter-inner mb--15">
-                                <input placeholder="example@gmail.com" type="text">
+                                <input placeholder="example@gmail.com" type="email" name="email">
                             </div>
                             <button type="submit" class="axil-btn mb--15">Subscribe</button>
                         </div>
                     </div>
-                </div>
+                </form>
             </div>
         </div>
         <!-- Start Axil Newsletter Area  -->
