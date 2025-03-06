@@ -34,7 +34,15 @@ Route::get('/signup', [UserController::class, 'signupView'])->name('signup');
 Route::post('/register-user', [UserController::class, 'registerData'])->name('register.user');
 Route::post('/signin-user', [UserController::class, 'authUser'])->name('auth.user')->middleware('throttle:3,1');
 
+// User Forgot Password
+Route::get('/forgot-password', [UserController::class, 'forgotPassword'])->name('user.forgot.password');
+Route::get('/admin-forgot-password', [AdminController::class, 'adminForgotPassword'])->name('admin.forgot.password');
+Route::post('/forgot-password', [UserController::class, 'sendResetLink'])->name('user.reset.pass.link');
+Route::get('/reset-password', [UserController::class, 'resetPassword'])->name('password.reset');
+Route::post('/update-password', [UserController::class, 'updatePassword'])->name('password.update');
 
+
+// User Normal Pages
 Route::get('/privacy-policy', [HomeController::class, 'privacypolicy'])->name('privacy.policy');
 Route::get('/terms-conditions', [HomeController::class, 'termsconditions'])->name('terms.conditions');
 Route::get('/faq', [HomeController::class, 'faq'])->name('faq');

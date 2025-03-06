@@ -105,7 +105,7 @@
                                             </div>
                                         </div>
                                         <div class="mb-3">
-                                            <a href="page-forgot-password.php">Forgot Password?</a>
+                                            <a href="{{ route('admin.forgot.password') }}">Forgot Password?</a>
                                         </div>
                                     </div>
                                     <div class="text-center">

@@ -4,14 +4,16 @@ namespace App\Http\Controllers;
 
 use App\Models\User;
 use App\Models\Brand;
+use App\Mail\welcomeemail;
 use App\Models\Categories;
 use App\Models\UserDetail;
 use App\Models\Userdetails;
+use Illuminate\Support\Str;
 use Illuminate\Http\Request;
 use App\Models\SubCategories;
+use App\Mail\ResetPasswordMail;
 use Flasher\Prime\FlasherInterface;
 use Illuminate\Support\Facades\Auth;
-use App\Mail\welcomeemail;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Validator;
 
@@ -166,7 +168,7 @@ class UserController extends Controller
             $user->save();
 
             Auth::logout();
-            
+
             flash()->success('Your Password Has Been Updated.');
             return redirect()->route('user.dashboard');
         }
@@ -186,5 +188,65 @@ class UserController extends Controller
             Auth::logout();
             return redirect()->route('signin');
         }
+    }
+
+
+    public function forgotPassword()
+    {
+        $categories = Categories::orderby('updated_at', 'desc')->limit(8)->get();
+        $subcategories = SubCategories::orderby('updated_at', 'desc')->limit(8)->get();
+        $brands = Brand::orderby('updated_at', 'desc')->limit(8)->get();
+        return view('user.forgot-password', compact('categories', 'brands', 'subcategories'));
+    }
+
+    public function sendResetLink(Request $request)
+    {
+        $request->validate(['email' => 'required|email']);
+
+        $token = Str::random(64);
+
+        $user = User::where('email', $request->email)->first();
+        $user->password_reset_token = $token;
+        $user->save();
+
+        $mail = Mail::to($request->email)->send(new ResetPasswordMail($token));
+
+        if ($mail) {
+            flash()->success('Password reset link sent to email.');
+            return redirect()->back()->with('message', 'Password reset link sent to email.');
+        } else {
+            flash()->error('Something Wrong Happened.');
+            return redirect()->back()->with('message', 'Something Wrong Happened.');
+        }
+    }
+
+    public function resetPassword(Request $request)
+    {
+        $token = $request->token;
+        return view('user.reset-password', compact('token'));
+    }
+
+    public function updatePassword(Request $request)
+    {
+        $request->validate([
+            'password' => 'required|min:6|confirmed',
+            'token' => 'required'
+        ]);
+
+        $user = User::where('password_reset_token', $request->token)->first();
+
+        if (!$user) {
+            return back()->withErrors(['error' => 'Invalid or expired token.']);
+        }
+
+        $user->password = $request->password;
+        $user->password_reset_token = null;
+        $user->save();
+
+        flash()->success('Password updated successfully! You can now log in.');
+        if($user->role == 'admin') {
+            return redirect()->route('admin.signin')->with('message', 'Password updated successfully! You can now log in.');
+        }
+        return redirect()->route('signin')->with('message', 'Password updated successfully! You can now log in.');
     }
 }
