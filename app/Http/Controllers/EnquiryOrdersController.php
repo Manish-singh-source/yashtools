@@ -5,16 +5,17 @@ namespace App\Http\Controllers;
 use App\Models\Cart;
 use App\Models\User;
 use App\Models\Enquiry;
+use App\Models\Product;
+use App\Mail\adminEnquiry;
 use App\Models\OrdersTrack;
 use Illuminate\Http\Request;
 use Illuminate\Support\Carbon;
 use App\Models\EnquiryProducts;
 use Illuminate\Support\Facades\DB;
 use App\Http\Controllers\Controller;
-use App\Mail\adminEnquiry;
-use App\Models\Product;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Mail;
+use App\Notifications\EnquiryNotification;
 
 class EnquiryOrdersController extends Controller
 {
@@ -83,6 +84,12 @@ class EnquiryOrdersController extends Controller
         Mail::to($adminEmail)->send(new adminEnquiry($productData, $productQuantities, $nextEnquiryId, $user, $partNumber));
         Mail::to($userEmail)->send(new adminEnquiry($productData, $productQuantities, $nextEnquiryId, $user, $partNumber));
         
+        $orderDetails = [
+            'order_id' => $nextEnquiryId, // Random order ID
+        ];
+
+        $user->notify(new EnquiryNotification($orderDetails));
+
         flash()->success('Your enquiry has been successfully submitted.');
         return response()->json([
             'status' => true,

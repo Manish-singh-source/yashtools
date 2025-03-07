@@ -2,6 +2,7 @@
 
 use App\Http\Middleware\AdminAuthMiddleware;
 use App\Http\Middleware\CustomerAuthMiddleware;
+use App\Http\Middleware\ShareUserData;
 use App\Http\Middleware\SuperAdminMiddleware;
 use Illuminate\Foundation\Application;
 use Illuminate\Foundation\Configuration\Exceptions;
@@ -19,6 +20,7 @@ return Application::configure(basePath: dirname(__DIR__))
             'isAdminAuth' => AdminAuthMiddleware::class,
             'isSuperAdminAuth' => SuperAdminMiddleware::class,
             'isCustomerAuth' => CustomerAuthMiddleware::class,
+            'shareUserNNotify' => ShareUserData::class,
         ]);
     })
     ->withExceptions(function (Exceptions $exceptions) {

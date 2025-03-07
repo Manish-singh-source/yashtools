@@ -3,14 +3,15 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Models\User;
-use Illuminate\Http\Request;
-use App\Http\Controllers\Controller;
 use App\Models\Enquiry;
+use Illuminate\Http\Request;
 use App\Models\EnquiryProducts;
+use Illuminate\Support\Facades\DB;
+use Flasher\Prime\FlasherInterface;
+use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Validator;
-use Flasher\Prime\FlasherInterface;
 
 class AdminController extends Controller
 {
@@ -19,7 +20,21 @@ class AdminController extends Controller
         $totalCustomers = User::where('role', 'customer')->count();
         $totalEnquiries = Enquiry::count();
         $totalOrders = EnquiryProducts::count();
+        // $notifications = DB::table('notifications')->orderBy('created_at', 'desc')->get();
+        // dd($notifications);
         return view('admin.index', compact('totalCustomers', 'totalEnquiries', 'totalOrders'));
+    }
+
+    public function markAsRead($id)
+    {
+        $notification = DB::table('notifications')->where('id', $id)->first();
+
+        if ($notification) {
+            DB::table('notifications')->where('id', $id)->update(['read_at' => now()]);
+            return response()->json(['success' => true, 'message' => 'Notification marked as read']);
+        }
+
+        return response()->json(['success' => false, 'message' => 'Notification not found'], 404);
     }
 
     public function viewAdmin()
@@ -149,7 +164,7 @@ class AdminController extends Controller
         if (!empty($user->profile)) {
             File::delete(public_path('/uploads/profile/' . $user->profile));
         }
-        
+
         if (!empty($request->fullname)) {
             $user->fullname = $request->fullname;
         }
@@ -197,7 +212,7 @@ class AdminController extends Controller
             $user->save();
 
             Auth::logout();
-            
+
             flash()->success('Your Password Has Been Updated.');
             return redirect()->route('admin.dashboard');
         }
@@ -205,7 +220,8 @@ class AdminController extends Controller
         return back()->with('error', 'Please enter correct password');
     }
 
-    public function adminForgotPassword() {
+    public function adminForgotPassword()
+    {
         return view('admin.page-forgot-password');
     }
 }
