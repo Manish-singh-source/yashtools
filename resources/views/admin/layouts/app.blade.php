@@ -184,76 +184,42 @@
                                 </a>
                                 <div class="dropdown-menu dropdown-menu-end">
                                     <div id="DZ_W_Notification1" class="widget-media ic-scroll p-3"
-                                        style="height:380px;">
+                                        style="height:auto;">
                                         <ul class="timeline">
-                                            <li>
-                                                <div class="timeline-panel">
-                                                    <div class="media me-2">
-                                                        <img alt="image" width="50"
-                                                            src="admin\assets/images/avatar/1.jpg">
-                                                    </div>
-                                                    <div class="media-body">
-                                                        <h6 class="mb-1">Dr sultads Send you Photo</h6>
-                                                        <small class="d-block">29 July 2020 - 02:26 PM</small>
-                                                    </div>
-                                                </div>
-                                            </li>
-                                            <li>
-                                                <div class="timeline-panel">
-                                                    <div class="media me-2 media-info">
-                                                        KG
-                                                    </div>
-                                                    <div class="media-body">
-                                                        <h6 class="mb-1">Resport created successfully</h6>
-                                                        <small class="d-block">29 July 2020 - 02:26 PM</small>
-                                                    </div>
-                                                </div>
-                                            </li>
-                                            <li>
-                                                <div class="timeline-panel">
-                                                    <div class="media me-2 media-success">
-                                                        <i class="fa fa-home"></i>
-                                                    </div>
-                                                    <div class="media-body">
-                                                        <h6 class="mb-1">Reminder : Treatment Time!</h6>
-                                                        <small class="d-block">29 July 2020 - 02:26 PM</small>
-                                                    </div>
-                                                </div>
-                                            </li>
-                                            <li>
-                                                <div class="timeline-panel">
-                                                    <div class="media me-2">
-                                                        <img alt="image" width="50"
-                                                            src="assets/images/avatar/1.jpg">
-                                                    </div>
-                                                    <div class="media-body">
-                                                        <h6 class="mb-1">Dr sultads Send you Photo</h6>
-                                                        <small class="d-block">29 July 2020 - 02:26 PM</small>
-                                                    </div>
-                                                </div>
-                                            </li>
-                                            <li>
-                                                <div class="timeline-panel">
-                                                    <div class="media me-2 media-danger">
-                                                        KG
-                                                    </div>
-                                                    <div class="media-body">
-                                                        <h6 class="mb-1">Resport created successfully</h6>
-                                                        <small class="d-block">29 July 2020 - 02:26 PM</small>
-                                                    </div>
-                                                </div>
-                                            </li>
-                                            <li>
-                                                <div class="timeline-panel">
-                                                    <div class="media me-2 media-primary">
-                                                        <i class="fa fa-home"></i>
-                                                    </div>
-                                                    <div class="media-body">
-                                                        <h6 class="mb-1">Reminder : Treatment Time!</h6>
-                                                        <small class="d-block">29 July 2020 - 02:26 PM</small>
-                                                    </div>
-                                                </div>
-                                            </li>
+                                            @forelse ($notifications as $index => $notification)
+                                                <li class="d-flex align-items-start mb-3"
+                                                    id="notification-{{ $notification->id }}">
+                                                    <a href="javascript:void(0)"
+                                                        class="timeline-panel p-3 border rounded shadow-sm bg-light mark-as-read"
+                                                        data-id="{{ $notification->id }}">
+                                                        <div class="media-body">
+                                                            <h6 class="mb-1 text-primary">
+                                                                <i class="fas fa-user-circle"></i>
+                                                                {{ $notification->fullname ?? 'No Name' }}
+                                                            </h6>
+                                                            <p class="mb-1 text-muted">
+                                                                <i class="fas fa-envelope"></i>
+                                                                {{ $notification->email ?? 'No Email' }}
+                                                            </p>
+                                                            <p class="mb-1 font-weight-bold">
+                                                                <i class="fas fa-box"></i> Order ID:
+                                                                {{ json_decode($notification->data)->order_id ?? 'N/A' }}
+                                                            </p>
+                                                            <p class="mb-2 text-dark">
+                                                                <i class="fas fa-bell"></i>
+                                                                {{ json_decode($notification->data)->message ?? 'No Message' }}
+                                                            </p>
+                                                            <small class="d-block text-muted">
+                                                                <i class="far fa-clock"></i>
+                                                                {{ \Carbon\Carbon::parse($notification->created_at)->format('d M Y, h:i A') }}
+                                                            </small>
+                                                        </div>
+                                                    </a>
+                                                </li>
+                                            @empty
+                                                <li class="text-center text-muted">No new notifications</li>
+                                            @endforelse
+
                                         </ul>
                                     </div>
                                     <a class="all-notification" href="javascript:void(0);">See all notifications <i
@@ -487,7 +453,7 @@
         var asset_url = "{{ asset('admin/assets/') }}"; // Ensure proper asset path
     </script>
     <!-- CKEditor -->
-    
+
     <script src="{{ asset('admin/assets/vendor/ckeditor/ckeditor.js') }}"></script>
     {{-- <script src="https://cdn.ckeditor.com/ckeditor5/35.3/classic/ckeditor.js"></script> --}}
     @yield('scripts')
@@ -570,7 +536,32 @@
         });
     </script>
 
+    <script>
+        $(document).ready(function() {
+            $('.mark-as-read').click(function() {
+                var notificationId = $(this).data('id');
+                var notificationElement = $('#notification-' + notificationId);
 
+                $.ajax({
+                    url: '/notifications/read/' + notificationId,
+                    type: 'POST',
+                    data: {
+                        _token: '{{ csrf_token() }}' // Laravel CSRF protection
+                    },
+                    success: function(response) {
+                        if (response.success) {
+                            notificationElement.fadeOut('slow', function() {
+                                $(this).remove();
+                            });
+                        }
+                    },
+                    error: function(xhr) {
+                        alert('Error marking notification as read.');
+                    }
+                });
+            });
+        });
+    </script>
 </body>
 
 </html>

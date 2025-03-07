@@ -27,7 +27,7 @@ Route::post('/newsletter', [EmailController::class, 'sendNewsletter'])->name('Ne
 Route::get('send-email', [EmailController::class, 'sendEmail']);
 Route::get('contact', [EmailController::class, 'contactForm'])->name('user.contact.us');
 Route::post('contact', [EmailController::class, 'sendContactEmail'])->name('user.contact.store');
-
+Route::post('/notifications/read/{id}', [AdminController::class, 'markAsRead'])->name('notifications.read');
 
 // user routes: Authentication 
 Route::get('/signin', [UserController::class, 'signinView'])->name('signin');
@@ -113,7 +113,7 @@ Route::post('/signin-admin', [UserController::class, 'authAdmin'])->name('auth.a
 
 
 // Admin and Super Admin Routes 
-Route::middleware(AdminAuthMiddleware::class . ':admin,superadmin')->group(function () {
+Route::middleware(AdminAuthMiddleware::class . ':admin,superadmin', 'shareUserNNotify')->group(function () {
     Route::get('/admin/dashboard', [AdminController::class, 'viewDashboard'])->name('admin.dashboard');
     Route::get('/customers-list', [CustomersController::class, 'customersList'])->name('admin.customers.list');
     Route::delete('/delete-customer', [CustomersController::class, 'deleteCustomer'])->name('admin.delete.customer');
