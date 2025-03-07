@@ -221,6 +221,9 @@
             border-color: #007bff;
             /* Focus border color */
         }
+        p {
+    margin: 0 0 8px;
+}
     </style>
 @endsection
 @section('content')

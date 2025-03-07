@@ -146,7 +146,7 @@ class ProductsController extends Controller
 
     public function viewProductTable()
     {
-        $products = Product::with('categories')->with('subcategories')->with('brands')->get();
+        $products = Product::with('categories')->with('subcategories')->with('brands')->orderBy('updated_at','desc')->get();
         return view('admin.product-table', compact('products'));
     }
 
