@@ -180,7 +180,8 @@
                                             fill="#717579" />
                                     </svg>
 
-                                    <span class="badge text-white badge-primary">16</span>
+                                    <span
+                                        class="badge text-white badge-primary">{{ $notifications->count() > 0 ? $notifications->count() : '' }}</span>
                                 </a>
                                 <div class="dropdown-menu dropdown-menu-end">
                                     <div id="DZ_W_Notification1" class="widget-media ic-scroll p-3"
@@ -203,7 +204,9 @@
                                                             </p>
                                                             <p class="mb-1 font-weight-bold">
                                                                 <i class="fas fa-box"></i> Order ID:
-                                                                {{ json_decode($notification->data)->order_id ?? 'N/A' }}
+                                                                <span id="OrderId">
+                                                                    {{ json_decode($notification->data)->order_id ?? 'N/A' }}
+                                                                </span>
                                                             </p>
                                                             <p class="mb-2 text-dark">
                                                                 <i class="fas fa-bell"></i>
@@ -385,6 +388,8 @@
                     <li><a href="{{ route('admin.order') }}" class="ai-icon" aria-expanded="false">
                             <i class="fa-solid fa-cart-arrow-down"></i>
                             <span class="nav-text">Enquiry</span>
+                            <span
+                                class="badge text-white badge-primary">{{ $notifications->count() > 0 ? $notifications->count() : '' }}</span>
                         </a>
                     </li>
                     <li><a class="has-arrow " href="javascript:void(0);" aria-expanded="false">
@@ -540,7 +545,10 @@
         $(document).ready(function() {
             $('.mark-as-read').click(function() {
                 var notificationId = $(this).data('id');
+                var orderId = parseInt($("#OrderId").text());
                 var notificationElement = $('#notification-' + notificationId);
+
+                console.log(orderId);
 
                 $.ajax({
                     url: '/notifications/read/' + notificationId,
@@ -553,6 +561,8 @@
                             notificationElement.fadeOut('slow', function() {
                                 $(this).remove();
                             });
+
+                            location.href = `/order-details/${orderId}`;
                         }
                     },
                     error: function(xhr) {

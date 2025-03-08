@@ -49,7 +49,7 @@ class EnquiryNotification extends Notification
     {
         return [
             'order_id' => $this->orderDetails['order_id'],
-            'message' => 'Your order has been shipped!',
+            'message' => 'A New Enquiry Added!',
         ];
     }
 }
