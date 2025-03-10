@@ -20,17 +20,28 @@ use App\Notifications\EnquiryNotification;
 class EnquiryOrdersController extends Controller
 {
     //
-    public function showOrders()
+    public function showOrders(Request $request)
     {
+        $orders = Enquiry::query();
 
-        $orders = Enquiry::whereIn('id', function ($query) {
+        if ($request->filled('startDate') && $request->filled('endDate')) {
+            $start_date = Carbon::parse($request->startDate)->startOfDay(); // Sets time to 00:00:00
+            $end_date = Carbon::parse($request->endDate)->endOfDay(); // Sets time to 23:59:59
+
+            $orders->whereBetween('updated_at', [$start_date, $end_date]); // Use parsed Carbon objects
+        }
+
+        $orders->whereIn('id', function ($query) {
             $query->selectRaw('MIN(id)')
                 ->from('enquiries')
                 ->groupBy('enquiry_id');
-            })
+        })
             ->orderBy('id', 'desc')
-            ->with('customer')->get();
+            ->with('customer');
 
+        $orders = $orders->get(); // Get the results
+
+        // dd($orders);
         return view('admin.order', compact('orders'));
     }
 
@@ -75,7 +86,7 @@ class EnquiryOrdersController extends Controller
             // Remove from Cart
             Cart::where('user_id', Auth::id())->where('product_id', $item['productId'])->delete();
         }
-        
+
         $productData = Product::whereIn('id', $productIds)->get();
         $user = User::where('id', Auth::id())->first();
         $adminEmail = "pradnya@technofra.com";
@@ -83,7 +94,7 @@ class EnquiryOrdersController extends Controller
 
         Mail::to($adminEmail)->send(new adminEnquiry($productData, $productQuantities, $nextEnquiryId, $user, $partNumber));
         Mail::to($userEmail)->send(new adminEnquiry($productData, $productQuantities, $nextEnquiryId, $user, $partNumber));
-        
+
         $orderDetails = [
             'order_id' => $nextEnquiryId, // Random order ID
         ];
