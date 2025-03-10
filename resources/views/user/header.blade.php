@@ -59,17 +59,17 @@
                 </div>
                 <div class="header-action">
                     <ul class="action-list">
-                        <li class="axil-search d-xl-block d-none">
+                        {{-- <li class="axil-search d-xl-block d-none">
                             <input type="search" class="placeholder product-search-input" name="search2" id="search2" value="" maxlength="128" placeholder="Search" autocomplete="off">
                             <button type="submit" class="icon wooc-btn-search">
                                 <i class="flaticon-magnifying-glass"></i>
                             </button>
-                        </li>
-                        <li class="axil-search d-xl-none d-block">
+                        </li> --}}
+                        {{-- <li class="axil-search d-xl-none d-block">
                             <a href="javascript:void(0)" class="header-search-icon mys" title="Search">
                                 <i class="flaticon-magnifying-glass"></i>
                             </a>
-                        </li>
+                        </li> --}}
                         <li><a href="signin.php" class="headerlist"><i class="fas fa-sign-in-alt icon dn"></i> <span>Login</span></a></li>
                         <li><a href="signup.php" class="headerlist"><i class="fas fa-user-plus icon dn"></i> <span>Sign Up</span></a></li>
                         <!-- <li class="my-account">
