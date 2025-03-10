@@ -11,8 +11,11 @@
                 <div class="col-lg-12">
                     <div class="card">
                         <div class="card-header">
-                            <h4 class="card-title">Enquiry</h4>Date Range of Enquiry
-                            <input type="text" class="datef" name="dates" value="01/01/2025 - 01/15/2025" />
+                            <h4 class="card-title">Enquiry</h4>
+                            <div>
+                                Date Range of Enquiry
+                                <input type="text" class="datef" name="dates" value="01/01/2025 - 01/15/2025" />
+                            </div>
                         </div>
                         <div class="dropdown text-sans-serif text-end"><button class="btn btn-primary tp-btn-light sharp"
                                 type="button" id="order-dropdown-0" data-bs-toggle="dropdown" data-boundary="viewport"
@@ -91,7 +94,7 @@
                                                             Payment Received</span>
                                                     @else
                                                         <span class="text-primary"><span
-                                                            class="ms-1 fa fa-check"></span>Pending Enquiry</span>
+                                                                class="ms-1 fa fa-check"></span>Pending Enquiry</span>
                                                     @endif
                                                 </td>
 
@@ -265,7 +268,29 @@
             let startDate = picker.startDate.format('YYYY-MM-DD');
             let endDate = picker.endDate.format('YYYY-MM-DD');
 
-            fetchAllEnquiries(startDate, endDate);
+            // make a form submit action from here using above details and sent to the /order url request using get method
+            // Create a form element dynamically
+            let form = $('<form>', {
+                action: '/order',
+                method: 'GET'
+            });
+
+            // Append input fields for start and end date
+            form.append($('<input>', {
+                type: 'hidden',
+                name: 'startDate',
+                value: startDate
+            }));
+
+            form.append($('<input>', {
+                type: 'hidden',
+                name: 'endDate',
+                value: endDate
+            }));
+
+            // Append the form to the body and submit
+            $('body').append(form);
+            form.submit();
         });
         $(document).ready(function() {
             $('#example').DataTable({
