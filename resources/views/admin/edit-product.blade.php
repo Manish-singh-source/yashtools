@@ -88,9 +88,9 @@
                                         </div>
                                         <div class="mb-3">
                                             <label class="form-label">Description</label>
-                                            <div id="ckeditor"></div>
-                                            <textarea class="form-control @error('product_description') is-invalid @enderror" name="product_description"
-                                                style="display: none" id="editorContent">{{ $selectedProduct->product_discription }}</textarea>
+                                            {{-- <div id="ckeditor"></div> --}}
+                                            <textarea id="ckeditor" class="form-control @error('product_description') is-invalid @enderror" name="product_description"
+                                                style="display: none">{{ $selectedProduct->product_discription }}</textarea>
                                             @error('product_description')
                                                 <div class="invalid-feedback">
                                                     {{ $message }}
