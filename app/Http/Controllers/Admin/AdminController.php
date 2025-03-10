@@ -22,7 +22,47 @@ class AdminController extends Controller
         $totalOrders = EnquiryProducts::count();
         // $notifications = DB::table('notifications')->orderBy('created_at', 'desc')->get();
         // dd($notifications);
+
+
         return view('admin.index', compact('totalCustomers', 'totalEnquiries', 'totalOrders'));
+    }
+
+    public function getChartData(Request $request)
+    {
+        $customersCountOfMonthlyChart = User::where('role', 'customer')
+            ->selectRaw('YEAR(created_at) as year, MONTH(created_at) as month, COUNT(*) as count')
+            ->whereRaw('YEAR(created_at) =' . $request->year)  // Filter users created in 2025
+            ->groupBy('year', 'month')
+            ->orderBy('year', 'asc')
+            ->orderBy('month', 'asc')
+            ->get();
+
+
+        // Initialize the array with all months set to 0 count
+        $monthlyUserCounts = array_fill(0, 12, ['year' => 2025, 'month' => 0, 'count' => 0]);
+
+        // Loop through each record and update the count for the corresponding month
+        foreach ($customersCountOfMonthlyChart as $record) {
+            $monthIndex = $record->month - 1; // Since month starts from 1 (January), we subtract 1 for 0-based index
+            $monthlyUserCounts[$monthIndex] = [
+                'year'  => $record->year,
+                'month' => $record->month,
+                'count' => $record->count
+            ];
+        }
+
+        if (!$monthlyUserCounts) {
+            return response()->json([
+                'status' => false,
+                'message' => 'No data found.',
+            ], 404);
+        }
+
+        return response()->json([
+            'status' => true,
+            'data' => $customersCountOfMonthlyChart,
+            'message' => 'Status Changed successfully.',
+        ], 200);
     }
 
     public function markAsRead($id)

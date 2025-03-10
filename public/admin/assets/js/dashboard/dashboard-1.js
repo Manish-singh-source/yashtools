@@ -313,7 +313,7 @@
 					stacked: true,
 					offsetX: -15,
 				},
-				colors: ["var(--bs-primary)", "#01bd9b", ],
+				colors: ["var(--bs-primary)", "#01bd9b",],
 				plotOptions: {
 					bar: {
 						horizontal: false,
@@ -326,61 +326,61 @@
 				},
 				dataLabels: {
 					enabled: false,
-				  },
-				  legend: {
+				},
+				legend: {
 					show: false,
-				  },
-				  grid: {
+				},
+				grid: {
 					show: true,
 					padding: {
-					  top: 0,
-					  bottom: 0,
-					  right: 0,
+						top: 0,
+						bottom: 0,
+						right: 0,
 					},
 					borderColor: "rgba(0,0,0,0.05)",
 					xaxis: {
-					  lines: {
-						show: true,
-					  },
+						lines: {
+							show: true,
+						},
 					},
 					yaxis: {
-					  lines: {
-						show: true,
-					  },
+						lines: {
+							show: true,
+						},
 					},
-				  },
-				  yaxis: {
+				},
+				yaxis: {
 					min: -5,
 					max: 5,
-				  },
-				  xaxis: {
+				},
+				xaxis: {
 					axisBorder: {
-					  show: false,
+						show: false,
 					},
 					axisTicks: {
-					  show: false,
+						show: false,
 					},
 					categories: [
-					  "Sun",
-					  "Mon",
-					  "Tue",
-					  "Wed",
-					  "Thu",
-					  "Fri",
-					  "Sat",
+						"Sun",
+						"Mon",
+						"Tue",
+						"Wed",
+						"Thu",
+						"Fri",
+						"Sat",
 					],
 					labels: {
-					  style: { fontSize: "13px", colors: "#adb0bb", fontWeight: "400" },
+						style: { fontSize: "13px", colors: "#adb0bb", fontWeight: "400" },
 					},
-				  },
-				  yaxis: {
+				},
+				yaxis: {
 					tickAmount: 4,
-				  },
-				  tooltip: {
+				},
+				tooltip: {
 					theme: "dark",
-				  },
+				},
 			};
-			
+
 
 			var chart = new ApexCharts(document.querySelector("#blanceChart"), options);
 			chart.render();
@@ -468,11 +468,29 @@
 
 
 		var chartBarRunning = function () {
+			let year = $("#graph-data .year").text();
+			let month = $("#graph-data .month").text();
+			let count = [];
+
+			for (let i = 0; i < 12; i++) {
+				// Get the text content and parse it to an integer (or float if needed)
+				let monthCount = parseInt($(`#graph-data .count-${i}`).text());
+
+				// If the text content is not a valid number, set the count as 0
+				if (isNaN(monthCount)) {
+					monthCount = 0;
+				}
+
+				// Push the count value for the current month into the array
+				count.push(monthCount);
+			}
+
+
 			var options = {
 				series: [
 					{
-						name: 'Revenue',
-						data: [31, 40, 28, 25, 40, 28, 31, 40, 28, 31, 40, 28]
+						name: 'Customers',
+						data: count
 					},
 					{
 						name: 'Active Projects',
@@ -585,7 +603,7 @@
 				tooltip: {
 					y: {
 						formatter: function (val) {
-							return "$ " + val + ""
+							return val + ""
 						}
 					}
 				},

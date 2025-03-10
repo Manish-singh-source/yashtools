@@ -218,4 +218,5 @@ Route::middleware(AdminAuthMiddleware::class . ':admin,superadmin', 'shareUserNN
 
     // Add to Cart Through API 
     Route::post('/order-status', [FetchAPIs::class, 'changeOrderStatus'])->middleware('web');
+    Route::get('/chart-data', [AdminController::class, 'getChartData'])->middleware('web');
 });

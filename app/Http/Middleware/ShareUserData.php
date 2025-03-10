@@ -33,6 +33,7 @@ class ShareUserData
             ->get();
         // dd($notifications);
         // Share data with all views
+        
         View::share([
             'user' => $user, // Use 'user' instead of 'users' to be more clear
             'notifications' => $notifications
