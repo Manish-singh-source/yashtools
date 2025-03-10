@@ -180,48 +180,12 @@
                                             fill="#717579" />
                                     </svg>
 
-                                    <span
-                                        class="badge text-white badge-primary">{{ $notifications->count() > 0 ? $notifications->count() : '' }}</span>
+                                    <span class="badge text-white badge-primary notificationCount"></span>
                                 </a>
                                 <div class="dropdown-menu dropdown-menu-end">
                                     <div id="DZ_W_Notification1" class="widget-media ic-scroll p-3"
                                         style="height:auto;">
-                                        <ul class="timeline">
-                                            @forelse ($notifications as $index => $notification)
-                                                <li class="d-flex align-items-start mb-3"
-                                                    id="notification-{{ $notification->id }}">
-                                                    <a href="javascript:void(0)"
-                                                        class="timeline-panel p-3 border rounded shadow-sm bg-light mark-as-read"
-                                                        data-id="{{ $notification->id }}">
-                                                        <div class="media-body">
-                                                            <h6 class="mb-1 text-primary">
-                                                                <i class="fas fa-user-circle"></i>
-                                                                {{ $notification->fullname ?? 'No Name' }}
-                                                            </h6>
-                                                            <p class="mb-1 text-muted">
-                                                                <i class="fas fa-envelope"></i>
-                                                                {{ $notification->email ?? 'No Email' }}
-                                                            </p>
-                                                            <p class="mb-1 font-weight-bold">
-                                                                <i class="fas fa-box"></i> Order ID:
-                                                                <span id="OrderId">
-                                                                    {{ json_decode($notification->data)->order_id ?? 'N/A' }}
-                                                                </span>
-                                                            </p>
-                                                            <p class="mb-2 text-dark">
-                                                                <i class="fas fa-bell"></i>
-                                                                {{ json_decode($notification->data)->message ?? 'No Message' }}
-                                                            </p>
-                                                            <small class="d-block text-muted">
-                                                                <i class="far fa-clock"></i>
-                                                                {{ \Carbon\Carbon::parse($notification->created_at)->format('d M Y, h:i A') }}
-                                                            </small>
-                                                        </div>
-                                                    </a>
-                                                </li>
-                                            @empty
-                                                <li class="text-center text-muted">No new notifications</li>
-                                            @endforelse
+                                        <ul class="timeline" id="notificationSection">
 
                                         </ul>
                                     </div>
@@ -388,8 +352,7 @@
                     <li><a href="{{ route('admin.order') }}" class="ai-icon" aria-expanded="false">
                             <i class="fa-solid fa-cart-arrow-down"></i>
                             <span class="nav-text">Enquiry</span>
-                            <span
-                                class="badge text-white badge-primary">{{ $notifications->count() > 0 ? $notifications->count() : '' }}</span>
+                            <span class="badge text-white badge-primary notificationCount"></span>
                         </a>
                     </li>
                     <li><a class="has-arrow " href="javascript:void(0);" aria-expanded="false">
@@ -543,12 +506,84 @@
 
     <script>
         $(document).ready(function() {
-            $('.mark-as-read').click(function() {
+            $(".notificationCount").hide();
+
+            function getNotifications() {
+                $.ajax({
+                    url: '/notifications',
+                    type: 'POST',
+                    data: {
+                        _token: '{{ csrf_token() }}' // Laravel CSRF protection
+                    },
+                    success: function(response) {
+
+                        let content = "";
+                        if (response.status) {
+                            if (response.data.length > 0) {
+                                $(".notificationCount").show();
+                                $(".notificationCount").text(response.data.length);
+                            }
+
+                            response.data.forEach((element) => {
+                                content +=
+                                    `<li class="d-flex align-items-start mb-3"
+                                        id="notification-${element.id}">
+                                        <a href="javascript:void(0)"
+                                            class="timeline-panel p-3 border rounded shadow-sm bg-light mark-as-read"
+                                            data-id="${element.id}">
+                                            <div class="media-body">
+                                                <h6 class="mb-1 text-primary">
+                                                    <i class="fas fa-user-circle"></i>
+                                                    ${element.fullname ?? 'No Name'}
+                                                </h6>
+                                                <p class="mb-1 text-muted">
+                                                    <i class="fas fa-envelope"></i>
+                                                    ${element.email ?? 'No Email'}
+                                                </p>
+                                                <p class="mb-1 font-weight-bold">
+                                                    <i class="fas fa-box"></i> Order ID:
+                                                    <span id="OrderId">
+                                                        ${ JSON.parse(element.data).order_id ?? 'N/A' }
+                                                    </span>
+                                                </p>
+                                                <p class="mb-2 text-dark">
+                                                    <i class="fas fa-bell"></i>
+                                                    ${ JSON.parse(element.data).message ?? 'No Message' }
+                                                </p>
+                                                <small class="d-block text-muted">
+                                                    <i class="far fa-clock"></i>
+                                                    ${ element.created_at 
+                                                        ? new Intl.DateTimeFormat('en-US', { 
+                                                            year: 'numeric', month: 'short', day: '2-digit', 
+                                                            hour: '2-digit', minute: '2-digit', 
+                                                            hour12: false 
+                                                        }).format(new Date(element.created_at)).replace(',', '') 
+                                                        : 'No Message' 
+                                                    }
+                                                </small>
+                                            </div>
+                                        </a>
+                                    </li>`;
+                            });
+
+                        }
+                        $("#notificationSection").html(content);
+                    }
+                });
+            }
+
+            $(".notificationCount").hide();
+            getNotifications();
+            setTimeout(() => {
+                $(".notificationCount").hide();
+                getNotifications();
+            }, 60000);
+
+            $(document).on("click", ".mark-as-read", function() {
                 var notificationId = $(this).data('id');
                 var orderId = parseInt($("#OrderId").text());
                 var notificationElement = $('#notification-' + notificationId);
 
-                console.log(orderId);
 
                 $.ajax({
                     url: '/notifications/read/' + notificationId,

@@ -28,6 +28,7 @@ Route::get('send-email', [EmailController::class, 'sendEmail']);
 Route::get('contact', [EmailController::class, 'contactForm'])->name('user.contact.us');
 Route::post('contact', [EmailController::class, 'sendContactEmail'])->name('user.contact.store');
 Route::post('/notifications/read/{id}', [AdminController::class, 'markAsRead'])->name('notifications.read');
+Route::post('/notifications', [AdminController::class, 'getNotifications'])->name('notifications.get');
 
 // user routes: Authentication 
 Route::get('/signin', [UserController::class, 'signinView'])->name('signin');

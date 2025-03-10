@@ -37,6 +37,28 @@ class AdminController extends Controller
         return response()->json(['success' => false, 'message' => 'Notification not found'], 404);
     }
 
+    public function getNotifications()
+    {
+        // Get authenticated user
+        $user = Auth::user(); // No need to manually query
+
+        // Fetch all notifications (modify if you only want user's notifications)
+        // $notifications = DB::table('notifications')->orderBy('created_at', 'desc')->get();
+        $notifications = DB::table('notifications')
+            ->join('users', 'users.id', '=', 'notifications.notifiable_id')
+            ->select('users.fullname', 'users.email', 'notifications.id', 'notifications.data', 'notifications.created_at')
+            ->where('notifications.read_at', '=', null)
+            ->orderBy('notifications.created_at', 'desc')
+            ->get();
+
+        if ($notifications) {
+            return response()->json([
+                'status' => true,
+                'data' => $notifications,
+            ], 200);
+        }
+    }
+
     public function viewAdmin()
     {
         $admins = User::where('role', 'admin')->get();
