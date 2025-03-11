@@ -57,9 +57,24 @@ class EnquiryOrdersController extends Controller
 
     public function addEnquiry(Request $request)
     {
+        // YASH2024030001 → (Year + Month + Order No.)
+        $prefix = "YASH";
+        $year = date("Y"); // Current Year
+        $month = date("m"); // Current Month
+
         $cartData = $request->cartData; // Expecting an array of cart items
         $lastEnquiry = Enquiry::orderBy('id', 'desc')->first();
-        $nextEnquiryId = $lastEnquiry ? $lastEnquiry->enquiry_id + 1 : 90000;
+        // $nextEnquiryId = $lastEnquiry ? $lastEnquiry->enquiry_id + 1 : 001;
+
+        if ($lastEnquiry && preg_match('/YASH(\d{6})(\d+)/', $lastEnquiry->enquiry_id, $matches)) {
+            $lastNumber = (int) $matches[2]; // Extract the numeric part
+            $nextNumber = str_pad($lastNumber + 1, 4, '0', STR_PAD_LEFT); // Increment and format as 4 digits
+        } else {
+            $nextNumber = "0001"; // Start from 0001 if no previous record
+        }
+
+        // Final Enquiry ID
+        $enquiryID = $prefix . $year . $month . $nextNumber;
 
         $productIds = [];
         $productQuantities = [];
@@ -70,7 +85,7 @@ class EnquiryOrdersController extends Controller
             // Create Enquiry
             $enquiry = Enquiry::create([
                 'customer_id' => $item['userId'],
-                'enquiry_id' => $nextEnquiryId,
+                'enquiry_id' => $enquiryID,
                 'quantity' => $item['enquiryQuantity'],
                 'part_number' => $partNumber
             ]);
@@ -92,11 +107,11 @@ class EnquiryOrdersController extends Controller
         $adminEmail = "pradnya@technofra.com";
         $userEmail = $user->email;
 
-        Mail::to($adminEmail)->send(new adminEnquiry($productData, $productQuantities, $nextEnquiryId, $user, $partNumber));
-        Mail::to($userEmail)->send(new adminEnquiry($productData, $productQuantities, $nextEnquiryId, $user, $partNumber));
+        Mail::to($adminEmail)->send(new adminEnquiry($productData, $productQuantities, $enquiryID, $user, $partNumber));
+        Mail::to($userEmail)->send(new adminEnquiry($productData, $productQuantities, $enquiryID, $user, $partNumber));
 
         $orderDetails = [
-            'order_id' => $nextEnquiryId, // Random order ID
+            'order_id' => $enquiryID, // Random order ID
         ];
 
         // $user->notify(new EnquiryNotification($orderDetails));
