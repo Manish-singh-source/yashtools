@@ -78,7 +78,7 @@
                                                             </td>
                                                             <td>{{ $order->products[0]->product->product_name }}</td>
                                                             <td>{{ $order->quantity }}</td>
-                                                            <td>{{ $order->status }}</td>
+                                                            <td>{{ $data[0]->status }}</td>
                                                             <td>Send PO</td>
                                                         </tr>
                                                     @endforeach
