@@ -54,8 +54,8 @@
                             </div>
                         </div>
                     </div>
-                    <div class="row">
-                        <div class="col-xl-12 col-md-8">
+                    <div class="row gap-x-5">
+                        <div class="{{ isset($invoiceDetails->id) ? 'col-xl-9 col-md-12' : 'col-12' }}">
                             <div class="tab-content">
                                 <div class="tab-pane fade show active" id="nav-orders" role="tabpanel">
                                     <div class="axil-dashboard-order">
@@ -74,7 +74,7 @@
                                                     @foreach ($data as $order)
                                                         <tr>
                                                             <td><img width="40" height="40"
-                                                                    src="{{ asset('uploads/products/thumbnails/'.$order->products[0]->product->product_thumbain) }}" />
+                                                                    src="{{ asset('uploads/products/thumbnails/' . $order->products[0]->product->product_thumbain) }}" />
                                                             </td>
                                                             <td>{{ $order->products[0]->product->product_name }}</td>
                                                             <td>{{ $order->quantity }}</td>
@@ -86,15 +86,42 @@
                                             </table>
                                         </div>
                                     </div>
+
                                     <div id="pagination_links"></div>
                                 </div>
                             </div>
                         </div>
+
+                        @isset($invoiceDetails->id)
+                            <div class="col-xl-3 col-md-12 ">
+                                <div class="card bg-light border-0 outline-0 p-3">
+                                    <h5 class="card-title text-center mb-3">Invoice Details</h5>
+                                    <div class="card-body">
+                                        <p><strong>Courier:</strong> {{ $invoiceDetails->courier_name }}</p>
+                                        <p><strong>Courier No:</strong> {{ $invoiceDetails->courier_number }}</p>
+                                        <p><strong>Courier Website:</strong>
+                                            <a href="{{ $invoiceDetails->courier_website }}" target="_blank"
+                                                class="text-primary">
+                                                {{ $invoiceDetails->courier_website }}
+                                            </a>
+                                        </p>
+                                        <p><strong>Invoice File:</strong>
+                                            @if ($invoiceDetails->invoice_file)
+                                                <a href="{{ asset('invoices/' . $invoiceDetails->invoice_file) }}"
+                                                    class="btn btn-sm btn-success" download>
+                                                    Download Invoice
+                                                </a>
+                                            @else
+                                                <span class="text-muted">No file available</span>
+                                            @endif
+                                        </p>
+                                    </div>
+                                </div>
+                            </div>
+                        @endisset
+
                     </div>
-                </div>
-            </div>
-        </div>
-        <!-- End My Account Area  -->
+                    <!-- End My Account Area  -->
 
     </main>
     <!-- Start Footer Area  -->
