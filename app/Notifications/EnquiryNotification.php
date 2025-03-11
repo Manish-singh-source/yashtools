@@ -36,7 +36,7 @@ class EnquiryNotification extends Notification
     {
         return (new MailMessage)
                     ->line('The introduction to the notification.')
-                    ->action('Notification Action', url('/'))
+                    ->action('View Order', url('/'))
                     ->line('Thank you for using our application!');
     }
 

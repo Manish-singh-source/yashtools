@@ -14,7 +14,7 @@
                             <h4 class="card-title">Enquiry</h4>
                             <div>
                                 Date Range of Enquiry
-                                <input type="text" class="datef" name="dates" value="01/01/2025 - 01/15/2025" />
+                                <input type="text" class="datef" name="dates" value="" />
                             </div>
                         </div>
                         <div class="dropdown text-sans-serif text-end"><button class="btn btn-primary tp-btn-light sharp"

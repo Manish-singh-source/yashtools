@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Enquiry Confirmation</title>
+    <title>Enquiry Sent</title>
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -59,14 +59,13 @@
 <body>
     <div class="email-container">
         <div class="header">
-            <h2>Order Confirmation</h2>
+            <h2>Enquiry Sent</h2>
         </div>
         <div class="content">
             <p>Dear <strong>{{ $user->fullname }}</strong>,</p>
-            <p>Thank you for your order! Your order <strong>#{{ $enquiry_id }}</strong> has been successfully placed.
-            </p>
+            <p>Thank you for your enquiry! Your enquiry ID <strong>#{{ $enquiry_id }}</strong> has been successfully
+                submitted.</p>
             <table class="order-details">
-
                 <tr>
                     <th>Product</th>
                     <th>Part Number</th>
@@ -75,22 +74,24 @@
                 @foreach ($requestData as $key => $product)
                     <tr>
                         <td>
-                            <img src="{{ asset('/uploads/products/thumbnails/1739870015.png') }}" alt="">
+                            <img src="{{ asset('/uploads/products/thumbnails/' . $product->image) }}"
+                                alt="{{ $product->product_name }}">
                             {{ $product->product_name }}
                         </td>
-                        <td>{{ $partNumber }}</td>
+                        <td>{{ $product->part_number }}</td>
                         <td>{{ $productQuantities[$key] }}</td>
                     </tr>
                 @endforeach
-                {{-- {{ order_items }} --}}
             </table>
-            <p>We will notify you once your order is shipped.</p>
-            <p>For any queries, contact us at <a href="mailto:support@example.com">support@example.com</a></p>
+            <p>Our team will review your enquiry and get back to you soon.</p>
+            <p>If you have any further queries, feel free to contact us at <a
+                    href="mailto:support@example.com">support@example.com</a></p>
         </div>
         <div class="footer">
-            <p>&copy; 2025 Your Company. All rights reserved.</p>
+            <p>&copy; 2025 YashTools. All rights reserved.</p>
         </div>
     </div>
+
 </body>
 
 </html>
