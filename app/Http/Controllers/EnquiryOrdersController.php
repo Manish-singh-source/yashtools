@@ -99,7 +99,7 @@ class EnquiryOrdersController extends Controller
             'order_id' => $nextEnquiryId, // Random order ID
         ];
 
-        $user->notify(new EnquiryNotification($orderDetails));
+        // $user->notify(new EnquiryNotification($orderDetails));
 
         flash()->success('Your enquiry has been successfully submitted.');
         return response()->json([

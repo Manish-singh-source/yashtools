@@ -39,13 +39,19 @@
         .status {
             font-size: 18px;
             font-weight: bold;
-            color: #ff0000;
-            /* Red for cancelled */
+            margin: 10px 0;
         }
 
-        .status.success {
+        .success {
             color: #28a745;
-            /* Green for successful payment */
+        }
+
+        .danger {
+            color: #ff0000;
+        }
+
+        .primary {
+            color: #007bff;
         }
 
         .button {
@@ -74,8 +80,16 @@
         </div>
         <div class="content">
             <p>Dear <strong>{{ $user->fullname }}</strong>,</p>
-            <p>Your order <strong>#{{ $enquiry->enquiry_id }}</strong> status has been updated.</p>
-            <p class="status">{{ $enquiry->status }}</p>
+            <p>Your enquiry <strong>#{{ $enquiry->enquiry_id }}</strong> status has been updated.</p>
+            
+            <p class="status 
+                @if ($enquiry->status == 'confirmed' || $enquiry->status == 'delivered') success
+                @elseif ($enquiry->status == 'dismissed') danger
+                @elseif ($enquiry->status == 'payment_received') primary
+                @endif">
+                {{ ucfirst(str_replace('_', ' ', $enquiry->status)) }}
+            </p>
+
             <a href="{{ route('product.info', $enquiry->enquiry_id) }}" class="button">View Order</a>
         </div>
         <div class="footer">
