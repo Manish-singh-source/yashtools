@@ -2,10 +2,65 @@
 
 @section('csrf-token')
     <meta name="csrf-token" content="{{ csrf_token() }}">
+    <style>
+        /* Popup Styling */
+        .loading-popup {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.5);
+            z-index: 9999;
+        }
+
+        .popup-content {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background: #fff;
+            padding: 20px;
+            border-radius: 8px;
+            text-align: center;
+            width: 300px;
+        }
+
+        .progress-bar-container {
+            width: 100%;
+            background: #ddd;
+            border-radius: 5px;
+            margin-top: 10px;
+            overflow: hidden;
+        }
+
+        .progress-bar {
+            width: 0%;
+            height: 10px;
+            background: #007bff;
+            transition: width 0.5s ease-in-out;
+        }
+
+        .popup-text {
+            font-size: 16px;
+            margin-bottom: 10px;
+        }
+    </style>
 @endsection
 
 @section('content-body')
     <div class="content-body">
+        <!-- Popup Window -->
+        <div class="loading-popup">
+            <div class="popup-content">
+                <p class="popup-text">Processing your request...</p>
+                <div class="progress-bar-container">
+                    <div class="progress-bar"></div>
+                </div>
+            </div>
+        </div>
+
         <div class="container-fluid">
             <div class="row">
                 <div class="col-lg-12">
@@ -235,6 +290,21 @@
                 let id = parseInt($(this).data('orderid')) || 0;
                 let status = $(this).data('orderstatus') || 0;
 
+                // Show the popup
+                $(".loading-popup").fadeIn();
+                $(".progress-bar").css("width", "0%");
+
+                // Simulate Progress Bar Animation
+                let progress = 0;
+                let progressInterval = setInterval(function() {
+                    if (progress >= 100) {
+                        clearInterval(progressInterval);
+                    } else {
+                        progress += 10;
+                        $(".progress-bar").css("width", progress + "%");
+                    }
+                }, 500);
+
                 $.ajax({
                     url: '/order-status',
                     type: "POST",
@@ -244,17 +314,19 @@
                     },
                     success: function(data) {
                         if (data.status) {
-                            console.log(data.status);
-                            console.log(data.message)
-                            console.log(data.data)
-                            location.reload();
+                            // Hide the popup after success
+                            setTimeout(function() {
+                                $(".loading-popup").fadeOut();
+                                location.reload();
+                            }, 500); // Small delay before hiding
                         }
                     },
                     error: function(xhr, status, error) {
-                        console.log(xhr);
-                        console.log(status);
-                        console.log(error);
-                    },
+                        // Hide the popup in case of an error
+                        setTimeout(function() {
+                            $(".loading-popup").fadeOut();
+                        }, 500);
+                    }
                 });
             });
         });
