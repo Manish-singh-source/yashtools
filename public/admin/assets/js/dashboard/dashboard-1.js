@@ -19,7 +19,6 @@ var icChartlist = (function () {
                 customerCount = 0;
             }
             countCustomers[customerMonthCount - 1] = customerCount;
-
         }
 
         let countEnquiries = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
@@ -46,7 +45,33 @@ var icChartlist = (function () {
             // yearEnquiry.push(yearEnquiryCount);
             // monthEnquiry.push(monthEnquiryCount);
             countEnquiries[monthEnquiryCount] = EnquiryCount;
+        }
 
+        let enquiryFulfilled = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
+
+        for (let k = 0; k < 12; k++) {
+            // Get the text content and parse it to an integer (or float if needed)
+
+            let monthEnquiryFulfilledCount = parseInt(
+                $(`#graph-data-enquiryFulfilled .enquiryFulfilled-month-${k}`).text()
+            );
+            let EnquiryFulfilledCount = parseInt(
+                $(`#graph-data-enquiryFulfilled .enquiryFulfilled-count-${k}`).text()
+            );
+            // // If the text content is not a valid number, set the count as 0
+            if (isNaN(monthEnquiryFulfilledCount)) {
+                monthEnquiryFulfilledCount = k;
+            }
+            // If the text content is not a valid number, set the count as 0
+            if (isNaN(EnquiryFulfilledCount)) {
+                EnquiryFulfilledCount = 0;
+            }
+
+            // Push the count value for the current month into the array
+            // yearEnquiry.push(yearEnquiryCount);
+            // monthEnquiry.push(monthEnquiryCount);
+            enquiryFulfilled[monthEnquiryFulfilledCount] =
+                EnquiryFulfilledCount;
         }
 
         var options = {
@@ -58,6 +83,10 @@ var icChartlist = (function () {
                 {
                     name: "Enquiries",
                     data: countEnquiries,
+                },
+                {
+                    name: "Orders",
+                    data: enquiryFulfilled,
                 },
             ],
             chart: {
@@ -76,7 +105,7 @@ var icChartlist = (function () {
                     borderRadius: 3,
                 },
             },
-            colors: ["#0074FF", "#01BD9B"],
+            colors: ["#0074FF", "#01BD9B", "#e33434"],
             dataLabels: {
                 enabled: false,
             },
@@ -92,7 +121,7 @@ var icChartlist = (function () {
                     height: 10,
                     strokeWidth: 0,
                     strokeColor: "#fff",
-                    fillColors: ["var(--primary)", "#01BD9B"],
+                    fillColors: ["var(--primary)", "#01BD9B", "#e33434"],
                     radius: 30,
                 },
             },
@@ -171,7 +200,7 @@ var icChartlist = (function () {
             // Enquiries bar color -- #01BD9B
             fill: {
                 opacity: 1,
-                colors: ["var(--primary)", "#01BD9B"],
+                colors: ["var(--primary)", "#01BD9B", "#e33434"],
             },
             tooltip: {
                 y: {
@@ -202,6 +231,10 @@ var icChartlist = (function () {
                                 name: "Enquiries",
                                 data: countEnquiries,
                             },
+                            {
+                                name: "Orders",
+                                data: enquiryFulfilled,
+                            },
                         ],
                     },
                 },
@@ -212,15 +245,18 @@ var icChartlist = (function () {
             console.warn("Chart container #chartBarRunning not found.");
             return;
         }
-        
+
         if (jQuery("#chartBarRunning").length > 0) {
             if (window.chartBarRunningInstance) {
                 window.chartBarRunningInstance.destroy();
             }
-            var chart = new ApexCharts(document.querySelector("#chartBarRunning"), options);
+            var chart = new ApexCharts(
+                document.querySelector("#chartBarRunning"),
+                options
+            );
             chart.render();
             window.chartBarRunningInstance = chart;
-            
+
             // var chart = new ApexCharts(
             //     document.querySelector("#chartBarRunning"),
             //     options

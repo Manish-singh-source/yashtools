@@ -30,6 +30,7 @@ class AdminController extends Controller
     public function getChartData(Request $request)
     {
 
+        // customers count details 
         $customersCountOfMonthlyChart = User::where('role', 'customer')
             ->join('user_details', 'user_details.user_id', '=', 'users.id') // Join with user_details
             ->selectRaw('YEAR(users.created_at) as year, MONTH(users.created_at) as month, COUNT(*) as count')
@@ -44,6 +45,7 @@ class AdminController extends Controller
         $customersCountOfMonthlyChart = $customersCountOfMonthlyChart->orderBy('month', 'asc')->get();
 
 
+        // enquiries count details
         $EnqueriesCountOfMonthlyChart = Enquiry::whereYear('enquiries.created_at', $request->year)  // Filter users created in 2025
             ->join('user_details', 'user_details.user_id', '=', 'enquiries.customer_id')
             ->selectRaw('YEAR(enquiries.created_at) as year, MONTH(enquiries.created_at) as month, COUNT(*) as count')
@@ -54,15 +56,41 @@ class AdminController extends Controller
             $EnqueriesCountOfMonthlyChart->where('user_details.state', $request->state);
         }
 
-        $EnqueriesCountOfMonthlyChart = $EnqueriesCountOfMonthlyChart->orderBy('month', 'asc')->get();
+        $EnqueriesCountOfMonthlyChart = $EnqueriesCountOfMonthlyChart
+            ->whereIn('user_id', function ($query) {
+                $query->selectRaw('MIN(id)')
+                    ->from('enquiries')
+                    ->groupBy('enquiry_id');
+            })
+            ->orderBy('month', 'asc')->get();
 
+
+        // enquiries fulfilled count 
+        $enquiriesFulfilledCount = Enquiry::whereYear('enquiries.created_at', $request->year)  // Filter users created in 2025
+            ->join('user_details', 'user_details.user_id', '=', 'enquiries.customer_id')
+            ->selectRaw('YEAR(enquiries.created_at) as year, MONTH(enquiries.created_at) as month, COUNT(*) as count')
+            ->groupBy('year', 'month')
+            ->orderBy('year', 'asc')
+            ->where('status', '=', 'payment_received');
+
+        if ($request->state != 'all') {
+            $enquiriesFulfilledCount->where('user_details.state', $request->state);
+        }
+
+        $enquiriesFulfilledCount = $enquiriesFulfilledCount
+            ->whereIn('user_id', function ($query) {
+                $query->selectRaw('MIN(id)')
+                    ->from('enquiries')
+                    ->groupBy('enquiry_id');
+            })
+            ->orderBy('month', 'asc')->get();
 
         // Initialize the array with all months set to 0 count
         $monthlyUserCounts = array_fill(0, 12, ['year' => $request->year, 'month' => 0, 'count' => 0]);
         $monthlyEnquiryCounts = array_fill(0, 12, ['year' => $request->year, 'month' => 0, 'count' => 0]);
+        $monthlyEnquiryFulfilledCounts = array_fill(0, 12, ['year' => $request->year, 'month' => 0, 'count' => 0]);
 
         // Loop through each record and update the count for the corresponding month
-
         foreach ($customersCountOfMonthlyChart as $record) {
             $monthIndex = $record->month - 1; // Since month starts from 1 (January), we subtract 1 for 0-based index
             $monthlyUserCounts[$monthIndex] = [
@@ -80,6 +108,15 @@ class AdminController extends Controller
                 'count' => $record->count
             ];
         }
+        
+        foreach ($enquiriesFulfilledCount as $record) {
+            $monthIndex = $record->month - 1; // Since month starts from 1 (January), we subtract 1 for 0-based index
+            $monthlyEnquiryFulfilledCounts[$monthIndex] = [
+                'year'  => $record->year,
+                'month' => $record->month,
+                'count' => $record->count
+            ];
+        }
 
         if (!$monthlyUserCounts) {
             return response()->json([
@@ -92,6 +129,7 @@ class AdminController extends Controller
             'status' => true,
             'data' => $monthlyUserCounts,
             'enquiry' => $monthlyEnquiryCounts,
+            'enquiryFulfilled' => $monthlyEnquiryFulfilledCounts,
             'message' => 'Status Changed successfully.',
         ], 200);
     }

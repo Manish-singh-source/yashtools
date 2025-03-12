@@ -14,6 +14,7 @@
             </div>
             <div id="graph-data-customers" style="display: none"></div>
             <div id="graph-data-enquiry" style="display: none"></div>
+            <div id="graph-data-enquiryFulfilled" style="display: none"></div>
             <div class="row">
                 <div class="col-xl-12">
                     <div class="row">
@@ -61,12 +62,12 @@
                         </div>
                     </div>
                     <div class="col-xl-12">
-                        <div class="card overflow-hidden">
+                        <div class="card">
                             <div class="card-header border-0 pb-0 flex-wrap">
                                 <div class="blance-media">
-                                    <h5 class="mb-0">Sales Revenues</h5>
+                                    {{-- <h5 class="mb-0">Sales Revenues</h5>
                                     <h4 class="mb-0">₹25,217k <span
-                                            class="badge badge-sm badge-success light">+2.7%</span></h4>
+                                            class="badge badge-sm badge-success light">+2.7%</span></h4> --}}
                                 </div>
                                 <ul class="nav nav-pills mix-chart-tab" id="pills-tab" role="tablist">
                                     {{-- <li class="nav-item spc" role="presentation">
@@ -194,6 +195,7 @@
                         console.log(response)
                         let contentCustomer = '';
                         let contentEnquiry = '';
+                        let contentEnquiryFulfilled = '';
                         if (response.data && Array.isArray(response.data)) {
                             response.data.map((item, index) => {
                                 contentCustomer +=
@@ -214,6 +216,16 @@
                             });
 
                             $("#graph-data-enquiry").html(contentEnquiry);
+                        }
+                        if (response.enquiryFulfilled && Array.isArray(response.enquiryFulfilled)) {
+                            response.enquiryFulfilled.map((item, index) => {
+                                contentEnquiryFulfilled +=
+                                    `<div class="enquiryFulfilled-year-${index}">${item.year}</div>  
+                                    <div class="enquiryFulfilled-month-${index}">${item.month}</div> 
+                                    <div class="enquiryFulfilled-count-${index}">${item.count}</div>`
+                            });
+
+                            $("#graph-data-enquiryFulfilled").html(contentEnquiryFulfilled);
                         }
 
                         icChartlist.load();
