@@ -29,28 +29,32 @@ class AdminController extends Controller
 
     public function getChartData(Request $request)
     {
+
         $customersCountOfMonthlyChart = User::where('role', 'customer')
-            ->selectRaw('YEAR(created_at) as year, MONTH(created_at) as month, COUNT(*) as count')
-            ->whereRaw('YEAR(created_at) =' . $request->year)  // Filter users created in 2025
+            ->join('user_details', 'user_details.user_id', '=', 'users.id') // Join with user_details
+            ->selectRaw('YEAR(users.created_at) as year, MONTH(users.created_at) as month, COUNT(*) as count')
+            ->whereYear('users.created_at', $request->year) // Filter users created in the requested year
             ->groupBy('year', 'month')
-            ->orderBy('year', 'asc')
-            ->orderBy('month', 'asc')
-            ->get();
-        
-        $EnqueriesCountOfMonthlyChart = Enquiry::selectRaw('YEAR(created_at) as year, MONTH(created_at) as month, COUNT(*) as count')
-            ->whereRaw('YEAR(created_at) =' . $request->year)  // Filter users created in 2025
+            ->orderBy('year', 'asc');
+
+        if ($request->state != 'all') {
+            $customersCountOfMonthlyChart->where('user_details.state', $request->state);
+        }
+
+        $customersCountOfMonthlyChart = $customersCountOfMonthlyChart->orderBy('month', 'asc')->get();
+
+
+        $EnqueriesCountOfMonthlyChart = Enquiry::whereYear('enquiries.created_at', $request->year)  // Filter users created in 2025
+            ->join('user_details', 'user_details.user_id', '=', 'enquiries.customer_id')
+            ->selectRaw('YEAR(enquiries.created_at) as year, MONTH(enquiries.created_at) as month, COUNT(*) as count')
             ->groupBy('year', 'month')
-            ->orderBy('year', 'asc')
-            ->orderBy('month', 'asc')
-            ->get();
-        
-        $totalRevenue = Enquiry::selectRaw('YEAR(created_at) as year, MONTH(created_at) as month, COUNT(*) as count')
-            ->whereRaw('YEAR(created_at) =' . $request->year)  // Filter users created in 2025
-            ->whereRaw('status = "payment_received"')
-            ->groupBy('year', 'month')
-            ->orderBy('year', 'asc')
-            ->orderBy('month', 'asc')
-            ->get();
+            ->orderBy('year', 'asc');
+
+        if ($request->state != 'all') {
+            $EnqueriesCountOfMonthlyChart->where('user_details.state', $request->state);
+        }
+
+        $EnqueriesCountOfMonthlyChart = $EnqueriesCountOfMonthlyChart->orderBy('month', 'asc')->get();
 
 
         // Initialize the array with all months set to 0 count
@@ -58,7 +62,7 @@ class AdminController extends Controller
         $monthlyEnquiryCounts = array_fill(0, 12, ['year' => $request->year, 'month' => 0, 'count' => 0]);
 
         // Loop through each record and update the count for the corresponding month
-        
+
         foreach ($customersCountOfMonthlyChart as $record) {
             $monthIndex = $record->month - 1; // Since month starts from 1 (January), we subtract 1 for 0-based index
             $monthlyUserCounts[$monthIndex] = [
@@ -67,7 +71,7 @@ class AdminController extends Controller
                 'count' => $record->count
             ];
         }
-        
+
         foreach ($EnqueriesCountOfMonthlyChart as $record) {
             $monthIndex = $record->month - 1; // Since month starts from 1 (January), we subtract 1 for 0-based index
             $monthlyEnquiryCounts[$monthIndex] = [
@@ -76,7 +80,7 @@ class AdminController extends Controller
                 'count' => $record->count
             ];
         }
- 
+
         if (!$monthlyUserCounts) {
             return response()->json([
                 'status' => false,
@@ -88,7 +92,6 @@ class AdminController extends Controller
             'status' => true,
             'data' => $monthlyUserCounts,
             'enquiry' => $monthlyEnquiryCounts,
-            'totalRevenue' => $totalRevenue,
             'message' => 'Status Changed successfully.',
         ], 200);
     }

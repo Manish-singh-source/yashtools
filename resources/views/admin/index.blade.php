@@ -78,8 +78,8 @@
                                         </select>
                                     </li> --}}
                                     <li class="nav-item" role="presentation">
-                                        <select class="default-select form-control">
-                                            <option>State</option>
+                                        <select class="default-select form-control" id="graph-state">
+                                            <option value="0">State</option>
                                             <option value="AN">Andaman and Nicobar Islands</option>
                                             <option value="AP">Andhra Pradesh</option>
                                             <option value="AR">Arunachal Pradesh</option>
@@ -166,23 +166,29 @@
             });
 
 
-            $(document).on("change", "#graph-year", function() {
+            $(document).on("change", "#graph-year, #graph-state", function() {
                 loadChart();
             });
 
             function loadChart() {
 
+                let state = $("#graph-state").val();
                 let year = $("#graph-year").val();
 
                 if (year == 0) {
                     year = new Date().getFullYear();
+                }
+                
+                if (state == 0) {
+                    state = 'all';
                 }
 
                 $.ajax({
                     url: "/chart-data",
                     type: "GET",
                     data: {
-                        year: year
+                        year: year,
+                        state: state,
                     },
                     success: function(response) {
                         console.log(response)
@@ -210,11 +216,7 @@
                             $("#graph-data-enquiry").html(contentEnquiry);
                         }
 
-                        // icChartlist.load();
-
-                        setTimeout(function() {
-                            icChartlist.load();
-                        }, 1000);
+                        icChartlist.load();
                     },
                     error: function(xhr, status, error) {
                         console.error("Error fetching chart data:", error);
