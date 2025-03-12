@@ -5,11 +5,13 @@ namespace App\Http\Controllers\Admin;
 use App\Models\Brand;
 use App\Models\Product;
 use App\Models\Categories;
+use App\Models\MorphHistory;
 use Illuminate\Http\Request;
 use App\Models\SubCategories;
 use Intervention\Image\Image;
 use Flasher\Prime\FlasherInterface;
 use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\File;
 use Intervention\Image\ImageManager;
 use Maatwebsite\Excel\Facades\Excel;
@@ -146,34 +148,42 @@ class ProductsController extends Controller
 
     public function viewProductTable()
     {
-        $products = Product::with('categories')->with('subcategories')->with('brands')->orderBy('updated_at','desc')->get();
+        $products = Product::with('categories')->with('subcategories')->with('brands')->orderBy('updated_at', 'desc')->get();
         return view('admin.product-table', compact('products'));
     }
 
 
     public function deleteProduct(Request $request)
     {
-        $customer = Product::where('product_slug', $request->product_slug)->first();
-        if (!empty($customer->product_optional_pdf)) {
-            File::delete(public_path('/uploads/products/product_optional_pdf/' . $customer->product_optional_pdf));
+
+        $product = Product::where('product_slug', $request->product_slug)->first();
+        if (!empty($product->product_optional_pdf)) {
+            File::delete(public_path('/uploads/products/product_optional_pdf/' . $product->product_optional_pdf));
         }
-        if (!empty($customer->product_catalouge)) {
-            File::delete(public_path('/uploads/products/catalogue/' . $customer->product_catalouge));
+        if (!empty($product->product_catalouge)) {
+            File::delete(public_path('/uploads/products/catalogue/' . $product->product_catalouge));
         }
-        if (!empty($customer->product_pdf)) {
-            File::delete(public_path('/uploads/products/pdf/' . $customer->product_pdf));
+        if (!empty($product->product_pdf)) {
+            File::delete(public_path('/uploads/products/pdf/' . $product->product_pdf));
         }
-        if (!empty($customer->product_drawing)) {
-            File::delete(public_path('/uploads/products/drawing/' . $customer->product_drawing));
+        if (!empty($product->product_drawing)) {
+            File::delete(public_path('/uploads/products/drawing/' . $product->product_drawing));
         }
-        if (!empty($customer->product_thumbain)) {
-            File::delete(public_path('/uploads/products/thumbnails/' . $customer->product_thumbain));
+        if (!empty($product->product_thumbain)) {
+            File::delete(public_path('/uploads/products/thumbnails/' . $product->product_thumbain));
         }
 
-        $customer->delete();
+        $product->delete();
 
-        if ($customer) {
-            return back()->with('success', 'Successfully Deleted Customer');
+        MorphHistory::create([
+            'admin_id' => Auth::id(),
+            'modifiable_id' => $product->id,
+            'modifiable_type' => get_class($product),
+            'action' => 'deleted', // or 'updated', 'restored'
+        ]);
+
+        if ($product) {
+            return back()->with('success', 'Successfully Deleted Product');
         }
         return back()->with('error', 'Please Try Again.');
     }
@@ -309,6 +319,13 @@ class ProductsController extends Controller
         $product->product_arrivals = $request->new_products ?? "";
         $product->product_sale = $request->new_offer ?? "";
         $product->save();
+
+        MorphHistory::create([
+            'admin_id' => Auth::id(),
+            'modifiable_id' => $product->id,
+            'modifiable_type' => get_class($product),
+            'action' => 'updated', // or 'deleted', 'restored'
+        ]);
 
         return redirect()->route('admin.table.product');
     }

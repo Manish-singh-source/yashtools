@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use Illuminate\Support\Str;
+use App\Models\MorphHistory;
 use Illuminate\Support\Carbon;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
@@ -12,7 +13,11 @@ class Product extends Model
     use SoftDeletes;
     protected $dates = ['created_at', 'updated_at'];
 
-
+    public function history()
+    {
+        return $this->morphMany(MorphHistory::class, 'modifiable');
+    }
+    
     public function getCreatedAtAttribute($value)
     {
         return Carbon::parse($value)->format('Y-M-d');

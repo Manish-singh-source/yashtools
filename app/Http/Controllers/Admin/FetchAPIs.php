@@ -11,6 +11,7 @@ use App\Models\Product;
 use App\Models\Favourite;
 use App\Mail\statusChange;
 use App\Models\Categories;
+use App\Models\MorphHistory;
 use Illuminate\Http\Request;
 use App\Models\SubCategories;
 use Flasher\Prime\FlasherInterface;
@@ -352,6 +353,12 @@ class FetchAPIs extends Controller
             ], 404);
         }
 
+        // MorphHistory::create([
+        //     'admin_id' => Auth::id(),
+        //     'modifiable_id' => $rows->id,
+        //     'modifiable_type' => get_class($rows),
+        //     'action' => 'deleted', // or 'updated', 'restored'
+        // ]);
 
         flash()->success('Deleted Selected Enquiries Successfully.');
         return response()->json([

@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Models\MorphHistory;
 use Illuminate\Support\Carbon;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
@@ -12,6 +13,11 @@ class Enquiry extends Model
     use SoftDeletes;
     protected $dates = ['created_at', 'updated_at'];
     protected $guarded = [];
+
+    public function history()
+    {
+        return $this->morphMany(MorphHistory::class, 'modifiable');
+    }
 
     public function getCreatedAtAttribute($value)
     {
@@ -38,11 +44,13 @@ class Enquiry extends Model
         return $this->belongsToMany(EnquiryProducts::class,  'enquiry_id');
     }
 
-    public function enquiries() {
+    public function enquiries()
+    {
         return $this->hasOne(Enquiry::class, 'enquiry_id');
     }
 
-    public function invoice() {
+    public function invoice()
+    {
         return $this->hasOne(OrdersTrack::class, 'enquiry_id', 'enquiry_id');
     }
 }
