@@ -424,6 +424,10 @@
 
     <script src="{{ asset('admin/assets/vendor/ckeditor/ckeditor.js') }}"></script>
     {{-- <script src="https://cdn.ckeditor.com/ckeditor5/35.3/classic/ckeditor.js"></script> --}}
+
+    
+    <!-- Dashboard -->
+    <script src="{{ asset('admin/assets/js/dashboard/dashboard-1.js') }}"></script>
     @yield('scripts')
 
     <!-- Dropzone (Uncomment if needed) -->
@@ -447,8 +451,6 @@
     <script src="{{ asset('admin/assets/vendor/jqvmap/js/jquery.vmap.world.js') }}"></script>
     <script src="{{ asset('admin/assets/vendor/jqvmap/js/jquery.vmap.usa.js') }}"></script>
 
-    <!-- Dashboard -->
-    <script src="{{ asset('admin/assets/js/dashboard/dashboard-1.js') }}"></script>
 
     <!-- Swiper -->
     <script src="{{ asset('admin/assets/vendor/swiper/js/swiper-bundle.min.js') }}"></script>
