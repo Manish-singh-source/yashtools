@@ -90,11 +90,7 @@
                                                 </td>
                                                 <td>
                                                     <div>
-                                                        @php
-                                                            $date = '10-02-2025';
-                                                            $formattedDate = date('Y-M-d', strtotime($date));
-                                                        @endphp
-                                                        <h6 class="text-primary">{{ $formattedDate }}</h6>
+                                                        <h6 class="text-primary">{{ $customer->created_at ?? '' }}</h6>
                                                     </div>
                                                 </td>
                                                 <td>

@@ -15,7 +15,7 @@ class CustomersController extends Controller
 {
     public function customersList()
     {
-        $customers = User::with('userDetail')->where('role', 'customer')->get();
+        $customers = User::with('userDetail')->where('role', 'customer')->orderBy('created_at', 'desc')->get();
         return view('admin.customer-list', compact('customers'));
     }
 

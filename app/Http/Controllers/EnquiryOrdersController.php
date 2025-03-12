@@ -185,7 +185,7 @@ class EnquiryOrdersController extends Controller
     {
         $user = User::with('userDetail')->where('id', Auth::id())->first();
         $data = Enquiry::with('products.product')->where('enquiry_id', $enquiry_id)->get();
-        $invoiceDetails = OrdersTrack::where('enquiry_id', '90031')->first();
+        $invoiceDetails = OrdersTrack::where('enquiry_id', $enquiry_id)->first();
         // dd($invoiceDetails);
         return view('user.product-info', compact('data', 'user', 'invoiceDetails'));
     }
