@@ -36,15 +36,33 @@ class AdminController extends Controller
             ->orderBy('year', 'asc')
             ->orderBy('month', 'asc')
             ->get();
+        
+        $EnqueriesCountOfMonthlyChart = Enquiry::selectRaw('YEAR(created_at) as year, MONTH(created_at) as month, COUNT(*) as count')
+            ->whereRaw('YEAR(created_at) =' . $request->year)  // Filter users created in 2025
+            ->groupBy('year', 'month')
+            ->orderBy('year', 'asc')
+            ->orderBy('month', 'asc')
+            ->get();
 
 
         // Initialize the array with all months set to 0 count
-        $monthlyUserCounts = array_fill(0, 12, ['year' => 2025, 'month' => 0, 'count' => 0]);
+        $monthlyUserCounts = array_fill(0, 12, ['year' => $request->year, 'month' => 0, 'count' => 0]);
+        $monthlyEnquiryCounts = array_fill(0, 12, ['year' => $request->year, 'month' => 0, 'count' => 0]);
 
         // Loop through each record and update the count for the corresponding month
+        
         foreach ($customersCountOfMonthlyChart as $record) {
             $monthIndex = $record->month - 1; // Since month starts from 1 (January), we subtract 1 for 0-based index
             $monthlyUserCounts[$monthIndex] = [
+                'year'  => $record->year,
+                'month' => $record->month,
+                'count' => $record->count
+            ];
+        }
+        
+        foreach ($EnqueriesCountOfMonthlyChart as $record) {
+            $monthIndex = $record->month - 1; // Since month starts from 1 (January), we subtract 1 for 0-based index
+            $monthlyEnquiryCounts[$monthIndex] = [
                 'year'  => $record->year,
                 'month' => $record->month,
                 'count' => $record->count
@@ -61,6 +79,7 @@ class AdminController extends Controller
         return response()->json([
             'status' => true,
             'data' => $customersCountOfMonthlyChart,
+            'enquiry' => $EnqueriesCountOfMonthlyChart,
             'message' => 'Status Changed successfully.',
         ], 200);
     }

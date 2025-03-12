@@ -12,13 +12,8 @@
                     </div>
                 </div>
             </div>
-            {{-- <div id="graph-data" style="display: none;">
-                @foreach ($monthlyUserCounts as $key => $data)
-                    <div class="year-{{$key}}">{{ $data['year'] }}</div>
-                    <div class="month-{{$key}}">{{ $data['month'] }}</div>
-                    <div class="count-{{$key}}">{{ $data['count'] }}</div>
-                @endforeach
-            </div> --}}
+            <div id="graph-data-customers" style="display: none"></div>
+            <div id="graph-data-enquiry"></div>
             <div class="row">
                 <div class="col-xl-12">
                     <div class="row">
@@ -70,7 +65,7 @@
                             <div class="card-header border-0 pb-0 flex-wrap">
                                 <div class="blance-media">
                                     <h5 class="mb-0">Sales Revenues</h5>
-                                    <h4 class="mb-0">$25,217k <span
+                                    <h4 class="mb-0">₹25,217k <span
                                             class="badge badge-sm badge-success light">+2.7%</span></h4>
                                 </div>
                                 <ul class="nav nav-pills mix-chart-tab" id="pills-tab" role="tablist">
@@ -162,48 +157,66 @@
 @section('scripts')
     <script>
         $(document).ready(function() {
-    // Set the CSRF token for secure AJAX requests
-    $.ajaxSetup({
-        headers: {
-            "X-CSRF-TOKEN": $('meta[name="csrf-token"]').attr("content"),
-        },
-    });
+            // Set the CSRF token for secure AJAX requests
+            $.ajaxSetup({
+                headers: {
+                    "X-CSRF-TOKEN": $('meta[name="csrf-token"]').attr("content"),
+                },
+            });
 
-    // Get the year value from the input field or default to 2025 if not set
-    let year = $('#graph-year').val() || 2025;
+            loadChart();
 
-    console.log(year)
-    // Check if the year is a valid and positive number
-    if (year == 0) {
-        // Check if the selected year is the current year
-        year = new Date().getFullYear();
-        console.log(year)
-    }
+            $(document).on("change", "#graph-year", function() {
+                loadChart();
+            });
 
-    // Perform the AJAX request to fetch chart data
-    $.ajax({
-        url: "/chart-data",
-        type: "GET",
-        data: {
-            year: year  // Sending the selected year to the server
-        },
-        success: function(response) {
-            console.log(response.data); // Handle the data returned from the server
+            function loadChart() {
 
-            // Example of processing the returned data:
-            // You can now use the data to update a chart or populate a table
-            if (response.data && Array.isArray(response.data)) {
-                // Assuming the data is an array of monthly counts or similar
-                let counts = response.data.map(item => item.count);
-                console.log(counts); // Do something with the counts, e.g., draw a chart
+                let year = $("#graph-year").val();
+
+                if (year == 0) {
+                    year = new Date().getFullYear();
+                }
+
+                $.ajax({
+                    url: "/chart-data",
+                    type: "GET",
+                    data: {
+                        year: year 
+                    },
+                    success: function(response) {
+                        let contentCustomer = '';
+                        let contentEnquiry = '';
+                        if (response.data && Array.isArray(response.data)) {
+                            response.data.map((item, index) => {
+                                contentCustomer +=
+                                    `<div class="customer-year-${index}">${item.year}</div>  
+                                    <div class="customer-month-${index}">${item.month}</div> 
+                                    <div class="customer-count-${index}">${item.count}</div>`
+                            });
+
+                            $("#graph-data-customers").html(contentCustomer);
+                        }
+
+                        if (response.enquiry && Array.isArray(response.enquiry)) {
+                            response.enquiry.map((item, index) => {
+                                contentEnquiry +=
+                                    `<div class="enquiry-year-${index}">${item.year}</div>  
+                                    <div class="enquiry-month-${index}">${item.month}</div> 
+                                    <div class="enquiry-count-${index}">${item.count}</div>`
+                            });
+
+                            $("#graph-data-enquiry").html(contentEnquiry);
+                        }
+
+                        icChartlist.load();
+                    },
+                    error: function(xhr, status, error) {
+                        console.error("Error fetching chart data:", error);
+                    }
+                });
             }
-        },
-        error: function(xhr, status, error) {
-            console.error("Error fetching chart data:", error);
-        }
-    });
-});
 
-
+        });
     </script>
 @endsection
