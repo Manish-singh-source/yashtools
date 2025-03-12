@@ -489,15 +489,9 @@ var icChartlist = (function () {
     };
 
     var chartBarRunning = function () {
-        let yearCount = [];
-        let monthCount = [];
-        let countCustomers = [];
+        let countCustomers = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
 
         for (let i = 0; i < 12; i++) {
-            // Get the text content and parse it to an integer (or float if needed)
-            let customerYearCount = parseInt(
-                $(`#graph-data-customers .customer-year-${i}`).text()
-            );
             let customerMonthCount = parseInt(
                 $(`#graph-data-customers .customer-month-${i}`).text()
             );
@@ -505,43 +499,26 @@ var icChartlist = (function () {
                 $(`#graph-data-customers .customer-count-${i}`).text()
             );
 
-            // If the text content is not a valid number, set the count as 0
-            if (isNaN(customerYearCount)) {
-                customerYearCount = 0;
-            }
             if (isNaN(customerMonthCount)) {
-                customerMonthCount = 0;
+                customerMonthCount = i;
             }
             if (isNaN(customerCount)) {
                 customerCount = 0;
             }
-
-            // Push the count value for the current month into the array
-            yearCount.push(customerYearCount);
-            monthCount.push(customerMonthCount);
-            countCustomers[customerMonthCount] = customerCount;
+            countCustomers[customerMonthCount - 1] = customerCount;
         }
 
-        let yearEnquiry = [];
-        let monthEnquiry = [];
         let countEnquiries = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
 
         for (let j = 0; j < 12; j++) {
             // Get the text content and parse it to an integer (or float if needed)
-            let yearEnquiryCount = parseInt(
-                $(`#graph-data-enquiry .enquiry-year-${j}`).text()
-            );
+
             let monthEnquiryCount = parseInt(
                 $(`#graph-data-enquiry .enquiry-month-${j}`).text()
             );
             let EnquiryCount = parseInt(
                 $(`#graph-data-enquiry .enquiry-count-${j}`).text()
             );
-
-            // If the text content is not a valid number, set the count as 0
-            // if (isNaN(yearEnquiryCount)) {
-            //     yearEnquiryCount = 0;
-            // }
             // // If the text content is not a valid number, set the count as 0
             if (isNaN(monthEnquiryCount)) {
                 monthEnquiryCount = j;
@@ -555,11 +532,7 @@ var icChartlist = (function () {
             // yearEnquiry.push(yearEnquiryCount);
             // monthEnquiry.push(monthEnquiryCount);
             countEnquiries[monthEnquiryCount] = EnquiryCount;
-            console.log(EnquiryCount);
         }
-        // console.log(yearEnquiry);
-        // console.log(monthEnquiry);
-        console.log(countEnquiries);
 
         var options = {
             series: [
@@ -679,6 +652,8 @@ var icChartlist = (function () {
                     },
                 },
             },
+            // Customers bar color -- primary
+            // Enquiries bar color -- #01BD9B
             fill: {
                 opacity: 1,
                 colors: ["var(--primary)", "#01BD9B"],
@@ -705,12 +680,12 @@ var icChartlist = (function () {
                         },
                         series: [
                             {
-                                name: "Projects",
-                                data: [31, 40, 28, 31, 40, 28, 31, 40],
+                                name: "Customers",
+                                data: countCustomers,
                             },
                             {
-                                name: "Projects",
-                                data: [11, 32, 45, 31, 40, 28, 31, 40],
+                                name: "Enquiries",
+                                data: countEnquiries,
                             },
                         ],
                     },
@@ -724,15 +699,15 @@ var icChartlist = (function () {
                 options
             );
             chart.render();
-
+            
             jQuery("#dzIncomeSeries").on("change", function () {
                 jQuery(this).toggleClass("disabled");
-                chart.toggleSeries("Income");
+                chart.toggleSeries("Customers");
             });
-
+            
             jQuery("#dzExpenseSeries").on("change", function () {
                 jQuery(this).toggleClass("disabled");
-                chart.toggleSeries("Expense");
+                chart.toggleSeries("Enquiries");
             });
         }
     };

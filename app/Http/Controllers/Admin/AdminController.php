@@ -43,6 +43,14 @@ class AdminController extends Controller
             ->orderBy('year', 'asc')
             ->orderBy('month', 'asc')
             ->get();
+        
+        $totalRevenue = Enquiry::selectRaw('YEAR(created_at) as year, MONTH(created_at) as month, COUNT(*) as count')
+            ->whereRaw('YEAR(created_at) =' . $request->year)  // Filter users created in 2025
+            ->whereRaw('status = "payment_received"')
+            ->groupBy('year', 'month')
+            ->orderBy('year', 'asc')
+            ->orderBy('month', 'asc')
+            ->get();
 
 
         // Initialize the array with all months set to 0 count
@@ -68,7 +76,7 @@ class AdminController extends Controller
                 'count' => $record->count
             ];
         }
-
+ 
         if (!$monthlyUserCounts) {
             return response()->json([
                 'status' => false,
@@ -78,8 +86,9 @@ class AdminController extends Controller
 
         return response()->json([
             'status' => true,
-            'data' => $customersCountOfMonthlyChart,
-            'enquiry' => $EnqueriesCountOfMonthlyChart,
+            'data' => $monthlyUserCounts,
+            'enquiry' => $monthlyEnquiryCounts,
+            'totalRevenue' => $totalRevenue,
             'message' => 'Status Changed successfully.',
         ], 200);
     }

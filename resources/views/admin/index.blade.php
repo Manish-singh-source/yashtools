@@ -13,7 +13,7 @@
                 </div>
             </div>
             <div id="graph-data-customers" style="display: none"></div>
-            <div id="graph-data-enquiry"></div>
+            <div id="graph-data-enquiry" style="display: none"></div>
             <div class="row">
                 <div class="col-xl-12">
                     <div class="row">
@@ -69,14 +69,14 @@
                                             class="badge badge-sm badge-success light">+2.7%</span></h4>
                                 </div>
                                 <ul class="nav nav-pills mix-chart-tab" id="pills-tab" role="tablist">
-                                    <li class="nav-item spc" role="presentation">
+                                    {{-- <li class="nav-item spc" role="presentation">
                                         <select class="default-select form-control">
                                             <option>Types</option>
                                             <option>Total Customer</option>
                                             <option>Total Enquiry</option>
                                             <option>Total Ordered</option>
                                         </select>
-                                    </li>
+                                    </li> --}}
                                     <li class="nav-item" role="presentation">
                                         <select class="default-select form-control">
                                             <option>State</option>
@@ -157,6 +157,7 @@
 @section('scripts')
     <script>
         $(document).ready(function() {
+            loadChart();
             // Set the CSRF token for secure AJAX requests
             $.ajaxSetup({
                 headers: {
@@ -164,7 +165,6 @@
                 },
             });
 
-            loadChart();
 
             $(document).on("change", "#graph-year", function() {
                 loadChart();
@@ -182,9 +182,10 @@
                     url: "/chart-data",
                     type: "GET",
                     data: {
-                        year: year 
+                        year: year
                     },
                     success: function(response) {
+                        console.log(response)
                         let contentCustomer = '';
                         let contentEnquiry = '';
                         if (response.data && Array.isArray(response.data)) {
@@ -209,7 +210,11 @@
                             $("#graph-data-enquiry").html(contentEnquiry);
                         }
 
-                        icChartlist.load();
+                        // icChartlist.load();
+
+                        setTimeout(function() {
+                            icChartlist.load();
+                        }, 1000);
                     },
                     error: function(xhr, status, error) {
                         console.error("Error fetching chart data:", error);
