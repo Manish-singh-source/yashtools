@@ -22,12 +22,12 @@
                                                     <img src="{{ asset('uploads/profile/' . $user->profile) }}"
                                                         alt="">
                                                 @else
-                                                    <img src="{{ asset('admin/assets/images/profile/profile.png') }}"
+                                                    <img id="imagePreview" src="{{ asset('admin/assets/images/profile/profile.png') }}"
                                                         alt="">
                                                 @endif
                                                 <div class="upload-link" title="" data-toggle="tooltip"
                                                     data-placement="right" data-original-title="update">
-                                                    <input type="file" class="update-flie" name="profileImage">
+                                                    <input type="file"  id="imageUpload" class="update-flie" name="profileImage">
                                                     <i class="fa fa-camera"></i>
                                                 </div>
                                             </div>
@@ -41,6 +41,7 @@
                             </div>
                         </div>
                     </div>
+
                     <div class="col-xl-9 col-lg-8">
                         <div class="card profile-card m-b30">
                             <div class="card-header">
@@ -185,4 +186,16 @@
 
         </div>
     </div>
+    <script>
+        $("#imageUpload").change(function(event) {
+            let file = event.target.files[0]; // Get the selected file
+            if (file) {
+                let reader = new FileReader();
+                reader.onload = function(e) {
+                    $("#imagePreview").attr("src", e.target.result).show(); // Update and show preview
+                };
+                reader.readAsDataURL(file);
+            }
+        });
+    </script>
 @endsection
