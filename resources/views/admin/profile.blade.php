@@ -18,8 +18,9 @@
                                     <div class="p-5">
                                         <div class="author-profile">
                                             <div class="author-media">
-                                                @if($user->profile != '')
-                                                    <img src="{{ asset('uploads/profile/' . $user->profile) }}" alt="">
+                                                @if ($user->profile != '')
+                                                    <img src="{{ asset('uploads/profile/' . $user->profile) }}"
+                                                        alt="">
                                                 @else
                                                     <img src="{{ asset('admin/assets/images/profile/profile.png') }}"
                                                         alt="">
@@ -52,29 +53,55 @@
                                             <label class="form-label" for="Name">Full Name</label>
                                             <input type="hidden" class="form-control" name="userId"
                                                 value="{{ $user->id }}" id="Name">
-                                            <input type="text" class="form-control" name="fullname"  placeholder="Enter Full Name"
-                                                value="{{ $user->fullname }}" id="Name">
+                                            <input type="text"
+                                                class="form-control @error('fullname') is-invalid @enderror" name="fullname"
+                                                placeholder="Enter Full Name" value="{{ $user->fullname }}" id="Name">
+                                            @error('fullname')
+                                                <div class="invalid-feedback">
+                                                    {{ $message }}
+                                                </div>
+                                            @enderror
                                         </div>
                                     </div>
                                     <div class="col-sm-6">
                                         <div class="mb-3">
                                             <label class="form-label" for="Name">Username</label>
-                                            <input type="text" class="form-control" name="username" placeholder="Enter Your Username"
-                                                value="{{ $user->username }}" id="Name">
+                                            <input type="text"
+                                                class="form-control @error('username') is-invalid @enderror" name="username"
+                                                placeholder="Enter Your Username" value="{{ $user->username }}"
+                                                id="Name">
+                                            @error('username')
+                                                <div class="invalid-feedback">
+                                                    {{ $message }}
+                                                </div>
+                                            @enderror
                                         </div>
                                     </div>
                                     <div class="col-sm-6">
                                         <div class="mb-3">
                                             <label class="form-label">Phone</label>
-                                            <input type="number" class="form-control" name="mobile_number" placeholder="Enter Your Contact No"
+                                            <input type="number"
+                                                class="form-control @error('mobile_number') is-invalid @enderror"
+                                                name="mobile_number" placeholder="Enter Your Contact No"
                                                 value="{{ $user->mobile_number }}" placeholder="0123456789">
+                                            @error('mobile_number')
+                                                <div class="invalid-feedback">
+                                                    {{ $message }}
+                                                </div>
+                                            @enderror
                                         </div>
                                     </div>
                                     <div class="col-sm-6">
                                         <div class="mb-3">
                                             <label class="form-label" for="Email">Email address</label>
-                                            <input type="text" class="form-control" name="email" placeholder="Enter Your E-mail"
-                                                value="{{ $user->email }}" id="Email">
+                                            <input type="text" class="form-control  @error('email') is-invalid @enderror"
+                                                name="email" placeholder="Enter Your E-mail" value="{{ $user->email }}"
+                                                id="Email">
+                                            @error('email')
+                                                <div class="invalid-feedback">
+                                                    {{ $message }}
+                                                </div>
+                                            @enderror
                                         </div>
                                     </div>
 
