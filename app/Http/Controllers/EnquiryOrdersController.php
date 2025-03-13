@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Po;
 use App\Models\Cart;
 use App\Models\User;
 use App\Models\Enquiry;
@@ -14,7 +15,9 @@ use App\Models\EnquiryProducts;
 use Illuminate\Support\Facades\DB;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Mail;
+use Illuminate\Support\Facades\Validator;
 use App\Notifications\EnquiryNotification;
 
 class EnquiryOrdersController extends Controller
@@ -186,7 +189,42 @@ class EnquiryOrdersController extends Controller
         $user = User::with('userDetail')->where('id', Auth::id())->first();
         $data = Enquiry::with('products.product')->where('enquiry_id', $enquiry_id)->get();
         $invoiceDetails = OrdersTrack::where('enquiry_id', $enquiry_id)->first();
+        $poInfo = Po::where('enquiry_id', $enquiry_id)->first();
         // dd($invoiceDetails);
-        return view('user.product-info', compact('data', 'user', 'invoiceDetails'));
+        return view('user.product-info', compact('data', 'user', 'invoiceDetails', 'poInfo'));
+    }
+
+    public function uploadPO(Request $request) {
+
+        $validations = Validator::make($request->all(), [
+            "po_file" => "mimes:pdf|max:10240",
+            'enquiry_id' => 'required',
+        ]);
+        
+        if ($validations->fails()) {
+            return back()->withErrors($validations)->withInput();
+        }
+        // dd($request->all());
+
+        $po = new Po();
+        $po->po_file = $request->po_file;
+        $po->enquiry_id = $request->enquiry_id;
+
+        if (!empty($request->po_file)) {
+            if (!empty($banner->po_file)) {
+                File::delete(public_path('/uploads/po_file/' . $po->po_file));
+            }
+            $image = $request->po_file;
+            $ext = $image->getClientOriginalExtension();
+            $imageName = time() . "." . $ext;
+            $image->move(public_path('uploads/po_file'), $imageName);
+
+            $po->po_file = $imageName;
+        }
+
+        $po->save();
+
+        flash()->success('PO Uploaded Successfully.');
+        return redirect()->route('product.info', $request->enquiry_id);
     }
 }

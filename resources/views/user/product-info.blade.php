@@ -79,7 +79,12 @@
                                                             <td>{{ $order->products[0]->product->product_name }}</td>
                                                             <td>{{ $order->quantity }}</td>
                                                             <td>{{ $data[0]->status }}</td>
-                                                            <td>Send PO</td>
+                                                            <td>
+                                                                @isset($poInfo->id)
+                                                                    <a href="{{ asset('uploads/po_file/' . $poInfo->po_file) }}"
+                                                                        target="_blank">View PO</a>
+                                                                @endisset
+                                                            </td>
                                                         </tr>
                                                     @endforeach
                                                 </tbody>
@@ -107,8 +112,8 @@
                                         </p>
                                         <p><strong>Invoice File:</strong>
                                             @if ($invoiceDetails->invoice_file)
-                                                <a href="{{ asset('invoices/' . $invoiceDetails->invoice_file) }}"
-                                                    class="btn btn-sm btn-success" download>
+                                                <a href="{{ asset('uploads/invoices/' . $invoiceDetails->invoice_file) }}"
+                                                    class="btn btn-sm btn-success" target="_blank">
                                                     Download Invoice
                                                 </a>
                                             @else
@@ -118,6 +123,25 @@
                                     </div>
                                 </div>
                             </div>
+                        @else
+                            @empty($poInfo->id)
+                                <form action="{{ route('po.upload') }}" method="POST" enctype="multipart/form-data">
+                                    @csrf
+                                    @method('POST')
+                                    <div class="mb-3">
+                                        <label for="po_file" class="form-label">Upload PO File</label>
+                                        <input class="form-control" type="file" name="po_file" id="po_file">
+                                        @error('po_file')
+                                            {{ $message }}
+                                        @enderror
+                                        <input class="form-control" type="text" name="enquiry_id"
+                                            value="{{ $data[0]->enquiry_id }}">
+                                    </div>
+                                    <div class="mb-3">
+                                        <input type="submit" name="submit" value="Send PO">
+                                    </div>
+                                </form>
+                            @endempty
                         @endisset
 
                     </div>
@@ -125,4 +149,14 @@
 
     </main>
     <!-- Start Footer Area  -->
+@endsection
+
+@section('script')
+    <script>
+        $("#SubmitPO").submit(function(event) {
+            event.preventDefault();
+
+            this.submit(); // Submit the form
+        });
+    </script>
 @endsection

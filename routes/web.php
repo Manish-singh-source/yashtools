@@ -90,6 +90,7 @@ Route::middleware('isCustomerAuth:customer')->group(function () {
 
     // Enquiry 
     Route::get('/product-info/{id}', [EnquiryOrdersController::class, 'productInfo'])->name('product.info');
+    Route::post('/po-upload', [EnquiryOrdersController::class, 'uploadPO'])->name('po.upload');
     Route::put('/update-user-password', [UserController::class, 'updateUserPassword'])->name('update.user.password');
 });
 
