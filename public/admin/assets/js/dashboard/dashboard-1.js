@@ -44,7 +44,7 @@ var icChartlist = (function () {
             // Push the count value for the current month into the array
             // yearEnquiry.push(yearEnquiryCount);
             // monthEnquiry.push(monthEnquiryCount);
-            countEnquiries[monthEnquiryCount] = EnquiryCount;
+            countEnquiries[monthEnquiryCount - 1] = EnquiryCount;
         }
 
         let enquiryFulfilled = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
@@ -53,10 +53,14 @@ var icChartlist = (function () {
             // Get the text content and parse it to an integer (or float if needed)
 
             let monthEnquiryFulfilledCount = parseInt(
-                $(`#graph-data-enquiryFulfilled .enquiryFulfilled-month-${k}`).text()
+                $(
+                    `#graph-data-enquiryFulfilled .enquiryFulfilled-month-${k}`
+                ).text()
             );
             let EnquiryFulfilledCount = parseInt(
-                $(`#graph-data-enquiryFulfilled .enquiryFulfilled-count-${k}`).text()
+                $(
+                    `#graph-data-enquiryFulfilled .enquiryFulfilled-count-${k}`
+                ).text()
             );
             // // If the text content is not a valid number, set the count as 0
             if (isNaN(monthEnquiryFulfilledCount)) {
@@ -70,7 +74,7 @@ var icChartlist = (function () {
             // Push the count value for the current month into the array
             // yearEnquiry.push(yearEnquiryCount);
             // monthEnquiry.push(monthEnquiryCount);
-            enquiryFulfilled[monthEnquiryFulfilledCount] =
+            enquiryFulfilled[monthEnquiryFulfilledCount - 1] =
                 EnquiryFulfilledCount;
         }
 
