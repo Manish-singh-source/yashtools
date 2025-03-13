@@ -47,7 +47,7 @@
                                         <div class="row">
                                             <div class="mb-3 col-md-6">
                                                 <label class="form-label">Full Name</label>
-                                                <input type="text"
+                                                <input type="text" placeholder="Enter Your Full Name"
                                                     class="form-control @error('fullname') is-invalid @enderror"
                                                     name="fullname">
                                                 @error('fullname')
@@ -58,7 +58,7 @@
                                             </div>
                                             <div class="mb-3 col-md-6">
                                                 <label class="form-label">Email</label>
-                                                <input type="email" class="form-control @error('email') is-invalid @enderror"
+                                                <input type="email" placeholder="Enter Your Email" class="form-control @error('email') is-invalid @enderror"
                                                     name="email">
                                                 @error('email')
                                                     <div class="invalid-feedback">
@@ -68,7 +68,7 @@
                                             </div>
                                             <div class="mb-3 col-md-6">
                                                 <label class="form-label">Number</label>
-                                                <input type="text"
+                                                <input type="text" placeholder="Enter Your Contact Number"
                                                     class="form-control @error('mobile_number') is-invalid @enderror"
                                                     name="mobile_number">
                                                 @error('mobile_number')
@@ -79,7 +79,7 @@
                                             </div>
                                             <div class="mb-3 col-md-6">
                                                 <label class="form-label">Password</label>
-                                                <input type="password"
+                                                <input type="password" placeholder="Enter Your Password"
                                                     class="form-control @error('password') is-invalid @enderror"
                                                     name="password">
                                                 @error('password')

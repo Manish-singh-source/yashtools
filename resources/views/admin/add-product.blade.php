@@ -21,7 +21,7 @@
                                     <div class="card-body">
                                         <div class="mb-3">
                                             <label class="form-label">Product Name</label>
-                                            <input type="text"
+                                            <input type="text" placeholder="Enter Product Name"
                                                 class="form-control @error('product_name') is-invalid @enderror"
                                                 name="product_name">
                                             @error('product_name')
@@ -32,7 +32,7 @@
                                         </div>
                                         <div class="mb-3">
                                             <label class="form-label">Product Quantity</label>
-                                            <input type="number"
+                                            <input type="number" placeholder="Enter Product Quantity"
                                                 class="form-control @error('product_quantity') is-invalid @enderror"
                                                 name="product_quantity">
                                             @error('product_quantity')
@@ -43,7 +43,7 @@
                                         </div>
                                         <div class="mb-3">
                                             <label class="form-label">Price</label>
-                                            <input type="number"
+                                            <input type="number"  placeholder="Enter Product Price"
                                                 class="form-control @error('product_price') is-invalid @enderror"
                                                 name="product_price">
                                             @error('product_price')
@@ -80,7 +80,7 @@
                                             @enderror --}}
                                             <label class="form-label">Description</label>
                                             <div id="ckeditor"></div>
-                                            <textarea class="form-control @error('product_description') is-invalid @enderror" name="product_description" style="display: none"
+                                            <textarea  placeholder="Enter Product Description" class="form-control @error('product_description') is-invalid @enderror" name="product_description" style="display: none"
                                                 id="editorContent"></textarea>
                                             @error('product_description')
                                                 <div class="invalid-feedback">

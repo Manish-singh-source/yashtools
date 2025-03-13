@@ -1,9 +1,7 @@
 @extends('admin.layouts.app')
 
 @section('content-body')
-    <!--**********************************
-                                                                                        Content body start
-                                                                                    ***********************************-->
+
     <div class="content-body">
         <div class="container-fluid">
 
@@ -18,7 +16,7 @@
                             <div class="card-body">
                                 <div class="mb-3">
                                     <label class="form-label">Title</label>
-                                    <input type="text" name="eventTitle" value="{{ $selectedEvent->events_title }}"
+                                    <input type="text" name="eventTitle" value="{{ $selectedEvent->events_title }}" placeholder="Enter Event Title"
                                         class="form-control @error('eventTitle') is-invalid @enderror">
                                     @error('eventTitle')
                                         <div class="invalid-feedback">
@@ -28,7 +26,7 @@
                                 </div>
                                 <div class="mb-3">
                                     <label class="form-label">Description</label>
-                                    <textarea class="form-control @error('eventDescription') is-invalid @enderror" name="eventDescription" id="">{{ $selectedEvent->events_description }}</textarea>
+                                    <textarea placeholder="Enter Event Description" class="form-control @error('eventDescription') is-invalid @enderror" name="eventDescription" id="">{{ $selectedEvent->events_description }}</textarea>
                                     @error('eventDescription')
                                         <div class="invalid-feedback">
                                             {{ $message }}
@@ -37,7 +35,7 @@
                                 </div>
                                 <div class="mb-3">
                                     <label class="form-label">Tag</label>
-                                    <input type="text" class="form-control @error('eventTag') is-invalid @enderror"
+                                    <input type="text" class="form-control @error('eventTag') is-invalid @enderror" placeholder="Enter Event Tag"
                                         value="{{ $selectedEvent->events_tag }}" name="eventTag">
                                 </div>
                                 <div class="mb-3">
@@ -94,9 +92,7 @@
             </div>
         </div>
     </div>
-    <!--**********************************
-                                                                                        Content body end
-                                                                                    ***********************************-->
+    
 @endsection
 @section('scripts')
     <script src="https://code.jquery.com/jquery-3.7.1.min.js"

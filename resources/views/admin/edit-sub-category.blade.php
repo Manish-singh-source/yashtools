@@ -45,10 +45,10 @@
                                         <div class="mb-3">
                                             <label class="form-label required">Sub Categorey Name</label>
                                             <input type="hidden" name="selectedSubcategoryId" class="form-control"
-                                                value="{{ $selectedSubcategory->id }}" placeholder="Food">
+                                                value="{{ $selectedSubcategory->id }}">
                                             <input type="text" name="subcategory_name"
                                                 class="form-control @error('subcategory_name') is-invalid @enderror"
-                                                value="{{ $selectedSubcategory->sub_category_name }}" placeholder="Food">
+                                                value="{{ $selectedSubcategory->sub_category_name }}" placeholder="Enter Sub Category Name">
 
                                             @error('subcategory_name')
                                                 <div class="invalid-feedback">

@@ -25,9 +25,9 @@
                                         <div class="mb-3 col-md-6">
                                             <label class="form-label">Full Name</label>
                                             <input type="hidden" class="form-control" name="adminId"
-                                                value="{{ $admin->id }}" placeholder="Manish">
+                                                value="{{ $admin->id }}">
                                             <input type="text" class="form-control" name="fullname"
-                                                value="{{ $admin->fullname }}" placeholder="Manish">
+                                                value="{{ $admin->fullname }}" placeholder="Enter Your Full Name">
                                             @error('fullname')
                                                 {{ $message }}
                                             @enderror
@@ -35,14 +35,14 @@
                                         <div class="mb-3 col-md-6">
                                             <label class="form-label">Email</label>
                                             <input type="email" class="form-control" value="{{ $admin->email }}"
-                                                name="email">
+                                                name="email"  placeholder="Enter Your E-mail">
                                             @error('email')
                                                 {{ $message }}
                                             @enderror
                                         </div>
                                         <div class="mb-3 col-md-6">
                                             <label class="form-label">Number</label>
-                                            <input type="text" class="form-control" name="mobile_number"
+                                            <input type="text" class="form-control" name="mobile_number"  placeholder="Enter Your Contact No"
                                                 value="{{ $admin->mobile_number }}">
                                             @error('mobile_number')
                                                 {{ $message }}

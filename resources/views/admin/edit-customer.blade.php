@@ -1,9 +1,6 @@
 @extends('admin.layouts.app')
 
 @section('content-body')
-    <!--**********************************
-                                                                                            Content body start
-                                                                                        ***********************************-->
     <div class="content-body">
         <div class="container-fluid">
             <!-- row -->
@@ -25,7 +22,7 @@
                                             <label class="form-label" for="Name">Company Name</label>
                                             <input type="text" class="form-control"
                                                 value="{{ $customerDetail->userDetail->company_name ?? '' }}"
-                                                name="company_name" id="company_name">
+                                                placeholder="Enter Company Name" name="company_name" id="company_name">
                                             @error('company_name')
                                                 {{ $message }}
                                             @enderror
@@ -34,7 +31,7 @@
                                     <div class="col-sm-6">
                                         <div class="mb-3">
                                             <label class="form-label" for="Surname">Full name</label>
-                                            <input type="text" class="form-control"
+                                            <input type="text" class="form-control" placeholder="Enter Full name"
                                                 value="{{ $customerDetail->fullname }}" name="fullname" id="fullname">
                                             @error('fullname')
                                                 {{ $message }}
@@ -44,7 +41,7 @@
                                     <div class="col-sm-6">
                                         <div class="mb-3">
                                             <label class="form-label" for="Skills">Company Address</label>
-                                            <textarea name="company_address" class="form-control">{{ $customerDetail->userDetail->company_address ?? '' }}</textarea>
+                                            <textarea placeholder="Enter Company Address" name="company_address" class="form-control">{{ $customerDetail->userDetail->company_address ?? '' }}</textarea>
                                             @error('company_address')
                                                 {{ $message }}
                                             @enderror
@@ -53,9 +50,8 @@
                                     <div class="col-sm-6">
                                         <div class="mb-3">
                                             <label class="form-label">Mobile number</label>
-                                            <input type="number" class="form-control"
-                                                value="{{ $customerDetail->mobile_number }}" name="mobile_number"
-                                                placeholder="">
+                                            <input type="number" class="form-control" placeholder="Enter Mobile number"
+                                                value="{{ $customerDetail->mobile_number }}" name="mobile_number">
                                             @error('mobile_number')
                                                 {{ $message }}
                                             @enderror
@@ -64,7 +60,7 @@
                                     <div class="col-sm-6">
                                         <div class="mb-3">
                                             <label class="form-label" for="Specialty">GSTIN</label>
-                                            <input type="text" class="form-control"
+                                            <input type="text" class="form-control" placeholder="Enter GSTIN"
                                                 value="{{ $customerDetail->userDetail->gstin ?? '' }}" name="gstin"
                                                 id="Specialty">
                                             @error('gstin')
@@ -75,7 +71,7 @@
                                     <div class="col-sm-6">
                                         <div class="mb-3">
                                             <label class="form-label" for="Specialty">City</label>
-                                            <input type="text" class="form-control"
+                                            <input type="text" class="form-control" placeholder="Enter City"
                                                 value="{{ $customerDetail->userDetail->city ?? '' }}" name="city"
                                                 id="Specialty">
                                             @error('city')
@@ -108,7 +104,7 @@
                                     <div class="col-sm-6">
                                         <div class="mb-3">
                                             <label class="form-label" for="Specialty">Pin Code</label>
-                                            <input type="text" class="form-control"
+                                            <input type="text" class="form-control" placeholder="Enter Pin Code"
                                                 value="{{ $customerDetail->userDetail->pincode ?? '' }}" name="pin_code"
                                                 id="Specialty">
                                             @error('pin_code')
@@ -119,7 +115,8 @@
                                     <div class="col-sm-6">
                                         <div class="mb-3">
                                             <label class="form-label" for="Email">Email address</label>
-                                            <input type="text" class="form-control" value="{{ $customerDetail->email }}"
+                                            <input type="text" class="form-control"
+                                                value="{{ $customerDetail->email }}" placeholder="Enter Email address"
                                                 name="email" id="Email">
                                             @error('email')
                                                 {{ $message }}
@@ -137,7 +134,4 @@
             </div>
         </div>
     </div>
-    <!--**********************************
-                                                                                            Content body end
-                                                                                        ***********************************-->
 @endsection

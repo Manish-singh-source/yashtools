@@ -20,10 +20,10 @@
                                         <div class="mb-3">
                                             <label class="form-label required">Brand Name</label>
                                             <input type="hidden" name="brandId" value="{{ $selectedbrand->id }}"
-                                                class="form-control" placeholder="Food">
+                                                class="form-control">
                                             <input type="text" name="brand_name" value="{{ $selectedbrand->brand_name }}"
                                                 class="form-control @error('brand_name') is-invalid @enderror"
-                                                placeholder="Food">
+                                                placeholder="Enter Brand Name">
                                             @error('brand_name')
                                                 <div class="invalid-feedback">
                                                     {{ $message }}

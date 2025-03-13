@@ -62,7 +62,7 @@
                                     @method('POST')
                                     <div class="mb-3">
                                         <label class="mb-1 form-label">Username</label>
-                                        <input type="text"
+                                        <input type="text" placeholder="Enter Username"
                                             class="form-control @error('password') is-invalid @enderror" name="username"
                                             aria-describedby="email">
                                         @error('username')
@@ -73,7 +73,7 @@
                                     </div>
                                     <div class="mb-3">
                                         <label class="mb-1 form-label">Email</label>
-                                        <input type="email"
+                                        <input type="email" placeholder="Enter Your E-mail"
                                             class="form-control @error('password') is-invalid @enderror" name="email"
                                             aria-describedby="email">
                                         @error('email')
@@ -85,7 +85,7 @@
                                     <div class="mb-3">
                                         <label class="mb-1 form-label">Password</label>
                                         <div class="position-relative">
-                                            <input type="password" id="ic-password"
+                                            <input type="password" id="ic-password" placeholder="Enter Strong Password"
                                                 class="form-control @error('password') is-invalid @enderror"
                                                 name="password" aria-describedby="password">
                                             <span class="show-pass eye">
@@ -115,9 +115,6 @@
         </div>
     </div>
 
-    <!--**********************************
- Scripts
-***********************************-->
     <!-- Required vendors -->
     <script>
         var enableSupportButton = '1'

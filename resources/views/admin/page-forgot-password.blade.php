@@ -64,7 +64,7 @@
                                     @method('POST')
                                     <div class="mb-3">
                                         <label class="form-label">Email</label>
-                                        <input type="email" name="email" class="form-control">
+                                        <input type="email" name="email" class="form-control"  placeholder="Enter Your Email">
                                     </div>
                                     <div class="text-center">
                                         <button type="submit" class="btn btn-primary btn-block">SUBMIT</button>

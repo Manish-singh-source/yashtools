@@ -136,11 +136,11 @@
                                             </div>
                                             <div class="col-md-6 mb-3">
                                                 <label class="form-label">Courier Name</label>
-                                                <input class="form-control" name="enquiry_id"
+                                                <input class="form-control" name="enquiry_id" 
                                                     value="{{ $invoiceDetails->enquiry_id }}" type="hidden" required>
                                                 <input class="form-control" name="invoice_id"
                                                     value="{{ $invoiceDetails->id }}" type="hidden" required>
-                                                <input class="form-control @error('courier_name') is-invalid @enderror"
+                                                <input class="form-control @error('courier_name') is-invalid @enderror"  placeholder="Enter Courier Name"
                                                     name="courier_name" value="{{ $invoiceDetails->courier_name }}"
                                                     type="text">
                                                 @error('courier_name')
@@ -152,7 +152,7 @@
                                             <div class="col-md-6 mb-3">
                                                 <label class="form-label">Courier Number</label>
                                                 <input class="form-control @error('courier_number') is-invalid @enderror"
-                                                    name="courier_number" value="{{ $invoiceDetails->courier_number }}"
+                                                    name="courier_number" placeholder="Enter Courier Number" value="{{ $invoiceDetails->courier_number }}"
                                                     type="text">
                                                 @error('courier_number')
                                                     <div class="invalid-feedback">
@@ -163,7 +163,7 @@
                                             <div class="col-md-6 mb-3">
                                                 <label class="form-label">Courier Website</label>
                                                 <input class="form-control @error('courier_website') is-invalid @enderror"
-                                                    name="courier_website"
+                                                    name="courier_website" placeholder="Enter Courier Website"
                                                     value="{{ $invoiceDetails->courier_website }}"type="text">
                                                 @error('courier_website')
                                                     <div class="invalid-feedback">
@@ -205,7 +205,7 @@
                                                 <label class="form-label">Courier Name</label>
                                                 <input class="form-control" name="enquiry_id"
                                                     value="{{ $order[0]->enquiry_id }}" type="hidden" required>
-                                                <input class="form-control @error('courier_name') is-invalid @enderror"
+                                                <input class="form-control @error('courier_name') is-invalid @enderror" placeholder="Enter Courier Name"
                                                     name="courier_name" type="text">
                                                 @error('courier_name')
                                                     <div class="invalid-feedback">
@@ -215,7 +215,7 @@
                                             </div>
                                             <div class="col-md-6 mb-3">
                                                 <label class="form-label">Courier Number</label>
-                                                <input class="form-control @error('courier_number') is-invalid @enderror"
+                                                <input class="form-control @error('courier_number') is-invalid @enderror" placeholder="Enter Courier Number"
                                                     name="courier_number" type="text">
                                                 @error('courier_number')
                                                     <div class="invalid-feedback">
@@ -225,7 +225,7 @@
                                             </div>
                                             <div class="col-md-6 mb-3">
                                                 <label class="form-label">Courier Website</label>
-                                                <input class="form-control @error('courier_website') is-invalid @enderror"
+                                                <input class="form-control @error('courier_website') is-invalid @enderror" placeholder="Enter Courier Website"
                                                     name="courier_website" type="text">
                                                 @error('courier_website')
                                                     <div class="invalid-feedback">

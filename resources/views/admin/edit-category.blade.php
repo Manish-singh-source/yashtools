@@ -1,9 +1,7 @@
 @extends('admin.layouts.app')
 
 @section('content-body')
-    <!--**********************************
-                                                                            Content body start
-                                                                        ***********************************-->
+
     <div class="content-body">
         <div class="container-fluid">
 
@@ -25,7 +23,7 @@
                                             <input type="text"
                                                 class="form-control @error('category_name') is-invalid @enderror"
                                                 name="category_name" value="{{ $category->category_name }}"
-                                                placeholder="Fashion">
+                                                placeholder="Enter Category Name">
                                             @error('category_name')
                                                 <div class="invalid-feedback">
                                                     {{ $message }}
@@ -78,9 +76,7 @@
             </div>
         </div>
     </div>
-    <!--**********************************
-                                                                            Content body end
-                                                                        ***********************************-->
+    
 @endsection
 @section('scripts')
     <script src="https://code.jquery.com/jquery-3.7.1.min.js"

@@ -70,7 +70,7 @@
 
                                     <div class="mb-3">
                                         <label class="mb-1 form-label">Email</label>
-                                        <input type="email" class="form-control @error('email') is-invalid @enderror"
+                                        <input type="email" class="form-control @error('email') is-invalid @enderror" placeholder="Enter Your Email"
                                             name="email" aria-describedby="email">
                                         @error('email')
                                             <div class="invalid-feedback" id="email">
@@ -82,7 +82,7 @@
                                     <div class="mb-3">
                                         <label class="mb-1 form-label">Password</label>
                                         <div class="position-relative">
-                                            <input type="password" id="ic-password"
+                                            <input type="password" id="ic-password" placeholder="Enter Strong Password"
                                                 class="form-control @error('password') is-invalid @enderror"
                                                 name="password" aria-describedby="password">
                                             <span class="show-pass eye">
