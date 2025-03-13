@@ -86,6 +86,32 @@
                     </div>
 
 
+                    @isset($poInfo->id)
+                        <div class="card h-auto">
+                            <div class="card-header py-3">
+                                <h4 class="card-title--medium mb-0">PO File</h4>
+                            </div>
+
+                            <div class="card-body">
+                                <div class="col-md-6 mb-3">
+                                    <div class="col-lg-3 col-sm-6">
+                                        <a href="{{ asset('uploads/po_file/' . $poInfo->po_file) }}" target="_blank">
+                                            <div class="d-flex align-items-center">
+                                                <div class="me-3">
+                                                    <img src="{{ asset('admin/assets/images/files/pdf.png') }}" width="35"
+                                                        alt="">
+                                                </div>
+                                                <div class="clearfix">
+                                                    <h6 class="mb-0">PDF</h6>
+                                                    <span class="fs-13">1.5MB</span>
+                                                </div>
+                                            </div>
+                                        </a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    @endisset
                     @if ($invoiceDetails != null)
                         <div class="card h-auto">
                             <div class="card-header py-3">
