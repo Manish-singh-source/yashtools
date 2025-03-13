@@ -5,7 +5,6 @@
 @endsection
 
 @section('content-body')
-
     <div class="content-body">
         <!-- row -->
         <div class="container-fluid">
@@ -58,8 +57,8 @@
                                             </div>
                                             <div class="mb-3 col-md-6">
                                                 <label class="form-label">Email</label>
-                                                <input type="email" placeholder="Enter Your Email" class="form-control @error('email') is-invalid @enderror"
-                                                    name="email">
+                                                <input type="email" placeholder="Enter Your Email"
+                                                    class="form-control @error('email') is-invalid @enderror" name="email">
                                                 @error('email')
                                                     <div class="invalid-feedback">
                                                         {{ $message }}
@@ -149,6 +148,7 @@
                                             <th>Profile</th>
                                             <th>Name</th>
                                             <th>Email</th>
+                                            <th>Role</th>
                                             @can('isSuperAdmin')
                                                 <th>Action</th>
                                             @endcan
@@ -177,12 +177,13 @@
 
                                                         <div>
                                                             <h6 class="w-space-no mb-0 fs-14 font-w600">
-                                                                {{ $admin->fullname ?? 'No name' }}
+                                                                {{ $admin->fullname ?? 'No Name' }}
                                                             </h6>
                                                         </div>
                                                     </div>
                                                 </td>
                                                 <td>{{ $admin->email }}</td>
+                                                <td>{{ ucfirst($admin->role) }}</td>
                                                 @can('isSuperAdmin')
                                                     <td>
                                                         <div class="d-flex">
