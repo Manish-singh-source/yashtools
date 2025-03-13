@@ -36,7 +36,7 @@
                     <div class="card h-auto">
                         <div class="card-header">
                             <h5>Enquiry No - <span class="text-primary">{{ $order[0]->enquiry_id }}</span></h5>
-                            <span class="float-right text-muted">Estimated delivery: 30 Nov 2023</span>
+                            <span class="float-right text-muted">Estimated delivery: {{ $order[0]->products[0]->product->product_dispatch }}</span>
                         </div>
                         <div class="card-body">
                             <table class="table">
