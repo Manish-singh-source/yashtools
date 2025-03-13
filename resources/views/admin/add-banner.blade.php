@@ -1,9 +1,7 @@
 @extends('admin.layouts.app')
 
 @section('content-body')
-    <!--**********************************
-                                                                                                        Content body start
-                                                                                                    ***********************************-->
+
     <div class="content-body">
         <div class="container-fluid">
 
@@ -23,7 +21,7 @@
                                         <div class="card-body">
                                             <div class="mb-3">
                                                 <label class="form-label">Title</label>
-                                                <input type="text" name="bannerTitle"
+                                                <input type="text" name="bannerTitle" placeholder="Enter Banner Title"
                                                     class="form-control @error('bannerTitle') is-invalid @enderror">
 
                                                 @error('bannerTitle')
@@ -34,7 +32,7 @@
                                             </div>
                                             <div class="mb-3">
                                                 <label class="form-label">Description</label>
-                                                <textarea class="form-control @error('bannerDesciption') is-invalid @enderror" name="bannerDesciption" id=""></textarea>
+                                                <textarea  placeholder="Enter Banner Description" class="form-control @error('bannerDesciption') is-invalid @enderror" name="bannerDesciption" id=""></textarea>
 
                                                 @error('bannerDesciption')
                                                     <div class="invalid-feedback">
@@ -79,9 +77,6 @@
             </div>
         </div>
     </div>
-    <!--**********************************
-                                                                                                        Content body end
-                                                                                                    ***********************************-->
 @endsection
 @section('scripts')
     <!-- Image Preview Script -->

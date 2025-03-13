@@ -52,28 +52,28 @@
                                             <label class="form-label" for="Name">Full Name</label>
                                             <input type="hidden" class="form-control" name="userId"
                                                 value="{{ $user->id }}" id="Name">
-                                            <input type="text" class="form-control" name="fullname"
+                                            <input type="text" class="form-control" name="fullname"  placeholder="Enter Full Name"
                                                 value="{{ $user->fullname }}" id="Name">
                                         </div>
                                     </div>
                                     <div class="col-sm-6">
                                         <div class="mb-3">
                                             <label class="form-label" for="Name">Username</label>
-                                            <input type="text" class="form-control" name="username"
+                                            <input type="text" class="form-control" name="username" placeholder="Enter Your Username"
                                                 value="{{ $user->username }}" id="Name">
                                         </div>
                                     </div>
                                     <div class="col-sm-6">
                                         <div class="mb-3">
                                             <label class="form-label">Phone</label>
-                                            <input type="number" class="form-control" name="mobile_number"
-                                                value="{{ $user->mobile_number }}" placeholder="123456789">
+                                            <input type="number" class="form-control" name="mobile_number" placeholder="Enter Your Contact No"
+                                                value="{{ $user->mobile_number }}" placeholder="0123456789">
                                         </div>
                                     </div>
                                     <div class="col-sm-6">
                                         <div class="mb-3">
                                             <label class="form-label" for="Email">Email address</label>
-                                            <input type="text" class="form-control" name="email"
+                                            <input type="text" class="form-control" name="email" placeholder="Enter Your E-mail"
                                                 value="{{ $user->email }}" id="Email">
                                         </div>
                                     </div>

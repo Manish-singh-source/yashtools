@@ -24,6 +24,7 @@
                                                 <select
                                                     class="default-select form-control wide @error('categoryImage') is-invalid @enderror"
                                                     name="subcategoryId">
+                                                    <option selected disabled> -- select category --</option>
                                                     @foreach ($categories as $category)
                                                         <option value="{{ $category->id }}">
                                                             {{ $category->category_name }}
@@ -41,7 +42,7 @@
                                             <label class="form-label required">Sub Categorey Name</label>
                                             <input type="text" name="subcategory_name"
                                                 class="form-control @error('subcategory_name') is-invalid @enderror"
-                                                placeholder="Food">
+                                                placeholder="Enter Sub Category Name">
                                             @error('subcategory_name')
                                                 <div class="invalid-feedback">
                                                     {{ $message }}

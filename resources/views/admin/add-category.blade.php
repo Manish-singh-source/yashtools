@@ -1,9 +1,7 @@
 @extends('admin.layouts.app')
 
 @section('content-body')
-    <!--**********************************
-                                                                        Content body start
-                                                                    ***********************************-->
+
     <div class="content-body">
         <div class="container-fluid">
 
@@ -22,7 +20,7 @@
                                             <label class="form-label required">Category Name</label>
                                             <input type="text"
                                                 class="form-control @error('category_name') is-invalid @enderror"
-                                                name="category_name" placeholder="Food">
+                                                name="category_name" placeholder="Enter Category Name">
                                             @error('category_name')
                                                 <div class="invalid-feedback">
                                                     {{ $message }}
@@ -74,9 +72,7 @@
             </div>
         </div>
     </div>
-    <!--**********************************
-                                                                        Content body end
-                                                                    ***********************************-->
+    
 @endsection
 
 @section('scripts')
