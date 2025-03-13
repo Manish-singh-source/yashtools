@@ -16,6 +16,7 @@ use Illuminate\Http\Request;
 use App\Models\SubCategories;
 use Flasher\Prime\FlasherInterface;
 use App\Http\Controllers\Controller;
+use App\Models\MorphStatus;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Mail;
 
@@ -494,7 +495,13 @@ class FetchAPIs extends Controller
         $enquiry->status = $enquiryStatus;
         $enquiry->save();
 
-
+        MorphStatus::create([
+            'enquiry_id' => $enquiry->enquiry_id,
+            'statusable_id' => $enquiry->id,
+            'statusable_type' => get_class($enquiry),
+            'status' => $enquiryStatus,
+        ]);
+        
         if (!$enquiry) {
             return response()->json([
                 'status' => false,

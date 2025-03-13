@@ -2,11 +2,15 @@
 
 namespace App\Models;
 
+use App\Models\Brand;
+use App\Models\Categories;
 use Illuminate\Support\Str;
 use App\Models\MorphHistory;
+use App\Models\SubCategories;
 use Illuminate\Support\Carbon;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Illuminate\Database\Eloquent\Relations\MorphMany;
 
 class Product extends Model
 {
@@ -17,7 +21,7 @@ class Product extends Model
     {
         return $this->morphMany(MorphHistory::class, 'modifiable');
     }
-    
+
     public function getCreatedAtAttribute($value)
     {
         return Carbon::parse($value)->format('Y-M-d');
@@ -60,5 +64,10 @@ class Product extends Model
     public function brands()
     {
         return $this->belongsTo(Brand::class, 'product_brand_id');
+    }
+
+    public function statusMorph(): MorphMany
+    {
+        return $this->morphMany(MorphStatus::class, 'statusable');
     }
 }

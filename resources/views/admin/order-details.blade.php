@@ -306,7 +306,20 @@
                         </div>
                         <div class="card-body">
 
-                            @if ($order[0]->status == 'confirmed')
+                            {{-- make a logic for displaying status history of enquiries : morphtable --}}
+
+                            <div class="status">Status: <span class="badge badge-sm badge-success light border-0"><span
+                                        class="text-success">{{ $order[0]->status }}</span></span>
+                            </div>
+                            @foreach ($order[0]->statusMorph as $key => $statusDetail)
+                                <div class="step">
+                                    <div class="icon bg-primary text-white">{{ $key + 1 }}</div>
+                                    <div class="text">{{ $statusDetail->status }}</div>
+                                    <div class="ml-auto"> {{ $statusDetail->created_at }}</div>
+                                </div>
+                            @endforeach
+
+                            {{-- @if ($order[0]->status == 'confirmed')
                                 <div class="status">Status: <span
                                         class="badge badge-sm badge-success light border-0"><span
                                             class="text-success">{{ $order[0]->status }}</span></span>
@@ -361,7 +374,8 @@
                                     <div class="ml-auto text-danger">{{ $order[0]->created_at }}</div>
                                 </div>
                             @else
-                                <div class="status">Status: <span class="badge badge-sm badge-primary light border-0"><span
+                                <div class="status">Status: <span
+                                        class="badge badge-sm badge-primary light border-0"><span
                                             class="text-primary">{{ $order[0]->status }}</span></span>
                                 </div>
                                 <div class="step">
@@ -369,7 +383,7 @@
                                     <div class="text text-danger">Order Pending</div>
                                     <div class="ml-auto text-danger">{{ $order[0]->created_at }}</div>
                                 </div>
-                            @endif
+                            @endif --}}
                             <!-- Repeat for other steps -->
                         </div>
                     </div>
