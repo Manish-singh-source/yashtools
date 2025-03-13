@@ -36,7 +36,8 @@
                     <div class="card h-auto">
                         <div class="card-header">
                             <h5>Enquiry No - <span class="text-primary">{{ $order[0]->enquiry_id }}</span></h5>
-                            <span class="float-right text-muted">Estimated delivery: {{ $order[0]->products[0]->product->product_dispatch }}</span>
+                            <span class="float-right text-muted">Estimated delivery:
+                                {{ $order[0]->products[0]->product->product_dispatch }}</span>
                         </div>
                         <div class="card-body">
                             <table class="table">
@@ -136,13 +137,13 @@
                                             </div>
                                             <div class="col-md-6 mb-3">
                                                 <label class="form-label">Courier Name</label>
-                                                <input class="form-control" name="enquiry_id" 
+                                                <input class="form-control" name="enquiry_id"
                                                     value="{{ $invoiceDetails->enquiry_id }}" type="hidden" required>
                                                 <input class="form-control" name="invoice_id"
                                                     value="{{ $invoiceDetails->id }}" type="hidden" required>
-                                                <input class="form-control @error('courier_name') is-invalid @enderror"  placeholder="Enter Courier Name"
-                                                    name="courier_name" value="{{ $invoiceDetails->courier_name }}"
-                                                    type="text">
+                                                <input class="form-control @error('courier_name') is-invalid @enderror"
+                                                    placeholder="Enter Courier Name" name="courier_name"
+                                                    value="{{ $invoiceDetails->courier_name }}" type="text">
                                                 @error('courier_name')
                                                     <div class="invalid-feedback">
                                                         {{ $message }}
@@ -152,8 +153,8 @@
                                             <div class="col-md-6 mb-3">
                                                 <label class="form-label">Courier Number</label>
                                                 <input class="form-control @error('courier_number') is-invalid @enderror"
-                                                    name="courier_number" placeholder="Enter Courier Number" value="{{ $invoiceDetails->courier_number }}"
-                                                    type="text">
+                                                    name="courier_number" placeholder="Enter Courier Number"
+                                                    value="{{ $invoiceDetails->courier_number }}" type="text">
                                                 @error('courier_number')
                                                     <div class="invalid-feedback">
                                                         {{ $message }}
@@ -205,8 +206,8 @@
                                                 <label class="form-label">Courier Name</label>
                                                 <input class="form-control" name="enquiry_id"
                                                     value="{{ $order[0]->enquiry_id }}" type="hidden" required>
-                                                <input class="form-control @error('courier_name') is-invalid @enderror" placeholder="Enter Courier Name"
-                                                    name="courier_name" type="text">
+                                                <input class="form-control @error('courier_name') is-invalid @enderror"
+                                                    placeholder="Enter Courier Name" name="courier_name" type="text">
                                                 @error('courier_name')
                                                     <div class="invalid-feedback">
                                                         {{ $message }}
@@ -215,8 +216,9 @@
                                             </div>
                                             <div class="col-md-6 mb-3">
                                                 <label class="form-label">Courier Number</label>
-                                                <input class="form-control @error('courier_number') is-invalid @enderror" placeholder="Enter Courier Number"
-                                                    name="courier_number" type="text">
+                                                <input class="form-control @error('courier_number') is-invalid @enderror"
+                                                    placeholder="Enter Courier Number" name="courier_number"
+                                                    type="text">
                                                 @error('courier_number')
                                                     <div class="invalid-feedback">
                                                         {{ $message }}
@@ -225,8 +227,9 @@
                                             </div>
                                             <div class="col-md-6 mb-3">
                                                 <label class="form-label">Courier Website</label>
-                                                <input class="form-control @error('courier_website') is-invalid @enderror" placeholder="Enter Courier Website"
-                                                    name="courier_website" type="text">
+                                                <input class="form-control @error('courier_website') is-invalid @enderror"
+                                                    placeholder="Enter Courier Website" name="courier_website"
+                                                    type="text">
                                                 @error('courier_website')
                                                     <div class="invalid-feedback">
                                                         {{ $message }}
@@ -304,7 +307,9 @@
                         <div class="card-body">
 
                             @if ($order[0]->status == 'confirmed')
-                                <div class="status">Status: <span class="text-success">{{ $order[0]->status }}</span>
+                                <div class="status">Status: <span
+                                        class="badge badge-sm badge-success light border-0"><span
+                                            class="text-success">{{ $order[0]->status }}</span></span>
                                 </div>
                                 <div class="step">
                                     <div class="icon bg-primary text-white">1</div>
@@ -312,7 +317,9 @@
                                     <div class="ml-auto">{{ $order[0]->created_at }}</div>
                                 </div>
                             @elseif($order[0]->status == 'delivered')
-                                <div class="status">Status: <span class="text-success">{{ $order[0]->status }}</span>
+                                <div class="status">Status: <span
+                                        class="badge badge-sm badge-success light border-0"><span
+                                            class="text-success">{{ $order[0]->status }}</span></span>
                                 </div>
                                 <div class="step">
                                     <div class="icon bg-primary text-white">1</div>
@@ -325,7 +332,9 @@
                                     <div class="ml-auto">{{ $order[0]->created_at }}</div>
                                 </div>
                             @elseif($order[0]->status == 'payment_received')
-                                <div class="status">Status: <span class="text-success">{{ $order[0]->status }}</span>
+                                <div class="status">Status: <span
+                                        class="badge badge-sm badge-primary light border-0"><span
+                                            class="text-primary">{{ $order[0]->status }}</span></span>
                                 </div>
                                 <div class="step">
                                     <div class="icon bg-primary text-white">1</div>
@@ -342,12 +351,22 @@
                                     <div class="text">Payment Received</div>
                                     <div class="ml-auto">{{ $order[0]->created_at }}</div>
                                 </div>
-                            @else
-                                <div class="status">Status: <span class="text-danger">{{ $order[0]->status }}</span>
+                            @elseif($order[0]->status == 'dismissed')
+                                <div class="status">Status: <span class="badge badge-sm badge-danger light border-0"><span
+                                            class="text-danger">{{ $order[0]->status }}</span></span>
                                 </div>
                                 <div class="step">
                                     <div class="icon bg-danger text-white">1</div>
                                     <div class="text text-danger">Order Dismissed</div>
+                                    <div class="ml-auto text-danger">{{ $order[0]->created_at }}</div>
+                                </div>
+                            @else
+                                <div class="status">Status: <span class="badge badge-sm badge-primary light border-0"><span
+                                            class="text-primary">{{ $order[0]->status }}</span></span>
+                                </div>
+                                <div class="step">
+                                    <div class="icon bg-danger text-white">1</div>
+                                    <div class="text text-danger">Order Pending</div>
                                     <div class="ml-auto text-danger">{{ $order[0]->created_at }}</div>
                                 </div>
                             @endif
