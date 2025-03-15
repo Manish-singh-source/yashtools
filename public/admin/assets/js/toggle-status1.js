@@ -17,8 +17,6 @@ $(document).ready(function () {
             },
             success: function (data) {
                 if (data.status) {
-                    console.log(data);
-                    console.log(data.status);
                     location.reload();
                 }
             },
@@ -26,7 +24,6 @@ $(document).ready(function () {
                 console.log(xhr);
                 console.log(status);
                 console.log(error);
-                console.log(data);
             },
         });
     });

@@ -138,7 +138,6 @@ var themeOptionArr = {
   }
 
   function setThemeInCookie(themeSettings) {
-    //console.log(themeSettings);
     jQuery.each(themeSettings, function (optionKey, optionValue) {
       setCookie(optionKey, optionValue);
     });

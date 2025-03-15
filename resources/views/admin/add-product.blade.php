@@ -290,8 +290,6 @@
             event.preventDefault(); // Prevent default form submission
             let content = editor.getData(); // Get CKEditor content
             $("#editorContent").val(content); // Set it in textarea
-            console.log(content);
-            alert(content);
             this.submit(); // Submit the form
         });
     </script>

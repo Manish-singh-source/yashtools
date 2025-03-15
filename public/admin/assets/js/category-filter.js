@@ -10,7 +10,6 @@ $(document).ready(function() {
     $(document).on("change", ".product_category", function() {
         let csrfToken = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
         let categoryId = parseInt($(this).val()) || 0;
-        console.log(categoryId);
 
         $.ajax({
             url: "/fetch-sub-categories",
@@ -26,14 +25,12 @@ $(document).ready(function() {
                             `<option value="${element.id}">${element.sub_category_name}</option>`;
                     });
                     $("#product_sub_category").html(content);
-                    console.log(content);
                 }
             },
             error: function(xhr, status, error) {
                 let content = "";
                 content += `<option value="0">Select Sub Category</option>`;
                 $("#product_sub_category").html(content);
-                console.log(content);
             },
         });
     });

@@ -1124,7 +1124,6 @@
                 $('#dropdown-header-menu').removeAttr('data-bs-toggle');
                 $('#dropdown-header-menu').on('click', function() {
                    $(this).siblings('.dropdown-menu').slideToggle();
-                    // console.log(this)
                 })
             }
 

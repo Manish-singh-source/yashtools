@@ -192,7 +192,6 @@
                         state: state,
                     },
                     success: function(response) {
-                        console.log(response)
                         let contentCustomer = '';
                         let contentEnquiry = '';
                         let contentEnquiryFulfilled = '';

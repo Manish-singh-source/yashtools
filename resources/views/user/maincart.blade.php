@@ -11,7 +11,7 @@
                 <div class="col-lg-6 col-md-8">
                     <div class="inner">
                         <ul class="axil-breadcrumb">
-                            <li class="axil-breadcrumb-item"><a href="index.php">Home</a></li>
+                            <li class="axil-breadcrumb-item"><a href="{{ route('user.dashboard') }}">Home</a></li>
                             <li class="separator"></li>
                             <li class="axil-breadcrumb-item active" aria-current="page">My Cart</li>
                         </ul>
@@ -120,7 +120,6 @@
 
         $(document).on("click", ".remove-wishlist", function() {
             let cartid = $(this).data("cartid");
-            console.log(cartid);
 
             $.ajax({
                 url: "/check-auth", // Check if the user is logged in
@@ -142,9 +141,6 @@
                         },
                         success: function(data) {
                             if (data.status) {
-                                console.log(data.status);
-                                console.log(data.message);
-                                console.log(data.data);
                                 location.reload();
                             }
                         },
@@ -182,7 +178,6 @@
                 });
             });
 
-            console.log(cartData); // Debugging
 
             // Check authentication before sending enquiry
             $.ajax({
@@ -205,7 +200,6 @@
                         },
                         success: function(data) {
                             if (data.status) {
-                                console.log(data.message);
                                 location.reload(); // Reload page after successful enquiry
                             }
                         },
@@ -246,9 +240,6 @@
                         },
                         success: function(data) {
                             if (data.status) {
-                                console.log(data.status);
-                                console.log(data.message);
-                                console.log(data.data);
                                 location.reload();
                             }
                         },

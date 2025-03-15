@@ -621,7 +621,6 @@
             let key = $row.eq(0).text().trim(); // Get the first <td> text
             partNumbers[key] = key;
 
-            console.log(key); // Correct way to log the text
             if (key) {
                 $(".dropdown-options").append(`<div>${key}</div>`);
             }
@@ -695,9 +694,6 @@
                         success: function(data) {
 
                             if (data.status) {
-                                console.log(data.status);
-                                console.log(data.message);
-                                console.log(data.data);
                                 location.reload();
                             }
                         },
@@ -745,9 +741,6 @@
                         },
                         success: function(data) {
                             if (data.status) {
-                                console.log(data.status);
-                                console.log(data.message);
-                                console.log(data.data);
                                 location.reload();
                             }
                         },
@@ -766,9 +759,6 @@
         $(document).on("click", "#wishlistBtn", function() {
             let productid = $(this).data("productid");
             let productStatus = $(this).siblings(".status").val() || 0;
-
-            console.log(productid)
-            console.log(productStatus)
 
             $.ajax({
                 url: "/check-auth", // Check if the user is logged in
@@ -791,9 +781,6 @@
                         },
                         success: function(data) {
                             if (data.status) {
-                                console.log(data.status);
-                                console.log(data.message);
-                                console.log(data.data);
                                 location.reload();
                             }
                         },

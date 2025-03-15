@@ -37,7 +37,7 @@
                     <div class="col-lg-6 col-md-8">
                         <div class="inner">
                             <ul class="axil-breadcrumb">
-                                <li class="axil-breadcrumb-item"><a href="index.php">Home</a></li>
+                                <li class="axil-breadcrumb-item"><a href="{{ route('user.dashboard') }}">Home</a></li>
                                 <li class="separator"></li>
                                 <li class="axil-breadcrumb-item active" aria-current="page">Favourites
                                 </li>
@@ -122,9 +122,6 @@
                 let productid = $(this).data("productid");
                 let productStatus = $(this).siblings(".status").val() || 0;
 
-                console.log(productid)
-                console.log(productStatus)
-
                 $.ajax({
                     url: "/check-auth", // Check if the user is logged in
                     type: "GET",
@@ -146,9 +143,6 @@
                             },
                             success: function(data) {
                                 if (data.status) {
-                                    console.log(data.status);
-                                    console.log(data.message);
-                                    console.log(data.data);
                                     location.reload();
                                 }
                             },

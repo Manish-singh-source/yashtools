@@ -175,8 +175,6 @@
                     success: function(response) {
                         $('#product_list').html('');
                         $.each(response.data, function(index, product) {
-                            // console.log(index);
-                            // console.log(product);
                             $('#product_list').append(
                                 `<div class="col-xl-4 col-lg-4 col-sm-6 col-12 mb--30">
                                     <div class="axil-product product-style-one">
@@ -335,8 +333,6 @@
                     });
                     $(".product-subcategories-section").hide();
                 }
-
-                console.log(subcategories.length === 0);
 
                 $.ajax({
                     url: "/shop-api-category-filter",

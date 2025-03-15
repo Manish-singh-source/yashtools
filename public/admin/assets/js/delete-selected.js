@@ -13,12 +13,9 @@ $(document).ready(function () {
         });
 
         let checkValues = checkedValues.filter((num) => num !== 0);
-        alert("Checked Values: " + checkedValues.join(", "));
-        console.log("Checked Values:", checkedValues);
 
         const currentUrl = window.location.pathname; // Get only the path (e.g., /something)
         const newUrl = "/delete-" + currentUrl.replace(/^\/+/, ""); // Remove leading / and add /delete-
-        console.log(newUrl);
 
         $.ajax({
             url: newUrl,

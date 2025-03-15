@@ -11,10 +11,7 @@ $(document).ready(function () {
 
         const currentUrl = window.location.pathname;
         const newUrl = "/toggle-" + currentUrl.replace(/^\/+/, "");
-        console.log(newUrl);
 
-        console.log(id);
-        console.log(status);
         $.ajax({
             url: newUrl,
             type: "POST",
@@ -24,9 +21,6 @@ $(document).ready(function () {
             },
             success: function (data) {
                 if (data.status) {
-                    console.log(data.status);
-                    // console.log(data.message)
-                    // console.log(data.data)
                     location.reload();
                 }
             },

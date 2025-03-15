@@ -428,6 +428,5 @@
         });
 
         $(".totalPrice").html(sum);
-        console.log(sum);
     </script>
 @endsection
