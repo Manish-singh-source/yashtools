@@ -75,23 +75,12 @@
                                                             href="{{ route('user.shop', $category->category_slug) }}">{{ $category->category_name }}</a>
                                                     </li>
                                                 @empty
-                                                    <li><a href="{{ route('user.shop', $category->id) }}">Please Add
-                                                            Category</a></li>
+                                                    <li><a href="#">No
+                                                            Categories Found</a></li>
                                                 @endforelse
                                             </ul>
                                         </div>
-                                        {{-- <div class="megamenu-column">
-                                            <h4 class="menu-title">Sub Category</h4>
-                                            <ul>
-                                                @forelse ($subcategories as $subcategory)
-                                                    <li><a
-                                                            href="{{ route('user.shop', $subcategory->subcategory_slug) }}">{{ $subcategory->sub_category_name }}</a>
-                                                    </li>
-                                                @empty
-                                                    <li><a href="#">Please Add Category</a></li>
-                                                @endforelse
-                                            </ul>
-                                        </div> --}}
+                                        
                                         <div class="megamenu-column">
                                             <h4 class="menu-title">Brands</h4>
                                             <ul>
@@ -100,9 +89,7 @@
                                                             href="{{ route('user.shop', $brand->brand_slug) }}">{{ $brand->brand_name }}</a>
                                                     </li>
                                                 @empty
-                                                    <li><a href="#">Manish1</a></li>
-                                                    <li><a href="#">Manish2</a></li>
-                                                    <li><a href="#">Manish</a></li>
+                                                    <li><a href="#">No Brands Found</a></li>
                                                 @endforelse
                                             </ul>
                                         </div>
@@ -116,29 +103,13 @@
                     </div>
                     <div class="header-action">
                         <ul class="action-list">
-                            {{-- <li class="axil-search d-xl-block d-none">
-                                <input type="search" class="placeholder product-search-input" name="search2"
-                                    id="search2" value="" maxlength="128" placeholder="Search"
-                                    autocomplete="off">
-                                <button type="submit" class="icon wooc-btn-search">
-                                    <i class="flaticon-magnifying-glass"></i>
-                                </button>
-                            </li> --}}
-                            {{-- <li class="axil-search d-xl-none d-block">
-                                <a href="javascript:void(0)" class="header-search-icon mys" title="Search">
-                                    <i class="flaticon-magnifying-glass"></i>
-                                </a>
-                            </li> --}}
+                            
                             <li><a href="{{ route('signin') }}" class="headerlist"><i
                                         class="fas fa-sign-in-alt icon dn"></i> <span>Login</span></a></li>
                             <li><a href="{{ route('signup') }}" class="headerlist"><i
                                         class="fas fa-user-plus icon dn"></i>
                                     <span>Sign Up</span></a></li>
-                            <!-- <li class="my-account">
-                            <a class="useraccount" href="my-account.php">
-                                <i class="flaticon-person"></i>
-                            </a>
-                        </li> -->
+                                    
                             <li class="axil-mobile-toggle">
                                 <button class="menu-btn mobile-nav-toggler">
                                     <i class="flaticon-menu-2"></i>
@@ -220,11 +191,7 @@
                     <div class="col">
                         <div class="axil-footer-widget">
                             <h5 class="widget-title">Reach Us</h5>
-                            <!-- <div class="logo mb--30">
-                        <a href="index.html">
-                            <img class="light-logo" src="assets/images/logo/logo.png" alt="Logo Images">
-                        </a>
-                    </div> -->
+                            
                             <div class="inner">
                                 <p>Yash Tools (India) Pvt. Ltd., Shop No.2, Louis Palace, Tank Road, Orlem, Malad
                                     (West), Mumbai - 400 064. India
@@ -236,7 +203,6 @@
                                     <li><a href="tel:+912228631094" contenteditable="false"
                                             style="cursor: pointer;"><i class="fal fa-phone-alt"></i>+91-22-2863
                                             1094</a></li>
-                                    <!-- <li><i class="fal fa-map-marker-alt"></i> 685 Market Street,  <br> Las Vegas, LA 95820, <br> United States.</li> -->
                                 </ul>
                             </div>
                         </div>

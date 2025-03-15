@@ -24,7 +24,7 @@ return new class extends Migration
     {
         Schema::table('carts', function (Blueprint $table) {
             //
-            $table->softDeletes();
+            $table->dropSoftDeletes();
         });
     }
 };
