@@ -23,7 +23,7 @@
                                             <label class="form-label">Product Name</label>
                                             <input type="text" placeholder="Enter Product Name"
                                                 class="form-control @error('product_name') is-invalid @enderror"
-                                                name="product_name">
+                                                name="product_name" value="{{ old('product_name') }}">
                                             @error('product_name')
                                                 <div class="invalid-feedback">
                                                     {{ $message }}
@@ -33,7 +33,7 @@
                                         <div class="mb-3">
                                             <label class="form-label">Product Quantity</label>
                                             <input type="number" placeholder="Enter Product Quantity"
-                                                class="form-control @error('product_quantity') is-invalid @enderror"
+                                                class="form-control @error('product_quantity') is-invalid @enderror" value="{{ old('product_quantity') }}"
                                                 name="product_quantity">
                                             @error('product_quantity')
                                                 <div class="invalid-feedback">
@@ -43,7 +43,7 @@
                                         </div>
                                         <div class="mb-3">
                                             <label class="form-label">Price</label>
-                                            <input type="number"  placeholder="Enter Product Price"
+                                            <input type="number"  placeholder="Enter Product Price" value="{{ old('product_price') }}"
                                                 class="form-control @error('product_price') is-invalid @enderror"
                                                 name="product_price">
                                             @error('product_price')
@@ -71,13 +71,6 @@
                                             @enderror
                                         </div>
                                         <div class="mb-3">
-                                            {{-- <label class="form-label">Description</label>
-                                            <textarea class="form-control @error('product_description') is-invalid @enderror" name="product_description"></textarea>
-                                            @error('product_description')
-                                                <div class="invalid-feedback">
-                                                    {{ $message }}
-                                                </div>
-                                            @enderror --}}
                                             <label class="form-label">Description</label>
                                             <div id="ckeditor"></div>
                                             <textarea  placeholder="Enter Product Description" class="form-control @error('product_description') is-invalid @enderror" name="product_description" style="display: none"
