@@ -483,12 +483,20 @@ class FetchAPIs extends Controller
     {
         $enquiryid = $request->enquiryid;
         $enquiryStatus = $request->enquiryStatus;
+        $currentEnquiryStatus = $request->currentEnquiryStatus;
 
         if (!isset($enquiryid)) {
             return response()->json([
                 'status' => false,
                 'message' => 'Enquiry ID is required.',
             ], 400);
+        }
+
+        if($currentEnquiryStatus == 'payment_received') {
+            return response()->json([
+                'status' => true,
+                'message' => 'Payment Already Received.',
+            ], 200);
         }
 
         $enquiry = Enquiry::where('id', $enquiryid)->first();

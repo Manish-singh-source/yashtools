@@ -211,9 +211,11 @@
                                                                     data-orderid="{{ $order->id }}"
                                                                     data-orderstatus="payment_received"
                                                                     href="#!">Payment Received</a>
+                                                                <input type="hidden" name="currentOrderStatus" class="currentOrderStatus"
+                                                                    value="{{ $order->status }}">
+                                                                </>
                                                             </div>
                                                         </div>
-                                                    </div>
                                                 </td>
                                             </tr>
                                         @empty
@@ -247,6 +249,7 @@
             $(document).on("click", ".changeStatus", function() {
                 let id = parseInt($(this).data('orderid')) || 0;
                 let status = $(this).data('orderstatus') || 0;
+                let currentStatus = $(this).siblings('.currentOrderStatus').val() || 0;
 
                 // Show the popup
                 $(".loading-popup").fadeIn();
@@ -269,6 +272,7 @@
                     data: {
                         enquiryid: id,
                         enquiryStatus: status,
+                        currentEnquiryStatus: currentStatus,
                     },
                     success: function(data) {
                         if (data.status) {

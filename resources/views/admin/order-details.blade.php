@@ -308,13 +308,27 @@
 
                             {{-- make a logic for displaying status history of enquiries : morphtable --}}
 
-                            <div class="status">Status: <span class="badge badge-sm badge-success light border-0"><span
-                                        class="text-success">{{ $order[0]->status }}</span></span>
+                            <div class="status">Status: <span
+                                    class="badge badge-sm @if ($order[0]->status == 'confirmed' || $order[0]->status == 'delivered') badge-success
+                                        @elseif ($order[0]->status == 'dismissed')
+                                            badge-danger
+                                        @elseif ($order[0]->status == 'payment_received')
+                                            badge-primary @endif light border-0"><span
+                                        class="@if ($order[0]->status == 'confirmed' || $order[0]->status == 'delivered') text-success
+                                        @elseif ($order[0]->status == 'dismissed')
+                                            text-danger
+                                        @elseif ($order[0]->status == 'payment_received')
+                                            text-primary @endif">
+                                        {{ ucfirst(str_replace('_', ' ', $order[0]->status)) }}
+
+                                    </span></span>
                             </div>
                             @foreach ($order[0]->statusMorph as $key => $statusDetail)
                                 <div class="step">
                                     <div class="icon bg-primary text-white">{{ $key + 1 }}</div>
-                                    <div class="text">{{ $statusDetail->status }}</div>
+                                    <div class="text">
+                                        {{ ucfirst(str_replace('_', ' ', $statusDetail->status)) }}
+                                    </div>
                                     <div class="ml-auto"> {{ $statusDetail->created_at }}</div>
                                 </div>
                             @endforeach
