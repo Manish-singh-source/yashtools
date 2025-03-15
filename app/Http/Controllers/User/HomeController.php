@@ -4,18 +4,16 @@ namespace App\Http\Controllers\User;
 
 use App\Models\Brand;
 use App\Models\Event;
+use App\Models\Banner;
 use App\Models\Product;
 use App\Models\Favourite;
 use App\Models\Categories;
 use Illuminate\Http\Request;
 use App\Models\SubCategories;
 use App\Http\Controllers\Controller;
-use App\Models\Banner;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\File;
 use Maatwebsite\Excel\Facades\Excel;
-use PhpOffice\PhpSpreadsheet\IOFactory;
-use PhpOffice\PhpSpreadsheet\Reader\Xlsx;
 
 class HomeController extends Controller
 {
@@ -44,7 +42,6 @@ class HomeController extends Controller
 
         if ($category) {
             $selectedCategories = $category;
-            // dd($selectedCategories);
         } else {
             $selectedCategories = null;
         }
@@ -130,7 +127,6 @@ class HomeController extends Controller
         if (!empty($selectedProduct->product_specs)) {
             $path = public_path('uploads/products/product_specs/' . $selectedProduct->product_specs);
 
-            // dd($selectedProduct);
             if (!file_exists($path)) {
                 die('File not found: ' . $path);
             }
@@ -189,6 +185,7 @@ class HomeController extends Controller
         $events = Event::get();
         return view('user.terms-conditions', compact('categories', 'brands', 'subcategories', 'events'));
     }
+
     public function faq()
     {
         $categories = Categories::orderby('updated_at', 'desc')->limit(8)->get();
@@ -197,6 +194,7 @@ class HomeController extends Controller
         $events = Event::get();
         return view('user.faq', compact('categories', 'brands', 'subcategories', 'events'));
     }
+    
     public function feedback()
     {
         $categories = Categories::orderby('updated_at', 'desc')->limit(8)->get();

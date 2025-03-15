@@ -6,9 +6,7 @@ use App\Models\User;
 use App\Models\Enquiry;
 use App\Models\UserDetail;
 use Illuminate\Http\Request;
-use Flasher\Prime\FlasherInterface;
 use App\Http\Controllers\Controller;
-use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Validator;
 
 class CustomersController extends Controller
@@ -40,7 +38,6 @@ class CustomersController extends Controller
             })
             ->orderBy('id', 'desc')
             ->with('customer')->get();
-        // dd($orders);
         return view('admin.customer-overview', compact('customerDetail', 'orders'));
     }
 
@@ -78,7 +75,6 @@ class CustomersController extends Controller
         $user->save();
 
         $userdetail = UserDetail::where('user_id', $user->id)->first();
-        // dd($userdetail);
         if (isset($userdetail)) {
             $userdetail->company_name = $request->company_name;
             $userdetail->company_address = $request->company_address;

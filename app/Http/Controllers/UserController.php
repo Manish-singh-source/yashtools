@@ -7,12 +7,10 @@ use App\Models\Brand;
 use App\Mail\welcomeemail;
 use App\Models\Categories;
 use App\Models\UserDetail;
-use App\Models\Userdetails;
 use Illuminate\Support\Str;
 use Illuminate\Http\Request;
 use App\Models\SubCategories;
 use App\Mail\ResetPasswordMail;
-use Flasher\Prime\FlasherInterface;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Validator;
@@ -212,7 +210,7 @@ class UserController extends Controller
         $token = Str::random(64);
 
         $user = User::where('email', $request->email)->first();
-        if(!$user) {
+        if (!$user) {
             return back()->withErrors(['error' => 'Invalid Email Address.']);
         }
         $user->password_reset_token = $token;

@@ -12,13 +12,11 @@ use App\Models\OrdersTrack;
 use Illuminate\Http\Request;
 use Illuminate\Support\Carbon;
 use App\Models\EnquiryProducts;
-use Illuminate\Support\Facades\DB;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Validator;
-use App\Notifications\EnquiryNotification;
 
 class EnquiryOrdersController extends Controller
 {
@@ -44,19 +42,16 @@ class EnquiryOrdersController extends Controller
 
         $orders = $orders->get(); // Get the results
 
-        // dd($orders);
         return view('admin.order', compact('orders'));
     }
 
     public function showOrderDetails($id, $invoice_id = null)
     {
         $order = Enquiry::with('statusMorph')->with('customer')->with('enquiries')->with('products.product')->where('enquiry_id', $id)->get();
-        // dd($order);
         $invoiceDetails = OrdersTrack::where('id', $invoice_id)->first();
         // fetch product detail using order tracks table
         $invoice = OrdersTrack::with('orders.products.product')->where('enquiry_id', $id)->first();
         $poInfo = Po::where('enquiry_id', $id)->first();
-        // dd($order);
         return view('admin.order-details', compact('order', 'invoice', 'invoiceDetails', 'poInfo'));
     }
 
@@ -69,7 +64,6 @@ class EnquiryOrdersController extends Controller
 
         $cartData = $request->cartData; // Expecting an array of cart items
         $lastEnquiry = Enquiry::orderBy('id', 'desc')->first();
-        // $nextEnquiryId = $lastEnquiry ? $lastEnquiry->enquiry_id + 1 : 001;
 
         if ($lastEnquiry && preg_match('/YASH(\d{6})(\d+)/', $lastEnquiry->enquiry_id, $matches)) {
             $lastNumber = (int) $matches[2]; // Extract the numeric part
@@ -133,22 +127,6 @@ class EnquiryOrdersController extends Controller
         $start_date = $request->start_date;
         $end_date = $request->end_date;
 
-        // Validate input dates
-        // if (!$start_date || !$end_date) {
-        //     return response()->json([
-        //         'status' => false,
-        //         'message' => 'Start date and end date are required.',
-        //     ], 400);
-        // }
-
-        // Validate date format
-        // if (!strtotime($start_date) || !strtotime($end_date)) {
-        //     return response()->json([
-        //         'status' => false,
-        //         'message' => 'Invalid date format. Please use YYYY-MM-DD.',
-        //     ], 400); 
-        // }
-
         // Ensure start date is not greater than end date
         if ($start_date > $end_date) {
             return response()->json([
@@ -192,21 +170,20 @@ class EnquiryOrdersController extends Controller
         $data = Enquiry::with('products.product')->where('enquiry_id', $enquiry_id)->get();
         $invoiceDetails = OrdersTrack::where('enquiry_id', $enquiry_id)->first();
         $poInfo = Po::where('enquiry_id', $enquiry_id)->first();
-        // dd($invoiceDetails);
         return view('user.product-info', compact('data', 'user', 'invoiceDetails', 'poInfo'));
     }
 
-    public function uploadPO(Request $request) {
+    public function uploadPO(Request $request)
+    {
 
         $validations = Validator::make($request->all(), [
             "po_file" => "mimes:pdf|max:10240",
             'enquiry_id' => 'required',
         ]);
-        
+
         if ($validations->fails()) {
             return back()->withErrors($validations)->withInput();
         }
-        // dd($request->all());
 
         $po = new Po();
         $po->po_file = $request->po_file;

@@ -8,7 +8,6 @@ use App\Models\SubCategories;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Validator;
-use Flasher\Prime\FlasherInterface;
 
 class SubCategoryController extends Controller
 {
@@ -49,7 +48,6 @@ class SubCategoryController extends Controller
     public function viewSubCategoryTable()
     {
         $subcategories =  SubCategories::with('category')->withCount('productsCount')->get();
-        // dd($subcategories);
         return view('admin.sub-category-table', compact('subcategories'));
     }
 

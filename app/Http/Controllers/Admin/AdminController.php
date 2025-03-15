@@ -7,7 +7,6 @@ use App\Models\Enquiry;
 use Illuminate\Http\Request;
 use App\Models\EnquiryProducts;
 use Illuminate\Support\Facades\DB;
-use Flasher\Prime\FlasherInterface;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\File;
@@ -20,17 +19,12 @@ class AdminController extends Controller
         $totalCustomers = User::where('role', 'customer')->count();
         $totalEnquiries = Enquiry::count();
         $totalOrders = EnquiryProducts::count();
-        // $notifications = DB::table('notifications')->orderBy('created_at', 'desc')->get();
-        // dd($notifications);
-
-
         return view('admin.index', compact('totalCustomers', 'totalEnquiries', 'totalOrders'));
     }
 
     public function getChartData(Request $request)
     {
 
-        // customers count details 
         $customersCountOfMonthlyChart = User::where('role', 'customer')
             ->join('user_details', 'user_details.user_id', '=', 'users.id') // Join with user_details
             ->selectRaw('YEAR(users.created_at) as year, MONTH(users.created_at) as month, COUNT(*) as count')
@@ -148,11 +142,8 @@ class AdminController extends Controller
 
     public function getNotifications()
     {
-        // Get authenticated user
-        $user = Auth::user(); // No need to manually query
 
-        // Fetch all notifications (modify if you only want user's notifications)
-        // $notifications = DB::table('notifications')->orderBy('created_at', 'desc')->get();
+        // Fetch all notifications 
         $notifications = DB::table('notifications')
             ->join('users', 'users.id', '=', 'notifications.notifiable_id')
             ->select('users.fullname', 'users.email', 'notifications.id', 'notifications.data', 'notifications.created_at')
@@ -258,11 +249,9 @@ class AdminController extends Controller
         $user->delete();
 
         if ($user) {
-            // flash()->success('Successfully Deleted Admin.');
             return back()->with('success', 'Successfully Deleted Admin');
         }
 
-        // flash()->error('Please Try Again.');
         return back()->with('error', 'Please Try Again.');
     }
 

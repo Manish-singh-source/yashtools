@@ -22,13 +22,6 @@ use App\Http\Controllers\Admin\CategoriesController;
 use App\Http\Controllers\User\UserProfileController;
 use App\Http\Controllers\Admin\SubCategoryController;
 
-// user contact related routes
-Route::post('/newsletter', [EmailController::class, 'sendNewsletter'])->name('Newsletter.store');
-Route::get('send-email', [EmailController::class, 'sendEmail']);
-Route::get('contact', [EmailController::class, 'contactForm'])->name('user.contact.us');
-Route::post('contact', [EmailController::class, 'sendContactEmail'])->name('user.contact.store');
-Route::post('/notifications/read/{id}', [AdminController::class, 'markAsRead'])->name('notifications.read');
-Route::post('/notifications', [AdminController::class, 'getNotifications'])->name('notifications.get');
 
 // user routes: Authentication 
 Route::get('/signin', [UserController::class, 'signinView'])->name('signin');
@@ -52,6 +45,16 @@ Route::get('/feedback', [EmailController::class, 'feedback'])->name('feedback');
 Route::post('feedback', [EmailController::class, 'sendFeedbackEmail'])->name('user.feedback.store');
 Route::get('/about-us',  [HomeController::class, 'aboutUs'])->name('user.about.us');
 
+// user contact related routes
+Route::get('contact', [EmailController::class, 'contactForm'])->name('user.contact.us');
+Route::post('contact', [EmailController::class, 'sendContactEmail'])->name('user.contact.store');
+Route::post('/notifications', [AdminController::class, 'getNotifications'])->name('notifications.get');
+Route::post('/notifications/read/{id}', [AdminController::class, 'markAsRead'])->name('notifications.read');
+Route::get('send-email', [EmailController::class, 'sendEmail']);
+Route::post('/newsletter', [EmailController::class, 'sendNewsletter'])->name('Newsletter.store');
+Route::get('/events', [HomeController::class, 'events'])->name('user.event');;
+
+
 // user routes: pages
 Route::get('/', [HomeController::class, 'homeView'])->name('user.home');
 Route::get('/shop/{category?}', [HomeController::class, 'shopView'])->name('user.shop');
@@ -59,24 +62,23 @@ Route::get('/shop-api', [HomeController::class, 'shopViewAPI'])->name('user.shop
 Route::get('/shop-api-category-filter', [HomeController::class, 'subCategoriesFilter']);
 Route::get('/single-product/{slug}', [HomeController::class, 'singleProductView'])->name('user.single.product');
 
-Route::get('/events', [HomeController::class, 'events'])->name('user.event');;
 
 
-
-
+// Authenticated & Authorized Users Routes
 Route::middleware('isCustomerAuth:customer')->group(function () {
-    Route::get('/dashboard', function () {
-        return view('user.main');
-    })->name('user.dashboard');
+    // User Dashboard
+    Route::view('/dashboard', 'user.main')->name('user.dashboard');
 
+    // Dashboard Pages
     Route::get('/product-categories', [UserShopController::class, 'productShop'])->name('user.product.category');
     Route::get('/maincart', [CartController::class, 'viewCartItems'])->name('user.maincart');
     Route::get('/favourites', [FavouritesController::class, 'favouriteItems'])->name('user.favourites');
     Route::get('/account', [UserProfileController::class, 'userProfile'])->name('user.account');
     Route::get('/orders', [EnvoiceController::class, 'ordersList'])->middleware('web');
-    Route::post('/update-account', [UserProfileController::class, 'updateProfile'])->name('user.update.account');
     Route::get('/product-detail-info/{slug}', [UserShopController::class, 'productDetails'])->name('user.product.details');
-    Route::get('/customer-logout', [UserController::class, 'logout'])->name('customer.logout');
+
+    // User Actions profile details update, enquiry adding, add or remove item to cart, etc.
+    Route::post('/update-account', [UserProfileController::class, 'updateProfile'])->name('user.update.account');
     Route::post('/add-enquiry', [EnquiryOrdersController::class, 'addEnquiry'])->name('add.enquiry');
     Route::post('/add-to-cart', [CartController::class, 'addCart'])->name('add.cart');
     Route::post('/remove-cart-item', [CartController::class, 'removeCartItem'])->name('remove.cart.item');
@@ -90,8 +92,12 @@ Route::middleware('isCustomerAuth:customer')->group(function () {
     Route::get('/product-info/{id}', [EnquiryOrdersController::class, 'productInfo'])->name('product.info');
     Route::post('/po-upload', [EnquiryOrdersController::class, 'uploadPO'])->name('po.upload');
     Route::put('/update-user-password', [UserController::class, 'updateUserPassword'])->name('update.user.password');
+
+    // Customer Logout
+    Route::get('/customer-logout', [UserController::class, 'logout'])->name('customer.logout');
 });
 
+// Checking if user/admin is logged in or not
 Route::get('/check-auth', function () {
     return response()->json(['isAuthenticated' => Auth::check()]);
 });
@@ -101,23 +107,18 @@ Route::get('/check-auth', function () {
 
 
 // admin routes: Authentication
-Route::get('/admin/signin', function () {
-    return view('admin.page-login');
-})->name('admin.signin');
-
-Route::get('/admin/signup', function () {
-    return view('admin.page-register');
-})->name('admin.signup');
+Route::view('/admin/signin', 'admin.page-login')->name('admin.signin');
+Route::view('/admin/signup', 'admin.page-register')->name('admin.signup');
 Route::post('/register-admin', [UserController::class, 'registerAdminData'])->name('register.admin');
 Route::post('/signin-admin', [UserController::class, 'authAdmin'])->name('auth.admin')->middleware('throttle:3,1');
 
 
 // Admin and Super Admin Routes 
 Route::middleware(AdminAuthMiddleware::class . ':admin,superadmin', 'shareUserNNotify')->group(function () {
+    // admin dashboard routes
     Route::get('/admin/dashboard', [AdminController::class, 'viewDashboard'])->name('admin.dashboard');
     Route::get('/customers-list', [CustomersController::class, 'customersList'])->name('admin.customers.list');
     Route::delete('/delete-customer', [CustomersController::class, 'deleteCustomer'])->name('admin.delete.customer');
-    Route::get('/admin-logout', [UserController::class, 'logout'])->name('admin.logout');
     Route::put('/update-password', [AdminController::class, 'updatePassword'])->name('update.password');
 
     // Customer Routes
@@ -129,59 +130,59 @@ Route::middleware(AdminAuthMiddleware::class . ':admin,superadmin', 'shareUserNN
     Route::get('/add-banner', [BannerController::class, 'viewAddBanner'])->name('admin.view.banner');
     Route::post('/add-banner', [BannerController::class, 'addBanner'])->name('admin.add.banner');
     Route::get('/banner-table', [BannerController::class, 'viewBannerTable'])->name('admin.view.banner.table');
-    Route::delete('/delete-banner', [BannerController::class, 'deleteBanner'])->name('admin.delete.banner');
     Route::get('/edit-banner/{slug}', [BannerController::class, 'editBanner'])->name('admin.edit.banner');
     Route::put('/update-banner', [BannerController::class, 'updateBanner'])->name('admin.update.banner');
+    Route::delete('/delete-banner', [BannerController::class, 'deleteBanner'])->name('admin.delete.banner');
 
     // Categories Routes
     Route::get('/add-category', [CategoriesController::class, 'viewAddCategories'])->name('admin.add.category');
     Route::post('/add-category', [CategoriesController::class, 'addCategory'])->name('admin.add.category');
     Route::get('/category-table', [CategoriesController::class, 'viewCategoryTable'])->name('admin.table.category');
-    Route::delete('/delete-category', [CategoriesController::class, 'deleteCategory'])->name('admin.delete.category');
     Route::get('/edit-category/{slug}', [CategoriesController::class, 'editCategory'])->name('admin.edit.category');
     Route::put('/update-category', [CategoriesController::class, 'updateCategory'])->name('admin.update.category');
+    Route::delete('/delete-category', [CategoriesController::class, 'deleteCategory'])->name('admin.delete.category');
 
 
     // Sub Categories Routes
     Route::get('/add-sub-category', [SubCategoryController::class, 'viewAddSubCategories'])->name('admin.view.subcategory');
     Route::post('/add-sub-category', [SubCategoryController::class, 'addSubCategory'])->name('admin.add.subcategory');
     Route::get('/sub-category-table', [SubCategoryController::class, 'viewSubCategoryTable'])->name('admin.table.subcategory');
-    Route::delete('/delete-sub-category', [SubCategoryController::class, 'deleteSubCategory'])->name('admin.delete.subcategory');
     Route::get('/edit-sub-category/{slug}', [SubCategoryController::class, 'editSubCategory'])->name('admin.edit.subcategory');
     Route::put('/update-sub-category', [SubCategoryController::class, 'updateSubCategory'])->name('admin.update.subcategory');
+    Route::delete('/delete-sub-category', [SubCategoryController::class, 'deleteSubCategory'])->name('admin.delete.subcategory');
 
     // Brands Routes
     Route::get('/add-brand', [BrandController::class, 'viewAddBrand'])->name('admin.view.brand');
     Route::post('/add-brand', [BrandController::class, 'addBrand'])->name('admin.add.brand');
     Route::get('/brand-table', [BrandController::class, 'viewBrandTable'])->name('admin.table.brand');
-    Route::delete('/delete-brand', [BrandController::class, 'deleteBrand'])->name('admin.delete.brand');
     Route::get('/edit-brand/{slug}', [BrandController::class, 'editBrand'])->name('admin.edit.brand');
     Route::put('/update-brand', [BrandController::class, 'updateBrand'])->name('admin.update.brand');
+    Route::delete('/delete-brand', [BrandController::class, 'deleteBrand'])->name('admin.delete.brand');
 
 
     // Events Routes
     Route::get('/add-event', [EventController::class, 'viewEvent'])->name('admin.view.event');
     Route::post('/add-event', [EventController::class, 'addEvent'])->name('admin.add.event');
     Route::get('/event-table', [EventController::class, 'viewEventTable'])->name('admin.table.event');
-    Route::delete('/delete-event', [EventController::class, 'deleteEvent'])->name('admin.delete.event');
     Route::get('/edit-event/{id}', [EventController::class, 'editEvent'])->name('admin.edit.event');
     Route::put('/update-event', [EventController::class, 'updateEvent'])->name('admin.update.event');
+    Route::delete('/delete-event', [EventController::class, 'deleteEvent'])->name('admin.delete.event');
 
 
     // Multi Admin Routes
     Route::get('/multi-admin', [AdminController::class, 'viewAdmin'])->name('admin.view.multi.admin');
     Route::post('/add-admin', [AdminController::class, 'addAdmin'])->name('add.admin');
     Route::get('/edit-admin/{slug}', [AdminController::class, 'editAdmin'])->name('admin.edit.admin');
-    Route::delete('/delete-admin', [AdminController::class, 'deleteAdmin'])->name('delete.admin');
     Route::put('/update-admin', [AdminController::class, 'updateAdmin'])->name('admin.update.admin');
+    Route::delete('/delete-admin', [AdminController::class, 'deleteAdmin'])->name('delete.admin');
 
     // Products Routes
     Route::get('/add-product', [ProductsController::class, 'viewProduct'])->name('admin.view.product');
     Route::post('/add-product', [ProductsController::class, 'addProducts'])->name('admin.add.product');
     Route::get('/product-table', [ProductsController::class, 'viewProductTable'])->name('admin.table.product');
-    Route::delete('/delete-product', [ProductsController::class, 'deleteProduct'])->name('admin.delete.product');
     Route::get('/edit-product/{slug}', [ProductsController::class, 'editProduct'])->name('admin.edit.product');
     Route::put('/update-product', [ProductsController::class, 'updateProduct'])->name('admin.update.product');
+    Route::delete('/delete-product', [ProductsController::class, 'deleteProduct'])->name('admin.delete.product');
 
     Route::get('/product-detail/{slug}', [ProductsController::class, 'detailProduct'])->name('admin.product.details');
     Route::post('/fetch-sub-categories', [FetchAPIs::class, 'fetchSubCategories'])->name('admin.fetch.sub.categories')->middleware('web');
@@ -218,4 +219,7 @@ Route::middleware(AdminAuthMiddleware::class . ':admin,superadmin', 'shareUserNN
     // Add to Cart Through API 
     Route::post('/order-status', [FetchAPIs::class, 'changeOrderStatus'])->middleware('web');
     Route::get('/chart-data', [AdminController::class, 'getChartData'])->middleware('web');
+
+    Route::get('/admin-logout', [UserController::class, 'logout'])->name('admin.logout');
+
 });

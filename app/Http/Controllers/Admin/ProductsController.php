@@ -8,13 +8,10 @@ use App\Models\Categories;
 use App\Models\MorphHistory;
 use Illuminate\Http\Request;
 use App\Models\SubCategories;
-use Intervention\Image\Image;
-use Flasher\Prime\FlasherInterface;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\File;
 use Intervention\Image\ImageManager;
-use Maatwebsite\Excel\Facades\Excel;
 use Illuminate\Support\Facades\Validator;
 use Intervention\Image\Drivers\Gd\Driver;
 
@@ -85,13 +82,6 @@ class ProductsController extends Controller
             $imageName1 = time() . "." . $ext1;
             $image1->move(public_path('uploads/products/thumbnails'), $imageName1);
             $product->product_thumbain = $imageName1;
-
-
-            // $image = ImageManager::imagick()->read('/uploads/products/thumbnails/' . $imageName1);
-            // $image = $image->resizeDown(500, 500); // 800 x 100
-
-            // resize only image width to 200 pixel and do not exceed the origial width
-            // $image->resizeDown(width: 200);
 
             // converting image as thumbnail
             $manager = new ImageManager(Driver::class);
@@ -333,7 +323,6 @@ class ProductsController extends Controller
     public function detailProduct(String $slug)
     {
         $productDetails = Product::with('categories')->with('subcategories')->with('brands')->where('product_slug', $slug)->first();
-        // dd($productDetails);
         return view('admin.product-details', compact('productDetails'));
     }
 }

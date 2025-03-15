@@ -7,7 +7,6 @@ use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Validator;
-use Flasher\Prime\FlasherInterface;
 
 class BrandController extends Controller
 {
@@ -47,7 +46,6 @@ class BrandController extends Controller
     public function viewBrandTable()
     {
         $brands = Brand::withCount('productsCount')->get();
-        // dd($brands);
         return view('admin.brand-table', compact('brands'));
     }
 
@@ -65,6 +63,7 @@ class BrandController extends Controller
 
         return back()->with('error', 'Please Try Again.');
     }
+    
     public function editBrand(String $slug)
     {
         $selectedbrand = Brand::where('brand_slug', $slug)->first();

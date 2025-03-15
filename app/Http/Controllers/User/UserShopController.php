@@ -2,12 +2,10 @@
 
 namespace App\Http\Controllers\User;
 
-use App\Models\User;
 use App\Models\Brand;
 use App\Models\Product;
 use App\Models\Favourite;
 use App\Models\Categories;
-use Illuminate\Http\Request;
 use App\Models\SubCategories;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;

@@ -3,7 +3,6 @@
 namespace App\Http\Controllers;
 
 use App\Models\Enquiry;
-use App\Models\OrderTrack;
 use App\Models\OrdersTrack;
 use Illuminate\Http\Request;
 use Illuminate\Support\Carbon;
@@ -106,9 +105,9 @@ class EnvoiceController extends Controller
             $query->selectRaw('MIN(id)')
                 ->from('enquiries')
                 ->groupBy('enquiry_id');
-            })
+        })
             ->orderBy('id', 'desc')->paginate(5);
-        
+
         return response()->json($products);
     }
 }

@@ -3,11 +3,10 @@
 namespace App\Http\Controllers\User;
 
 use App\Models\User;
+use App\Models\Enquiry;
 use App\Models\UserDetail;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
-use App\Models\Enquiry;
-use App\Models\OrdersTrack;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Validator;
 
@@ -17,7 +16,6 @@ class UserProfileController extends Controller
     {
         $user = User::with('userDetail')->where('id', Auth::id())->first();
         $orders = Enquiry::where('customer_id', $user->id)->with('invoice')->distinct('enquiry_id')->get();
-        // dd($orders);
         return view('user.mainorder', compact('user', 'orders'));
     }
 
