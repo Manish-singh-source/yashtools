@@ -16,6 +16,7 @@ use Illuminate\Http\Request;
 use App\Models\SubCategories;
 use Flasher\Prime\FlasherInterface;
 use App\Http\Controllers\Controller;
+use App\Models\MorphStatus;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Mail;
 
@@ -482,6 +483,7 @@ class FetchAPIs extends Controller
     {
         $enquiryid = $request->enquiryid;
         $enquiryStatus = $request->enquiryStatus;
+        $currentEnquiryStatus = $request->currentEnquiryStatus;
 
         if (!isset($enquiryid)) {
             return response()->json([
@@ -490,11 +492,24 @@ class FetchAPIs extends Controller
             ], 400);
         }
 
+        if($currentEnquiryStatus == 'payment_received') {
+            return response()->json([
+                'status' => true,
+                'message' => 'Payment Already Received.',
+            ], 200);
+        }
+
         $enquiry = Enquiry::where('id', $enquiryid)->first();
         $enquiry->status = $enquiryStatus;
         $enquiry->save();
 
-
+        MorphStatus::create([
+            'enquiry_id' => $enquiry->enquiry_id,
+            'statusable_id' => $enquiry->id,
+            'statusable_type' => get_class($enquiry),
+            'status' => $enquiryStatus,
+        ]);
+        
         if (!$enquiry) {
             return response()->json([
                 'status' => false,

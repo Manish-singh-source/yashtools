@@ -2,10 +2,12 @@
 
 namespace App\Models;
 
+use App\Models\MorphStatus;
 use App\Models\MorphHistory;
 use Illuminate\Support\Carbon;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Illuminate\Database\Eloquent\Relations\MorphMany;
 
 class Enquiry extends Model
 {
@@ -17,6 +19,10 @@ class Enquiry extends Model
     public function history()
     {
         return $this->morphMany(MorphHistory::class, 'modifiable');
+    }
+    public function statusMorph()
+    {
+        return $this->morphMany(MorphStatus::class, 'statusable');
     }
 
     public function getCreatedAtAttribute($value)
