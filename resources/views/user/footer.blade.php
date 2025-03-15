@@ -8,7 +8,7 @@
                     <div class="col-md-3 col-sm-12">
                         <div class="axil-footer-widget">
                             <div class="logo mb--30">
-                                <a href="index.php">
+                                <a href="{{ route('user.dashboard') }}">
                                     <img class="light-logo" src="assets/images/logo/logo-light.png" alt="Logo Images">
                                 </a>
                             </div>

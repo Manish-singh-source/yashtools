@@ -40,9 +40,9 @@
         <div class="login-aside text-center  d-flex flex-column flex-row-auto">
             <div class="d-flex flex-column-auto flex-column pt-lg-40 pt-15">
                 <div class="text-center mb-4 pt-5">
-                    <a href="index-3.php"><img src="{{ asset('assets\images\myimg\logo.png') }}" class="dark-login"
+                    <a href="{{ route('admin.dashboard') }}"><img src="{{ asset('assets\images\myimg\logo.png') }}" class="dark-login"
                             alt=""></a>
-                    <a href="index-3.php"><img src="{{ asset('assets\images\myimg\logo.png') }}" class="light-login"
+                    <a href="{{ route('admin.dashboard') }}"><img src="{{ asset('assets\images\myimg\logo.png') }}" class="light-login"
                             alt=""></a>
                 </div>
                 <h3 class="mb-2">Welcome back!</h3>
