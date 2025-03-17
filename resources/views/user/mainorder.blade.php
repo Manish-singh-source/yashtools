@@ -394,6 +394,7 @@
         $(document).ready(function() {
             fetchProducts();
 
+
             function fetchProducts(page = 1) {
                 let sortBy = $('#sort_by').val();
                 let fromDate = $('#from-date').val();
@@ -430,21 +431,23 @@
                         $('#pagination_links').html(''); // Clear existing pagination
 
                         if (response.links) {
-                            let paginationHtml = `<div class="text-center pt--30">
-                            <div class="center">
-                                <div class="pagination">`;
+                            if (response.next_page_url) {
+                                let paginationHtml = `<div class="text-center pt--30">
+                                                        <div class="center">
+                                                    <div class="pagination">`;
 
-                            $.each(response.links, function(index, link) {
-                                if (link.url) {
-                                    let activeClass = link.active ? 'active' : '';
-                                    paginationHtml +=
-                                        `<a href="javascript:void(0)" class="pagination-link ${activeClass}" data-page="${link.url}">${link.label}</a>`;
-                                }
-                            });
+                                $.each(response.links, function(index, link) {
+                                    if (link.url) {
+                                        let activeClass = link.active ? 'active' : '';
+                                        paginationHtml +=
+                                            `<a href="javascript:void(0)" class="pagination-link ${activeClass}" data-page="${link.url}">${link.label}</a>`;
+                                    }
+                                });
 
-                            paginationHtml += `</div></div></div>`;
+                                paginationHtml += `</div></div></div>`;
 
-                            $('#pagination_links').append(paginationHtml);
+                                $('#pagination_links').append(paginationHtml);
+                            }
                         }
                     }
                 });
