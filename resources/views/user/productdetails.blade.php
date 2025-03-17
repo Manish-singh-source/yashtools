@@ -291,6 +291,9 @@
                                             <li class="text-danger"><i class="fal fa-times"></i>Out of stock</li>
                                         @endif
                                     </ul>
+                                    <h6 class="title margbot">Available Quantity :
+                                        <span class="spnc">{{ $selectedProduct->product_quantity }}</span>
+                                    </h6>
                                     @if ($selectedProduct->product_sale != null)
                                         <div class="product-variation quantity-variant-wrapper margbot">
                                             <h6 class="title1">Price :</h6><span
@@ -408,7 +411,6 @@
                                                                     <th>{{ $column }}</th>
                                                                 @endif
                                                             @endforeach
-                                                            <th>Action</th>
                                                         </tr>
                                                     </thead>
                                                     <tbody>
@@ -422,16 +424,8 @@
                                                                             {{ $value }}</td>
                                                                     @endif
                                                                 @endforeach
-                                                                @foreach ($row as $key => $value)
-                                                                    @if (!empty($value))
-                                                                        <td data-label="Action"><button
-                                                                                class="action-btn">3D</button>
-                                                                        </td>
-                                                                    @endif
-                                                                @break
-                                                            @endforeach
-                                                        </tr>
-                                                    @endforeach
+                                                            </tr>
+                                                        @endforeach
                                                 </tbody>
                                             </table>
                                         @elseif($selectedProduct->product_optional_pdf != '')

@@ -71,7 +71,7 @@
                             </div>
 
                             <div class="toggle-list product-categories product-gender active">
-                                <h6 class="title">Brand</h6>
+                                <h6 class="title">BRAND</h6>
                                 <div class="shop-submenu">
                                     <ul id="brand_filter">
                                         @forelse ($brands as $brand)
@@ -89,7 +89,7 @@
                                 </div>
                             </div>
                             <div class="toggle-list product-categories product-gender active">
-                                <h6 class="title">New & Sale</h6>
+                                <h6 class="title">NEW PRODUCTS & SALE</h6>
                                 <div class="shop-submenu">
                                     <ul id="tags_filter">
                                         <li data-tagid="new"><a href="#">New Products</a></li>
@@ -208,7 +208,6 @@
                         $('#pagination_links').html(''); // Clear existing pagination
 
                         if (response.links) {
-                            if (response.next_page_url) {
                                 let paginationHtml = `<div class="text-center pt--30">
                                                         <div class="center">
                                                     <div class="pagination">`;
@@ -224,7 +223,6 @@
                                 paginationHtml += `</div></div></div>`;
 
                                 $('#pagination_links').append(paginationHtml);
-                            }
                         }
 
                     }

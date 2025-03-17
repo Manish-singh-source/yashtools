@@ -17,6 +17,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Validator;
+use App\Notifications\EnquiryNotification;
 
 class EnquiryOrdersController extends Controller
 {
@@ -113,7 +114,7 @@ class EnquiryOrdersController extends Controller
             'order_id' => $enquiryID, // Random order ID
         ];
 
-        // $user->notify(new EnquiryNotification($orderDetails));
+        $user->notify(new EnquiryNotification($orderDetails));
 
         flash()->success('Your enquiry has been successfully submitted.');
         return response()->json([

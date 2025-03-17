@@ -508,7 +508,7 @@
 
     <script>
         $(document).ready(function() {
-            $(".notificationCount").hide();
+            // $(".notificationCount").hide();
 
             function getNotifications() {
                 $.ajax({
@@ -574,10 +574,10 @@
                 });
             }
 
-            $(".notificationCount").hide();
+            // $(".notificationCount").hide();
             getNotifications();
-            setTimeout(() => {
-                $(".notificationCount").hide();
+            setInterval(() => {
+                // $(".notificationCount").hide();
                 getNotifications();
             }, 60000);
 

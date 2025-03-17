@@ -509,7 +509,7 @@
                     <div class="etrade-newsletter-wrapper bg_image ">
                         <!-- <div class="newsletter-content">
                                                                                                                         <span class="title-highlighter highlighter-primary2">Newsletter</span> -->
-                        <img src="./assets/images/logo/logo.png" alt="">
+                        {{-- <img src="./assets/images/logo/logo.png" alt=""> --}}
                         <h2 class="title mb--40 mb_sm--30">Subscribe to Stay Updated</h2>
                         <div class="input-group newsletter-form">
                             <div class="position-relative newsletter-inner mb--15">

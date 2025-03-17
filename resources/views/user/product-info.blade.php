@@ -50,41 +50,45 @@
                     <div class="axil-dashboard-author">
                         <div class="media">
                             <div class="media-body">
-                                <h5 class="title mb-0">Enquiry Details : {{ $data[0]->enquiry_id }}</h5>
+                                <h5 class="title mb-0">Enquiry Number : {{ $data[0]->enquiry_id }}</h5>
                             </div>
                         </div>
                     </div>
                     <div class="row gap-x-5">
                         <div class="{{ isset($invoiceDetails->id) ? 'col-xl-9 col-md-12' : 'col-12' }}">
-                            <div class="tab-content">
+                            <div>
                                 <div class="tab-pane fade show active" id="nav-orders" role="tabpanel">
                                     <div class="axil-dashboard-order">
                                         <div class="table-responsive">
                                             <table class="table">
                                                 <thead>
                                                     <tr>
+                                                        <th scope="col">Sr. No.</th>
                                                         <th scope="col">Product Image</th>
                                                         <th scope="col">Product Name</th>
                                                         <th scope="col">Quantity</th>
                                                         <th scope="col">Status</th>
-                                                        <th scope="col">Action</th>
+                                                        @isset($poInfo->id)
+                                                            <th scope="col">Action</th>
+                                                        @endisset
                                                     </tr>
                                                 </thead>
                                                 <tbody id="product_list">
-                                                    @foreach ($data as $order)
+                                                    @foreach ($data as $key => $order)
                                                         <tr>
+                                                            <td>{{ $key + 1 }}</td>
                                                             <td><img width="40" height="40"
                                                                     src="{{ asset('uploads/products/thumbnails/' . $order->products[0]->product->product_thumbain) }}" />
                                                             </td>
                                                             <td>{{ $order->products[0]->product->product_name }}</td>
                                                             <td>{{ $order->quantity }}</td>
                                                             <td>{{ $data[0]->status }}</td>
-                                                            <td>
-                                                                @isset($poInfo->id)
+                                                            @isset($poInfo->id)
+                                                                <td>
                                                                     <a href="{{ asset('uploads/po_file/' . $poInfo->po_file) }}"
                                                                         target="_blank">View PO</a>
-                                                                @endisset
-                                                            </td>
+                                                                </td>
+                                                            @endisset
                                                         </tr>
                                                     @endforeach
                                                 </tbody>
@@ -98,9 +102,9 @@
                         </div>
 
                         @isset($invoiceDetails->id)
-                            <div class="col-xl-3 col-md-12 ">
+                            <div class="col-xl-3 col-md-12">
                                 <div class="card bg-light border-0 outline-0 p-3">
-                                    <h5 class="card-title text-center mb-3">Invoice Details</h5>
+                                    <h5 class="card-title text-center mb-3">Tracking Details</h5>
                                     <div class="card-body">
                                         <p><strong>Courier:</strong> {{ $invoiceDetails->courier_name }}</p>
                                         <p><strong>Courier No:</strong> {{ $invoiceDetails->courier_number }}</p>
@@ -134,7 +138,7 @@
                                         @error('po_file')
                                             {{ $message }}
                                         @enderror
-                                        <input class="form-control" type="text" name="enquiry_id"
+                                        <input class="form-control" type="hidden" name="enquiry_id"
                                             value="{{ $data[0]->enquiry_id }}">
                                     </div>
                                     <div class="mb-3">

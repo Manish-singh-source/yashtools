@@ -84,7 +84,7 @@
                             </div>
                         </div>
                         <div class="toggle-list product-categories product-gender active">
-                            <h6 class="title">Brand</h6>
+                            <h6 class="title">BRAND</h6>
                             <div class="shop-submenu">
                                 <ul>
                                     <li class="chosen"><a href="#">Men (40)</a></li>
@@ -94,7 +94,7 @@
                             </div>
                         </div>
                         <div class="toggle-list product-categories product-gender active">
-                            <h6 class="title">New & Sale</h6>
+                            <h6 class="title">NEW PRODUCTS & SALE</h6>
                             <div class="shop-submenu">
                                 <ul>
                                     <li class="chosen"><a href="#">New Products</a></li>

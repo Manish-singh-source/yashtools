@@ -125,6 +125,7 @@
                                             <table class="table">
                                                 <thead>
                                                     <tr>
+                                                        <th scope="col">Sr. No.</th>
                                                         <th scope="col">Enquiry Id</th>
                                                         <th scope="col">Product Image</th>
                                                         <th scope="col">Product Name</th>
@@ -414,6 +415,7 @@
 
                             $('#product_list').append(
                                 `<tr>
+                                    <td>${index + 1}</td>
                                     <td>${product.enquiry_id}</td>
                                     <td><img src='uploads/products/thumbnails/${product.products[0]?.product.product_thumbain}' /></td>
                                     <td>${product.products[0]?.product.product_name ? product.products[0]?.product.product_name : 'NA'}</td>
@@ -431,7 +433,6 @@
                         $('#pagination_links').html(''); // Clear existing pagination
 
                         if (response.links) {
-                            if (response.next_page_url) {
                                 let paginationHtml = `<div class="text-center pt--30">
                                                         <div class="center">
                                                     <div class="pagination">`;
@@ -447,7 +448,6 @@
                                 paginationHtml += `</div></div></div>`;
 
                                 $('#pagination_links').append(paginationHtml);
-                            }
                         }
                     }
                 });

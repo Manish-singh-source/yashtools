@@ -28,8 +28,7 @@
             <div class="row">
                 <div class="col-lg-12 cartbx">
                     <div class="">
-                        <a href="{{ route('user.product.category') }}" class="conts">Please Continue Shopping to Add
-                            Products</a>
+                        <a href="{{ route('user.product.category') }}" class="conts">Please Continue Shopping</a>
                     </div>
                     <div class="clear-all-cart">
                         <a href="#" class="crlar">Clear Shoping Cart</a>
@@ -41,7 +40,7 @@
                     <div class="table-responsive">
                         <table class="table axil-product-table axil-cart-table mb--40">
                             <thead>
-                                <tr>
+                                <tr class="text-center">
                                     <th scope="col" class="product-thumbnail">Date</th>
                                     <th scope="col" class="product-thumbnail">Product</th>
                                     <th scope="col" class="product-title">Title</th>
