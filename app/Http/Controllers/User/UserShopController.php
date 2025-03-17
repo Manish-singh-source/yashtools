@@ -36,6 +36,12 @@ class UserShopController extends Controller
         if ($similarProducts->isEmpty()) {
             $similarProducts = Product::where('id', '!=', $selectedProduct->id)->limit(4)->get();
         }
+        $breadcrumbs = [
+            ['name' => 'Home', 'url' => route('user.dashboard')],
+            ['name' => 'Products', 'url' => route('user.product.category')],
+            ['name' => $selectedProduct->product_name, 'url' => route('user.product.details', $selectedProduct->product_slug)],
+        ];
+
         if (!empty($selectedProduct->product_specs)) {
             $path = public_path('uploads/products/product_specs/' . $selectedProduct->product_specs);
 
@@ -48,9 +54,9 @@ class UserShopController extends Controller
                 $sheetData = $data[0];
             }
             $spreadsheet = \PhpOffice\PhpSpreadsheet\IOFactory::load($path);
-            return view('user.productdetails', compact('categories', 'brands', 'subcategories', 'selectedProduct', 'sheetData', 'favouritesProducts', 'similarProducts'));
+            return view('user.productdetails', compact('categories', 'brands', 'subcategories', 'selectedProduct', 'sheetData', 'favouritesProducts', 'similarProducts', 'breadcrumbs'));
         }
-        return view('user.productdetails', compact('categories', 'brands', 'subcategories', 'selectedProduct', 'favouritesProducts', 'similarProducts'));
+        return view('user.productdetails', compact('categories', 'brands', 'subcategories', 'selectedProduct', 'favouritesProducts', 'similarProducts', 'breadcrumbs'));
     }
     
 }

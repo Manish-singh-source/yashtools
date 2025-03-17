@@ -243,9 +243,16 @@
                         <div class="col-lg-12">
                             <nav aria-label="breadcrumb">
                                 <ol class="breadcrumb">
-                                    <li class="breadcrumb-item"><a href="#">Home</a></li>
-                                    <li class="breadcrumb-item"><a href="#">Category</a></li>
-                                    <li class="breadcrumb-item active" aria-current="page">Current Page</li>
+                                    @foreach ($breadcrumbs as $breadcrumb)
+                                        @if (!$loop->last)
+                                            <li class="breadcrumb-item">
+                                                <a href="{{ $breadcrumb['url'] }}">{{ $breadcrumb['name'] }}</a>
+                                            </li>
+                                        @else
+                                            <li class="breadcrumb-item active" aria-current="page">{{ $breadcrumb['name'] }}
+                                            </li>
+                                        @endif
+                                    @endforeach
                                 </ol>
                             </nav>
                         </div>
@@ -426,392 +433,392 @@
                                                                 @endforeach
                                                             </tr>
                                                         @endforeach
-                                                </tbody>
-                                            </table>
-                                        @elseif($selectedProduct->product_optional_pdf != '')
-                                            <div class="single-product-thumbnail-wrap zoom-gallery">
-                                                <div
-                                                    class="single-product-thumbnail product-large-thumbnail-3 axil-product">
-                                                    <div class="thumbnail">
-                                                        <a href="{{ asset('uploads/products/product_optional_pdf/' . $selectedProduct->product_optional_pdf) }}"
-                                                            class="popup-zoom">
-                                                            <img src="{{ asset('uploads/products/product_optional_pdf/' . $selectedProduct->product_optional_pdf) }}"
-                                                                alt="Product Images">
-                                                        </a>
+                                                    </tbody>
+                                                </table>
+                                            @elseif($selectedProduct->product_optional_pdf != '')
+                                                <div class="single-product-thumbnail-wrap zoom-gallery">
+                                                    <div
+                                                        class="single-product-thumbnail product-large-thumbnail-3 axil-product">
+                                                        <div class="thumbnail">
+                                                            <a href="{{ asset('uploads/products/product_optional_pdf/' . $selectedProduct->product_optional_pdf) }}"
+                                                                class="popup-zoom">
+                                                                <img src="{{ asset('uploads/products/product_optional_pdf/' . $selectedProduct->product_optional_pdf) }}"
+                                                                    alt="Product Images">
+                                                            </a>
+                                                        </div>
                                                     </div>
                                                 </div>
-                                            </div>
-                                        @else
-                                            <p>No data available or the file is empty.</p>
-                                        @endif
+                                            @else
+                                                <p>No data available or the file is empty.</p>
+                                            @endif
+                                        </div>
+
                                     </div>
-
+                                    <!-- End .col-lg-6 -->
                                 </div>
-                                <!-- End .col-lg-6 -->
-                            </div>
-                            <!-- End .row -->
+                                <!-- End .row -->
 
-                            <!-- End .row -->
+                                <!-- End .row -->
+                            </div>
+                            <!-- End .product-desc-wrapper -->
                         </div>
-                        <!-- End .product-desc-wrapper -->
+                        <div class="tab-pane fade" id="additional-info" role="tabpanel"
+                            aria-labelledby="additional-info-tab">
+                            <div class="product-desc-wrapper">
+                                <div class="row">
+                                    <div class="col-lg-12 mb--30">
+                                        <div class="single-desc">
+                                            <p>{!! $selectedProduct->product_discription !!}</p>
+                                        </div>
+                                    </div>
+                                    <!-- End .col-lg-6 -->
+                                </div>
+                                <!-- End .row -->
+                                <!-- End .row -->
+                            </div>
+                        </div>
+
                     </div>
-                    <div class="tab-pane fade" id="additional-info" role="tabpanel"
-                        aria-labelledby="additional-info-tab">
-                        <div class="product-desc-wrapper">
-                            <div class="row">
-                                <div class="col-lg-12 mb--30">
-                                    <div class="single-desc">
-                                        <p>{!! $selectedProduct->product_discription !!}</p>
+                </div>
+            </div>
+            <!-- woocommerce-tabs -->
+
+        </div>
+        <!-- End Shop Area  -->
+
+        <!-- Start Recently Viewed Product Area  -->
+        <div class="axil-product-area bg-color-white axil-section-gap pb--50 pb_sm--30">
+            <div class="container">
+                <div class="section-title-wrapper">
+
+                    <h2 class="title">Recently Viewed Items</h2>
+                </div>
+                <div class="row row--15">
+                    @foreach ($similarProducts as $product)
+                        <div class="col-xl-3 col-lg-4 col-sm-6 col-12 mb--30">
+                            <div class="axil-product product-style-one">
+                                <div class="thumbnail">
+                                    <a href="{{ route('user.product.details', $product->product_slug) }}">
+                                        <img data-sal="fade" data-sal-delay="100" data-sal-duration="1500"
+                                            src="{{ asset('uploads/products/thumbnails/' . $product->product_thumbain) }}"
+                                            alt="Product Images">
+                                    </a>
+                                </div>
+                                <div class="product-content">
+                                    <div class="inner">
+                                        <h5 class="title"><a
+                                                href="{{ route('user.product.details', $product->product_slug) }}">{{ $product->product_name }}</a>
+                                        </h5>
                                     </div>
                                 </div>
-                                <!-- End .col-lg-6 -->
                             </div>
-                            <!-- End .row -->
-                            <!-- End .row -->
                         </div>
-                    </div>
-
+                    @endforeach
                 </div>
             </div>
         </div>
-        <!-- woocommerce-tabs -->
+        <!-- End Recently Viewed Product Area  -->
 
-    </div>
-    <!-- End Shop Area  -->
-
-    <!-- Start Recently Viewed Product Area  -->
-    <div class="axil-product-area bg-color-white axil-section-gap pb--50 pb_sm--30">
-        <div class="container">
-            <div class="section-title-wrapper">
-
-                <h2 class="title">Recently Viewed Items</h2>
-            </div>
-            <div class="row row--15">
-                @foreach ($similarProducts as $product)
-                    <div class="col-xl-3 col-lg-4 col-sm-6 col-12 mb--30">
-                        <div class="axil-product product-style-one">
-                            <div class="thumbnail">
-                                <a href="{{ route('user.product.details', $product->product_slug) }}">
-                                    <img data-sal="fade" data-sal-delay="100" data-sal-duration="1500"
-                                        src="{{ asset('uploads/products/thumbnails/' . $product->product_thumbain) }}"
-                                        alt="Product Images">
-                                </a>
-                            </div>
-                            <div class="product-content">
-                                <div class="inner">
-                                    <h5 class="title"><a
-                                            href="{{ route('user.product.details', $product->product_slug) }}">{{ $product->product_name }}</a>
-                                    </h5>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                @endforeach
-            </div>
-        </div>
-    </div>
-    <!-- End Recently Viewed Product Area  -->
-
-</main>
+    </main>
 
 @endsection
 
 @section('script')
-<script>
-    const dropdown = document.getElementById('dropdown');
-    const selected = dropdown.querySelector('.dropdown-selected');
-    const options = dropdown.querySelector('.dropdown-options');
-    const searchBox = dropdown.querySelector('.search-box');
-    const optionItems = options.querySelectorAll('div');
+    <script>
+        const dropdown = document.getElementById('dropdown');
+        const selected = dropdown.querySelector('.dropdown-selected');
+        const options = dropdown.querySelector('.dropdown-options');
+        const searchBox = dropdown.querySelector('.search-box');
+        const optionItems = options.querySelectorAll('div');
 
-    // Toggle dropdown visibility
-    selected.addEventListener('click', () => {
-        options.style.display = options.style.display === 'block' ? 'none' : 'block';
-    });
-
-    // Filter options based on search input
-    searchBox.addEventListener('input', () => {
-        const filter = searchBox.value.toLowerCase();
-        optionItems.forEach(option => {
-            if (option.textContent.toLowerCase().includes(filter)) {
-                option.style.display = '';
-            } else {
-                option.style.display = 'none';
-            }
+        // Toggle dropdown visibility
+        selected.addEventListener('click', () => {
+            options.style.display = options.style.display === 'block' ? 'none' : 'block';
         });
-    });
 
-    // Select an option
-    options.addEventListener('click', (event) => {
-        if (event.target.tagName === 'DIV') {
-            selected.childNodes[0].textContent = event.target.textContent;
-            options.style.display = 'none';
-            optionItems.forEach(option => option.classList.remove('selected'));
-            event.target.classList.add('selected');
-        }
-    });
-
-    // Close dropdown when clicking outside
-    document.addEventListener('click', (event) => {
-        if (!dropdown.contains(event.target)) {
-            options.style.display = 'none';
-        }
-    });
-</script>
-<script src="https://code.jquery.com/jquery-3.7.1.min.js"
-    integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
-<script>
-    $(document).ready(function() {
-        let $table = $("table");
-        if ($table.length === 0) return;
-
-        let $headers = $table.find("thead th");
-        let $rows = $table.find("tbody tr");
-
-        let uniqueValues = {};
-
-        $rows.each(function() {
-            let $cells = $(this).find("td");
-            $cells.each(function(index) {
-                if (!$headers.eq(index).length) return;
-                let columnLabel = $headers.eq(index).data("column") || $.trim($headers.eq(index)
-                    .text());
-                let value = $.trim($(this).text());
-
-                if (!uniqueValues[columnLabel]) {
-                    uniqueValues[columnLabel] = new Set();
-                }
-                if (value !== "") { // Ignore empty values
-                    uniqueValues[columnLabel].add(value);
+        // Filter options based on search input
+        searchBox.addEventListener('input', () => {
+            const filter = searchBox.value.toLowerCase();
+            optionItems.forEach(option => {
+                if (option.textContent.toLowerCase().includes(filter)) {
+                    option.style.display = '';
+                } else {
+                    option.style.display = 'none';
                 }
             });
         });
 
-        $headers.each(function(index) {
-            let columnLabel = $(this).data("column") || $.trim($(this).text());
-            if (columnLabel) {
-                let $select = $("<select>").on("change", function() {
-                    filterTable(index, $(this).val());
+        // Select an option
+        options.addEventListener('click', (event) => {
+            if (event.target.tagName === 'DIV') {
+                selected.childNodes[0].textContent = event.target.textContent;
+                options.style.display = 'none';
+                optionItems.forEach(option => option.classList.remove('selected'));
+                event.target.classList.add('selected');
+            }
+        });
+
+        // Close dropdown when clicking outside
+        document.addEventListener('click', (event) => {
+            if (!dropdown.contains(event.target)) {
+                options.style.display = 'none';
+            }
+        });
+    </script>
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js"
+        integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
+    <script>
+        $(document).ready(function() {
+            let $table = $("table");
+            if ($table.length === 0) return;
+
+            let $headers = $table.find("thead th");
+            let $rows = $table.find("tbody tr");
+
+            let uniqueValues = {};
+
+            $rows.each(function() {
+                let $cells = $(this).find("td");
+                $cells.each(function(index) {
+                    if (!$headers.eq(index).length) return;
+                    let columnLabel = $headers.eq(index).data("column") || $.trim($headers.eq(index)
+                        .text());
+                    let value = $.trim($(this).text());
+
+                    if (!uniqueValues[columnLabel]) {
+                        uniqueValues[columnLabel] = new Set();
+                    }
+                    if (value !== "") { // Ignore empty values
+                        uniqueValues[columnLabel].add(value);
+                    }
+                });
+            });
+
+            $headers.each(function(index) {
+                let columnLabel = $(this).data("column") || $.trim($(this).text());
+                if (columnLabel) {
+                    let $select = $("<select>").on("change", function() {
+                        filterTable(index, $(this).val());
+                    });
+
+                    let $defaultOption = $("<option>").val("").text("All");
+                    $select.append($defaultOption);
+
+                    if (uniqueValues[columnLabel]) {
+                        uniqueValues[columnLabel].forEach(value => {
+                            let $option = $("<option>").val(value).text(value);
+                            $select.append($option);
+                        });
+                    }
+                    $(this).append($select);
+                }
+            });
+
+
+            $rows.each(function() {
+                let partNumbers = {};
+                let $row = $(this).find("td");
+
+                let key = $row.eq(0).text().trim(); // Get the first <td> text
+                partNumbers[key] = key;
+
+                if (key) {
+                    $(".dropdown-options").append(`<div>${key}</div>`);
+                }
+            });
+
+
+            function filterTable(columnIndex, value) {
+                $rows.each(function() {
+                    let $cell = $(this).find("td").eq(columnIndex);
+                    if ($cell.length) {
+                        let cellValue = $.trim($cell.text());
+                        $(this).toggle(value === "" || cellValue === value);
+                    }
+                });
+            }
+        });
+    </script>
+
+    <script>
+        $(document).ready(function() {
+
+            $("#showError").hide();
+            $.ajaxSetup({
+                headers: {
+                    "X-CSRF-TOKEN": $('meta[name="csrf-token"]').attr("content"),
+                },
+            });
+
+            $(document).on("click", "#addEnquiry", function() {
+
+
+                let enquiryQuantity = $(".enquiryQuantity").val();
+                let productId = $(".productId").val();
+                let userId = $(".userId").val();
+                let partNumber = $(".dropdown-selected").text();
+                if (partNumber.trim() == 'Select Part Number') {
+                    if (confirm('Please Select Part Number')) {
+                        return;
+                    }
+                }
+                let cartData = [];
+
+                cartData.push({
+                    userId: userId,
+                    productId: productId,
+                    enquiryQuantity: enquiryQuantity,
+                    partNumber: partNumber,
                 });
 
-                let $defaultOption = $("<option>").val("").text("All");
-                $select.append($defaultOption);
+                var button = $(this).prop("disabled", true);
+                button.find("a").text("Processing...");
 
-                if (uniqueValues[columnLabel]) {
-                    uniqueValues[columnLabel].forEach(value => {
-                        let $option = $("<option>").val(value).text(value);
-                        $select.append($option);
-                    });
-                }
-                $(this).append($select);
-            }
-        });
+                $.ajax({
+                    url: "/check-auth", // Check if the user is logged in
+                    type: "GET",
+                    success: function(response) {
+                        if (!response.isAuthenticated) {
+                            $("#showError").show();
+                            $("#showError").html(
+                                "Please <a href='/signin'>register</a> to add Product to favourites"
+                            ); // Show login popup
+                            return;
+                        }
 
+                        $.ajax({
+                            url: "/add-enquiry",
+                            type: "POST",
+                            data: {
+                                cartData: cartData
+                            },
+                            success: function(data) {
 
-        $rows.each(function() {
-            let partNumbers = {};
-            let $row = $(this).find("td");
+                                if (data.status) {
+                                    location.reload();
+                                }
+                            },
+                            error: function(xhr, status, error) {
+                                console.log(xhr);
+                                console.log(status);
+                                console.log(error);
+                            },
+                        });
 
-            let key = $row.eq(0).text().trim(); // Get the first <td> text
-            partNumbers[key] = key;
+                    }
+                });
 
-            if (key) {
-                $(".dropdown-options").append(`<div>${key}</div>`);
-            }
-        });
-
-
-        function filterTable(columnIndex, value) {
-            $rows.each(function() {
-                let $cell = $(this).find("td").eq(columnIndex);
-                if ($cell.length) {
-                    let cellValue = $.trim($cell.text());
-                    $(this).toggle(value === "" || cellValue === value);
-                }
-            });
-        }
-    });
-</script>
-
-<script>
-    $(document).ready(function() {
-
-        $("#showError").hide();
-        $.ajaxSetup({
-            headers: {
-                "X-CSRF-TOKEN": $('meta[name="csrf-token"]').attr("content"),
-            },
-        });
-
-        $(document).on("click", "#addEnquiry", function() {
-
-
-            let enquiryQuantity = $(".enquiryQuantity").val();
-            let productId = $(".productId").val();
-            let userId = $(".userId").val();
-            let partNumber = $(".dropdown-selected").text();
-            if (partNumber.trim() == 'Select Part Number') {
-                if (confirm('Please Select Part Number')) {
-                    return;
-                }
-            }
-            let cartData = [];
-
-            cartData.push({
-                userId: userId,
-                productId: productId,
-                enquiryQuantity: enquiryQuantity,
-                partNumber: partNumber,
             });
 
-            var button = $(this).prop("disabled", true);
-            button.find("a").text("Processing...");
+            $(document).on("click", "#addCart", function() {
+                let productId = $(".productId").val();
+                let userId = $(".userId").val();
+                let partNumber = $(".dropdown-selected").text();
 
-            $.ajax({
-                url: "/check-auth", // Check if the user is logged in
-                type: "GET",
-                success: function(response) {
-                    if (!response.isAuthenticated) {
-                        $("#showError").show();
-                        $("#showError").html(
-                            "Please <a href='/signin'>register</a> to add Product to favourites"
-                        ); // Show login popup
+                if (partNumber.trim() == 'Select Part Number') {
+                    if (confirm('Please Select Part Number')) {
                         return;
                     }
-
-                    $.ajax({
-                        url: "/add-enquiry",
-                        type: "POST",
-                        data: {
-                            cartData: cartData
-                        },
-                        success: function(data) {
-
-                            if (data.status) {
-                                location.reload();
-                            }
-                        },
-                        error: function(xhr, status, error) {
-                            console.log(xhr);
-                            console.log(status);
-                            console.log(error);
-                        },
-                    });
-
                 }
-            });
+                $.ajax({
+                    url: "/check-auth", // Check if the user is logged in
+                    type: "GET",
+                    success: function(response) {
+                        if (!response.isAuthenticated) {
+                            $("#showError").show();
+                            $("#showError").html(
+                                "Please <a href='/signin'>register</a> to add Product to favourites"
+                            ); // Show login popup
+                            return;
+                        }
 
-        });
+                        $.ajax({
+                            url: "/add-to-cart",
+                            type: "POST",
+                            data: {
+                                userId: userId,
+                                productId: productId,
+                                partNumber: partNumber,
+                            },
+                            success: function(data) {
+                                if (data.status) {
+                                    location.reload();
+                                }
+                            },
+                            error: function(xhr, status, error) {
+                                console.log(xhr);
+                                console.log(status);
+                                console.log(error);
+                            },
+                        });
 
-        $(document).on("click", "#addCart", function() {
-            let productId = $(".productId").val();
-            let userId = $(".userId").val();
-            let partNumber = $(".dropdown-selected").text();
-
-            if (partNumber.trim() == 'Select Part Number') {
-                if (confirm('Please Select Part Number')) {
-                    return;
-                }
-            }
-            $.ajax({
-                url: "/check-auth", // Check if the user is logged in
-                type: "GET",
-                success: function(response) {
-                    if (!response.isAuthenticated) {
-                        $("#showError").show();
-                        $("#showError").html(
-                            "Please <a href='/signin'>register</a> to add Product to favourites"
-                        ); // Show login popup
-                        return;
                     }
+                });
 
-                    $.ajax({
-                        url: "/add-to-cart",
-                        type: "POST",
-                        data: {
-                            userId: userId,
-                            productId: productId,
-                            partNumber: partNumber,
-                        },
-                        success: function(data) {
-                            if (data.status) {
-                                location.reload();
-                            }
-                        },
-                        error: function(xhr, status, error) {
-                            console.log(xhr);
-                            console.log(status);
-                            console.log(error);
-                        },
-                    });
-
-                }
             });
 
-        });
+            $(document).on("click", "#wishlistBtn", function() {
+                let productid = $(this).data("productid");
+                let productStatus = $(this).siblings(".status").val() || 0;
 
-        $(document).on("click", "#wishlistBtn", function() {
-            let productid = $(this).data("productid");
-            let productStatus = $(this).siblings(".status").val() || 0;
+                $.ajax({
+                    url: "/check-auth", // Check if the user is logged in
+                    type: "GET",
+                    success: function(response) {
+                        if (!response.isAuthenticated) {
+                            $("#showError").show();
+                            $("#showError").html(
+                                "Please <a href='/signin'>register</a> to add Product to favourites"
+                            ); // Show login popup
+                            return;
+                        }
 
-            $.ajax({
-                url: "/check-auth", // Check if the user is logged in
-                type: "GET",
-                success: function(response) {
-                    if (!response.isAuthenticated) {
-                        $("#showError").show();
-                        $("#showError").html(
-                            "Please <a href='/signin'>register</a> to add Product to favourites"
-                        ); // Show login popup
-                        return;
+                        $.ajax({
+                            url: "/add-to-favourite",
+                            type: "POST",
+                            data: {
+                                productid: productid,
+                                productStatus: productStatus,
+                            },
+                            success: function(data) {
+                                if (data.status) {
+                                    location.reload();
+                                }
+                            },
+                            error: function(xhr, status, error) {
+                                console.log(xhr);
+                                console.log(status);
+                                console.log(error);
+                            },
+                        });
+
                     }
-
-                    $.ajax({
-                        url: "/add-to-favourite",
-                        type: "POST",
-                        data: {
-                            productid: productid,
-                            productStatus: productStatus,
-                        },
-                        success: function(data) {
-                            if (data.status) {
-                                location.reload();
-                            }
-                        },
-                        error: function(xhr, status, error) {
-                            console.log(xhr);
-                            console.log(status);
-                            console.log(error);
-                        },
-                    });
-
-                }
+                });
             });
         });
-    });
-</script>
-<script>
-    document.getElementById("whatsapp-enquiry").addEventListener("click", function(event) {
-        event.preventDefault(); // Prevent default link behavior
+    </script>
+    <script>
+        document.getElementById("whatsapp-enquiry").addEventListener("click", function(event) {
+            event.preventDefault(); // Prevent default link behavior
 
-        // WhatsApp Number (Fixed Number)
-        var whatsappNumber = "917039553407"; // Replace with your WhatsApp number (Use country code)
+            // WhatsApp Number (Fixed Number)
+            var whatsappNumber = "917039553407"; // Replace with your WhatsApp number (Use country code)
 
-        // Product Details
-        var productName = document.querySelector(".product-title").innerText; // Fetch product name dynamically
-        var productUrl = window.location.href; // Current page URL
+            // Product Details
+            var productName = document.querySelector(".product-title").innerText; // Fetch product name dynamically
+            var productUrl = window.location.href; // Current page URL
 
-        // WhatsApp message format (Plain URL for Clickable Link)
-        var message = "Hello, I want to inquire about:\n\n" +
-            "📌 *Product:* " + productName + "\n" +
-            "🔗 *Link:* " + productUrl + "\n\n" +
-            "Please provide more details.";
+            // WhatsApp message format (Plain URL for Clickable Link)
+            var message = "Hello, I want to inquire about:\n\n" +
+                "📌 *Product:* " + productName + "\n" +
+                "🔗 *Link:* " + productUrl + "\n\n" +
+                "Please provide more details.";
 
-        // WhatsApp API URL with fixed number
-        var whatsappUrl = "https://wa.me/" + whatsappNumber + "?text=" + encodeURIComponent(message);
+            // WhatsApp API URL with fixed number
+            var whatsappUrl = "https://wa.me/" + whatsappNumber + "?text=" + encodeURIComponent(message);
 
-        // Open WhatsApp in a new tab
-        window.open(whatsappUrl, "_blank");
-    });
-</script>
+            // Open WhatsApp in a new tab
+            window.open(whatsappUrl, "_blank");
+        });
+    </script>
 @endsection

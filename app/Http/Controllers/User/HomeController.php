@@ -37,7 +37,7 @@ class HomeController extends Controller
 
         $breadcrumbs = [
             ['name' => 'Home', 'url' => route('user.home')],
-            ['name' => 'shop', 'url' => route('user.shop')],
+            ['name' => 'Products', 'url' => route('user.shop')],
         ];
 
         if ($category) {
@@ -115,7 +115,7 @@ class HomeController extends Controller
 
         $breadcrumbs = [
             ['name' => 'Home', 'url' => route('user.home')],
-            ['name' => 'shop', 'url' => route('user.shop')],
+            ['name' => 'Products', 'url' => route('user.shop')],
             ['name' => $selectedProduct->product_name, 'url' => route('user.single.product', $selectedProduct->product_slug)],
         ];
 
