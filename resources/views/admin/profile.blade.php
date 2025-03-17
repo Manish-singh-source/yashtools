@@ -128,7 +128,7 @@
                     <div class="col-lg-9">
                         <div class="card profile-card m-b30">
                             <div class="card-header">
-                                <h4 class="card-title">Change Password</h4>
+                                <h4 class="card-title">Change Your Password</h4>
                                 <div class="text-end">
                                     @include('admin.layouts.session-messages')
                                 </div>

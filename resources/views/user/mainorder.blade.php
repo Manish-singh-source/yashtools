@@ -330,7 +330,7 @@
 
                                                 <div class="row">
                                                     <div class="col-12">
-                                                        <h5 class="title">Password Change</h5>
+                                                        <h5 class="title">Change Your Password </h5>
                                                         <div class="text-end">
                                                             @include('admin.layouts.session-messages')
                                                         </div>
