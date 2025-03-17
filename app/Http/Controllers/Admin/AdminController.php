@@ -149,7 +149,7 @@ class AdminController extends Controller
             ->select('users.fullname', 'users.email', 'notifications.id', 'notifications.data', 'notifications.created_at')
             ->where('notifications.read_at', '=', null)
             ->orderBy('notifications.created_at', 'desc')
-            ->get();
+            ->latest()->take(3)->get();
 
         if ($notifications) {
             return response()->json([

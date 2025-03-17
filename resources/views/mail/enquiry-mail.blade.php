@@ -78,7 +78,7 @@
                                 alt="{{ $product->product_name }}">
                             {{ $product->product_name }}
                         </td>
-                        <td>{{ $product->part_number }}</td>
+                        <td>{{ $partNumber }}</td>
                         <td>{{ $productQuantities[$key] }}</td>
                     </tr>
                 @endforeach

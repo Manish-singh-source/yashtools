@@ -69,7 +69,7 @@
                             <button class="sidebar-close filter-close-btn"><i class="fas fa-times"></i></button>
                         </div>
                         <div class="toggle-list product-categories active">
-                            <h6 class="title">CATEGORIES</h6>
+                            <h6 class="title">CATEGORY</h6>
                             <div class="shop-submenu">
                                 <ul>
                                     <li class="current-cat"><a href="#">Sun Care</a></li>

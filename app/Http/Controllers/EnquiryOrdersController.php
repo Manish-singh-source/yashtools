@@ -115,11 +115,11 @@ class EnquiryOrdersController extends Controller
         ];
 
         $user->notify(new EnquiryNotification($orderDetails));
-
         flash()->success('Your enquiry has been successfully submitted.');
         return response()->json([
             'status' => true,
-            'message' => 'Your enquiry has been successfully submitted.'
+            'message' => 'Your enquiry has been successfully submitted.',
+            'partNo' => $partNumber
         ]);
     }
 

@@ -39,7 +39,7 @@
                             <button class="sidebar-close filter-close-btn"><i class="fas fa-times"></i></button>
                         </div>
                         <div class="toggle-list product-categories product-categories-section active">
-                            <h6 class="title">CATEGORIES</h6>
+                            <h6 class="title">CATEGORY</h6>
                             <div class="shop-submenu">
                                 <ul id="category_filter">
                                     @forelse ($categories as $category)
@@ -52,7 +52,7 @@
                             </div>
                         </div>
                         <div class="toggle-list product-categories product-subcategories-section active">
-                            <h6 class="title">SUB CATEGORIES</h6>
+                            <h6 class="title">SUB CATEGORY</h6>
                             <div class="shop-submenu">
                                 <ul id="sub_category_filter">
 
