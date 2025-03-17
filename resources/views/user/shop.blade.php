@@ -302,6 +302,8 @@
                         $(element).removeClass("chosen");
                     });
                     $(".product-subcategories-section").hide();
+                }else {
+                    $(".product-subcategories-section").show();
                 }
 
                 $.ajax({

@@ -9,10 +9,10 @@
                         <div class="d-inline-block position-relative me-sm-4 me-3 mb-3 mb-lg-0">
                             @if ($productDetails->product_thumbain != '')
                                 <img src="{{ asset('uploads/products/thumbnails/' . $productDetails->product_thumbain) }}"
-                                    alt="" class="rounded-4 profile-avatar">
+                                    alt="" class="rounded-4 w-100">
                             @else
                                 <img src="{{ asset('uploads/products/thumbnails/' . $productDetails->product_thumbain) }}"
-                                    alt="" class="rounded-4 profile-avatar">
+                                    alt="" class="rounded-4 w-100">
                             @endif
                         </div>
                     </div>
