@@ -75,6 +75,7 @@ Route::middleware('isCustomerAuth:customer')->group(function () {
     Route::get('/favourites', [FavouritesController::class, 'favouriteItems'])->name('user.favourites');
     Route::get('/account', [UserProfileController::class, 'userProfile'])->name('user.account');
     Route::get('/orders', [EnvoiceController::class, 'ordersList'])->middleware('web');
+    Route::get('/enquiries', [EnvoiceController::class, 'enquiriesList'])->middleware('web');
     Route::get('/product-detail-info/{slug}', [UserShopController::class, 'productDetails'])->name('user.product.details');
 
     // User Actions profile details update, enquiry adding, add or remove item to cart, etc.

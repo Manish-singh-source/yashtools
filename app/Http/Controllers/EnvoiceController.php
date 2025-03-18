@@ -90,7 +90,30 @@ class EnvoiceController extends Controller
     public function ordersList(Request $request)
     {
 
-        $query = Enquiry::where('customer_id', Auth::id())->with('invoice')->with('products.product');
+        $query = Enquiry::where('status', '!=', 'pending')->where('customer_id', Auth::id())->with('invoice')->with('products.product');
+
+        if ($request->filled('fromDate') && $request->filled('toDate')) {
+            $fromDate = Carbon::parse($request->fromDate)->startOfDay(); // Sets time to 00:00:00
+            $toDate = Carbon::parse($request->toDate)->endOfDay(); // Sets time to 23:59:59
+
+            $query->whereBetween('created_at', [$fromDate, $toDate]);
+        }
+
+        $sortBy = in_array($request->sort_by, ['asc', 'desc']) ? $request->sort_by : 'desc';
+        $query->orderBy('updated_at', $sortBy);
+        $products = $query->whereIn('id', function ($query) {
+            $query->selectRaw('MIN(id)')
+                ->from('enquiries')
+                ->groupBy('enquiry_id');
+        })
+            ->orderBy('id', 'desc')->paginate(5);
+
+        return response()->json($products);
+    }
+    public function enquiriesList(Request $request)
+    {
+
+        $query = Enquiry::where('status', 'pending')->where('customer_id', Auth::id())->with('invoice')->with('products.product');
 
         if ($request->filled('fromDate') && $request->filled('toDate')) {
             $fromDate = Carbon::parse($request->fromDate)->startOfDay(); // Sets time to 00:00:00
