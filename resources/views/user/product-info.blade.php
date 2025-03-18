@@ -54,7 +54,7 @@
                             </div>
                         </div>
                     </div>
-                    <div class="row">
+                    <div class="row gy-5">
                         <div class="{{ isset($invoiceDetails->id) ? 'col-xl-7 col-md-12' : 'col-12' }}">
                             <div>
                                 <div class="tab-pane fade show active" id="nav-orders" role="tabpanel">
@@ -113,14 +113,14 @@
                                     <h5 class="card-title text-center mb-3">Invoice Details</h5>
                                     <div class="card-body">
                                         <p><strong>Purchase Order:</strong>
-                                            @if ($poInfo->id)
+                                            @isset ($poInfo->id)
                                                 <a href="{{ asset('uploads/po_file/' . $poInfo->po_file) }}"
                                                     class="btn btn-sm btn-success" target="_blank">
                                                     Download Purchase Order
                                                 </a>
                                             @else
                                                 <span class="text-muted">No file available</span>
-                                            @endif
+                                            @endisset
                                         </p>
                                         <p><strong>Invoice File:</strong>
                                             @if ($invoiceDetails->invoice_file)
