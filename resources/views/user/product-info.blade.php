@@ -54,8 +54,8 @@
                             </div>
                         </div>
                     </div>
-                    <div class="row gap-x-5">
-                        <div class="{{ isset($invoiceDetails->id) ? 'col-xl-9 col-md-12' : 'col-12' }}">
+                    <div class="row">
+                        <div class="{{ isset($invoiceDetails->id) ? 'col-xl-7 col-md-12' : 'col-12' }}">
                             <div>
                                 <div class="tab-pane fade show active" id="nav-orders" role="tabpanel">
                                     <div class="axil-dashboard-order">
@@ -67,10 +67,7 @@
                                                         <th scope="col">Product Image</th>
                                                         <th scope="col">Product Name</th>
                                                         <th scope="col">Quantity</th>
-                                                        <th scope="col">Status</th>
-                                                        @isset($poInfo->id)
-                                                            <th scope="col">Action</th>
-                                                        @endisset
+                                                        
                                                     </tr>
                                                 </thead>
                                                 <tbody id="product_list">
@@ -82,13 +79,7 @@
                                                             </td>
                                                             <td>{{ $order->products[0]->product->product_name }}</td>
                                                             <td>{{ $order->quantity }}</td>
-                                                            <td>{{ $data[0]->status }}</td>
-                                                            @isset($poInfo->id)
-                                                                <td>
-                                                                    <a href="{{ asset('uploads/po_file/' . $poInfo->po_file) }}"
-                                                                        target="_blank">View PO</a>
-                                                                </td>
-                                                            @endisset
+                                                            
                                                         </tr>
                                                     @endforeach
                                                 </tbody>
@@ -103,7 +94,7 @@
 
                         @isset($invoiceDetails->id)
                             <div class="col-xl-3 col-md-12">
-                                <div class="card bg-light border-0 outline-0 p-3">
+                                <div class="card bg-light border-1 outline-1 p-3">
                                     <h5 class="card-title text-center mb-3">Tracking Details</h5>
                                     <div class="card-body">
                                         <p><strong>Courier:</strong> {{ $invoiceDetails->courier_name }}</p>
@@ -113,6 +104,23 @@
                                                 class="text-primary">
                                                 {{ $invoiceDetails->courier_website }}
                                             </a>
+                                        </p>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-xl-2 col-md-12">
+                                <div class="card bg-light border-1 outline-1 p-3">
+                                    <h5 class="card-title text-center mb-3">Invoice Details</h5>
+                                    <div class="card-body">
+                                        <p><strong>Purchase Order:</strong>
+                                            @if ($poInfo->id)
+                                                <a href="{{ asset('uploads/po_file/' . $poInfo->po_file) }}"
+                                                    class="btn btn-sm btn-success" target="_blank">
+                                                    Download Purchase Order
+                                                </a>
+                                            @else
+                                                <span class="text-muted">No file available</span>
+                                            @endif
                                         </p>
                                         <p><strong>Invoice File:</strong>
                                             @if ($invoiceDetails->invoice_file)
@@ -129,11 +137,12 @@
                             </div>
                         @else
                             @empty($poInfo->id)
-                                <form action="{{ route('po.upload') }}" method="POST" enctype="multipart/form-data">
+                                <form action="{{ route('po.upload') }}" method="POST" enctype="multipart/form-data"
+                                    class="col-xl-3 col-md-12">
                                     @csrf
                                     @method('POST')
                                     <div class="mb-3">
-                                        <label for="po_file" class="form-label">Upload PO File</label>
+                                        <label for="po_file" class="form-label">Send Purchase Order</label>
                                         <input class="form-control" type="file" name="po_file" id="po_file">
                                         @error('po_file')
                                             {{ $message }}

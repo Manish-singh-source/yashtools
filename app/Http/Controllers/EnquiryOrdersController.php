@@ -171,6 +171,7 @@ class EnquiryOrdersController extends Controller
         $data = Enquiry::with('products.product')->where('enquiry_id', $enquiry_id)->get();
         $invoiceDetails = OrdersTrack::where('enquiry_id', $enquiry_id)->first();
         $poInfo = Po::where('enquiry_id', $enquiry_id)->first();
+        // dd($poInfo);
         return view('user.product-info', compact('data', 'user', 'invoiceDetails', 'poInfo'));
     }
 
