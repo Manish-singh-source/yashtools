@@ -127,7 +127,6 @@
                                                     <tr>
                                                         <th scope="col">Sr. No.</th>
                                                         <th scope="col">Enquiry Id</th>
-                                                        <th scope="col">Product Image</th>
                                                         <th scope="col">Product Name</th>
                                                         <th scope="col">Quantity</th>
                                                         <th scope="col">Status</th>
@@ -417,7 +416,6 @@
                                 `<tr>
                                     <td>${index + 1}</td>
                                     <td>${product.enquiry_id}</td>
-                                    <td><img src='uploads/products/thumbnails/${product.products[0]?.product.product_thumbain}' /></td>
                                     <td>${product.products[0]?.product.product_name ? product.products[0]?.product.product_name : 'NA'}</td>
                                     <td>${product.quantity}</td>
                                     <td>
