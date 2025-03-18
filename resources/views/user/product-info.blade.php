@@ -66,6 +66,7 @@
                                                         <th scope="col">Sr. No.</th>
                                                         <th scope="col">Product Image</th>
                                                         <th scope="col">Product Name</th>
+                                                        <th scope="col">Part Number</th>
                                                         <th scope="col">Quantity</th>
 
                                                     </tr>
@@ -78,8 +79,8 @@
                                                                     src="{{ asset('uploads/products/thumbnails/' . $order->products[0]->product->product_thumbain) }}" />
                                                             </td>
                                                             <td>{{ $order->products[0]->product->product_name }}</td>
+                                                            <td>{{ $order->part_number }}</td>
                                                             <td>{{ $order->quantity }}</td>
-
                                                         </tr>
                                                     @endforeach
                                                 </tbody>
