@@ -6,7 +6,7 @@
 
 @section('style')
     <style>
-        .date-filter {
+        .date-filter, .enquiry-date-filter {
             padding: 8px;
             font-size: 16px;
             width: 200px;
@@ -67,6 +67,8 @@
                                     <div class="nav nav-tabs" role="tablist">
                                         <a class="nav-item nav-link active" data-bs-toggle="tab" href="#nav-dashboard"
                                             role="tab" aria-selected="true"><i class="fas fa-th-large"></i>Dashboard</a>
+                                        <a class="nav-item nav-link" data-bs-toggle="tab" href="#nav-enquiries" role="tab"
+                                            aria-selected="false"><i class="fas fa-shopping-basket"></i>Enquiries</a>
                                         <a class="nav-item nav-link" data-bs-toggle="tab" href="#nav-orders" role="tab"
                                             aria-selected="false"><i class="fas fa-shopping-basket"></i>Orders</a>
                                         <a class="nav-item nav-link" data-bs-toggle="tab" href="#nav-account" role="tab"
@@ -92,6 +94,53 @@
                                             shipping and billing addresses, and edit your password and account details.
                                         </p>
                                     </div>
+                                </div>
+                                <div class="tab-pane fade" id="nav-enquiries" role="tabpanel">
+                                    <div class="axil-shop-top">
+                                        <div class="row mb-4">
+                                            <div class="col-lg-9">
+                                                <div class="category-select">
+
+                                                    <!-- Start Single Select  -->
+                                                    <label class="mks" for="enquiry-from-date">From:</label>
+                                                    <input type="date" id="enquiry-from-date" class="enquiry-date-filter">
+
+                                                    <label class="mks" for="enquiry-to-date">To:</label>
+                                                    <input type="date" id="enquiry-to-date" class="enquiry-date-filter">
+                                                </div>
+                                            </div>
+                                            <div class="col-lg-3">
+                                                <div class="category-select mt_md--10 mt_sm--10 justify-content-lg-end">
+                                                    <!-- Start Single Select  -->
+                                                    <select class="single-select" id="sort_enquiries_by">
+                                                        <option value="">--Select --</option>
+                                                        <option value="asc">Sort by Ascending</option>
+                                                        <option value="desc">Sort by Descending</option>
+                                                    </select>
+                                                    <!-- End Single Select  -->
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="axil-dashboard-order">
+                                        <div class="table-responsive">
+                                            <table class="table">
+                                                <thead>
+                                                    <tr>
+                                                        <th scope="col">Sr. No.</th>
+                                                        <th scope="col">Enquiry Id</th>
+                                                        <th scope="col">Product Name</th>
+                                                        <th scope="col">Quantity</th>
+                                                        <th scope="col">Status</th>
+                                                        <th scope="col">Action</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody id="enquiries_list">
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                    </div>
+                                    <div id="pagination_links_enquiries"></div>
                                 </div>
                                 <div class="tab-pane fade" id="nav-orders" role="tabpanel">
                                     <div class="axil-shop-top">
@@ -392,8 +441,8 @@
         integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
     <script>
         $(document).ready(function() {
+            // orders table
             fetchProducts();
-
 
             function fetchProducts(page = 1) {
                 let sortBy = $('#sort_by').val();
@@ -431,32 +480,29 @@
                         $('#pagination_links').html(''); // Clear existing pagination
 
                         if (response.links) {
-                                let paginationHtml = `<div class="text-center pt--30">
+                            let paginationHtml = `<div class="text-center pt--30">
                                                         <div class="center">
                                                     <div class="pagination">`;
 
-                                $.each(response.links, function(index, link) {
-                                    if (link.url) {
-                                        let activeClass = link.active ? 'active' : '';
-                                        paginationHtml +=
-                                            `<a href="javascript:void(0)" class="pagination-link ${activeClass}" data-page="${link.url}">${link.label}</a>`;
-                                    }
-                                });
+                            $.each(response.links, function(index, link) {
+                                if (link.url) {
+                                    let activeClass = link.active ? 'active' : '';
+                                    paginationHtml +=
+                                        `<a href="javascript:void(0)" class="pagination-link ${activeClass}" data-page="${link.url}">${link.label}</a>`;
+                                }
+                            });
 
-                                paginationHtml += `</div></div></div>`;
+                            paginationHtml += `</div></div></div>`;
 
-                                $('#pagination_links').append(paginationHtml);
+                            $('#pagination_links').append(paginationHtml);
                         }
                     }
                 });
             }
-
-
             // Sort and Filter Change Events
             $('#sort_by, .date-filter').change(function() {
                 fetchProducts();
             });
-
             // Handle Pagination Click
             $(document).on('click', '.pagination-link', function() {
                 let pageUrl = $(this).data('page');
@@ -468,6 +514,80 @@
                 }
             });
 
+            // enquiries table
+            fetchEnquiries();
+
+            function fetchEnquiries(page = 1) {
+                let sortBy = $('#sort_enquiries_by').val();
+                let fromDate = $('#enquiry-from-date').val();
+                let toDate = $('#enquiry-to-date').val();
+                console.log(sortBy);
+                console.log(fromDate);
+                console.log(toDate);
+                $.ajax({
+                    url: "/enquiries?page=" + page,
+                    type: "GET",
+                    data: {
+                        sort_by: sortBy,
+                        fromDate: fromDate,
+                        toDate: toDate,
+                    },
+                    success: function(response) {
+                        $('#enquiries_list').html('');
+                        $.each(response.data, function(index, product) {
+
+                            $('#enquiries_list').append(
+                                `<tr>
+                                    <td>${index + 1}</td>
+                                    <td>${product.enquiry_id}</td>
+                                    <td>${product.products[0]?.product.product_name ? product.products[0]?.product.product_name : 'NA'}</td>
+                                    <td>${product.quantity}</td>
+                                    <td>
+                                        ${product.status === 'payment_received' ? 'Payment Done' : product.status ? product.status : 'Pending'}
+                                    </td>
+                                    <td>
+                                        <div><a href='/product-info/${product.enquiry_id}'>View</a> </div>
+                                    </td>
+                                </tr>`
+                            );
+                        });
+
+                        $('#pagination_links_enquiries').html(''); // Clear existing pagination
+
+                        if (response.links) {
+                            let paginationHtml = `<div class="text-center pt--30">
+                                                        <div class="center">
+                                                    <div class="pagination">`;
+
+                            $.each(response.links, function(index, link) {
+                                if (link.url) {
+                                    let activeClass = link.active ? 'active' : '';
+                                    paginationHtml +=
+                                        `<a href="javascript:void(0)" class="enquiry-pagination-link ${activeClass}" data-page="${link.url}">${link.label}</a>`;
+                                }
+                            });
+
+                            paginationHtml += `</div></div></div>`;
+
+                            $('#pagination_links_enquiries').append(paginationHtml);
+                        }
+                    }
+                });
+            }
+            // Sort and Filter Change Events
+            $('#sort_enquiries_by, .enquiry-date-filter').change(function() {
+                fetchEnquiries();
+            });
+            // Handle Pagination Click
+            $(document).on('click', '.enquiry-pagination-link', function() {
+                let pageUrl = $(this).data('page');
+                let urlParams = new URLSearchParams(pageUrl.split('?')[1]);
+                let pageNumber = urlParams.get('page'); // Extract page number from URL
+
+                if (pageNumber) {
+                    fetchEnquiries(pageNumber);
+                }
+            });
         });
     </script>
 @endsection

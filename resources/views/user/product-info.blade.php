@@ -67,7 +67,7 @@
                                                         <th scope="col">Product Image</th>
                                                         <th scope="col">Product Name</th>
                                                         <th scope="col">Quantity</th>
-                                                        
+
                                                     </tr>
                                                 </thead>
                                                 <tbody id="product_list">
@@ -79,7 +79,7 @@
                                                             </td>
                                                             <td>{{ $order->products[0]->product->product_name }}</td>
                                                             <td>{{ $order->quantity }}</td>
-                                                            
+
                                                         </tr>
                                                     @endforeach
                                                 </tbody>
@@ -113,7 +113,7 @@
                                     <h5 class="card-title text-center mb-3">Invoice Details</h5>
                                     <div class="card-body">
                                         <p><strong>Purchase Order:</strong>
-                                            @isset ($poInfo->id)
+                                            @isset($poInfo->id)
                                                 <a href="{{ asset('uploads/po_file/' . $poInfo->po_file) }}"
                                                     class="btn btn-sm btn-success" target="_blank">
                                                     Download Purchase Order
