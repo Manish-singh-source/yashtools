@@ -70,10 +70,17 @@
                         </div>
                     </a>
                     <a href="{{ route('user.product.category') }}">
-                        <div class="tagnew {{ Route::currentRouteName() == 'user.product.category' ? 'activeTab' : '' }}">
+                        @if (Route::currentRouteName() == 'user.product.category' || Route::currentRouteName() == 'user.product.details')
+                        <div class="tagnew activeTab">
                             <i class="fa fa-shopping-bag"></i>
                             Products
                         </div>
+                        @else 
+                        <div class="tagnew">
+                            <i class="fa fa-shopping-bag"></i>
+                            Products
+                        </div>
+                        @endif
                     </a>
                     <a href="{{ route('user.maincart') }}">
                         <div class="tagnew {{ Route::currentRouteName() == 'user.maincart' ? 'activeTab' : '' }}">
