@@ -24,6 +24,13 @@
         .fs {
             font-size: 20px;
         }
+
+        .custom-form-input {
+            height: auto;
+            padding: 10px 30px;
+            border-color: var(--color-light);
+            color: var(--color-body);
+        }
     </style>
 @endsection
 
@@ -231,8 +238,8 @@
                                                             name="company_name">
                                                     </div>
                                                     <div class="col-md-6 form-group">
-                                                        <label for="exampleFormControlTextarea1">Company Address</label>
-                                                        <textarea class="form-control" id="exampleFormControlTextarea1" rows="3" name="company_address">{{ $user->userDetail->company_address }}</textarea>
+                                                        <label>Company Address</label>
+                                                        <textarea class=" custom-form-input" rows="4" name="company_address">{{ $user->userDetail->company_address }}</textarea>
                                                     </div>
                                                     <div class="col-md-6 form-group">
                                                         <label>Mobile Number</label>
@@ -253,7 +260,7 @@
                                                         <label class="form-label" for="state">State</label>
                                                         {{-- <input type="text" class="form-control"
                                                             value="{{ $user->userDetail->state }}" name="state"> --}}
-                                                        <select class="form-control @error('state') is-invalid @enderror"
+                                                        <select class="custom-form-input @error('state') is-invalid @enderror"
                                                             name="state" id="state">
                                                             <option selected disabled value="0">-- Select State --
                                                             </option>
