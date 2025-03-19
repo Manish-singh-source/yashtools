@@ -20,7 +20,9 @@ class AdminController extends Controller
     {
         $totalCustomers = User::where('role', 'customer')->count();
         $totalEnquiries = Enquiry::count();
-        $totalOrders = EnquiryProducts::count();
+        $totalOrders = EnquiryProducts::whereHas('enquiry', function ($query) {
+            $query->where('status', 'payment_received');
+        })->count();
         return view('admin.index', compact('totalCustomers', 'totalEnquiries', 'totalOrders'));
     }
 

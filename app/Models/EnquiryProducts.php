@@ -13,4 +13,8 @@ class EnquiryProducts extends Model
     {
         return $this->belongsTo(Product::class, 'product_id');
     }
+    public function enquiry()
+    {
+        return $this->belongsTo(Enquiry::class, 'enquiry_id');
+    }
 }
