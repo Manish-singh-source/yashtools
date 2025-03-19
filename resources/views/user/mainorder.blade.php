@@ -68,7 +68,7 @@
                                         <a class="nav-item nav-link active" data-bs-toggle="tab" href="#nav-dashboard"
                                             role="tab" aria-selected="true"><i class="fas fa-th-large"></i>Dashboard</a>
                                         <a class="nav-item nav-link" data-bs-toggle="tab" href="#nav-enquiries" role="tab"
-                                            aria-selected="false"><i class="fas fa-shopping-basket"></i>Enquiries</a>
+                                            aria-selected="false"><i class="fas fa-shopping-cart"></i>Enquiries</a>
                                         <a class="nav-item nav-link" data-bs-toggle="tab" href="#nav-orders" role="tab"
                                             aria-selected="false"><i class="fas fa-shopping-basket"></i>Orders</a>
                                         <a class="nav-item nav-link" data-bs-toggle="tab" href="#nav-account" role="tab"
@@ -521,9 +521,7 @@
                 let sortBy = $('#sort_enquiries_by').val();
                 let fromDate = $('#enquiry-from-date').val();
                 let toDate = $('#enquiry-to-date').val();
-                console.log(sortBy);
-                console.log(fromDate);
-                console.log(toDate);
+                
                 $.ajax({
                     url: "/enquiries?page=" + page,
                     type: "GET",
@@ -533,6 +531,7 @@
                         toDate: toDate,
                     },
                     success: function(response) {
+                        console.log(response)
                         $('#enquiries_list').html('');
                         $.each(response.data, function(index, product) {
 

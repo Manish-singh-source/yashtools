@@ -128,8 +128,7 @@ class EnvoiceController extends Controller
             $query->selectRaw('MIN(id)')
                 ->from('enquiries')
                 ->groupBy('enquiry_id');
-        })
-            ->orderBy('id', 'desc')->paginate(5);
+        })->orderBy('id', 'desc')->paginate(5);
 
         return response()->json($products);
     }
