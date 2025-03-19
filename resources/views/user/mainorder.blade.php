@@ -6,7 +6,8 @@
 
 @section('style')
     <style>
-        .date-filter, .enquiry-date-filter {
+        .date-filter,
+        .enquiry-date-filter {
             padding: 8px;
             font-size: 16px;
             width: 200px;
@@ -67,8 +68,9 @@
                                     <div class="nav nav-tabs" role="tablist">
                                         <a class="nav-item nav-link active" data-bs-toggle="tab" href="#nav-dashboard"
                                             role="tab" aria-selected="true"><i class="fas fa-th-large"></i>Dashboard</a>
-                                        <a class="nav-item nav-link" data-bs-toggle="tab" href="#nav-enquiries" role="tab"
-                                            aria-selected="false"><i class="fas fa-shopping-cart"></i>Enquiries</a>
+                                        <a class="nav-item nav-link" data-bs-toggle="tab" href="#nav-enquiries"
+                                            role="tab" aria-selected="false"><i
+                                                class="fas fa-shopping-cart"></i>Enquiries</a>
                                         <a class="nav-item nav-link" data-bs-toggle="tab" href="#nav-orders" role="tab"
                                             aria-selected="false"><i class="fas fa-shopping-basket"></i>Orders</a>
                                         <a class="nav-item nav-link" data-bs-toggle="tab" href="#nav-account" role="tab"
@@ -103,7 +105,8 @@
 
                                                     <!-- Start Single Select  -->
                                                     <label class="mks" for="enquiry-from-date">From:</label>
-                                                    <input type="date" id="enquiry-from-date" class="enquiry-date-filter">
+                                                    <input type="date" id="enquiry-from-date"
+                                                        class="enquiry-date-filter">
 
                                                     <label class="mks" for="enquiry-to-date">To:</label>
                                                     <input type="date" id="enquiry-to-date" class="enquiry-date-filter">
@@ -228,8 +231,8 @@
                                                             name="company_name">
                                                     </div>
                                                     <div class="col-md-6 form-group">
-                                                        <label>Company Address</label>
-                                                        <textarea class="form-control" name="company_address">{{ $user->userDetail->company_address }}</textarea>
+                                                        <label for="exampleFormControlTextarea1">Company Address</label>
+                                                        <textarea class="form-control" id="exampleFormControlTextarea1" rows="3" name="company_address">{{ $user->userDetail->company_address }}</textarea>
                                                     </div>
                                                     <div class="col-md-6 form-group">
                                                         <label>Mobile Number</label>
@@ -521,7 +524,7 @@
                 let sortBy = $('#sort_enquiries_by').val();
                 let fromDate = $('#enquiry-from-date').val();
                 let toDate = $('#enquiry-to-date').val();
-                
+
                 $.ajax({
                     url: "/enquiries?page=" + page,
                     type: "GET",
