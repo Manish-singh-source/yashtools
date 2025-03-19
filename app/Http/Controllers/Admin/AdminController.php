@@ -4,12 +4,14 @@ namespace App\Http\Controllers\Admin;
 
 use App\Models\User;
 use App\Models\Enquiry;
+use App\Mail\AdminCreation;
 use Illuminate\Http\Request;
 use App\Models\EnquiryProducts;
 use Illuminate\Support\Facades\DB;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\File;
+use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Validator;
 
 class AdminController extends Controller
@@ -195,6 +197,9 @@ class AdminController extends Controller
             $user->profile = $imageName;
         }
         $user->save();
+
+        // Send E-mail on Creating an Admin
+        Mail::to($request->email)->send(new AdminCreation($request->fullname, $request->email, $request->mobile_number, $request->password, 'admin'));
 
         flash()->success('New Admin Added Successfully.');
         return redirect()->route('admin.view.multi.admin');
