@@ -50,6 +50,7 @@ Route::get('contact', [EmailController::class, 'contactForm'])->name('user.conta
 Route::post('contact', [EmailController::class, 'sendContactEmail'])->name('user.contact.store');
 Route::post('/notifications', [AdminController::class, 'getNotifications'])->name('notifications.get');
 Route::post('/notifications/read/{id}', [AdminController::class, 'markAsRead'])->name('notifications.read');
+Route::get('/notifications/all', [AdminController::class, 'allNotifications'])->name('admin.all.notifications');
 Route::get('send-email', [EmailController::class, 'sendEmail']);
 Route::post('/newsletter', [EmailController::class, 'sendNewsletter'])->name('Newsletter.store');
 Route::get('/events', [HomeController::class, 'events'])->name('user.event');;

@@ -124,14 +124,14 @@
                                                         @if ($products->status == 'confirmed')
                                                             <span class="badge badge-sm badge-success light border-0"><span
                                                                     class="ms-1 fa fa-check"></span>
-                                                                {{ $products->status }}</span>
+                                                                {{ ucfirst($products->status) }}</span>
                                                         @elseif($products->status == 'dismissed')
                                                             <span class="badge badge-sm badge-danger light border-0"><span class="ms-1 fa fa-check"></span>
-                                                                {{ $products->status }}</span>
+                                                                {{ ucfirst($products->status) }}</span>
                                                         @elseif($products->status == 'delivered')
                                                             <span class="badge badge-sm badge-success light border-0"><span
                                                                     class="ms-1 fa fa-check"></span>
-                                                                {{ $products->status }}</span>
+                                                                {{ ucfirst($products->status) }}</span>
                                                         @elseif($products->status == 'payment_received')
                                                             <span class="badge badge-sm badge-primary light border-0"><span
                                                                     class="ms-1 fa fa-check"></span>

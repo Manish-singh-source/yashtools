@@ -168,6 +168,18 @@ class AdminController extends Controller
         }
     }
 
+    public function allNotifications()
+    {
+        // Fetch all notifications 
+        $notifications = DB::table('notifications')
+            ->join('users', 'users.id', '=', 'notifications.notifiable_id')
+            ->select('users.fullname', 'users.email', 'notifications.id', 'notifications.data', 'notifications.created_at')
+            ->orderBy('notifications.created_at', 'desc')
+            ->get();
+        // dd($notifications);
+        return view('admin.notification-table', compact('notifications'));
+    }
+
     public function viewAdmin()
     {
         $admins = User::where('role', 'admin')->get();

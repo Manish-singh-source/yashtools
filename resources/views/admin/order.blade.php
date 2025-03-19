@@ -139,18 +139,18 @@
                                                         <span class="badge badge-sm badge-success light border-0 w-75">
                                                             <span class="text-success"><span
                                                                     class="ms-1 fa fa-check"></span>
-                                                                {{ $order->status }}</span>
+                                                                {{ ucfirst($order->status) }}</span>
                                                         </span>
                                                     @elseif($order->status == 'dismissed')
                                                         <span class="badge badge-sm badge-danger light border-0 w-75">
                                                             <span class="text-danger"><span class="ms-1 fa fa-check"></span>
-                                                                {{ $order->status }}</span>
+                                                                {{ ucfirst($order->status) }}</span>
                                                         </span>
                                                     @elseif($order->status == 'delivered')
                                                         <span class="badge badge-sm badge-success light border-0 w-75">
                                                             <span class="text-success"><span
                                                                     class="ms-1 fa fa-check"></span>
-                                                                {{ $order->status }}</span>
+                                                                {{ ucfirst($order->status) }}</span>
                                                         </span>
                                                     @elseif($order->status == 'payment_received')
                                                         <span class="badge badge-sm badge-primary light border-0 w-75">
@@ -159,8 +159,8 @@
                                                                 Payment Received</span>
                                                         </span>
                                                     @else
-                                                        <span class="badge badge-sm badge-primary light border-0 w-75">
-                                                            <span class="text-primary"><span
+                                                        <span class="badge badge-sm badge-danger light border-0 w-75">
+                                                            <span class="text-danger"><span
                                                                     class="ms-1 fa fa-check"></span>Pending
                                                                 Enquiry</span>
                                                         </span>
@@ -288,6 +288,32 @@
                         setTimeout(function() {
                             $(".loading-popup").fadeOut();
                         }, 500);
+                    }
+                });
+            });
+
+            $(document).on("click", ".mark-as-read", function() {
+                var notificationId = $(this).data('id');
+                var orderId = $("#OrderId").text().trim();
+                var notificationElement = $('#notification-' + notificationId);
+
+                $.ajax({
+                    url: '/notifications/read/' + notificationId,
+                    type: 'POST',
+                    data: {
+                        _token: '{{ csrf_token() }}' // Laravel CSRF protection
+                    },
+                    success: function(response) {
+                        if (response.success) {
+                            notificationElement.fadeOut('slow', function() {
+                                $(this).remove();
+                            });
+
+                            location.href = `/order-details/${orderId}`;
+                        }
+                    },
+                    error: function(xhr) {
+                        alert('Error marking notification as read.');
                     }
                 });
             });

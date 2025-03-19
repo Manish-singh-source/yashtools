@@ -1,1 +1,13 @@
 products upload pending for SEF, and SEFA cause of excel sheets
+
+1. before fetching any data convert the data in proper format for displaying 
+    -- firstname, lastname in Capitalization each first word, 
+    -- email in small letters
+    -- capital letters in something required.
+2. get a proper image uploading logic for converting images into a proper size for better seo 
+    -- before storing image 
+        -- convert image in proper format and size and compress
+        -- store images thumbnail 
+        -- fetch image only for thumbnail 
+        -- before deleting image remove original image and keep thumbnail/compressed image as it. 
+        

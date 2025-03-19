@@ -152,7 +152,7 @@
                                             value="{{ $data[0]->enquiry_id }}">
                                     </div>
                                     <div class="mb-3">
-                                        <input type="submit" name="submit" value="Send PO">
+                                        <input type="submit" style="height:40px" name="submit" value="Send PO">
                                     </div>
                                 </form>
                             @endempty
