@@ -521,7 +521,6 @@
 
                         let content = "";
                         if (response.status) {
-                            console.log(response)
                             if (response.data.length > 0) {
                                 $(".notificationCount").show();
                                 $(".notificationCount").text(response.data.length);
@@ -586,8 +585,6 @@
                 var notificationId = $(this).data('id');
                 var orderId = $("#OrderId").text().trim();
                 var notificationElement = $('#notification-' + notificationId);
-                console.log(orderId);
-                console.log(notificationId);
 
                 $.ajax({
                     url: '/notifications/read/' + notificationId,

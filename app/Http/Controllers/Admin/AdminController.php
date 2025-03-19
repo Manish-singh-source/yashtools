@@ -41,8 +41,8 @@ class AdminController extends Controller
         $customersCountOfMonthlyChart = $customersCountOfMonthlyChart->orderBy('month', 'asc')->get();
 
 
-        // enquiries count details
-        $EnqueriesCountOfMonthlyChart = Enquiry::whereYear('enquiries.created_at', $request->year)  // Filter users created in 2025
+        // Enquiries count details
+        $EnqueriesCountOfMonthlyChart = Enquiry::whereYear('enquiries.created_at', $request->year)
             ->join('user_details', 'user_details.user_id', '=', 'enquiries.customer_id')
             ->selectRaw('YEAR(enquiries.created_at) as year, MONTH(enquiries.created_at) as month, COUNT(*) as count')
             ->groupBy('year', 'month')
@@ -52,34 +52,39 @@ class AdminController extends Controller
             $EnqueriesCountOfMonthlyChart->where('user_details.state', $request->state);
         }
 
+        // Fixing the whereIn condition to avoid incorrect grouping
         $EnqueriesCountOfMonthlyChart = $EnqueriesCountOfMonthlyChart
-            ->whereIn('user_id', function ($query) {
-                $query->selectRaw('MIN(id)')
+            ->whereIn('enquiries.customer_id', function ($query) {
+                $query->selectRaw('MIN(customer_id)') // Assuming unique customers per enquiry
                     ->from('enquiries')
-                    ->groupBy('enquiry_id');
+                    ->groupBy('customer_id');
             })
-            ->orderBy('month', 'asc')->get();
+            ->orderBy('month', 'asc')
+            ->get();
 
 
-        // enquiries fulfilled count 
-        $enquiriesFulfilledCount = Enquiry::whereYear('enquiries.created_at', $request->year)  // Filter users created in 2025
+        // Enquiries fulfilled count 
+        $enquiriesFulfilledCount = Enquiry::whereYear('enquiries.created_at', $request->year)
             ->join('user_details', 'user_details.user_id', '=', 'enquiries.customer_id')
+            ->where('status', '=', 'payment_received') // Moved before orderBy()
             ->selectRaw('YEAR(enquiries.created_at) as year, MONTH(enquiries.created_at) as month, COUNT(*) as count')
             ->groupBy('year', 'month')
-            ->orderBy('year', 'asc')
-            ->where('status', '=', 'payment_received');
+            ->orderBy('year', 'asc');
 
         if ($request->state != 'all') {
             $enquiriesFulfilledCount->where('user_details.state', $request->state);
         }
 
+        // Fixed the `whereIn` condition to avoid incorrect grouping
         $enquiriesFulfilledCount = $enquiriesFulfilledCount
-            ->whereIn('user_id', function ($query) {
-                $query->selectRaw('MIN(id)')
+            ->whereIn('enquiries.customer_id', function ($query) {
+                $query->selectRaw('MIN(customer_id)') // Assuming unique customers per enquiry
                     ->from('enquiries')
-                    ->groupBy('enquiry_id');
+                    ->groupBy('customer_id');
             })
-            ->orderBy('month', 'asc')->get();
+            ->orderBy('month', 'asc')
+            ->get();
+
 
         // Initialize the array with all months set to 0 count
         $monthlyUserCounts = array_fill(0, 12, ['year' => $request->year, 'month' => 0, 'count' => 0]);
@@ -104,7 +109,7 @@ class AdminController extends Controller
                 'count' => $record->count
             ];
         }
-        
+
         foreach ($enquiriesFulfilledCount as $record) {
             $monthIndex = $record->month - 1; // Since month starts from 1 (January), we subtract 1 for 0-based index
             $monthlyEnquiryFulfilledCounts[$monthIndex] = [
