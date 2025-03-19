@@ -90,7 +90,7 @@
                     @isset($poInfo->id)
                         <div class="card h-auto">
                             <div class="card-header py-3">
-                                <h4 class="card-title--medium mb-0">PO File</h4>
+                                <h4 class="card-title--medium mb-0">View Purchase Order</h4>
                             </div>
 
                             <div class="card-body">

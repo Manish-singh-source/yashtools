@@ -66,8 +66,8 @@
         }
 
         /**
-                                                            * Slider Instance
-                                                            */
+                                                                    * Slider Instance
+                                                                    */
 
         .swiper {
             -webkit-user-select: none;
@@ -97,8 +97,8 @@
         }
 
         /**
-                                                            * Slider Navigation
-                                                            */
+                                                                    * Slider Navigation
+                                                                    */
 
         .slider-nav {
             display: flex;
@@ -152,8 +152,8 @@
         }
 
         /**
-                                                            * Slider Pagination
-                                                            */
+                                                                    * Slider Pagination
+                                                                    */
 
         .slider-pagination {
             display: flex;
@@ -183,8 +183,8 @@
         }
 
         /**
-                                                            * Slider Item
-                                                            */
+                                                                    * Slider Item
+                                                                    */
 
         .swiper-slide {
             width: auto;
@@ -659,8 +659,7 @@
                                                     </div>
                                                 </div>
                                             </div> --}}
-
-                                            @foreach ($events as $event)
+                                            @forelse ($events as $event)
                                                 <!-- Slider: Slide 2 -->
                                                 <div class="emotions-slider__slide swiper-slide">
                                                     <div class="emotions-slider__item emotions-slider-item">
@@ -694,7 +693,24 @@
                                                         </div>
                                                     </div>
                                                 </div>
-                                            @endforeach
+                                            @empty
+                                                <div class="emotions-slider__slide swiper-slide">
+                                                    <div class="emotions-slider__item emotions-slider-item">
+                                                        <div class="emotions-slider-item__image">
+                                                            <img src="uploads/events/"
+                                                                alt="No Event Added" />
+                                                        </div>
+
+                                                        <div class="emotions-slider-item__content">
+                                                            <div class="emotions-slider-item__info">
+                                                                <h3 class="emotions-slider-item__title">
+                                                                    There Are Currently No Event
+                                                                </h3>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            @endforelse
                                         </div>
                                     </div>
 
