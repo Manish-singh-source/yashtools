@@ -83,7 +83,7 @@
             <p>Your enquiry <strong>#{{ $enquiry->enquiry_id }}</strong> status has been updated.</p>
             
             <p class="status 
-                @if ($enquiry->status == 'confirmed' || $enquiry->status == 'delivered') success
+                @if ($enquiry->status == 'confirmed' || $enquiry->status == 'delivered') info
                 @elseif ($enquiry->status == 'dismissed') danger
                 @elseif ($enquiry->status == 'payment_received') primary
                 @endif">

@@ -22,6 +22,7 @@
                                             <th>Enquiry Id</th>
                                             <th>User</th>
                                             <th>Email</th>
+                                            <th>Status</th>
                                             <th>Date</th>
                                         </tr>
                                     </thead>
@@ -30,7 +31,8 @@
                                             <tr>
                                                 <td>
                                                     <strong>
-                                                        <a href="{{ route('admin.order.details', json_decode($notification->data)->order_id) }}">{{ json_decode($notification->data)->order_id ?? 'N/A' }}</a>
+                                                        <a
+                                                            href="{{ route('admin.order.details', json_decode($notification->data)->order_id) }}">{{ json_decode($notification->data)->order_id ?? 'N/A' }}</a>
                                                     </strong>
                                                 </td>
                                                 <td>
@@ -38,6 +40,9 @@
                                                 </td>
                                                 <td>
                                                     {{ $notification->email }}
+                                                </td>
+                                                <td>
+                                                    {{ $notification->read_at ? 'Viewed' : 'Read' }}
                                                 </td>
                                                 <td>
                                                     {{ $notification->created_at }}

@@ -21,4 +21,9 @@ class Notification extends Model
     {
         return Carbon::parse($value)->format('Y-M-d h:i A');
     }
+
+    public function notifications()
+    {
+        return $this->morphTo();
+    }
 }

@@ -39,10 +39,10 @@ class EnquiryOrdersController extends Controller
                 ->groupBy('enquiry_id');
         })
             ->orderBy('id', 'desc')
-            ->with('customer');
+            ->with('customer')
+            ->with('notificationsMorph');
 
         $orders = $orders->get(); // Get the results
-
         return view('admin.order', compact('orders'));
     }
 

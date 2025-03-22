@@ -24,6 +24,10 @@ class Enquiry extends Model
     {
         return $this->morphMany(MorphStatus::class, 'statusable');
     }
+    public function notificationsMorph()
+    {
+        return $this->morphMany(Notification::class, 'notifiable');
+    }
 
     public function getCreatedAtAttribute($value)
     {

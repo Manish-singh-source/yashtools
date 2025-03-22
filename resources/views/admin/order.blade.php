@@ -123,8 +123,11 @@
                                                     </div>
                                                 </td>
                                                 <td class="py-2">
-                                                    <a href="{{ route('admin.order.details', $order->enquiry_id) }}">
+                                                    <a href="{{ route('admin.order.details', $order->enquiry_id) }}" class="mark-as-read" data-id="{{ $order->id }}">
                                                         <strong>{{ $order->enquiry_id }}</strong></a>
+                                                        <span id="OrderId" style="display: none">
+                                                            {{ $order->enquiry_id }}
+                                                        </span>
                                                 </td>
                                                 <td class="py-2">
                                                     <a href="{{ route('customer.overview', $order->customer->id) }}">
@@ -147,8 +150,8 @@
                                                                 {{ ucfirst($order->status) }}</span>
                                                         </span>
                                                     @elseif($order->status == 'delivered')
-                                                        <span class="badge badge-sm badge-success light border-0 w-75">
-                                                            <span class="text-success"><span
+                                                        <span class="badge badge-sm badge-info light border-0 w-75">
+                                                            <span class="text-info"><span
                                                                     class="ms-1 fa fa-check"></span>
                                                                 {{ ucfirst($order->status) }}</span>
                                                         </span>
@@ -313,7 +316,10 @@
                         }
                     },
                     error: function(xhr) {
-                        alert('Error marking notification as read.');
+                        console.log(xhr.status)
+                        console.log(xhr.responseText)
+                        console.log(object)('Error marking notification as read.');
+                        // alert("Erroorr")
                     }
                 });
             });

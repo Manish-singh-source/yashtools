@@ -129,7 +129,7 @@
                                                             <span class="badge badge-sm badge-danger light border-0"><span class="ms-1 fa fa-check"></span>
                                                                 {{ ucfirst($products->status) }}</span>
                                                         @elseif($products->status == 'delivered')
-                                                            <span class="badge badge-sm badge-success light border-0"><span
+                                                            <span class="badge badge-sm badge-info light border-0"><span
                                                                     class="ms-1 fa fa-check"></span>
                                                                 {{ ucfirst($products->status) }}</span>
                                                         @elseif($products->status == 'payment_received')

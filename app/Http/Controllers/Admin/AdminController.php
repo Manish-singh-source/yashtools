@@ -173,7 +173,7 @@ class AdminController extends Controller
         // Fetch all notifications 
         $notifications = DB::table('notifications')
             ->join('users', 'users.id', '=', 'notifications.notifiable_id')
-            ->select('users.fullname', 'users.email', 'notifications.id', 'notifications.data', 'notifications.created_at')
+            ->select('users.fullname', 'users.email', 'notifications.id', 'notifications.data', 'notifications.created_at', 'notifications.read_at')
             ->orderBy('notifications.created_at', 'desc')
             ->get();
         // dd($notifications);
