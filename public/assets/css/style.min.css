@@ -3478,7 +3478,7 @@ button.axil-btn.btn-size-md i {
     position: relative;
     z-index: 1;
     background: var(--gradient-primary);
-    min-height: 500px;
+    min-height: 100dvh;
     padding: 100px 0
 }
 

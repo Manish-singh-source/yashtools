@@ -223,5 +223,8 @@ Route::middleware(AdminAuthMiddleware::class . ':admin,superadmin', 'shareUserNN
     Route::get('/chart-data', [AdminController::class, 'getChartData'])->middleware('web');
 
     Route::get('/admin-logout', [UserController::class, 'logout'])->name('admin.logout');
+});
 
+Route::fallback(function () {
+    return response()->view('user.404', [], 404);
 });
