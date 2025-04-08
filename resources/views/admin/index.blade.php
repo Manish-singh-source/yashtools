@@ -97,7 +97,7 @@
                                             <option value="Karnataka">Karnataka</option>
                                             <option value="Kerala">Kerala</option>
                                             <option value="Madhya Pradesh">Madhya Pradesh</option>
-                                            <option value="Maharashtra">Maharashtra</option>
+                                            <option value="Maharashtra" selected>Maharashtra</option>
                                             <option value="Manipur">Manipur</option>
                                             <option value="Meghalaya">Meghalaya</option>
                                             <option value="Mizoram">Mizoram</option>

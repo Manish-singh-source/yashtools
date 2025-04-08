@@ -73,7 +73,8 @@
                                         </div>
                                         <div class="col-12">
                                             <div class="form-group mb--0">
-                                                <button type="submit" class="axil-btn btn-bg-primary" value="">Send Message</button>
+                                                <button type="submit" class="axil-btn btn-bg-primary" value="">Send
+                                                    Message</button>
                                             </div>
                                         </div>
                                     </div>
@@ -83,9 +84,13 @@
                         <div class="col-lg-4">
                             <div class="contact-location mb--40">
                                 <h4 class="title mb--20">Our Office Address</h4>
-                                <span class="address mb--20">Yash Tools (India) Pvt. Ltd.,
-                                    Shop No.2, Louis Palace, Tank Road, Orlem, Malad (West), Mumbai - 400 064. India</span>
-                                <span class="phone">Phone: +91-22-2863 1094</span>
+                                <span class="address mb--20">YASH TOOLS INDIA PVT. LTD.,
+                                    A / 202 / B, Jaswanti Allied Business Centre,
+                                    Kanchpada, Ramchandra Lane, Next to Khwaish Hotel
+                                    Malad ( West ),
+                                    Mumbai- 400 064.
+                                    India</span>
+                                <span class="phone">Phone: +91-9322 25 8458</span>
                                 <span class="email">Email: nikhil@yashtools.in</span>
                             </div>
                             <div class="opening-hour">

@@ -80,7 +80,7 @@
                                                 @endforelse
                                             </ul>
                                         </div>
-                                        
+
                                         <div class="megamenu-column">
                                             <h4 class="menu-title">Brands</h4>
                                             <ul>
@@ -103,13 +103,13 @@
                     </div>
                     <div class="header-action">
                         <ul class="action-list">
-                            
+
                             <li><a href="{{ route('signin') }}" class="headerlist"><i
                                         class="fas fa-sign-in-alt icon dn"></i> <span>Login</span></a></li>
                             <li><a href="{{ route('signup') }}" class="headerlist"><i
                                         class="fas fa-user-plus icon dn"></i>
                                     <span>Sign Up</span></a></li>
-                                    
+
                             <li class="axil-mobile-toggle">
                                 <button class="menu-btn mobile-nav-toggler">
                                     <i class="flaticon-menu-2"></i>
@@ -144,7 +144,7 @@
                                 </a>
                             </div>
                             <div class="inner">
-                                <p>YASH TOOLS (I) PVT. LTD. focuses on collaboration with customers.
+                                <p>YASH TOOLS INDIA PVT. LTD. focuses on collaboration with customers.
                                 </p>
                                 <div class="social-share">
                                     <a href="#"><i class="fab fa-facebook-f"></i></a>
@@ -187,22 +187,30 @@
                     </div>
 
 
-                    <!-- End Single Widget  --> 
+                    <!-- End Single Widget  -->
                     <div class="col">
                         <div class="axil-footer-widget">
                             <h5 class="widget-title">Reach Us</h5>
-                            
+
                             <div class="inner">
-                                <p>Yash Tools (India) Pvt. Ltd., Shop No.2, Louis Palace, Tank Road, Orlem, Malad
-                                    (West), Mumbai - 400 064. India
+                                <p>
+                                    YASH TOOLS INDIA PVT. LTD.,
+                                    A / 202 / B, Jaswanti Allied Business Centre,
+                                    Kanchpada, Ramchandra Lane, Next to Khwaish Hotel
+                                    Malad ( West ),
+                                    Mumbai- 400 064.
+                                    India
                                 </p>
                                 <ul class="support-list-item">
                                     <li><a href="mailto:nikhil@yashtools.in" contenteditable="false"
                                             style="cursor: pointer;"><i
                                                 class="fal fa-envelope-open"></i>nikhil@yashtools.in</a></li>
-                                    <li><a href="tel:+912228631094" contenteditable="false"
-                                            style="cursor: pointer;"><i class="fal fa-phone-alt"></i>+91-22-2863
-                                            1094</a></li>
+                                    <li><a href="tel:+919326178710" contenteditable="false"
+                                            style="cursor: pointer;"><i class="fal fa-phone-alt"></i>+91-9326 17
+                                            8710</a></li>
+                                    <li><a href="tel:+919322258458" contenteditable="false"
+                                            style="cursor: pointer;"><i class="fal fa-phone-alt"></i>+91-9322 25
+                                            8458</a></li>
                                 </ul>
                             </div>
                         </div>

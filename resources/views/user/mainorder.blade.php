@@ -64,7 +64,7 @@
 
                             <div class="media-body">
                                 <h5 class="title mb-0">Hello {{ $user->fullname }}</h5>
-                                <span class="joining-date">Yash Member Since {{ $user->created_at }}</span>
+                                <span class="joining-date">Yash Tools Member Since {{ $user->created_at }}</span>
                             </div>
                         </div>
                     </div>

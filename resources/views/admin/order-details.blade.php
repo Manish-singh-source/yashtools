@@ -313,7 +313,7 @@
                                         @elseif ($order[0]->status == 'dismissed')
                                             badge-danger
                                         @elseif ($order[0]->status == 'payment_received')
-                                            badge-primary @endif light border-0"><span
+                                            badge-primary @else badge-primary @endif light border-0"><span
                                         class="@if ($order[0]->status == 'confirmed' || $order[0]->status == 'delivered') text-info
                                         @elseif ($order[0]->status == 'dismissed')
                                             text-danger
