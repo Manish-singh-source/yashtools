@@ -82,7 +82,7 @@
                                         <select class="default-select form-control" id="graph-state">
                                             <option selected disabled value="0">-- Select State --</option>
                                             <option value="Andaman and Nicobar Islands">Andaman and Nicobar Islands</option>
-                                            <option value="Andhra Pradesh">And  hra Pradesh</option>
+                                            <option value="Andhra Pradesh">And hra Pradesh</option>
                                             <option value="Arunachal Pradesh">Arunachal Pradesh</option>
                                             <option value="Assam">Assam</option>
                                             <option value="Bihar">Bihar</option>
@@ -212,7 +212,7 @@
                 if (year == 0) {
                     year = new Date().getFullYear();
                 }
-                
+
                 if (state == 0) {
                     state = 'all';
                 }

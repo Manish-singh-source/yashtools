@@ -45,7 +45,7 @@ class BrandController extends Controller
 
     public function viewBrandTable()
     {
-        $brands = Brand::withCount('productsCount')->get();
+        $brands = Brand::withCount('productsCount')->orderBy('created_at', 'desc')->get();
         return view('admin.brand-table', compact('brands'));
     }
 

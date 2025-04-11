@@ -601,7 +601,7 @@
                         }
                     },
                     error: function(xhr) {
-                        alert('Error marking notification as read.');
+                        console.log('Error marking notification as read.');
                     }
                 });
             });

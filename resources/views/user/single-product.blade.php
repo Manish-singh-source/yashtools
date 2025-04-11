@@ -322,20 +322,20 @@
                                     <div id="showError" class="px-2 py-3 text-danger"></div>
                                     @isset($favouritesProducts->status)
                                         @if ($favouritesProducts->status == '1')
-                                            <a class="wishlist-btn text-danger" id="wishlistBtn"
+                                            <a class="wishlist-btn text-danger cursor-pointer" id="wishlistBtn"
                                                 data-productid="{{ $selectedProduct->id }}">
                                                 <i class="fas fa-heart text-danger"></i> Add to Favourites
                                             </a>
                                             <input type="hidden" value="active" class="status">
                                         @else
-                                            <a class="wishlist-btn" id="wishlistBtn"
+                                            <a class="wishlist-btn cursor-pointer" id="wishlistBtn"
                                                 data-productid="{{ $selectedProduct->id }}">
                                                 <i class="fas fa-heart"></i> Add to Favourites
                                             </a>
                                             <input type="hidden" value="inactive" class="status">
                                         @endif
                                     @else
-                                        <a class="wishlist-btn" id="wishlistBtn" data-productid="{{ $selectedProduct->id }}">
+                                        <a class="wishlist-btn cursor-pointer" id="wishlistBtn" data-productid="{{ $selectedProduct->id }}">
                                             <i class="fas fa-heart"></i> Add to Favourites
                                         </a>
                                     @endisset

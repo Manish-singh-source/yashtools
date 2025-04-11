@@ -353,7 +353,7 @@
                                 </a>
                             </div>
                         </div>
-                        <!-- End .categrie-product -->
+                        <!-- End .categories-product -->
                         <div class="slick-single-layout slick-slide">
                             <div class="categrie-product categrie-product-3" data-sal="zoom-out" data-sal-delay="100"
                                 data-sal-duration="500">

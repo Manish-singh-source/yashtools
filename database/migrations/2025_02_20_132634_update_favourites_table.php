@@ -13,7 +13,7 @@ return new class extends Migration
     {
         Schema::table('favourites', function (Blueprint $table) {
             //
-            $table->unique(['user_id', 'product_id', 'status'], 'favourites');
+            $table->unique(['user_id', 'product_id', 'status'], 'favourite');
         });
     }
 

@@ -42,12 +42,13 @@ class SubCategoryController extends Controller
             $subcategory->sub_category_image = $imageName;
             $subcategory->save();
         }
+        flash()->success('Sub Category Added Successfully.');
         return redirect()->route('admin.table.subcategory');
     }
 
     public function viewSubCategoryTable()
     {
-        $subcategories =  SubCategories::with('category')->withCount('productsCount')->get();
+        $subcategories =  SubCategories::with('category')->withCount('productsCount')->orderBy('created_at', 'desc')->get();
         return view('admin.sub-category-table', compact('subcategories'));
     }
 
@@ -101,6 +102,7 @@ class SubCategoryController extends Controller
         }
 
         $subcategory->save();
+        flash()->success('Sub Category Updated Successfully.');
         return redirect()->route('admin.table.subcategory');
     }
 }
