@@ -37,24 +37,39 @@
                             <h2 class="title">Welcome to Yash Tools</h2>
                             <div class="row">
                                 <div class="col-xl-12">
-                                    <p>YASH TOOLS ( I ) PVT. LTD. was founded on the principle of working together with
-                                        our customers to fully understand your individual applications and needs and
-                                        making every effort to provide you with the best possible solutions.
+                                    <p>
+                                        YASH TOOLS was founded on the principle of working together with our
+                                        customers to fully understand your individual applications and needs and making
+                                        every effort to provide you with the best possible solutions.
 
-                                        This focus encompasses supplying the best products from around the world,
-                                        introducing the best technology, providing ongoing service, and continuous
-                                        follow-up to ensure our solutions are exceeding all your requirements..
-                                        OToday most companies are facing ever increasing pressure to reduce costs and
-                                        improve productivity. Reducing costs goes beyond the simple cost of acquisition
-                                        of tools, equipments and other supplies. We need to look at the Total Cost of
-                                        Production. Focusing solely on the basic cost of acquisition is doomed to
-                                        failure.
+                                        This focus encompasses supplying the best tools from around the world, introducing
+                                        the best technology, providing ongoing service, and continuous follow-up to ensure
+                                        our solutions are exceeding all your requirements.
 
-                                        Reducing the Total Cost of Production requires examining many factors such as
-                                        the tools, machines, technology, processes, operator training and methods. To
-                                        achieve the goal of reducing the Total Cost of Production we need the
-                                        cooperation of the entire team from purchasing, engineering, operators and
-                                        suppliers.</p>
+                                        Today most companies are facing ever increasing pressure to reduce costs and improve
+                                        productivity. Reducing costs goes beyond the simple cost of acquisition of tools,
+                                        equipments and other supplies. We need to look at the Total Cost of Production.
+                                        Focusing solely on the basic cost of acquisition is doomed to failure.
+
+                                        Reducing the Total Cost of Production requires examining many factors such as the
+                                        tools, machines, technology, processes, operator training and methods. To achieve
+                                        the goal of reducing the Total Cost of Production we need the cooperation of the
+                                        entire team from purchasing, engineering, operators and suppliers.
+
+                                        YASH TOOLS fills the role of tool supplier. We have years of experience examining
+                                        applications and processes from all over the world. It is our goal to work with you
+                                        as a member of your team to introduce and evaluate all the possible options for your
+                                        applications.
+
+                                        We don’t simply sell our products, we work as a member of your company to provide
+                                        with the best solutions to reduce your Total Cost of production and increase your
+                                        capabilities. Bring us your problems, your difficult applications, your worst
+                                        materials, your tightest tolerances, your biggest headaches we will find a solution
+                                        that will help you deliver your product on time and in specification.
+
+                                        As set forth in our guiding policy: ”Our customers are the most important part of
+                                        our business. Without them we would not be here.”
+                                    </p>
                                 </div>
                             </div>
                         </div>
@@ -75,8 +90,11 @@
                             </div>
                             <div class="content">
                                 <h6 class="title">Vision</h6>
-                                <p>To become the world’s most trusted partner for Quality Assurance. Be a great place to
-                                    work where people are inspired to be the best they can be.</p>
+                                <p>
+                                    To become the industry’s most trusted partner for Quality Assurance. To be the leading
+                                    supplier in Die & Mold industry providing comprehensive range of tools and equipments.
+                                    Be a great place to work where people are inspired to be the best they can be.
+                                </p>
                             </div>
                         </div>
                     </div>
@@ -87,8 +105,8 @@
                             </div>
                             <div class="content">
                                 <h6 class="title">Mission </h6>
-                                <p>To exceed our customers’ expectations with innovattive & bespoke Assurance, Testing,
-                                    Inspecttions and Certifications services for their operations.</p>
+                                <p>To exceed our customers’ expectations with innovattive & bespoke Assurance,
+                                    Testing, Inspections and Certifications services for their operations.</p>
                             </div>
                         </div>
                     </div>
@@ -99,8 +117,9 @@
                             </div>
                             <div class="content">
                                 <h6 class="title">Values</h6>
-                                <p>We have a ‘passion to perform’ and deliver excellence to all our stakeholders
-                                    consistently. To exceed our customers’ expectations with innovattive.</p>
+                                <p>We believe in Trust, Transparency and Commitment relationship with all our
+                                    stakeholders. We have a ‘passion to perform’ and deliver excellence to all our
+                                    stakeholders consistently.</p>
                             </div>
                         </div>
                     </div>

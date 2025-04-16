@@ -110,8 +110,6 @@
                             </div>
                             <div class="card-footer">
                                 <button class="btn btn-primary">UPDATE</button>
-                                <a href="{{ route('admin.forgot.password') }}" class="text-hover float-end">Forgot your
-                                    password?</a>
                             </div>
                         </div>
                     </div>

@@ -70,7 +70,6 @@ class CustomersController extends Controller
 
         $user = User::find($request->customer_id);
         $user->fullname = $request->fullname;
-        $user->email = $request->email;
         $user->mobile_number = $request->mobile_number;
         $user->save();
 

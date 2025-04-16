@@ -31,7 +31,7 @@
                                 <p>If you are looking to work with us or have any enquiry?</p>
                                 <h3 class="title mb--10">Send Us a Message</h3>
 
-                                <form method="POST" action="{{ route('user.contact.store') }}">
+                                <form method="POST" id="contact-form" action="{{ route('user.contact.store') }}">
                                     @csrf
                                     @method('POST')
                                     <div class="row row--10">
@@ -73,7 +73,7 @@
                                         </div>
                                         <div class="col-12">
                                             <div class="form-group mb--0">
-                                                <button type="submit" class="axil-btn btn-bg-primary" value="">Send
+                                                <button type="submit" id="submit-btn" class="axil-btn btn-bg-primary">Send
                                                     Message</button>
                                             </div>
                                         </div>
@@ -115,4 +115,12 @@
         </div>
         <!-- End Contact Area  -->
     </main>
+@endsection
+
+@section('script')
+    <script>
+        $(document).on("click", "#submit-btn", function() {
+            var button = $(this).text("Processing...");
+        });
+    </script>
 @endsection

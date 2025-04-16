@@ -36,6 +36,7 @@ class EmailController extends Controller
         ]);
         $adminEmail = "pradnya@technofra.com";
         $userEmail = $request->email;
+        
         $response = Mail::to($adminEmail)->send(new contactEmail($request->all()));
         $userresponse = Mail::to($userEmail)->send(new welcomeemail("Subject", $request->name));
 

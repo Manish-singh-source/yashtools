@@ -34,12 +34,14 @@ class EventController extends Controller
             $image = $request->eventImage;
             $ext = $image->getClientOriginalExtension();
             $imageName = time() . "." . $ext;
-            $image->move(public_path('uploads/events'), $imageName);
+            $image->move(public_path('/uploads/events'), $imageName);
 
             $event = new Event();
             $event->events_title = $request->eventTitle;
             $event->events_description = $request->eventDescription;
-            $event->events_tag = $request->eventTag;
+            if (!empty($event->eventTag)) {
+                $event->events_tag = $request->eventTag;
+            }
             $event->events_date = $request->eventDate;
             $event->events_image = $imageName;
             $event->save();
@@ -97,7 +99,9 @@ class EventController extends Controller
         $event = Event::find($request->eventId);
         $event->events_title = $request->eventTitle;
         $event->events_description = $request->eventDescription;
-        $event->events_tag = $request->eventTag;
+        if (!empty($event->eventTag)) {
+            $event->events_tag = $request->eventTag;
+        }
         $event->events_date = $request->eventDate;
 
         if (!empty($event->events_image)) {

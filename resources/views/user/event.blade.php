@@ -670,7 +670,7 @@
                                                         @endif
 
                                                         <div class="emotions-slider-item__image">
-                                                            <img src="uploads/events/{{ $event->events_image }}"
+                                                            <img src="{{ asset('uploads/events/'.$event->events_image) }}"
                                                                 alt="Flames of Passion" />
                                                         </div>
 

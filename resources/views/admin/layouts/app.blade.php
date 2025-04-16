@@ -317,7 +317,7 @@
                         <ul aria-expanded="false">
                             <li><a class="has-arrow" href="javascript:void(0);" aria-expanded="false">Categories</a>
                                 <ul aria-expanded="false">
-                                    <li><a href="{{ route('admin.add.category') }}">Add Categories</a></li>
+                                    <li><a href="{{ route('admin.add.category') }}">Add Category</a></li>
                                     <li><a href="{{ route('admin.table.category') }}">Categories Table</a></li>
                                 </ul>
                             </li>
@@ -378,7 +378,7 @@
                             <span class="nav-text">Multi-Admin</span>
                         </a>
                         <ul aria-expanded="false">
-                            <li><a href="{{ route('admin.view.multi.admin') }}">Add Admin</a></li>
+                            <li><a href="{{ route('admin.view.multi.admin') }}">Admins</a></li>
                             {{-- <li><a href="{{ route('admin.edit.admin') }}">Edit Admin</a></li> --}}
                         </ul>
                     </li>

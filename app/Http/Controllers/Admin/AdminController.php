@@ -173,8 +173,8 @@ class AdminController extends Controller
         // Fetch all notifications 
         $notifications = DB::table('notifications')
             ->join('users', 'users.id', '=', 'notifications.notifiable_id')
-            ->select('users.fullname', 'users.email', 'notifications.id', 'notifications.data', 'notifications.created_at', 'notifications.read_at')
-            ->orderBy('notifications.created_at', 'desc')
+            ->select('users.fullname', 'users.email', 'notifications.id', 'notifications.data', 'notifications.created_at','notifications.updated_at', 'notifications.read_at')
+            ->orderBy('notifications.updated_at', 'desc')
             ->get();
         // dd($notifications);
         return view('admin.notification-table', compact('notifications'));
@@ -324,6 +324,8 @@ class AdminController extends Controller
             $image->move(public_path('uploads/profile'), $imageName);
 
             $user->profile = $imageName;
+        }else {
+            $user->profile = '1.png';
         }
 
         $user->save();
