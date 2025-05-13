@@ -9,7 +9,7 @@
             <div class="row">
                 <div class="col-xl-12">
                     <div class="row">
-                        <form action="{{ route('admin.add.category') }}" method="POST" enctype="multipart/form-data">
+                        <form action="{{ route('admin.add.category.data') }}" method="POST" enctype="multipart/form-data">
                             @csrf
                             @method('POST')
 
