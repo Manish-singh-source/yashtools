@@ -24,7 +24,7 @@ return new class extends Migration
     {
         Schema::table('banners', function (Blueprint $table) {
             //
-            $table->dropColumn('slug');
+            // $table->dropColumn('slug');
         });
     }
 };
