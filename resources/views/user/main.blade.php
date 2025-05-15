@@ -13,8 +13,8 @@
 @section('content')
     <section class="mainh">
         <div>
-            <h2>Thank You For Logging In....</h2>
-            <h6 class="mainh1"> Please Continue Shopping.</h6>
+            <h2>Thank You For Logging In...</h2>
+            <h6 class="mainh1"> Please Continue Shopping !</h6>
         </div>
     </section>
 @endsection

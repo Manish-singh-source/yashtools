@@ -137,7 +137,7 @@ Route::middleware(AdminAuthMiddleware::class . ':admin,superadmin', 'shareUserNN
     Route::delete('/delete-banner', [BannerController::class, 'deleteBanner'])->name('admin.delete.banner');
 
     // Categories Routes
-    Route::get('/add-category', [CategoriesController::class, 'viewAddCategories'])->name('admin.add.category');
+    Route::get('/add-category', [CategoriesController::class, 'viewAddCategories'])->name('admin.add.category.data');
     Route::post('/add-category', [CategoriesController::class, 'addCategory'])->name('admin.add.category');
     Route::get('/category-table', [CategoriesController::class, 'viewCategoryTable'])->name('admin.table.category');
     Route::get('/edit-category/{slug}', [CategoriesController::class, 'editCategory'])->name('admin.edit.category');

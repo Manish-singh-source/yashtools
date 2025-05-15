@@ -12,7 +12,7 @@
             <div class="col-lg-3">
                 <a href="#">
                     <div class="w-100 tagnew1 category-tab-link"><i class="fa fa-briefcase"></i>
-                        Brand</div>
+                        Brands</div>
                 </a>
             </div>
             <div class="col-lg-3">
@@ -39,7 +39,7 @@
                             <button class="sidebar-close filter-close-btn"><i class="fas fa-times"></i></button>
                         </div>
                         <div class="toggle-list product-categories product-categories-section active">
-                            <h6 class="title">CATEGORY</h6>
+                            <h6 class="title">CATEGORIES</h6>
                             <div class="shop-submenu">
                                 <ul id="category_filter">
                                     @forelse ($categories as $category)

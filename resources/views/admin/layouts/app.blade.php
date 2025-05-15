@@ -162,12 +162,12 @@
                                                     class="flaticon-search-interface-symbol"></i></a></span>
                                     </div>
                                 </li> --}}
-                            <li class="nav-item dropdown notification_dropdown">
+                            <!-- <li class="nav-item dropdown notification_dropdown">
                                 <button class="ic-theme-mode" type="button">
                                     <span class="light">Light</span>
                                     <span class="dark">Dark</span>
                                 </button>
-                            </li>
+                            </li> -->
                             <li class="nav-item dropdown notification_dropdown">
                                 <a class="nav-link" href="javascript:void(0);" role="button" data-bs-toggle="dropdown">
                                     <svg width="28" height="28" viewBox="0 0 28 28" fill="none"

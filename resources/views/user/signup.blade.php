@@ -47,7 +47,7 @@
                                                 @enderror
                                             </div>
                                             <div class="col-md-4 form-group">
-                                                <label>Authorised Name<span>*</span></label>
+                                                <label>Authorised Person Name<span>*</span></label>
                                                 <input type="text"
                                                     class="form-control @error('fullname') is-invalid @enderror"
                                                     aria-describedby="fullname" name="fullname">

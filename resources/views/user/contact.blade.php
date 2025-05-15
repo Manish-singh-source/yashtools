@@ -85,17 +85,18 @@
                             <div class="contact-location mb--40">
                                 <h4 class="title mb--20">Our Office Address</h4>
                                 <span class="address mb--20">YASH TOOLS INDIA PVT. LTD.,
-                                    A / 202 / B, Jaswanti Allied Business Centre,
+                                    A- 202 B, Jaswanti Allied Business Centre,
                                     Kanchpada, Ramchandra Lane, Next to Khwaish Hotel
-                                    Malad ( West ),
-                                    Mumbai- 400 064.
+                                    Malad (West),
+                                    <br> Mumbai- 400 064.
                                     India</span>
+                                <span class="phone">Phone: +91-9326 17 8710</span>
                                 <span class="phone">Phone: +91-9322 25 8458</span>
-                                <span class="email">Email: nikhil@yashtools.in</span>
+                                <span class="email">Email Id: sales@yashtools.in</span>
                             </div>
                             <div class="opening-hour">
                                 <h4 class="title mb--20">Working Hours:</h4>
-                                <p>Monday to Saturday: 9am - 10pm
+                                <p>Monday to Saturday: 9:30 am - 6 pm
                                 </p>
                             </div>
                         </div>

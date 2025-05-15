@@ -46,7 +46,7 @@
                 <div class="header-navbar">
                     <div class="header-brand">
                         <a href="{{ route('user.home') }}" class="logo logo-dark">
-                            <img src="{{ asset('assets/images/logo/logo.png') }}" alt="Site Logo">
+                            <img src="{{ asset('assets/images/logo/logo.png') }}" style="width: 100%;" alt="Site Logo">
                         </a>
                         <a href="{{ route('user.home') }}" class="logo logo-light">
                             <img src="{{ asset('assets/images/logo/logo-light.png') }}" alt="Site Logo">
@@ -163,7 +163,7 @@
                             <div class="inner">
                                 <ul>
                                     <li><a href="{{ route('signin') }}">Login / Signup</a></li>
-                                    <li><a href="{{ route('user.about.us') }}">About US</a></li>
+                                    <li><a href="{{ route('user.about.us') }}">About Us</a></li>
                                     <li><a href="{{ route('user.shop') }}">Products</a></li>
                                     <li><a href="{{ route('user.event') }}">Events</a></li>
                                 </ul>
@@ -194,17 +194,17 @@
 
                             <div class="inner">
                                 <p>
-                                    YASH TOOLS INDIA PVT. LTD.,
-                                    A / 202 / B, Jaswanti Allied Business Centre,
+                                    YASH TOOLS INDIA LLP. LTD.,
+                                    A- 202 B, Jaswanti Allied Business Centre,
                                     Kanchpada, Ramchandra Lane, Next to Khwaish Hotel
-                                    Malad ( West ),
+                                    Malad (West),
                                     Mumbai- 400 064.
                                     India
                                 </p>
                                 <ul class="support-list-item">
                                     <li><a href="mailto:nikhil@yashtools.in" contenteditable="false"
                                             style="cursor: pointer;"><i
-                                                class="fal fa-envelope-open"></i>nikhil@yashtools.in</a></li>
+                                                class="fal fa-envelope-open"></i>sales@yashtools.in</a></li>
                                     <li><a href="tel:+919326178710" contenteditable="false"
                                             style="cursor: pointer;"><i class="fal fa-phone-alt"></i>+91-9326 17
                                             8710</a></li>

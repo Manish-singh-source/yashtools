@@ -2671,7 +2671,8 @@ input[type=submit]:hover {
 
 .axil-about-area .about-content p {
     font-size: 16px;
-    margin-bottom: 34px
+    margin-bottom: 0px;
+    text-align: justify;
 }
 
 .axil-about-area .about-content.content-right {
@@ -2758,7 +2759,8 @@ input[type=submit]:hover {
     border-radius: 5px;
     background-color: var(--color-white);
     transition: var(--transition);
-    margin-bottom: 30px
+    margin-bottom: 30px;
+    height: 90%;
 }
 
 @media only screen and (max-width: 767px) {
@@ -4489,7 +4491,8 @@ button.axil-btn.btn-size-md i {
 }
 
 .how-to-sell {
-    padding: 30px 20px
+    padding: 30px 20px;
+    height: 95%;
 }
 
 .how-to-sell .title {
@@ -10032,7 +10035,9 @@ body.open .closeMask {
 }
 
 .axil-product .product-content .title a {
-    transition: .3s
+    transition: .3s;
+    color: black;
+    text-transform: uppercase;
 }
 
 .axil-product .product-content .product-price-variant {
@@ -14039,9 +14044,10 @@ body.open .closeMask {
 }
 
 .axil-signin-form .forgot-btn {
-    font-size: 14px;
+    font-size: 16px;
     color: #dd0028;
     transition: var(--transition);
+    font-weight: 600;
 }
 
 .axil-signin-form .forgot-btn:hover {
