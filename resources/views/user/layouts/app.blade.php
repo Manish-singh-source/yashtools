@@ -198,13 +198,16 @@
                                     A- 202 B, Jaswanti Allied Business Centre,
                                     Kanchpada, Ramchandra Lane, Next to Khwaish Hotel
                                     Malad (West),
-                                    Mumbai- 400 064.
+                                    Mumbai- 400064.
                                     India
                                 </p>
                                 <ul class="support-list-item">
-                                    <li><a href="mailto:nikhil@yashtools.in" contenteditable="false"
+                                    <li><a href="mailto:sales@yashtools.in" contenteditable="false"
                                             style="cursor: pointer;"><i
                                                 class="fal fa-envelope-open"></i>sales@yashtools.in</a></li>
+                                                <li><a href="mailto:nikhil@yashtools.in" contenteditable="false"
+                                            style="cursor: pointer;"><i
+                                                class="fal fa-envelope-open"></i>nikhil@yashtools.in</a></li>
                                     <li><a href="tel:+919326178710" contenteditable="false"
                                             style="cursor: pointer;"><i class="fal fa-phone-alt"></i>+91-9326 17
                                             8710</a></li>
@@ -266,7 +269,7 @@
     </footer>
     <!-- End Footer Area  -->
     <div class="floating_btn">
-        <a target="_blank" href="https://wa.me/918080721003">
+        <a target="_blank" href="https://wa.me/+919326178710">
             <div class="contact_icon">
                 <i class="fa fa-whatsapp my-float"></i>
             </div>

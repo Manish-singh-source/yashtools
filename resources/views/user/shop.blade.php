@@ -92,7 +92,7 @@
                                 <h6 class="title">NEW PRODUCTS & OFFERS</h6>
                                 <div class="shop-submenu">
                                     <ul id="tags_filter">
-                                        <li data-tagid="new"><a href="#">New Products</a></li>
+                                        <li data-tagid="new"><a href="#">NEW PRODUCTS</a></li>
                                         <li data-tagid="offer"><a href="#">OFFERS</a></li>
                                     </ul>
                                 </div>

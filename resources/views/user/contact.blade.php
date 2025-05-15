@@ -93,6 +93,7 @@
                                 <span class="phone">Phone: +91-9326 17 8710</span>
                                 <span class="phone">Phone: +91-9322 25 8458</span>
                                 <span class="email">Email Id: sales@yashtools.in</span>
+                                <span class="email">Email Id: nikhil@yashtools.in</span>
                             </div>
                             <div class="opening-hour">
                                 <h4 class="title mb--20">Working Hours:</h4>

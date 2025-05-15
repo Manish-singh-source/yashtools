@@ -802,7 +802,7 @@
             event.preventDefault(); // Prevent default link behavior
 
             // WhatsApp Number (Fixed Number)
-            var whatsappNumber = "917039553407"; // Replace with your WhatsApp number (Use country code)
+            var whatsappNumber = "919326178710"; // Replace with your WhatsApp number (Use country code)
 
             // Product Details
             var productName = document.querySelector(".product-title").innerText; // Fetch product name dynamically

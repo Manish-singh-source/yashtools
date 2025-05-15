@@ -1,5 +1,15 @@
 @extends('user.layouts.app')
 @section('content')
+<style>
+    .moretext {
+  display: none;
+  
+}
+.rem
+{
+    cursor: pointer;
+}
+</style>
 <main class="main-wrapper">
     <!-- Start Breadcrumb Area  -->
     <div class="axil-breadcrumb-area">
@@ -62,15 +72,15 @@
                                     as a member of your team to introduce and evaluate all the possible options for your
                                     applications.
                                 </p>
-                                <p>We don’t simply sell our products, we work as a member of your company to provide
+                                <p class="moretext">We don’t simply sell our products, we work as a member of your company to provide
                                     with the best solutions to reduce your Total Cost of production and increase your
                                     capabilities. Bring us your problems, your difficult applications, your worst
                                     materials, your tightest tolerances, your biggest headaches we will find a solution
                                     that will help you deliver your product on time and in specification.
                                 </p>
-                                <p>As set forth in our guiding policy: ”Our customers are the most important part of
+                                <p  class="moretext">As set forth in our guiding policy: ”Our customers are the most important part of
                                     our business. Without them we would not be here.”
-                                </p>
+                                </p><a class="moreless-button rem">Read more</a>
                             </div>
                         </div>
                     </div>
@@ -128,7 +138,18 @@
         </div>
     </div>
     <!-- End About Area  -->
-
+    <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
+<script>
+    // The function toggles more (hidden) text when the user clicks on "Read more". The IF ELSE statement ensures that the text 'read more' and 'read less' changes interchangeably when clicked on.
+$('.moreless-button').click(function() {
+  $('.moretext').slideToggle();
+  if ($('.moreless-button').text() == "Read more") {
+    $(this).text("Read less")
+  } else {
+    $(this).text("Read more")
+  }
+});
+</script>
 
 </main>
 @endsection

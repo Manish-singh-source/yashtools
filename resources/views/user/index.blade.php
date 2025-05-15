@@ -15,7 +15,14 @@
         text-align: center;
         width: 100%;
     }
-
+.moretext {
+  display: none;
+  
+}
+.rem
+{
+    cursor: pointer;
+}
     .arrow {
         background: black;
         border: none;
@@ -319,15 +326,15 @@
                                     as a member of your team to introduce and evaluate all the possible options for your
                                     applications.
                                 </p>
-                                <p>We don’t simply sell our products, we work as a member of your company to provide
+                                <p class="moretext">We don’t simply sell our products, we work as a member of your company to provide
                                     with the best solutions to reduce your Total Cost of production and increase your
                                     capabilities. Bring us your problems, your difficult applications, your worst
                                     materials, your tightest tolerances, your biggest headaches we will find a solution
                                     that will help you deliver your product on time and in specification.
                                 </p>
-                                <p>As set forth in our guiding policy: ”Our customers are the most important part of
+                                <p  class="moretext">As set forth in our guiding policy: ”Our customers are the most important part of
                                     our business. Without them we would not be here.”
-                                </p>
+                                </p><a class="moreless-button rem">Read more</a>
                             </div>
                         </div>
                     </div>
@@ -352,7 +359,7 @@
                         <div class="categrie-product categrie-product-3" data-sal="zoom-out" data-sal-delay="100"
                             data-sal-duration="500">
                             <a href="#">
-                                <img class="img-fluid" src="assets\images\myimg\gesswein_logo.png"
+                                <img class="img-fluid" src="assets\images\myimg\daikin.png"
                                     alt="product categorie">
                             </a>
                         </div>
@@ -362,7 +369,7 @@
                         <div class="categrie-product categrie-product-3" data-sal="zoom-out" data-sal-delay="100"
                             data-sal-duration="500">
                             <a href="#">
-                                <img class="img-fluid" src="assets\images\myimg/100368.webp" alt="product categorie">
+                                <img class="img-fluid" src="assets\images\myimg\bkt.png" alt="product categorie">
                             </a>
                         </div>
                     </div>
@@ -371,7 +378,7 @@
                         <div class="categrie-product categrie-product-3" data-sal="zoom-out" data-sal-delay="100"
                             data-sal-duration="500">
                             <a href="#">
-                                <img class="img-fluid" src="assets\images\myimg/vijaydeep.png" alt="product categorie">
+                                <img class="img-fluid" src="assets\images\myimg\joorij.png" alt="product categorie">
                             </a>
                         </div>
                         <!-- End .categrie-product -->
@@ -380,7 +387,7 @@
                         <div class="categrie-product categrie-product-3" data-sal="zoom-out" data-sal-delay="100"
                             data-sal-duration="500">
                             <a href="#">
-                                <img class="img-fluid" src="assets\images\myimg\misumi.png" alt="product categorie">
+                                <img class="img-fluid" src="assets\images\myimg\gold.png" alt="product categorie">
                             </a>
                         </div>
                     </div>
@@ -389,7 +396,7 @@
                         <div class="categrie-product categrie-product-3" data-sal="zoom-out" data-sal-delay="100"
                             data-sal-duration="500">
                             <a href="#">
-                                <img class="img-fluid" src="assets\images\myimg\kojex.png" alt="product categorie">
+                                <img class="img-fluid" src="assets\images\myimg\hitachi.png" alt="product categorie">
                             </a>
                         </div>
                     </div>
@@ -398,7 +405,7 @@
                         <div class="categrie-product categrie-product-3" data-sal="zoom-out" data-sal-delay="100"
                             data-sal-duration="500">
                             <a href="#">
-                                <img class="img-fluid" src="assets\images\myimg\gesswein_logo.png"
+                                <img class="img-fluid" src="assets\images\myimg\raja.png"
                                     alt="product categorie">
                             </a>
                         </div>
@@ -408,7 +415,7 @@
                         <div class="categrie-product categrie-product-3" data-sal="zoom-out" data-sal-delay="100"
                             data-sal-duration="500">
                             <a href="#">
-                                <img class="img-fluid" src="assets\images\myimg/100368.webp" alt="product categorie">
+                                <img class="img-fluid" src="assets\images\myimg\maruti.png" alt="product categorie">
                             </a>
                         </div>
                     </div>
@@ -417,7 +424,7 @@
                         <div class="categrie-product categrie-product-3" data-sal="zoom-out" data-sal-delay="100"
                             data-sal-duration="500">
                             <a href="#">
-                                <img class="img-fluid" src="assets\images\myimg/vijaydeep.png"
+                                <img class="img-fluid" src="assets\images\myimg\short.png"
                                     alt="product categorie">
                             </a>
                         </div>
@@ -427,7 +434,7 @@
                         <div class="categrie-product categrie-product-3" data-sal="zoom-out" data-sal-delay="100"
                             data-sal-duration="500">
                             <a href="#">
-                                <img class="img-fluid" src="assets\images\myimg\misumi.png" alt="product categorie">
+                                <img class="img-fluid" src="assets\images\myimg\motherson.png" alt="product categorie">
                             </a>
                         </div>
                     </div>
@@ -436,7 +443,15 @@
                         <div class="categrie-product categrie-product-3" data-sal="zoom-out" data-sal-delay="100"
                             data-sal-duration="500">
                             <a href="#">
-                                <img class="img-fluid" src="assets\images\myimg\kojex.png" alt="product categorie">
+                                <img class="img-fluid" src="assets\images\myimg\nilkamal.png" alt="product categorie">
+                            </a>
+                        </div>
+                    </div>
+                    <div class="slick-single-layout slick-slide">
+                        <div class="categrie-product categrie-product-3" data-sal="zoom-out" data-sal-delay="100"
+                            data-sal-duration="500">
+                            <a href="#">
+                                <img class="img-fluid" src="assets\images\myimg\superme.png" alt="product categorie">
                             </a>
                         </div>
                     </div>
@@ -534,7 +549,18 @@
     <!-- Start Axil Newsletter Area  -->
     <!-- Start Expolre Product Area  -->
     <!-- End Expolre Product Area  -->
-
+<script src="//cdnjs.cloudflare.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
+<script>
+    // The function toggles more (hidden) text when the user clicks on "Read more". The IF ELSE statement ensures that the text 'read more' and 'read less' changes interchangeably when clicked on.
+$('.moreless-button').click(function() {
+  $('.moretext').slideToggle();
+  if ($('.moreless-button').text() == "Read more") {
+    $(this).text("Read less")
+  } else {
+    $(this).text("Read more")
+  }
+});
+</script>
 
 </main>
 @endsection

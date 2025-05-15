@@ -11,7 +11,7 @@
                             <ul class="axil-breadcrumb">
                                 <li class="axil-breadcrumb-item"><a href="index.html">Home</a></li>
                                 <li class="separator"></li>
-                                <li class="axil-breadcrumb-item active" aria-current="page">Pages</li>
+                                <li class="axil-breadcrumb-item active" aria-current="page">Privacy Policy</li>
                             </ul>
                             <h1 class="title">Privacy Policy</h1>
                         </div>
@@ -24,104 +24,142 @@
         <!-- Start Privacy Policy Area  -->
         <div class="axil-privacy-area axil-section-gap">
             <div class="container">
-                <div class="row">
-                    <div class="col-lg-10">
-                        <div class="axil-privacy-policy">
-                            <span class="policy-published">Privacy Policy</span>
-                            <h4 class="title">GDPR compliance</h4>
-                            <p>Sed nec ex vitae justo molestie maximus. Sed ut neque sit amet libero rhoncus tempor. Fusce
-                                tempor quam libero, varius congue magna tempus vitae. Donec a justo nec elit sagittis
-                                sagittis eu a ante. Vivamus rutrum elit odio. Donec gravida id ligula ut faucibus. Aenean
-                                convallis ligula orci, ut congue nunc sodales ut. In ultrices elit malesuada velit ornare,
-                                eget dictum velit hendrerit. Praesent bibendum blandit lectus, eu congue neque mollis in.
-                                Pellentesque metus diam, hendrerit in purus fringilla, accumsan bibendum sapien. Nunc non
-                                facilisis sem.</p>
-                            <h4 class="title">About eTrade</h4>
-                            <p>In dapibus, nibh sit amet pulvinar convallis, massa nunc tincidunt nunc, a pretium risus
-                                nulla ut dui. Ut ut condimentum tellus, dapibus volutpat est. Integer ullamcorper iaculis
-                                blandit. Pellentesque id tempus urna. Quisque luctus cursus imperdiet. <a
-                                    href="mailto:hello@etrade.store">hello@etrade.store</a></p>
-                            <h4 class="title">When we collect personal data about you</h4>
-                            <ul>
-                                <li>Email is a crucial channel in any marketing.</li>
-                                <li>Curious what to say? How to say it?</li>
-                                <li>Whether you’re kicking off a new campaign.</li>
-                                <li>Habitasse per feugiat aliquam luctus accumsan curae</li>
-                            </ul>
-                            <h4 class="title">Why we collect and use personal data</h4>
-                            <p>Sed nec ex vitae justo molestie maximus. Sed ut neque sit amet libero rhoncus tempor. Fusce
-                                tempor quam libero, varius congue magna tempus vitae. Donec a justo nec elit sagittis
-                                sagittis eu a ante. Vivamus rutrum elit odio. Donec gravida id ligula ut faucibus. Aenean
-                                convallis ligula orci, ut congue nunc sodales ut. In ultrices elit malesuada velit ornare,
-                                eget dictum velit hendrerit. Praesent bibendum blandit lectus, eu congue neque mollis in.
-                                Pellentesque metus diam, hendrerit in purus fringilla, accumsan bibendum sapien. Nunc non
-                                facilisis sem.</p>
-                            <ul>
-                                <li>Nulla facilisi. Sed pulvinar nec purus eu sollicitudin. Quisque ut tempus quam, in
-                                    cursus eros. </li>
-                                <li>Fusce malesuada luctus velit eu tempor. Pellentesque habitant morbi tristique senectus
-                                    et netus et.</li>
-                                <li>Pellentesque ornare nulla est, non blandit sapien lacinia nec. Nulla ac velit id est
-                                    mattis faucibus.</li>
-                                <li>Aliquam lacus nisi, lobortis non diam eget, malesuada bibendum justo. Praesent fringilla
-                                    sagittis ex, ac molestie ipsum ullamcorper a.</li>
-                                <li>Vestibulum nulla tortor, aliquam at porta in, hendrerit sed nibh.</li>
-                            </ul>
-                            <h4 class="title">Type of personal data collected</h4>
-                            <p>In ultrices elit malesuada velit ornare, eget dictum velit hendrerit. Praesent bibendum
-                                blandit lectus, eu congue neque mollis in. Pellentesque metus diam, hendrerit in purus
-                                fringilla, accumsan bibendum sapien. Nunc non facilisis sem.</p>
-                            <h4 class="title">Information we collect automatically</h4>
-                            <p>Etiam vel mi vel neque mattis iaculis. Proin vitae consequat augue, vel porta tellus. Nullam
-                                tincidunt ac lorem eu lacinia. Praesent ac diam id odio elementum efficitur. Suspendisse sit
-                                amet urna vitae neque tempor pellentesque. Aenean ut dapibus urna. Pellentesque neque nulla,
-                                interdum vitae rhoncus at, pretium id arcu. Etiam sodales lectus at convallis vestibulum.
-                                Quisque non neque augue. Nullam condimentum nulla felis, nec suscipit augue congue ac.</p>
-                            <h4 class="title">The use of cookies and web beacons</h4>
-                            <p class="mb--20">We may log information using "cookies." Cookies are small data files stored on
-                                your hard drive by a website. Cookies help us make our Site and your visit better.</p>
-                            <p class="mb--20">We may log information using digital images called web beacons on our Site or
-                                in our emails.</p>
-                            <p>This information is used to make our Site work more efficiently, as well as to provide
-                                business and marketing information to the owners of the Site, and to gather such personal
-                                data as browser type and operating system, referring page, path through site, domain of ISP,
-                                etc. for the purposes of understanding how visitors use our Site. Cookies and similar
-                                technologies help us tailor our Site to your personal needs, as well as to detect and
-                                prevent security threats and abuse. If used alone, cookies and web beacons do not personally
-                                identify you.</p>
-                            <h4 class="title">How long we keep your data</h4>
-                            <p class="mb--20">We store personal data for as long as we find it necessary to fulfill the
-                                purpose for which the personal data was collected, while also considering our need to answer
-                                your queries or resolve possible problems. This helps us to comply with legal requirements
-                                under applicable laws, to attend to any legal claims/complaints, and for safeguarding
-                                purposes.</p>
-                            <p>This means that we may retain your personal data for a reasonable period after your last
-                                interaction with us. When the personal data that we have collected is no longer required, we
-                                will delete it securely. We may process data for statistical purposes, but in such cases,
-                                data will be anonymized.</p>
-                            <h4 class="title">Your rights to your personal data</h4>
-                            <p>We store personal data for as long as we find it necessary to fulfill the purpose for which
-                                the personal data was collected, while also considering our need to answer your queries or
-                                resolve possible problems. This helps us to comply with legal requirements under applicable
-                                laws, to attend to any legal claims/complaints, and for safeguarding purposes.</p>
-                            <h4 class="title">Hotjar’s privacy policy</h4>
-                            <p>Pellentesque vestibulum venenatis iaculis. Aliquam viverra sodales ultrices. Quisque sed
-                                purus id massa consequat consectetur eu vel lorem. Maecenas lectus velit, cursus quis orci
-                                non, laoreet hendrerit mi. Nulla vitae ipsum fringilla, placerat metus eu, malesuada velit.
-                                Quisque viverra risus ex. Aenean commodo vestibulum efficitur. Nullam ligula orci, aliquet
-                                sed luctus vel, luctus vel dui. Sed pulvinar, ipsum at mattis imperdiet, diam augue tempor
-                                diam, sed porttitor odio elit ut ante. In posuere mi at mi pellentesque ornare sit amet
-                                gravida nisi. Praesent ac blandit odio. Curabitur iaculis ante elit, et imperdiet leo mollis
-                                at.</p>
-                            <h4 class="title">Changes to this Privacy Policy</h4>
-                            <p>Integer eu ornare lectus, ornare ullamcorper tellus. Morbi in urna a justo dignissim luctus.
-                                Nam sagittis ante ut lorem feugiat, sed consectetur ligula lacinia. Vestibulum quis mauris
-                                sed lectus pretium dictum sed vitae orci. Vestibulum facilisis facilisis mauris non maximus.
-                                Nam tristique ipsum egestas, suscipit orci sit amet, rutrum ante. Proin in felis
-                                pellentesque, ullamcorper enim vel, molestie ipsum.</p>
-                        </div>
-                    </div>
-                </div>
+               <div class="row">
+  <div class="col-lg-10">
+    <div class="axil-privacy-policy">
+      <span class="policy-published">Privacy Policy</span>
+      <h4 class="title">Privacy Policy</h4>
+      <p>
+        Our Privacy Policy assures you that any details or data entered by you in the form will not,
+        by any means or conditions, be misused. The content, forms, fields, and references we collect
+        are to provide better services to all of our users, existing clients and potential new
+        clients are purely meant for the purpose of effective communication, reference and
+        information.
+      </p>
+      <p>
+        Any details collected by us are important from the perspective of business and we take the
+        best care of your interests by keeping them private and safe.
+      </p>
+      <p>
+        We recognize the importance of protecting the personal information we collect about you,
+        and we respect the privacy rights of our users.
+      </p>
+      <p>
+        “Personal information” means any information that may be used to identify an individual,
+        including, but not limited to, a first and last name, email address, a home, postal or other
+        physical address, other contact information, title, occupation, industry, personal interests,
+        and other information when needed to provide a service or product or carry out a transaction
+        you have requested. Also, we store it for future use, and we take the best care of the
+        confidentiality and privacy of the details provided.
+      </p>
+
+      <h4 class="title">Information Collection and Uses</h4>
+      <p>
+        Whenever you visit our service, we collect information that your browser sends to us which is
+        called Log Data. Data logging is the process of capturing, storing and displaying one or more
+        datasets to analyze activity, identify trends and help predict future events.
+      </p>
+      <p>
+        This may include information such as your computer’s Internet Protocol (“IP”) address, browser
+        version, pages of our Service that you visit, the time and date of your visit, the time spent
+        on those pages, and other statistics.
+      </p>
+
+      <h4 class="title">What we do with your information</h4>
+      <p>
+        We use your information to provide the services you’ve requested, create and maintain your
+        accounts. Also used to process your customer support requests, to provide new services you
+        may like and policy updates.
+      </p>
+      <p>
+        We analyze the information we collect to understand user needs and to improve our websites and
+        services.
+      </p>
+      <p>
+        We are required to have a legal basis for collecting and processing your information. In most
+        cases, we either have your consent or need the information to provide the service you’ve
+        requested from us. When that’s not the case, we must demonstrate that we have another legal
+        basis, such as our legitimate business interests.
+      </p>
+      <p>
+        You can also disable cookies to prevent your browser from giving us information, but if you do
+        so, certain website features may not work properly. We limit access to your personal
+        information to our employees and vendors who have a legitimate need to use it.
+      </p>
+
+      <h4 class="title">Your Information Security</h4>
+      <p>
+        It is our policy never to disclose any information provided by you in any way, and to use the
+        information in the most authentic manner possible. Your personal details are only collected
+        to facilitate prompt communication with you. The site may ask for your name, contact number,
+        and other information while browsing. No information you enter will be misused, sold, or
+        rented in any way. However, the data may be used for future correspondence. We will only use
+        it for editorial, feedback and internal record keeping purposes.
+      </p>
+      <p>
+        We maintain the highest level of control over how the information is handled, used and
+        stored. Since we value your trust in sharing your Personal Information with us, we strive to
+        protect it as effectively as possible. The security of data transmitted over the internet or
+        stored electronically cannot be guaranteed to be 100% secure.
+      </p>
+
+      <h4 class="title">Exceptions</h4>
+      <p>
+        It is our policy to protect your information from any type of threat or interference.
+        However, there are a few exceptions to the disclosure of information subject to these events.
+        Unless any of these events occur, your information will not be disclosed.
+      </p>
+
+      <h4 class="title">Cookies</h4>
+      <p>
+        We use cookies to ensure that you get the most out of our site. We store small text files
+        called cookies on your device when you access our website. We use cookies to simplify your
+        use of the site and to monitor how the software is being used. It is possible to set your
+        browser or device to reject cookies if you do not wish to have them installed on your device.
+      </p>
+      <p>
+        Please note that our websites may not function properly if you set your Internet browser to
+        reject cookies. You have the option to either accept or refuse these cookies, and know when a
+        cookie is being sent.
+      </p>
+
+      <h4 class="title">Service Providers</h4>
+      <p>We may employ third-party companies and individuals due to the following reasons:</p>
+      <ol>
+        <li>To facilitate our Service;</li>
+        <li>To provide the Service on our behalf;</li>
+        <li>To perform Service-related services;</li>
+        <li>To assist us in analyzing how our Service is used.</li>
+      </ol>
+
+      <h4 class="title">Children’s Privacy</h4>
+      <p>
+        The COPPA regulates the collection of data from children who come under the age group of 13.
+        Our Services do not address anyone under the age of 13. We do not knowingly collect personal
+        identifiable information from children under 13. If you are a parent or guardian and you are
+        aware that your child has provided us with personal information, please contact us so that we
+        will be able to take necessary actions.
+      </p>
+
+      <h4 class="title">Changes to This Privacy Policy</h4>
+      <p>
+        We may update our Privacy Policy from time to time. Thus, we advise you to review this page
+        periodically for any changes. We will notify you of any changes by posting the new Privacy
+        Policy on this page. These changes are effective immediately after they are posted on this
+        page.
+      </p>
+
+      <h4 class="title">How to contact us</h4>
+      <p>
+        If you have any questions in relation to this privacy policy, kindly connect with Yash Tools
+        on <a href="tel:+919326178710">+91 9326 17 8710</a> / <a href="tel:+919322258458">+91 9322 25 8458</a>
+        between 09:030 am and 06:00 pm, Monday to Saturday. Alternatively, you can email us at
+        <a href="mailto:sales@yashtools.in">sales@yashtools.in</a>.
+      </p>
+    </div>
+  </div>
+</div>
+
             </div>
         </div>
         <!-- End Privacy Policy Area  -->

@@ -17,14 +17,14 @@
             </div>
             <div class="col-lg-3">
                 <a href="#">
-                    <div class="w-100 tagnew1 category-tab-link"><i class="fa fa-tags"></i>
-                        New Products</div>
+                    <div class="w-100 tagnew1 category-tab-link"><i class="fa fa-star"></i>
+                        New Arrivals</div>
                 </a>
             </div>
             <div class="col-lg-3">
                 <a href="#">
                     <div class="w-100 tagnew1 category-tab-link"><i class="fa fa-tags"></i>
-                        Sale</div>
+                        Offers</div>
                 </a>
             </div>
         </div>
