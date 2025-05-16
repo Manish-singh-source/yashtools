@@ -25,10 +25,12 @@
         <div class="axil-contact-page-area axil-section-gap">
             <div class="container">
                 <div class="axil-contact-page">
+                    <div class="pb-2">
+                        <p>If you are looking to work with us or have any enquiry?</p>
+                    </div>
                     <div class="row row--30">
                         <div class="col-lg-8">
                             <div class="contact-form">
-                                <p>If you are looking to work with us or have any enquiry?</p>
                                 <h3 class="title mb--10">Send Us a Message</h3>
 
                                 <form method="POST" id="contact-form" action="{{ route('user.contact.store') }}">
@@ -84,7 +86,7 @@
                         <div class="col-lg-4">
                             <div class="contact-location mb--40">
                                 <h4 class="title mb--20">Our Office Address</h4>
-                                <span class="address mb--20">YASH TOOLS INDIA PVT. LTD.,
+                                <span class="address mb--20">YASH TOOLS INDIA LLP. LTD.,
                                     A- 202 B, Jaswanti Allied Business Centre,
                                     Kanchpada, Ramchandra Lane, Next to Khwaish Hotel
                                     Malad (West),

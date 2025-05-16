@@ -63,7 +63,7 @@
                         <div class="media">
 
                             <div class="media-body">
-                                <h5 class="title mb-0">Hello {{ $user->fullname }}</h5>
+                                <h5 class="title mb-0 text-capitalize">Hello {{ $user->username ?? "User" }}</h5>
                                 <span class="joining-date">Yash Tools Member Since {{ $user->created_at }}</span>
                             </div>
                         </div>
@@ -95,8 +95,8 @@
                             <div class="tab-content">
                                 <div class="tab-pane fade show active" id="nav-dashboard" role="tabpanel">
                                     <div class="axil-dashboard-overview">
-                                        <div class="welcome-text">Hello {{ $user->fullname }} (not
-                                            <span>{{ $user->fullname }}?</span> <a href="{{ route('customer.logout') }}">Log
+                                        <div class="welcome-text text-capitalize">Hello {{ $user->fullname ?? "User" }} (not
+                                            <span class="text-capitalize">{{ $user->fullname ?? "User" }}?</span> <a href="{{ route('customer.logout') }}">Log
                                                 Out</a>)
                                         </div>
                                         <p>From your account dashboard you can view your recent orders, manage your
@@ -234,12 +234,12 @@
                                                     <div class="col-md-6 form-group">
                                                         <label>Company Name</label>
                                                         <input type="text" class="form-control"
-                                                            value="{{ $user->userDetail->company_name }}"
+                                                            value="{{ $user->userDetail?->company_name }}"
                                                             name="company_name">
                                                     </div>
                                                     <div class="col-md-6 form-group">
                                                         <label>Company Address</label>
-                                                        <textarea class=" custom-form-input" rows="4" name="company_address">{{ $user->userDetail->company_address }}</textarea>
+                                                        <textarea class=" custom-form-input" rows="4" name="company_address">{{ $user->userDetail?->company_address }}</textarea>
                                                     </div>
                                                     <div class="col-md-6 form-group">
                                                         <label>Mobile Number</label>
@@ -249,12 +249,12 @@
                                                     <div class="col-md-6 form-group">
                                                         <label>GSTIN</label>
                                                         <input type="text" class="form-control"
-                                                            value="{{ $user->userDetail->gstin }}" name="gstin">
+                                                            value="{{ $user->userDetail?->gstin }}" name="gstin">
                                                     </div>
                                                     <div class="col-md-6 form-group">
                                                         <label>City</label>
                                                         <input type="text" class="form-control"
-                                                            value="{{ $user->userDetail->city }}" name="city">
+                                                            value="{{ $user->userDetail?->city }}" name="city">
                                                     </div>
                                                     <div class="col-md-6 form-group">
                                                         <label class="form-label" for="state">State</label>
@@ -265,108 +265,108 @@
                                                             <option selected disabled value="0">-- Select State --
                                                             </option>
                                                             <option
-                                                                {{ $user->userDetail->state == 'Andaman and Nicobar Islands' ? 'selected' : '' }}
+                                                                {{ $user->userDetail?->state == 'Andaman and Nicobar Islands' ? 'selected' : '' }}
                                                                 value="Andaman and Nicobar Islands">Andaman and Nicobar
                                                                 Islands
                                                             </option>
                                                             <option
-                                                                {{ $user->userDetail->state == 'Andhra Pradesh' ? 'selected' : '' }}
+                                                                {{ $user->userDetail?->state == 'Andhra Pradesh' ? 'selected' : '' }}
                                                                 value="Andhra Pradesh">Andhra Pradesh</option>
                                                             <option
-                                                                {{ $user->userDetail->state == 'Arunachal Pradesh' ? 'selected' : '' }}
+                                                                {{ $user->userDetail?->state == 'Arunachal Pradesh' ? 'selected' : '' }}
                                                                 value="Arunachal Pradesh">Arunachal Pradesh</option>
                                                             <option
-                                                                {{ $user->userDetail->state == 'Assam' ? 'selected' : '' }}
+                                                                {{ $user->userDetail?->state == 'Assam' ? 'selected' : '' }}
                                                                 value="Assam">Assam</option>
                                                             <option
-                                                                {{ $user->userDetail->state == 'Bihar' ? 'selected' : '' }}
+                                                                {{ $user->userDetail?->state == 'Bihar' ? 'selected' : '' }}
                                                                 value="Bihar">Bihar</option>
                                                             <option
-                                                                {{ $user->userDetail->state == 'Chhattisgarh' ? 'selected' : '' }}value="Chhattisgarh">
+                                                                {{ $user->userDetail?->state == 'Chhattisgarh' ? 'selected' : '' }}value="Chhattisgarh">
                                                                 Chhattisgarh</option>
                                                             <option
-                                                                {{ $user->userDetail->state == 'Delhi' ? 'selected' : '' }}
+                                                                {{ $user->userDetail?->state == 'Delhi' ? 'selected' : '' }}
                                                                 value="Delhi">Delhi</option>
                                                             <option
-                                                                {{ $user->userDetail->state == 'Goa' ? 'selected' : '' }}
+                                                                {{ $user->userDetail?->state == 'Goa' ? 'selected' : '' }}
                                                                 value="Goa">Goa</option>
                                                             <option
-                                                                {{ $user->userDetail->state == 'Gujarat' ? 'selected' : '' }}
+                                                                {{ $user->userDetail?->state == 'Gujarat' ? 'selected' : '' }}
                                                                 value="Gujarat">Gujarat</option>
                                                             <option
-                                                                {{ $user->userDetail->state == 'Haryana' ? 'selected' : '' }}
+                                                                {{ $user->userDetail?->state == 'Haryana' ? 'selected' : '' }}
                                                                 value="Haryana">Haryana</option>
                                                             <option
-                                                                {{ $user->userDetail->state == 'Himachal Pradesh' ? 'selected' : '' }}
+                                                                {{ $user->userDetail?->state == 'Himachal Pradesh' ? 'selected' : '' }}
                                                                 value="Himachal Pradesh">Himachal Pradesh</option>
                                                             <option
-                                                                {{ $user->userDetail->state == 'Jammu and Kashmir' ? 'selected' : '' }}
+                                                                {{ $user->userDetail?->state == 'Jammu and Kashmir' ? 'selected' : '' }}
                                                                 value="Jammu and Kashmir">Jammu and Kashmir</option>
                                                             <option
-                                                                {{ $user->userDetail->state == 'Jharkhand' ? 'selected' : '' }}
+                                                                {{ $user->userDetail?->state == 'Jharkhand' ? 'selected' : '' }}
                                                                 value="Jharkhand">Jharkhand</option>
                                                             <option
-                                                                {{ $user->userDetail->state == 'Karnataka' ? 'selected' : '' }}
+                                                                {{ $user->userDetail?->state == 'Karnataka' ? 'selected' : '' }}
                                                                 value="Karnataka">Karnataka</option>
                                                             <option
-                                                                {{ $user->userDetail->state == 'Kerala' ? 'selected' : '' }}
+                                                                {{ $user->userDetail?->state == 'Kerala' ? 'selected' : '' }}
                                                                 value="Kerala">Kerala</option>
                                                             <option
-                                                                {{ $user->userDetail->state == 'Madhya Pradesh' ? 'selected' : '' }}
+                                                                {{ $user->userDetail?->state == 'Madhya Pradesh' ? 'selected' : '' }}
                                                                 value="Madhya Pradesh">Madhya Pradesh</option>
                                                             <option
-                                                                {{ $user->userDetail->state == 'Maharashtra' ? 'selected' : '' }}
+                                                                {{ $user->userDetail?->state == 'Maharashtra' ? 'selected' : '' }}
                                                                 value="Maharashtra">Maharashtra</option>
                                                             <option
-                                                                {{ $user->userDetail->state == 'Manipur' ? 'selected' : '' }}
+                                                                {{ $user->userDetail?->state == 'Manipur' ? 'selected' : '' }}
                                                                 value="Manipur">Manipur</option>
                                                             <option
-                                                                {{ $user->userDetail->state == 'Meghalaya' ? 'selected' : '' }}
+                                                                {{ $user->userDetail?->state == 'Meghalaya' ? 'selected' : '' }}
                                                                 value="Meghalaya">Meghalaya</option>
                                                             <option
-                                                                {{ $user->userDetail->state == 'Mizoram' ? 'selected' : '' }}
+                                                                {{ $user->userDetail?->state == 'Mizoram' ? 'selected' : '' }}
                                                                 value="Mizoram">Mizoram</option>
                                                             <option
-                                                                {{ $user->userDetail->state == 'Nagaland' ? 'selected' : '' }}
+                                                                {{ $user->userDetail?->state == 'Nagaland' ? 'selected' : '' }}
                                                                 value="Nagaland">Nagaland</option>
                                                             <option
-                                                                {{ $user->userDetail->state == 'Odisha' ? 'selected' : '' }}
+                                                                {{ $user->userDetail?->state == 'Odisha' ? 'selected' : '' }}
                                                                 value="Odisha">Odisha</option>
                                                             <option
-                                                                {{ $user->userDetail->state == 'Punjab' ? 'selected' : '' }}
+                                                                {{ $user->userDetail?->state == 'Punjab' ? 'selected' : '' }}
                                                                 value="Punjab">Punjab</option>
                                                             <option
-                                                                {{ $user->userDetail->state == 'Rajasthan' ? 'selected' : '' }}
+                                                                {{ $user->userDetail?->state == 'Rajasthan' ? 'selected' : '' }}
                                                                 value="Rajasthan">Rajasthan</option>
                                                             <option
-                                                                {{ $user->userDetail->state == 'Sikkim' ? 'selected' : '' }}
+                                                                {{ $user->userDetail?->state == 'Sikkim' ? 'selected' : '' }}
                                                                 value="Sikkim">Sikkim</option>
                                                             <option
-                                                                {{ $user->userDetail->state == 'Tamil Nadu' ? 'selected' : '' }}
+                                                                {{ $user->userDetail?->state == 'Tamil Nadu' ? 'selected' : '' }}
                                                                 value="Tamil Nadu">Tamil Nadu</option>
                                                             <option
-                                                                {{ $user->userDetail->state == 'Telangana' ? 'selected' : '' }}
+                                                                {{ $user->userDetail?->state == 'Telangana' ? 'selected' : '' }}
                                                                 value="Telangana">Telangana</option>
                                                             <option
-                                                                {{ $user->userDetail->state == 'Uttar Pradesh' ? 'selected' : '' }}
+                                                                {{ $user->userDetail?->state == 'Uttar Pradesh' ? 'selected' : '' }}
                                                                 value="Uttar Pradesh">Uttar Pradesh</option>
                                                             <option
-                                                                {{ $user->userDetail->state == 'Uttarakhand' ? 'selected' : '' }}
+                                                                {{ $user->userDetail?->state == 'Uttarakhand' ? 'selected' : '' }}
                                                                 value="Uttarakhand">Uttarakhand</option>
                                                             <option
-                                                                {{ $user->userDetail->state == 'West Bengal' ? 'selected' : '' }}
+                                                                {{ $user->userDetail?->state == 'West Bengal' ? 'selected' : '' }}
                                                                 value="West Bengal">West Bengal</option>
                                                         </select>
                                                     </div>
                                                     <div class="col-md-6 form-group">
                                                         <label>Country</label>
                                                         <input type="text" class="form-control"
-                                                            value="{{ $user->userDetail->country }}" name="country">
+                                                            value="{{ $user->userDetail?->country }}" name="country">
                                                     </div>
                                                     <div class="col-md-6 form-group">
                                                         <label>Pin Code</label>
                                                         <input type="text" class="form-control"
-                                                            value="{{ $user->userDetail->pincode }}" name="pin_code">
+                                                            value="{{ $user->userDetail?->pincode }}" name="pin_code">
                                                     </div>
                                                     <div class="form-group mb--0">
                                                         <input type="submit" class="axil-btn" value="Save Changes">

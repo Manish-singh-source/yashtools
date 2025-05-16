@@ -66,8 +66,8 @@
         }
 
         /**
-                                                                    * Slider Instance
-                                                                    */
+                                                                                    * Slider Instance
+                                                                                    */
 
         .swiper {
             -webkit-user-select: none;
@@ -97,8 +97,8 @@
         }
 
         /**
-                                                                    * Slider Navigation
-                                                                    */
+                                                                                    * Slider Navigation
+                                                                                    */
 
         .slider-nav {
             display: flex;
@@ -152,8 +152,8 @@
         }
 
         /**
-                                                                    * Slider Pagination
-                                                                    */
+                                                                                    * Slider Pagination
+                                                                                    */
 
         .slider-pagination {
             display: flex;
@@ -183,8 +183,8 @@
         }
 
         /**
-                                                                    * Slider Item
-                                                                    */
+                                                                                    * Slider Item
+                                                                                    */
 
         .swiper-slide {
             width: auto;
@@ -604,9 +604,11 @@
                 <div class="row">
                     <div class="col-lg-12 text-center pb-35">
                         <h2 class="title">Yash Tools Events</h2>
-                        <p>Dive into the world of abstract art, where every stroke and color tells a unique story.<br>
-                            Feel the energy, harmony, and inspiration through captivating works of art.
+                        <p class="mx-auto w-100 w-md-50 text-center">
+                            Discover upcoming events, workshops, and experiences tailored just for you.
+                            Stay informed and never miss out on what's happening around you!
                         </p>
+
                     </div>
                     <div class="col-12">
                         <div class="wrapper base-template__wrapper">
@@ -670,7 +672,7 @@
                                                         @endif
 
                                                         <div class="emotions-slider-item__image">
-                                                            <img src="{{ asset('uploads/events/'.$event->events_image) }}"
+                                                            <img src="{{ asset('uploads/events/' . $event->events_image) }}"
                                                                 alt="Flames of Passion" />
                                                         </div>
 
@@ -697,8 +699,7 @@
                                                 <div class="emotions-slider__slide swiper-slide">
                                                     <div class="emotions-slider__item emotions-slider-item">
                                                         <div class="emotions-slider-item__image">
-                                                            <img src="uploads/events/"
-                                                                alt="No Event Added" />
+                                                            <img src="uploads/events/" alt="No Event Added" />
                                                         </div>
 
                                                         <div class="emotions-slider-item__content">

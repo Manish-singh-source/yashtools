@@ -54,6 +54,7 @@ Route::get('/notifications/all', [AdminController::class, 'allNotifications'])->
 Route::get('send-email', [EmailController::class, 'sendEmail']);
 Route::post('/newsletter', [EmailController::class, 'sendNewsletter'])->name('Newsletter.store');
 Route::get('/events', [HomeController::class, 'events'])->name('user.event');;
+Route::get('/search-products', [HomeController::class, 'searchProducts'])->name('search.products');;
 
 
 // user routes: pages

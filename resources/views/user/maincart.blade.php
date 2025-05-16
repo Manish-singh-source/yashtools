@@ -95,7 +95,7 @@
                             @empty
                                 <tbody>
                                     <tr>
-                                        <td class="text-center" colspan="7">You Don't have any cart itmes <a
+                                        <td class="text-center" colspan="7">You don't have any items in your cart. <a
                                                 href="{{ route('user.product.category') }}">Shop Now</a></td>
                                     </tr>
                                 </tbody>

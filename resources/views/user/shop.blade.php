@@ -43,26 +43,27 @@
                                 <button class="sidebar-close filter-close-btn"><i class="fas fa-times"></i></button>
                             </div>
                             <div class="toggle-list product-categories active">
-                                <h6 class="title">CATEGORY</h6>
+                                <h6 class="title text-uppercase">CATEGORY</h6>
                                 <div class="shop-submenu">
                                     <ul id="category_filter">
                                         @forelse ($categories as $category)
                                             @if (!is_null($selectedCategories) && $selectedCategories == $category->category_slug)
-                                                <li class="chosen" data-categoryid="{{ $category->id }}"><a
-                                                        href="#">{{ $category->category_name }}</a></li>
+                                                <li class="chosen" data-categoryid="{{ $category->id }}"><a href="#"
+                                                        class="text-uppercase">{{ $category->category_name }}</a></li>
                                             @else
-                                                <li data-categoryid="{{ $category->id }}"><a
-                                                        href="#">{{ $category->category_name }}</a></li>
+                                                <li data-categoryid="{{ $category->id }}"><a href="#"
+                                                        class="text-uppercase">{{ $category->category_name }}</a></li>
                                             @endif
                                         @empty
-                                            <li class="current-cat"><a href="#">Night Care</a></li>
+                                            <li class="current-cat"><a href="#" class="text-uppercase">No Category
+                                                    Found</a></li>
                                         @endforelse
                                     </ul>
                                 </div>
                             </div>
 
                             <div class="toggle-list product-categories product-subcategories-section active">
-                                <h6 class="title">SUB CATEGORY</h6>
+                                <h6 class="title text-uppercase">SUB CATEGORY</h6>
                                 <div class="shop-submenu">
                                     <ul id="sub_category_filter">
 
@@ -76,24 +77,25 @@
                                     <ul id="brand_filter">
                                         @forelse ($brands as $brand)
                                             @if (!is_null($selectedCategories) && $selectedCategories == $brand->brand_slug)
-                                                <li class="chosen" data-brandid="{{ $brand->id }}"><a
-                                                        href="#">{{ $brand->brand_name }}</a></li>
+                                                <li class="chosen" data-brandid="{{ $brand->id }}"><a href="#"
+                                                        class="text-uppercase">{{ $brand->brand_name }}</a></li>
                                             @else
-                                                <li data-brandid="{{ $brand->id }}"><a
-                                                        href="#">{{ $brand->brand_name }}</a></li>
+                                                <li data-brandid="{{ $brand->id }}"><a href="#"
+                                                        class="text-uppercase">{{ $brand->brand_name }}</a></li>
                                             @endif
                                         @empty
-                                            <li class="chosen"><a href="#">Men (40)</a></li>
+                                            <li class="chosen"><a href="#" class="text-uppercase">No Brand Found</a>
+                                            </li>
                                         @endforelse
                                     </ul>
                                 </div>
                             </div>
                             <div class="toggle-list product-categories product-gender active">
-                                <h6 class="title">NEW PRODUCTS & OFFERS</h6>
+                                <h6 class="title text-uppercase">NEW PRODUCTS & OFFERS</h6>
                                 <div class="shop-submenu">
                                     <ul id="tags_filter">
-                                        <li data-tagid="new"><a href="#">NEW PRODUCTS</a></li>
-                                        <li data-tagid="offer"><a href="#">OFFERS</a></li>
+                                        <li data-tagid="new"><a href="#" class="text-uppercase">NEW PRODUCTS</a></li>
+                                        <li data-tagid="offer"><a href="#" class="text-uppercase">OFFERS</a></li>
                                     </ul>
                                 </div>
                             </div>
@@ -109,7 +111,7 @@
                                         class="category-select align-items-center justify-content-lg-end justify-content-between">
                                         <!-- Start Single Select  -->
                                         <select class="single-select" id="sort_by">
-                                            <option value="">Sort By</option>
+                                            <option value="" selected disabled>Sort By</option>
                                             <option value="latest">Short by Latest</option>
                                             <option value="by_name">Short by Name</option>
                                         </select>
@@ -194,7 +196,7 @@
                                         </div>
                                         <div class="product-content">
                                             <div class="inner">
-                                                <h5 class="title"><a
+                                                <h5 class="title text-uppercase"><a
                                                         href="/single-product/${product.product_slug}">${product.product_name}</a>
                                                 </h5>
                                             </div>
@@ -208,21 +210,21 @@
                         $('#pagination_links').html(''); // Clear existing pagination
 
                         if (response.links) {
-                                let paginationHtml = `<div class="text-center pt--30">
+                            let paginationHtml = `<div class="text-center pt--30">
                                                         <div class="center">
                                                     <div class="pagination">`;
 
-                                $.each(response.links, function(index, link) {
-                                    if (link.url) {
-                                        let activeClass = link.active ? 'active' : '';
-                                        paginationHtml +=
-                                            `<a href="javascript:void(0)" class="pagination-link ${activeClass}" data-page="${link.url}">${link.label}</a>`;
-                                    }
-                                });
+                            $.each(response.links, function(index, link) {
+                                if (link.url) {
+                                    let activeClass = link.active ? 'active' : '';
+                                    paginationHtml +=
+                                        `<a href="javascript:void(0)" class="pagination-link ${activeClass}" data-page="${link.url}">${link.label}</a>`;
+                                }
+                            });
 
-                                paginationHtml += `</div></div></div>`;
+                            paginationHtml += `</div></div></div>`;
 
-                                $('#pagination_links').append(paginationHtml);
+                            $('#pagination_links').append(paginationHtml);
                         }
 
                     }
@@ -316,7 +318,7 @@
                         $('#sub_category_filter').html('');
                         $.each(response, function(index, product) {
                             $('#sub_category_filter').append(
-                                `<li data-subcategoryid="${product.id}"><a href="#">${product.sub_category_name}</a></li>`
+                                `<li data-subcategoryid="${product.id}"><a href="#" class="text-uppercase">${product.sub_category_name}</a></li>`
                             );
                         });
                     }

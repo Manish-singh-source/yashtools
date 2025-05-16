@@ -199,7 +199,7 @@
                                                     </div>
                                                 @enderror
                                             </div>
-                                            <div class="form-group">
+                                            <div class="col-md-4 form-group">
                                                 <button type="submit" class="axil-btn btn-bg-primary submit-btn">Sign
                                                     Up</button>
                                             </div>

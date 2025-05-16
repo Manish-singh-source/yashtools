@@ -9160,7 +9160,7 @@ button.axil-btn.btn-size-md i {
     bottom: 18px
 }
 
-@media only screen and (max-width: 991px) {
+@media only screen and (max-width: 1199px) {
     .header-main-nav .mainmenu-nav {
         display: block;
         position: fixed;
@@ -9295,7 +9295,7 @@ button.axil-btn.btn-size-md i {
     font-size: 12px
 }
 
-@media only screen and (min-width: 992px) {
+@media only screen and (min-width: 1199px) {
     .mobile-close-btn {
         display: none
     }
@@ -9314,7 +9314,7 @@ button.axil-btn.btn-size-md i {
     max-height: 35px
 }
 
-@media only screen and (min-width: 992px) {
+@media only screen and (min-width: 1199px) {
     .mobile-nav-brand {
         display: none
     }
@@ -9324,7 +9324,7 @@ button.axil-btn.btn-size-md i {
     margin-left: 30px
 }
 
-@media only screen and (min-width: 992px) {
+@media only screen and (min-width: 1199px) {
     .axil-mobile-toggle {
         display: none
     }
@@ -9396,7 +9396,7 @@ button.axil-btn.btn-size-md i {
     width: 150px
 }
 
-@media only screen and (max-width: 991px) {
+@media only screen and (max-width: 1199px) {
     .mainmenu-nav {
         display: none
     }
@@ -14014,7 +14014,7 @@ body.open .closeMask {
 }
 
 .axil-signin-form .singin-form {
-    padding-bottom: 30px
+    /* padding-bottom: 30px */
 }
 
 .axil-signin-form .title {
@@ -21598,7 +21598,7 @@ h2.title {
 }
 
 /* Responsive Styles */
-@media (max-width: 768px) {
+@media (max-width: 1199px) {
     .axil-megamenu {
         width: 100%;
         position: static;

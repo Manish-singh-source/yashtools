@@ -33,6 +33,54 @@
             color: #303667;
             border-radius: 26px;
         }
+
+        input[type='search'] {
+            padding: 5px 10px;
+            height: revert-layer;
+            border: 1px solid gray;
+            background-color: #fff;
+            margin-right: 20px;
+            border-radius: 5px;
+            width: 100%
+        }
+
+        @media only screen and (max-width: 767px) {
+            input[type='search'] {
+                width: 100%;
+                background-position-x: 95%;
+            }
+        }
+
+        .suggestions {
+            display: none;
+            position: absolute;
+            z-index: 999;
+            padding: 20px;
+            background-color: #f0f0f0;
+            width: 400px;
+            min-height: 100px;
+            max-height: 550px;
+            margin-top: 11px;
+            border-radius: 10px;
+            overflow-x: hidden;
+            overflow-y: scroll;
+        }
+
+        .suggestions::-webkit-scrollbar {
+            display: none;
+        }
+
+        .suggestions {
+            -ms-overflow-style: none;
+            scrollbar-width: none;
+        }
+
+        .suggestions .suggestion-list-item {
+            /* background-color: #9ad7ff; */
+            background-color: #fff;
+            padding: 5px 10px;
+            margin-top: 5px;
+        }
     </style>
     @yield('style')
 </head>
@@ -67,6 +115,52 @@
     <!-- Main JS -->
     <script src="{{ asset('assets/js/main.js') }}"></script>
     @yield('script')
+
+    <script>
+        $(document).ready(function() {
+
+            $(document).on('click', function(event) {
+                const $target = $(event.target);
+
+                if (!$target.closest('.suggestions, .search-input').length) {
+                    // Hide the suggestions container
+                    $('.suggestions').hide();
+
+                    // Clear the input field
+                    $('.search-input').val('');
+                }
+            });
+
+
+            $(".search-input").on("input", function() {
+                $("#product-list-suggestions").show();
+                let searchItem = $(this).val();
+
+                $.ajax({
+                    url: "/search-products",
+                    type: "GET",
+                    data: {
+                        searchItem: searchItem,
+                    },
+                    success: function(response) {
+                        console.log(response)
+                        $('#product-list-suggestions').html('');
+                        $.each(response, function(index, product) {
+                            $('#product-list-suggestions').append(
+                                `<div data-suggestionid="${product.id}" class="suggestion-list-item">
+                                    <div class="d-flex gap-2">
+                                        <img src="/uploads/products/thumbnails/${product.product_thumbain}" width="50px" alt="">
+                                        <a href="/product-detail-info/${product.product_slug}">${product.product_name}</a>
+                                    </div>
+                                </div>`
+                            );
+                        });
+                    }
+                });
+            });
+
+        });
+    </script>
 </body>
 
 </html>

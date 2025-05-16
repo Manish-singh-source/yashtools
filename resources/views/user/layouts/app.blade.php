@@ -27,7 +27,61 @@
     <link rel="stylesheet" href="{{ asset('assets/css/vendor/base.css') }}">
     <link rel="stylesheet" href="{{ asset('assets/css/style.min.css') }}">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css">
+    <style>
+        input[type='search'] {
+            padding: 5px 10px;
+            height: revert-layer;
+            border: 1px solid gray;
+            background-color: #fff;
+            margin-right: 20px;
+            border-radius: 5px;
+        }
 
+        .suggestions {
+            display: none;
+            position: absolute;
+            z-index: 999;
+            padding: 20px;
+            background-color: #f0f0f0;
+            max-width: 400px;
+            min-height: 100px;
+            max-height: 550px;
+            margin-top: 11px;
+            border-radius: 10px;
+            overflow-x: hidden;
+            overflow-y: scroll;
+        }
+
+        .suggestions::-webkit-scrollbar {
+            display: none;
+        }
+
+        .suggestions {
+            -ms-overflow-style: none;
+            scrollbar-width: none;
+        }
+
+        .suggestions .suggestion-list-item {
+            /* background-color: #9ad7ff; */
+            background-color: #fff;
+            padding: 5px 10px;
+            margin-top: 5px;
+        }
+
+        @media only screen and (min-width: 768px)and (max-width: 1199px) {
+            .suggestions {
+                position: absolute;
+                top: 125px;
+            }
+        }
+
+        @media only screen and (max-width: 767px) {
+            .suggestions {
+                position: relative;
+                top: 80px;
+            }
+        }
+    </style>
     @yield('style')
 </head>
 
@@ -62,6 +116,14 @@
                                 </a>
                             </div>
                             <ul class="mainmenu">
+                                <li class="axil-search d-xl-none d-flex">
+                                    <input type="search" class="placeholder product-search-input search-input"
+                                        name="search2" id="search2" value="" maxlength="128"
+                                        placeholder="Search" autocomplete="off">
+                                    <button type="submit" class="icon wooc-btn-search">
+                                        <i class="flaticon-magnifying-glass"></i>
+                                    </button>
+                                </li>
                                 <li><a href="{{ route('user.home') }}">Home</a></li>
                                 <li><a href="{{ route('user.about.us') }}">About Us</a></li>
                                 <li class="menu-item-has-children mega-menu-parent">
@@ -101,9 +163,24 @@
                         </nav>
                         <!-- End Mainmenu Nav -->
                     </div>
+
+                    {{-- <div>
+                        <input type="search" class="search-input"
+                            style="padding: 5px 10px;height: revert-layer;border: 1px solid gray;"
+                            placeholder="Search Product">
+                        <div class="suggestions" id="product-list-suggestions"></div>
+                    </div> --}}
+
                     <div class="header-action">
                         <ul class="action-list">
-
+                            <li class="axil-search d-xl-block d-none">
+                                <input type="search" class="placeholder product-search-input search-input"
+                                    name="search2" id="search2" value="" maxlength="128"
+                                    placeholder="Search" autocomplete="off">
+                                <button type="submit" class="icon wooc-btn-search">
+                                    <i class="flaticon-magnifying-glass"></i>
+                                </button>
+                            </li>
                             <li><a href="{{ route('signin') }}" class="headerlist"><i
                                         class="fas fa-sign-in-alt icon dn"></i> <span>Login</span></a></li>
                             <li><a href="{{ route('signup') }}" class="headerlist"><i
@@ -116,6 +193,7 @@
                                 </button>
                             </li>
                         </ul>
+                        <div class="suggestions" id="product-list-suggestions"></div>
                     </div>
                 </div>
             </div>
@@ -144,7 +222,7 @@
                                 </a>
                             </div>
                             <div class="inner">
-                                <p>YASH TOOLS INDIA PVT. LTD. focuses on collaboration with customers.
+                                <p>YASH TOOLS INDIA LLP. LTD. focuses on collaboration with customers.
                                 </p>
                                 <div class="social-share">
                                     <a href="#"><i class="fab fa-facebook-f"></i></a>
@@ -205,7 +283,7 @@
                                     <li><a href="mailto:sales@yashtools.in" contenteditable="false"
                                             style="cursor: pointer;"><i
                                                 class="fal fa-envelope-open"></i>sales@yashtools.in</a></li>
-                                                <li><a href="mailto:nikhil@yashtools.in" contenteditable="false"
+                                    <li><a href="mailto:nikhil@yashtools.in" contenteditable="false"
                                             style="cursor: pointer;"><i
                                                 class="fal fa-envelope-open"></i>nikhil@yashtools.in</a></li>
                                     <li><a href="tel:+919326178710" contenteditable="false"
@@ -307,6 +385,58 @@
     <script src="{{ asset('assets/js/main.js') }}"></script>
 
     @yield('script')
+    <script>
+        $(document).ready(function() {
+
+            $(document).on('click', function(event) {
+                const $target = $(event.target);
+
+                if (!$target.closest('.suggestions, .search-input').length) {
+                    // Hide the suggestions container
+                    $('.suggestions').hide();
+
+                    // Clear the input field
+                    $('.search-input').val('');
+                }
+            });
+
+
+            $(".search-input").on("input", function() {
+                $("#product-list-suggestions").show();
+                let searchItem = $(this).val();
+
+                $.ajax({
+                    url: "/search-products",
+                    type: "GET",
+                    data: {
+                        searchItem: searchItem,
+                    },
+                    success: function(response) {
+                        
+                        $('#product-list-suggestions').html('');
+                        if (response.length > 0) {
+                            $.each(response, function(index, product) {
+                                $('#product-list-suggestions').append(
+                                    `<div data-suggestionid="${product.id}" class="suggestion-list-item">
+                                    <div class="d-flex gap-2">
+                                        <img src="/uploads/products/thumbnails/${product.product_thumbain}" width="50px" height="50px" alt="">
+                                        <a href="/single-product/${product.product_slug}">${product.product_name}</a>
+                                    </div>
+                                </div>`
+                                );
+                            });
+                        } else {
+                            $('#product-list-suggestions').append(
+                                `No Products Found`
+                            );
+                        }
+
+                    }
+                });
+            });
+
+        });
+    </script>
 </body>
 
 </html>

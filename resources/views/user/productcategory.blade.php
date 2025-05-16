@@ -89,8 +89,26 @@
                     <div class="row">
                         <div class="col-lg-12">
                             <div class="axil-shop-top mb--20">
-                                <div
-                                    class="category-select align-items-center justify-content-lg-end justify-content-between">
+                                <div class="category-select align-items-center justify-content-between">
+                                    <div class="header-action">
+                                        <ul class="action-list m-0">
+                                            <li class="axil-search">
+                                                <input type="search"
+                                                    class="product-search-input search-input bg-light flex-start"
+                                                    name="search2" id="search2" value="" maxlength="128"
+                                                    placeholder="Search" autocomplete="off">
+                                                <button type="submit" class="icon wooc-btn-search">
+                                                    <i class="flaticon-magnifying-glass"></i>
+                                                </button>
+                                            </li>
+                                            {{-- <li class="axil-search d-block">
+                                                <a href="javascript:void(0)" class="header-search-icon mys" title="Search">
+                                                    <i class="flaticon-magnifying-glass"></i>
+                                                </a>
+                                            </li> --}}
+                                        </ul>
+                                        <div class="suggestions" id="product-list-suggestions"></div>
+                                    </div>
                                     <!-- Start Single Select  -->
                                     {{-- <span class="filter-results">Showing
                                         {{ $products->firstItem() }}-{{ $products->lastItem() }} of
@@ -203,21 +221,21 @@
                         if (response.links) {
 
 
-                                let paginationHtml = `<div class="text-center pt--30">
+                            let paginationHtml = `<div class="text-center pt--30">
                                     <div class="center">
                                         <div class="pagination">`;
 
-                                $.each(response.links, function(index, link) {
-                                    if (link.url) {
-                                        let activeClass = link.active ? 'active' : '';
-                                        paginationHtml +=
-                                            `<a href="javascript:void(0)" class="pagination-link ${activeClass}" data-page="${link.url}">${link.label}</a>`;
-                                    }
-                                });
+                            $.each(response.links, function(index, link) {
+                                if (link.url) {
+                                    let activeClass = link.active ? 'active' : '';
+                                    paginationHtml +=
+                                        `<a href="javascript:void(0)" class="pagination-link ${activeClass}" data-page="${link.url}">${link.label}</a>`;
+                                }
+                            });
 
-                                paginationHtml += `</div></div></div>`;
+                            paginationHtml += `</div></div></div>`;
 
-                                $('#pagination_links').append(paginationHtml);
+                            $('#pagination_links').append(paginationHtml);
                         }
 
                     }
@@ -302,20 +320,20 @@
                     $(".product-categories-section").show();
                     $(".product-brands-section").hide();
                     $(".product-new-n-sale-section").hide();
-                } else if (tab == 'Brand') {
+                } else if (tab == 'Brands') {
                     resetFilters()
                     $("#filter-section").show()
                     $("#products-section").removeClass("col-lg-12");
                     $(".product-categories-section").hide();
                     $(".product-brands-section").show();
                     $(".product-new-n-sale-section").hide();
-                } else if (tab == 'Sale') {
+                } else if (tab == 'Offers') {
                     resetFilters()
                     $("#filter-section").hide()
                     $("#products-section").addClass("col-lg-12");
                     $("#tags_filter").children("[data-tagid='offer']").addClass("chosen");
                     fetchProducts();
-                } else if (tab == 'New Products') {
+                } else if (tab == 'New Arrivals') {
                     resetFilters()
                     $("#products-section").addClass("col-lg-12");
                     $("#filter-section").hide()
@@ -352,6 +370,57 @@
                     }
                 });
             }
+
+        });
+    </script>
+    <script>
+        $(document).ready(function() {
+
+            $(document).on('click', function(event) {
+                const $target = $(event.target);
+
+                if (!$target.closest('.suggestions, .search-input').length) {
+                    // Hide the suggestions container
+                    $('.suggestions').hide();
+
+                    // Clear the input field
+                    $('.search-input').val('');
+                }
+            });
+
+
+            $(".search-input").on("input", function() {
+                $("#product-list-suggestions").show();
+                let searchItem = $(this).val();
+
+                $.ajax({
+                    url: "/search-products",
+                    type: "GET",
+                    data: {
+                        searchItem: searchItem,
+                    },
+                    success: function(response) {
+                        $('#product-list-suggestions').html('');
+                        if (response.length > 0) {
+                            $('#product-list-suggestions').html('');
+                            $.each(response, function(index, product) {
+                                $('#product-list-suggestions').append(
+                                    `<div data-suggestionid="${product.id}" class="suggestion-list-item">
+                                    <div class="d-flex gap-2">
+                                        <img src="/uploads/products/thumbnails/${product.product_thumbain}" width="50px" height="50px" alt="">
+                                        <a href="/single-product/${product.product_slug}">${product.product_name}</a>
+                                    </div>
+                                </div>`
+                                );
+                            });
+                        } else {
+                            $('#product-list-suggestions').append(
+                                `No Products Found`
+                            );
+                        }
+                    }
+                });
+            });
 
         });
     </script>

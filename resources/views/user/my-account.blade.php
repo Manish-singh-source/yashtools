@@ -88,7 +88,7 @@
                             </div>
                             <div class="media-body">
                                 <h5 class="title mb-0">Hello Annie</h5>
-                                <span class="joining-date">eTrade Member Since Sep 2020</span>
+                                <span class="joining-date">Yash Tools Member Since Sep 2020</span>
                             </div>
                         </div>
                     </div>

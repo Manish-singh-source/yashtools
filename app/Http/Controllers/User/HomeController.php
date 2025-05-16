@@ -10,6 +10,7 @@ use App\Models\Favourite;
 use App\Models\Categories;
 use Illuminate\Http\Request;
 use App\Models\SubCategories;
+use Illuminate\Support\Facades\DB;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\File;
@@ -26,6 +27,23 @@ class HomeController extends Controller
         $banners = Banner::where('status', '1')->latest()->take(3)->get();
         return view('user.index', compact('categories', 'brands', 'subcategories', 'banners'));
     }
+
+    public function searchProducts(Request $request)
+    {
+        $searchTerm = $request->searchItem; // Get the search input
+
+        $products = Product::where('status', '1')
+            ->when($searchTerm, function ($query, $searchTerm) {
+                return $query->where(function ($q) use ($searchTerm) {
+                    $q->where('product_name', 'like', "%{$searchTerm}%");
+                });
+            })
+            ->get();
+
+        // Return JSON response
+        return response()->json($products);
+    }
+
 
     public function shopView($category = null)
     {
@@ -194,7 +212,7 @@ class HomeController extends Controller
         $events = Event::get();
         return view('user.faq', compact('categories', 'brands', 'subcategories', 'events'));
     }
-    
+
     public function feedback()
     {
         $categories = Categories::orderby('updated_at', 'desc')->limit(8)->get();

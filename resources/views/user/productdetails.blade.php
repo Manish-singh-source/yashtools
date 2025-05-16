@@ -245,11 +245,12 @@
                                 <ol class="breadcrumb">
                                     @foreach ($breadcrumbs as $breadcrumb)
                                         @if (!$loop->last)
-                                            <li class="breadcrumb-item">
+                                            <li class="breadcrumb-item text-capitalize">
                                                 <a href="{{ $breadcrumb['url'] }}">{{ $breadcrumb['name'] }}</a>
                                             </li>
                                         @else
-                                            <li class="breadcrumb-item active" aria-current="page">{{ $breadcrumb['name'] }}
+                                            <li class="breadcrumb-item active text-capitalize" aria-current="page">
+                                                {{ $breadcrumb['name'] }}
                                             </li>
                                         @endif
                                     @endforeach
@@ -272,7 +273,8 @@
                         <div class="col-lg-5 mb--40">
                             <div class="single-product-content">
                                 <div class="inner">
-                                    <h2 class="product-title margbot">{{ $selectedProduct->product_name }}</h2>
+                                    <h2 class="product-title margbot text-capitalize">{{ $selectedProduct->product_name }}
+                                    </h2>
                                     <h6 class="title margbot">Brand: <span
                                             class="spnc">{{ $selectedProduct->brands->brand_name }}</span></h6>
                                     <div class="custom-dropdown margbot" id="dropdown">
