@@ -105,10 +105,10 @@ class EventController extends Controller
         if (!empty($event->eventDate)) {
             $event->events_date = $request->eventDate;
         }
-        if (!empty($event->events_image)) {
-            File::delete(public_path('/uploads/events/' . $event->events_image));
-        }
         if (!empty($request->eventImage)) {
+            if (!empty($event->events_image)) {
+                File::delete(public_path('/uploads/events/' . $event->events_image));
+            }
             $image = $request->eventImage;
             $ext = $image->getClientOriginalExtension();
             $imageName = time() . "." . $ext;
