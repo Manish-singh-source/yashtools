@@ -42,7 +42,7 @@
                                                 <div class="position-relative">
                                                     <div class="avatar-preview">
                                                         <img id="imagePreview"
-                                                            src="{{ asset('uploads/categories/' . $category->category_image) }}"
+                                                            src="{{ asset('/uploads/categories/' . $category->category_image) }}"
                                                             alt="Image Preview" style="width: 200px; height: auto;">
                                                     </div>
                                                     <div class="change-btn d-flex align-items-center flex-wrap">

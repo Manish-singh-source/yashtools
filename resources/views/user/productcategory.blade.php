@@ -199,7 +199,7 @@
                                         <div class="thumbnail">
                                             <a href="/product-detail-info/${product.product_slug}">
                                                 <img
-                                                    src="{{ asset('uploads/products/thumbnails/${product.product_thumbain}') }}"
+                                                    src="{{ asset('/uploads/products/thumbnails/${product.product_thumbain}') }}"
                                                     alt="Product Images">
                                             </a>
                                         </div>

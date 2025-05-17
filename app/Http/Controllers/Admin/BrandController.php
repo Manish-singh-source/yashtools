@@ -31,7 +31,7 @@ class BrandController extends Controller
             $image = $request->brandImage;
             $ext = $image->getClientOriginalExtension();
             $imageName = time() . "." . $ext;
-            $image->move(public_path('uploads/brands'), $imageName);
+            $image->move(public_path('/uploads/brands'), $imageName);
 
             $brand = new Brand();
             $brand->brand_name = $request->brand_name;
@@ -94,7 +94,7 @@ class BrandController extends Controller
             $image = $request->brandImage;
             $ext = $image->getClientOriginalExtension();
             $imageName = time() . "." . $ext;
-            $image->move(public_path('uploads/brands'), $imageName);
+            $image->move(public_path('/uploads/brands'), $imageName);
 
             $brand->brand_image = $imageName;
         }

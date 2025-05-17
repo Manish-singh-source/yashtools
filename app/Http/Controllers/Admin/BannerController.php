@@ -32,7 +32,7 @@ class BannerController extends Controller
             $image = $request->bannerImage;
             $ext = $image->getClientOriginalExtension();
             $imageName = time() . "." . $ext;
-            $image->move(public_path('uploads/banner'), $imageName);
+            $image->move(public_path('/uploads/banner'), $imageName);
 
             $banner->banner_image = $imageName;
         }
@@ -109,7 +109,7 @@ class BannerController extends Controller
             $image = $request->banner_image;
             $ext = $image->getClientOriginalExtension();
             $imageName = time() . "." . $ext;
-            $image->move(public_path('uploads/banner'), $imageName);
+            $image->move(public_path('/uploads/banner'), $imageName);
 
             $banner->banner_image = $imageName;
         }

@@ -147,7 +147,7 @@
                                                 </td>
                                                 <td style="width: 30%;">
                                                     <div class="d-flex align-items-center">
-                                                        <img src="{{ asset('uploads/profile/' . $admin->profile) }}"
+                                                        <img src="{{ asset('/uploads/profile/' . $admin->profile) }}"
                                                             class="rounded-lg me-2" width="40" alt="">
                                                     </div>
                                                 </td>

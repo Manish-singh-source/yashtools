@@ -76,7 +76,7 @@
                                                         <tr>
                                                             <td>{{ $key + 1 }}</td>
                                                             <td><img width="40" height="40"
-                                                                    src="{{ asset('uploads/products/thumbnails/' . $order->products[0]->product->product_thumbain) }}" />
+                                                                    src="{{ asset('/uploads/products/thumbnails/' . $order->products[0]->product->product_thumbain) }}" />
                                                             </td>
                                                             <td>{{ $order->products[0]->product->product_name }}</td>
                                                             <td>{{ $order->part_number }}</td>
@@ -115,7 +115,7 @@
                                     <div class="card-body">
                                         <p><strong>Purchase Order:</strong>
                                             @isset($poInfo->id)
-                                                <a href="{{ asset('uploads/po_file/' . $poInfo->po_file) }}"
+                                                <a href="{{ asset('/uploads/po_file/' . $poInfo->po_file) }}"
                                                     class="btn btn-sm btn-success" target="_blank">
                                                     Download Purchase Order
                                                 </a>
@@ -125,7 +125,7 @@
                                         </p>
                                         <p><strong>Invoice File:</strong>
                                             @if ($invoiceDetails->invoice_file)
-                                                <a href="{{ asset('uploads/invoices/' . $invoiceDetails->invoice_file) }}"
+                                                <a href="{{ asset('/uploads/invoices/' . $invoiceDetails->invoice_file) }}"
                                                     class="btn btn-sm btn-success" target="_blank">
                                                     Download Invoice
                                                 </a>

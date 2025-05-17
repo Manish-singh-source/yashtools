@@ -66,8 +66,8 @@
         }
 
         /**
-                                                                                    * Slider Instance
-                                                                                    */
+                                                                                        * Slider Instance
+                                                                                        */
 
         .swiper {
             -webkit-user-select: none;
@@ -97,8 +97,8 @@
         }
 
         /**
-                                                                                    * Slider Navigation
-                                                                                    */
+                                                                                        * Slider Navigation
+                                                                                        */
 
         .slider-nav {
             display: flex;
@@ -152,8 +152,8 @@
         }
 
         /**
-                                                                                    * Slider Pagination
-                                                                                    */
+                                                                                        * Slider Pagination
+                                                                                        */
 
         .slider-pagination {
             display: flex;
@@ -183,8 +183,8 @@
         }
 
         /**
-                                                                                    * Slider Item
-                                                                                    */
+                                                                                        * Slider Item
+                                                                                        */
 
         .swiper-slide {
             width: auto;
@@ -672,7 +672,7 @@
                                                         @endif
 
                                                         <div class="emotions-slider-item__image">
-                                                            <img src="{{ asset('uploads/events/' . $event->events_image) }}"
+                                                            <img src="{{ asset('/uploads/events/' . $event->events_image) }}"
                                                                 alt="Flames of Passion" />
                                                         </div>
 

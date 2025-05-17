@@ -62,7 +62,7 @@
                                             <td class="product-thumbnail">
                                                 <a
                                                     href="{{ route('user.product.details', $cartItem->products->product_slug) }}"><img
-                                                        src="{{ asset('uploads/products/thumbnails/' . $cartItem->products->product_thumbain) }}"
+                                                        src="{{ asset('/uploads/products/thumbnails/' . $cartItem->products->product_thumbain) }}"
                                                         alt="Digital Product"></a>
                                             </td>
                                             <td class="product-title">
@@ -158,7 +158,7 @@
         $(document).on("click", "#addEnquiry", function() {
             var button = $(this).prop("disabled", true);
             button.find("a").text("Processing...");
-            
+
             let parentTBody = $(this).closest(".cart-items-list");
             let cartList = $(parentTBody).children();
             let cartData = [];

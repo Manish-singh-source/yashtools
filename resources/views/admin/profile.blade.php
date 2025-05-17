@@ -19,15 +19,17 @@
                                         <div class="author-profile">
                                             <div class="author-media">
                                                 @if ($user->profile != '')
-                                                    <img src="{{ asset('uploads/profile/' . $user->profile) }}"
+                                                    <img src="{{ asset('/uploads/profile/' . $user->profile) }}"
                                                         alt="">
                                                 @else
-                                                    <img id="imagePreview" src="{{ asset('admin/assets/images/profile/profile.png') }}"
+                                                    <img id="imagePreview"
+                                                        src="{{ asset('admin/assets/images/profile/profile.png') }}"
                                                         alt="">
                                                 @endif
                                                 <div class="upload-link" title="" data-toggle="tooltip"
                                                     data-placement="right" data-original-title="update">
-                                                    <input type="file"  id="imageUpload" class="update-flie" name="profileImage">
+                                                    <input type="file" id="imageUpload" class="update-flie"
+                                                        name="profileImage">
                                                     <i class="fa fa-camera"></i>
                                                 </div>
                                             </div>

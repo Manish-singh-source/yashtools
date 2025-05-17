@@ -189,8 +189,8 @@
 
                                         </ul>
                                     </div>
-                                    <a class="all-notification" href="{{ route('admin.all.notifications') }}">See all notifications <i
-                                            class="ti-arrow-end"></i></a>
+                                    <a class="all-notification" href="{{ route('admin.all.notifications') }}">See all
+                                        notifications <i class="ti-arrow-end"></i></a>
                                 </div>
                             </li>
 
@@ -200,7 +200,7 @@
                                 <a class="nav-link" href="javascript:void(0);" role="button"
                                     data-bs-toggle="dropdown">
                                     @if (Auth::user()->profile != '')
-                                        <img src="{{ asset('uploads/profile/' . Auth::user()->profile) }}"
+                                        <img src="{{ asset('/uploads/profile/' . Auth::user()->profile) }}"
                                             width="20" alt>
                                     @else
                                         <img src="{{ asset('admin/assets/images/user.jpg') }}" width="20" alt>
@@ -424,7 +424,7 @@
     <script src="{{ asset('admin/assets/vendor/ckeditor/ckeditor.js') }}"></script>
     {{-- <script src="https://cdn.ckeditor.com/ckeditor5/35.3/classic/ckeditor.js"></script> --}}
 
-    
+
     <!-- Dashboard -->
     <script src="{{ asset('admin/assets/js/dashboard/dashboard-1.js') }}"></script>
     @yield('scripts')

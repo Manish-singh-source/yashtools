@@ -221,9 +221,10 @@
             border-color: #007bff;
             /* Focus border color */
         }
+
         p {
-    margin: 0 0 8px;
-}
+            margin: 0 0 8px;
+        }
     </style>
 @endsection
 @section('content')
@@ -243,7 +244,8 @@
                                                 <a href="{{ $breadcrumb['url'] }}">{{ $breadcrumb['name'] }}</a>
                                             </li>
                                         @else
-                                            <li class="breadcrumb-item active text-capitalize" aria-current="page">{{ $breadcrumb['name'] }}
+                                            <li class="breadcrumb-item active text-capitalize" aria-current="page">
+                                                {{ $breadcrumb['name'] }}
                                             </li>
                                         @endif
                                     @endforeach
@@ -257,9 +259,9 @@
                             <div class="single-product-thumbnail-wrap zoom-gallery">
                                 <div class="single-product-thumbnail product-large-thumbnail-3">
                                     <div class="thumbnail">
-                                        <a href="{{ asset('uploads/products/thumbnails/' . $selectedProduct->product_thumbain) }}"
+                                        <a href="{{ asset('/uploads/products/thumbnails/' . $selectedProduct->product_thumbain) }}"
                                             class="popup-zoom">
-                                            <img src="{{ asset('uploads/products/thumbnails/' . $selectedProduct->product_thumbain) }}"
+                                            <img src="{{ asset('/uploads/products/thumbnails/' . $selectedProduct->product_thumbain) }}"
                                                 alt="Product Images">
                                         </a>
                                     </div>
@@ -275,7 +277,8 @@
                         <div class="col-lg-6 mb--40">
                             <div class="single-product-content">
                                 <div class="inner">
-                                    <h2 class="product-title margbot text-capitalize">{{ $selectedProduct->product_name }}</h2>
+                                    <h2 class="product-title margbot text-capitalize">{{ $selectedProduct->product_name }}
+                                    </h2>
                                     <h6 class="title margbot">Brand: <span
                                             class="spnc">{{ $selectedProduct->brands->brand_name }}</span></h6>
                                     <div class="custom-dropdown margbot" id="dropdown">
@@ -302,19 +305,19 @@
                                             @isset($selectedProduct->product_drawing)
                                                 <li>
                                                     <i class="fas fa-pencil-ruler"></i><a target="_blank"
-                                                        href="{{ asset('uploads/products/drawing/' . $selectedProduct->product_drawing) }}">Drawing</a>
+                                                        href="{{ asset('/uploads/products/drawing/' . $selectedProduct->product_drawing) }}">Drawing</a>
                                                 </li>
                                             @endisset
                                             @isset($selectedProduct->product_pdf)
                                                 <li>
                                                     <i class="fas fa-file-pdf"></i> <a target="_blank"
-                                                        href="{{ asset('uploads/products/pdf/' . $selectedProduct->product_pdf) }}">PDF</a>
+                                                        href="{{ asset('/uploads/products/pdf/' . $selectedProduct->product_pdf) }}">PDF</a>
                                                 </li>
                                             @endisset
                                             @isset($selectedProduct->product_catalouge)
                                                 <li>
                                                     <i class="fas fa-book"></i> <a target="_blank"
-                                                        href="{{ asset('uploads/products/catalogue/' . $selectedProduct->product_catalouge) }}">Catalogue</a>
+                                                        href="{{ asset('/uploads/products/catalogue/' . $selectedProduct->product_catalouge) }}">Catalogue</a>
                                                 </li>
                                             @endisset
                                         </ul>
@@ -335,7 +338,8 @@
                                             <input type="hidden" value="inactive" class="status">
                                         @endif
                                     @else
-                                        <a class="wishlist-btn cursor-pointer" id="wishlistBtn" data-productid="{{ $selectedProduct->id }}">
+                                        <a class="wishlist-btn cursor-pointer" id="wishlistBtn"
+                                            data-productid="{{ $selectedProduct->id }}">
                                             <i class="fas fa-heart"></i> Add to Favourites
                                         </a>
                                     @endisset
@@ -408,9 +412,9 @@
                                             <div
                                                 class="single-product-thumbnail product-large-thumbnail-3 axil-product">
                                                 <div class="thumbnail">
-                                                    <a href="{{ asset('uploads/products/product_optional_pdf/' . $selectedProduct->product_optional_pdf) }}"
+                                                    <a href="{{ asset('/uploads/products/product_optional_pdf/' . $selectedProduct->product_optional_pdf) }}"
                                                         class="popup-zoom">
-                                                        <img src="{{ asset('uploads/products/product_optional_pdf/' . $selectedProduct->product_optional_pdf) }}"
+                                                        <img src="{{ asset('/uploads/products/product_optional_pdf/' . $selectedProduct->product_optional_pdf) }}"
                                                             alt="Product Images">
                                                     </a>
                                                 </div>
@@ -467,7 +471,7 @@
                             <div class="thumbnail">
                                 <a href="{{ route('user.single.product', $product->product_slug) }}">
                                     <img data-sal="fade" data-sal-delay="100" data-sal-duration="1500"
-                                        src="{{ asset('uploads/products/thumbnails/' . $product->product_thumbain) }}"
+                                        src="{{ asset('/uploads/products/thumbnails/' . $product->product_thumbain) }}"
                                         alt="Product Images">
                                 </a>
                             </div>

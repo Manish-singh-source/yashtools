@@ -64,7 +64,7 @@ class ProductsController extends Controller
             $product_specs = $request->product_specs;
             $excelExt = $product_specs->getClientOriginalExtension();
             $filename = time() . "." . $excelExt;
-            $product_specs->move(public_path('uploads/products/product_specs'), $filename);
+            $product_specs->move(public_path('/uploads/products/product_specs'), $filename);
             $product->product_specs = $filename;
         }
 
@@ -72,7 +72,7 @@ class ProductsController extends Controller
             $product_optional_pdf = $request->product_optional_pdf;
             $opPdfFile = $product_optional_pdf->getClientOriginalExtension();
             $opFile = time() . "." . $opPdfFile;
-            $product_optional_pdf->move(public_path('uploads/products/product_optional_pdf'), $opFile);
+            $product_optional_pdf->move(public_path('/uploads/products/product_optional_pdf'), $opFile);
             $product->product_optional_pdf = $opFile;
         }
 
@@ -80,7 +80,7 @@ class ProductsController extends Controller
             $image1 = $request->product_image;
             $ext1 = $image1->getClientOriginalExtension();
             $imageName1 = time() . "." . $ext1;
-            $image1->move(public_path('uploads/products/thumbnails'), $imageName1);
+            $image1->move(public_path('/uploads/products/thumbnails'), $imageName1);
             $product->product_thumbain = $imageName1;
 
             // converting image as thumbnail
@@ -102,7 +102,7 @@ class ProductsController extends Controller
             $image2 = $request->product_pdf;
             $ext2 = $image2->getClientOriginalExtension();
             $imageName2 = time() . "." . $ext2;
-            $image2->move(public_path('uploads/products/pdf'), $imageName2);
+            $image2->move(public_path('/uploads/products/pdf'), $imageName2);
             $product->product_pdf = $imageName2;
         }
 
@@ -111,7 +111,7 @@ class ProductsController extends Controller
             $image3 = $request->product_catalogue;
             $ext3 = $image3->getClientOriginalExtension();
             $imageName3 = time() . "." . $ext3;
-            $image3->move(public_path('uploads/products/catalogue'), $imageName3);
+            $image3->move(public_path('/uploads/products/catalogue'), $imageName3);
             $product->product_catalouge = $imageName3;
         }
 
@@ -120,7 +120,7 @@ class ProductsController extends Controller
             $image4 = $request->product_drawing;
             $ext4 = $image4->getClientOriginalExtension();
             $imageName4 = time() . "." . $ext4;
-            $image4->move(public_path('uploads/products/drawing'), $imageName4);
+            $image4->move(public_path('/uploads/products/drawing'), $imageName4);
             $product->product_drawing = $imageName4;
         }
 
@@ -232,7 +232,7 @@ class ProductsController extends Controller
             $product_specs = $request->product_specs;
             $excelExt = $product_specs->getClientOriginalExtension();
             $filename = time() . "." . $excelExt;
-            $product_specs->move(public_path('uploads/products/product_specs'), $filename);
+            $product_specs->move(public_path('/uploads/products/product_specs'), $filename);
             $product->product_specs = $filename;
         }
 
@@ -243,7 +243,7 @@ class ProductsController extends Controller
             $product_optional_pdf = $request->product_optional_pdf;
             $opPdfFile = $product_optional_pdf->getClientOriginalExtension();
             $opFile = time() . "." . $opPdfFile;
-            $product_optional_pdf->move(public_path('uploads/products/product_optional_pdf'), $opFile);
+            $product_optional_pdf->move(public_path('/uploads/products/product_optional_pdf'), $opFile);
             $product->product_optional_pdf = $opFile;
         }
 
@@ -256,7 +256,7 @@ class ProductsController extends Controller
             $image1 = $request->product_image;
             $ext1 = $image1->getClientOriginalExtension();
             $imageName1 = time() . "." . $ext1;
-            $image1->move(public_path('uploads/products/thumbnails'), $imageName1);
+            $image1->move(public_path('/uploads/products/thumbnails'), $imageName1);
             $product->product_thumbain = $imageName1;
         }
 
@@ -270,7 +270,7 @@ class ProductsController extends Controller
             $image2 = $request->product_pdf;
             $ext2 = $image2->getClientOriginalExtension();
             $imageName2 = time() . "." . $ext2;
-            $image2->move(public_path('uploads/products/pdf'), $imageName2);
+            $image2->move(public_path('/uploads/products/pdf'), $imageName2);
             $product->product_pdf = $imageName2;
         }
 
@@ -284,7 +284,7 @@ class ProductsController extends Controller
             $image3 = $request->product_catalogue;
             $ext3 = $image3->getClientOriginalExtension();
             $imageName3 = time() . "." . $ext3;
-            $image3->move(public_path('uploads/products/catalogue'), $imageName3);
+            $image3->move(public_path('/uploads/products/catalogue'), $imageName3);
             $product->product_catalouge = $imageName3;
         }
 
@@ -298,7 +298,7 @@ class ProductsController extends Controller
             $image4 = $request->product_drawing;
             $ext4 = $image4->getClientOriginalExtension();
             $imageName4 = time() . "." . $ext4;
-            $image4->move(public_path('uploads/products/drawing'), $imageName4);
+            $image4->move(public_path('/uploads/products/drawing'), $imageName4);
             $product->product_drawing = $imageName4;
         }
 

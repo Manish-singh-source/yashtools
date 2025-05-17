@@ -32,7 +32,7 @@ class CategoriesController extends Controller
             $image = $request->categoryImage;
             $ext = $image->getClientOriginalExtension();
             $imageName = time() . "." . $ext;
-            $image->move(public_path('uploads/categories'), $imageName);
+            $image->move(public_path('/uploads/categories'), $imageName);
 
             $category = new Categories();
             $category->category_name = $request->category_name;
@@ -95,7 +95,7 @@ class CategoriesController extends Controller
             $image = $request->categoryImage;
             $ext = $image->getClientOriginalExtension();
             $imageName = time() . "." . $ext;
-            $image->move(public_path('uploads/categories'), $imageName);
+            $image->move(public_path('/uploads/categories'), $imageName);
             $category->category_image = $imageName;
         }
         $category->save();

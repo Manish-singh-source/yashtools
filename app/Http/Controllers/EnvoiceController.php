@@ -39,7 +39,7 @@ class EnvoiceController extends Controller
             $image2 = $request->invoice_file;
             $ext2 = $image2->getClientOriginalExtension();
             $imageName2 = time() . "." . $ext2;
-            $image2->move(public_path('uploads/invoices/'), $imageName2);
+            $image2->move(public_path('/uploads/invoices/'), $imageName2);
             $invoice->invoice_file = $imageName2;
         }
         $invoice->save();
@@ -77,7 +77,7 @@ class EnvoiceController extends Controller
             $image2 = $request->invoice_file;
             $ext2 = $image2->getClientOriginalExtension();
             $imageName2 = time() . "." . $ext2;
-            $image2->move(public_path('uploads/invoices/'), $imageName2);
+            $image2->move(public_path('/uploads/invoices/'), $imageName2);
             $invoice->invoice_file = $imageName2;
         }
         $invoice->save();

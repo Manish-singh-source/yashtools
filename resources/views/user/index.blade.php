@@ -198,7 +198,7 @@
 
         <div class="slider">
             @foreach ($banners as $banner)
-                <div class="slide" style="background-image: url({{ asset('uploads/banner/' . $banner->banner_image) }})">
+                <div class="slide" style="background-image: url({{ asset('/uploads/banner/' . $banner->banner_image) }})">
                     <div>
                         <h1 class="banner-heding">{{ $banner->banner_title }}</h1>
                         <p>{{ $banner->banner_description }}</p>
@@ -223,7 +223,7 @@
                                     <div class="thumbnail">
                                         <a href="{{ route('user.shop', $category->category_slug) }}">
                                             <img data-sal="fade" data-sal-delay="100" data-sal-duration="1500"
-                                                src="{{ asset('uploads/categories/' . $category->category_image) }}"
+                                                src="{{ asset('/uploads/categories/' . $category->category_image) }}"
                                                 alt="Product Images">
                                         </a>
                                     </div>
@@ -260,7 +260,7 @@
                                     <div class="thumbnail">
                                         <a href="{{ route('user.shop', $brand->brand_slug) }}">
                                             <img data-sal="fade" data-sal-delay="100" data-sal-duration="1500"
-                                                src="{{ asset('uploads/brands/' . $brand->brand_image) }}"
+                                                src="{{ asset('/uploads/brands/' . $brand->brand_image) }}"
                                                 alt="Product Images">
                                         </a>
                                     </div>
@@ -305,7 +305,8 @@
                             <div class="row">
                                 <div class="col-lg-12 how-to-sell">
 
-                                    <p style="margin-bottom: 7px;">YASH TOOLS was founded on the principle of working together with our
+                                    <p style="margin-bottom: 7px;">YASH TOOLS was founded on the principle of working
+                                        together with our
                                         customers to fully understand your individual applications and needs and making
                                         every effort to provide you with the best possible solutions.
 
@@ -313,29 +314,34 @@
                                         the best technology, providing ongoing service, and continuous follow-up to ensure
                                         our solutions are exceeding all your requirements.
                                     </p>
-                                    <p style="margin-bottom: 7px;">Today most companies are facing ever increasing pressure to reduce costs and improve
+                                    <p style="margin-bottom: 7px;">Today most companies are facing ever increasing pressure
+                                        to reduce costs and improve
                                         productivity. Reducing costs goes beyond the simple cost of acquisition of tools,
                                         equipments and other supplies. We need to look at the Total Cost of Production.
                                         Focusing solely on the basic cost of acquisition is doomed to failure.
                                     </p>
-                                    <p style="margin-bottom: 7px;">Reducing the Total Cost of Production requires examining many factors such as the
+                                    <p style="margin-bottom: 7px;">Reducing the Total Cost of Production requires examining
+                                        many factors such as the
                                         tools, machines, technology, processes, operator training and methods. To achieve
                                         the goal of reducing the Total Cost of Production we need the cooperation of the
                                         entire team from purchasing, engineering, operators and suppliers.
                                     </p>
-                                    <p style="margin-bottom: 7px;">YASH TOOLS fills the role of tool supplier. We have years of experience examining
+                                    <p style="margin-bottom: 7px;">YASH TOOLS fills the role of tool supplier. We have years
+                                        of experience examining
                                         applications and processes from all over the world. It is our goal to work with you
                                         as a member of your team to introduce and evaluate all the possible options for your
                                         applications.
                                     </p>
-                                    <p style="margin-bottom: 7px;" class="moretext">We don’t simply sell our products, we work as a member of your
+                                    <p style="margin-bottom: 7px;" class="moretext">We don’t simply sell our products, we
+                                        work as a member of your
                                         company to provide
                                         with the best solutions to reduce your Total Cost of production and increase your
                                         capabilities. Bring us your problems, your difficult applications, your worst
                                         materials, your tightest tolerances, your biggest headaches we will find a solution
                                         that will help you deliver your product on time and in specification.
                                     </p>
-                                    <p style="margin-bottom: 7px;" class="moretext">As set forth in our guiding policy: ”Our customers are the most
+                                    <p style="margin-bottom: 7px;" class="moretext">As set forth in our guiding policy: ”Our
+                                        customers are the most
                                         important part of
                                         our business. Without them we would not be here.”
                                     </p><a class="moreless-button rem">Read more</a>
@@ -536,7 +542,7 @@
                     @method('POST')
                     <div class="etrade-newsletter-wrapper bg_image ">
                         <!-- <div class="newsletter-content">
-                                                                                                                                <span class="title-highlighter highlighter-primary2">Newsletter</span> -->
+                                                                                                                                    <span class="title-highlighter highlighter-primary2">Newsletter</span> -->
                         {{-- <img src="./assets/images/logo/logo.png" alt=""> --}}
                         <h2 class="title mb--40 mb_sm--30">Subscribe to Stay Updated</h2>
                         <div class="input-group newsletter-form">

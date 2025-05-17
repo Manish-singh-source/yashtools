@@ -55,7 +55,7 @@
                                             <tr>
                                                 <td>
                                                     <div class="d-flex align-items-center">
-                                                        <img src="{{ asset('uploads/products/thumbnails/' . $product->products[0]->product->product_thumbain) }}"
+                                                        <img src="{{ asset('/uploads/products/thumbnails/' . $product->products[0]->product->product_thumbain) }}"
                                                             class="rounded-lg me-2" width="40" alt="">
                                                         <div>
                                                             <h6 class="w-space-no mb-0 fs-14 font-w600">
@@ -96,7 +96,7 @@
                             <div class="card-body">
                                 <div class="col-md-6 mb-3">
                                     <div class="col-lg-3 col-sm-6">
-                                        <a href="{{ asset('uploads/po_file/' . $poInfo->po_file) }}" target="_blank">
+                                        <a href="{{ asset('/uploads/po_file/' . $poInfo->po_file) }}" target="_blank">
                                             <div class="d-flex align-items-center">
                                                 <div class="me-3">
                                                     <img src="{{ asset('admin/assets/images/files/pdf.png') }}" width="35"
@@ -257,7 +257,7 @@
                                             <div>Attached Invoice</div>
                                             <div>
                                                 <div class="col-lg-3 col-sm-6">
-                                                    <a href="{{ asset('uploads/invoices/' . $invoice->invoice_file) }}"
+                                                    <a href="{{ asset('/uploads/invoices/' . $invoice->invoice_file) }}"
                                                         target="_blank">
                                                         <div class="d-flex align-items-center">
                                                             <div class="me-3">

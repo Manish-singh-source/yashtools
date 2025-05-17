@@ -5,7 +5,7 @@
 @endsection
 
 @section('content-body')
-                                                                                                                                                                                                                                              ***********************************-->
+    ***********************************-->
     <div class="content-body">
         <div class="container-fluid">
 
@@ -24,7 +24,7 @@
                                             <label class="form-label">Product Name</label>
                                             <input type="hidden" class="form-control" name="productId"
                                                 value="{{ $selectedProduct->id }}">
-                                            <input type="text"  placeholder="Enter Product Name"
+                                            <input type="text" placeholder="Enter Product Name"
                                                 class="form-control @error('product_name') is-invalid @enderror"
                                                 name="product_name" value="{{ $selectedProduct->product_name }}">
                                             @error('product_name')
@@ -35,7 +35,7 @@
                                         </div>
                                         <div class="mb-3">
                                             <label class="form-label">Product Quantity</label>
-                                            <input type="number"  placeholder="Enter Product Quantity"
+                                            <input type="number" placeholder="Enter Product Quantity"
                                                 class="form-control @error('product_quantity') is-invalid @enderror"
                                                 name="product_quantity" value="{{ $selectedProduct->product_quantity }}">
                                             @error('product_quantity')
@@ -46,7 +46,7 @@
                                         </div>
                                         <div class="mb-3">
                                             <label class="form-label">Price</label>
-                                            <input type="number"  placeholder="Enter Event Price"
+                                            <input type="number" placeholder="Enter Event Price"
                                                 class="form-control @error('product_price') is-invalid @enderror"
                                                 name="product_price" value="{{ $selectedProduct->product_price }}">
                                             @error('product_price')
@@ -87,7 +87,8 @@
                                         <div class="mb-3">
                                             <label class="form-label">Description</label>
                                             {{-- <div id="ckeditor"></div> --}}
-                                            <textarea placeholder="Enter Event Description" id="ckeditor" class="form-control @error('product_description') is-invalid @enderror" name="product_description"
+                                            <textarea placeholder="Enter Event Description" id="ckeditor"
+                                                class="form-control @error('product_description') is-invalid @enderror" name="product_description"
                                                 style="display: none">{{ $selectedProduct->product_discription }}</textarea>
                                             @error('product_description')
                                                 <div class="invalid-feedback">
@@ -106,7 +107,7 @@
                                             <h6><i class="fas fa-file-alt"></i> Upload Product Description CSV</h6>
                                             <div class="d-flex align-items-center justify-content-between">
                                                 <a id="product_specs_preview"
-                                                    href="{{ asset('uploads/products/product_specs/' . $selectedProduct->product_specs) }}"
+                                                    href="{{ asset('/uploads/products/product_specs/' . $selectedProduct->product_specs) }}"
                                                     target="_blank" class="text-primary fw-bold">
                                                     <i class="fas fa-eye"></i> View Catalogue
                                                 </a>
@@ -127,7 +128,7 @@
 
                                             <div class="d-flex align-items-center justify-content-between">
                                                 <a id="product_optional_pdf_preview"
-                                                    href="{{ asset('uploads/products/catalogue/' . $selectedProduct->product_catalouge) }}"
+                                                    href="{{ asset('/uploads/products/catalogue/' . $selectedProduct->product_catalouge) }}"
                                                     target="_blank" class="text-primary fw-bold">
                                                     <i class="fas fa-eye"></i> View Catalogue
                                                 </a>
@@ -153,7 +154,7 @@
                                                 <h6><i class="fas fa-file-alt"></i> Upload Catalogue</h6>
                                                 <div class="d-flex align-items-center justify-content-between">
                                                     <a id="product_catalogue_preview"
-                                                        href="{{ asset('uploads/products/catalogue/' . $selectedProduct->product_catalouge) }}"
+                                                        href="{{ asset('/uploads/products/catalogue/' . $selectedProduct->product_catalouge) }}"
                                                         target="_blank" class="text-primary fw-bold">
                                                         <i class="fas fa-eye"></i> View Catalogue
                                                     </a>
@@ -170,7 +171,7 @@
                                                 <h6><i class="fas fa-file-pdf"></i> Upload PDF</h6>
                                                 <div class="d-flex align-items-center justify-content-between">
                                                     <a id="product_pdf_preview"
-                                                        href="{{ asset('uploads/products/pdf/' . $selectedProduct->product_pdf) }}"
+                                                        href="{{ asset('/uploads/products/pdf/' . $selectedProduct->product_pdf) }}"
                                                         target="_blank" class="text-primary fw-bold">
                                                         <i class="fas fa-eye"></i> View PDF
                                                     </a>
@@ -187,7 +188,7 @@
                                                 <h6><i class="fas fa-image"></i> Upload Drawing</h6>
                                                 <div class="d-flex align-items-center justify-content-between">
                                                     <img id="product_drawing_preview"
-                                                        src="{{ asset('uploads/products/drawing/' . $selectedProduct->product_drawing) }}"
+                                                        src="{{ asset('/uploads/products/drawing/' . $selectedProduct->product_drawing) }}"
                                                         alt="Drawing Preview" class="rounded shadow-sm"
                                                         style="width: 100px; height: auto;">
                                                     <input class="form-control w-50" type="file" id="productDrawing"
@@ -214,7 +215,7 @@
                                                 <div class=" position-relative ">
                                                     <div class="avatar-preview">
                                                         <img id="imagePreview"
-                                                            src="{{ asset('uploads/products/thumbnails/' . $selectedProduct->product_thumbain) }}"
+                                                            src="{{ asset('/uploads/products/thumbnails/' . $selectedProduct->product_thumbain) }}"
                                                             alt="Image Preview" style="width: 200px; height: auto;">
                                                     </div>
                                                     <div class="change-btn d-flex align-items-center flex-wrap">

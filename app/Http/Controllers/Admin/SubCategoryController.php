@@ -34,7 +34,7 @@ class SubCategoryController extends Controller
             $image = $request->subcategoryImage;
             $ext = $image->getClientOriginalExtension();
             $imageName = time() . "." . $ext;
-            $image->move(public_path('uploads/subcategories'), $imageName);
+            $image->move(public_path('/uploads/subcategories'), $imageName);
 
             $subcategory = new SubCategories();
             $subcategory->category_id = $request->subcategoryId;
@@ -97,7 +97,7 @@ class SubCategoryController extends Controller
             $image = $request->subcategoryImage;
             $ext = $image->getClientOriginalExtension();
             $imageName = time() . "." . $ext;
-            $image->move(public_path('uploads/subcategories'), $imageName);
+            $image->move(public_path('/uploads/subcategories'), $imageName);
             $subcategory->sub_category_image = $imageName;
         }
 

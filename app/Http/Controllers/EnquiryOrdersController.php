@@ -198,7 +198,7 @@ class EnquiryOrdersController extends Controller
             $image = $request->po_file;
             $ext = $image->getClientOriginalExtension();
             $imageName = time() . "." . $ext;
-            $image->move(public_path('uploads/po_file'), $imageName);
+            $image->move(public_path('/uploads/po_file'), $imageName);
 
             $po->po_file = $imageName;
         }

@@ -261,9 +261,9 @@
                             <div class="single-product-thumbnail-wrap zoom-gallery">
                                 <div class="single-product-thumbnail product-large-thumbnail-3 axil-product">
                                     <div class="thumbnail">
-                                        <a href="{{ asset('uploads/products/thumbnails/' . $selectedProduct->product_thumbain) }}"
+                                        <a href="{{ asset('/uploads/products/thumbnails/' . $selectedProduct->product_thumbain) }}"
                                             class="popup-zoom">
-                                            <img src="{{ asset('uploads/products/thumbnails/' . $selectedProduct->product_thumbain) }}"
+                                            <img src="{{ asset('/uploads/products/thumbnails/' . $selectedProduct->product_thumbain) }}"
                                                 alt="Product Images">
                                         </a>
                                     </div>
@@ -337,19 +337,19 @@
                                             @isset($selectedProduct->product_drawing)
                                                 <li>
                                                     <i class="fas fa-pencil-ruler"></i><a target="_blank"
-                                                        href="{{ asset('uploads/products/drawing/' . $selectedProduct->product_drawing) }}">Drawing</a>
+                                                        href="{{ asset('/uploads/products/drawing/' . $selectedProduct->product_drawing) }}">Drawing</a>
                                                 </li>
                                             @endisset
                                             @isset($selectedProduct->product_pdf)
                                                 <li>
                                                     <i class="fas fa-file-pdf"></i> <a target="_blank"
-                                                        href="{{ asset('uploads/products/pdf/' . $selectedProduct->product_pdf) }}">PDF</a>
+                                                        href="{{ asset('/uploads/products/pdf/' . $selectedProduct->product_pdf) }}">PDF</a>
                                                 </li>
                                             @endisset
                                             @isset($selectedProduct->product_catalouge)
                                                 <li>
                                                     <i class="fas fa-book"></i> <a target="_blank"
-                                                        href="{{ asset('uploads/products/catalogue/' . $selectedProduct->product_catalouge) }}">Catalogue</a>
+                                                        href="{{ asset('/uploads/products/catalogue/' . $selectedProduct->product_catalouge) }}">Catalogue</a>
                                                 </li>
                                             @endisset
                                         </ul>
@@ -442,9 +442,9 @@
                                                     <div
                                                         class="single-product-thumbnail product-large-thumbnail-3 axil-product">
                                                         <div class="thumbnail">
-                                                            <a href="{{ asset('uploads/products/product_optional_pdf/' . $selectedProduct->product_optional_pdf) }}"
+                                                            <a href="{{ asset('/uploads/products/product_optional_pdf/' . $selectedProduct->product_optional_pdf) }}"
                                                                 class="popup-zoom">
-                                                                <img src="{{ asset('uploads/products/product_optional_pdf/' . $selectedProduct->product_optional_pdf) }}"
+                                                                <img src="{{ asset('/uploads/products/product_optional_pdf/' . $selectedProduct->product_optional_pdf) }}"
                                                                     alt="Product Images">
                                                             </a>
                                                         </div>
@@ -502,7 +502,7 @@
                                 <div class="thumbnail">
                                     <a href="{{ route('user.product.details', $product->product_slug) }}">
                                         <img data-sal="fade" data-sal-delay="100" data-sal-duration="1500"
-                                            src="{{ asset('uploads/products/thumbnails/' . $product->product_thumbain) }}"
+                                            src="{{ asset('/uploads/products/thumbnails/' . $product->product_thumbain) }}"
                                             alt="Product Images">
                                     </a>
                                 </div>

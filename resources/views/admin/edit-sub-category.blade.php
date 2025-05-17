@@ -2,8 +2,8 @@
 
 @section('content-body')
     <!--**********************************
-                                                                            Content body start
-                                                                        ***********************************-->
+                                                                                Content body start
+                                                                            ***********************************-->
     <div class="content-body">
         <div class="container-fluid">
 
@@ -48,7 +48,8 @@
                                                 value="{{ $selectedSubcategory->id }}">
                                             <input type="text" name="subcategory_name"
                                                 class="form-control @error('subcategory_name') is-invalid @enderror"
-                                                value="{{ $selectedSubcategory->sub_category_name }}" placeholder="Enter Sub Category Name">
+                                                value="{{ $selectedSubcategory->sub_category_name }}"
+                                                placeholder="Enter Sub Category Name">
 
                                             @error('subcategory_name')
                                                 <div class="invalid-feedback">
@@ -68,7 +69,7 @@
                                                 <div class=" position-relative ">
                                                     <div class="avatar-preview">
                                                         <img id="imagePreview"
-                                                            src="{{ asset('uploads/subcategories/' . $selectedSubcategory->sub_category_image) }}"
+                                                            src="{{ asset('/uploads/subcategories/' . $selectedSubcategory->sub_category_image) }}"
                                                             alt="Image Preview" style="width: 200px; height: auto;">
                                                     </div>
                                                     <div class="change-btn d-flex align-items-center flex-wrap">
@@ -102,8 +103,8 @@
         </div>
     </div>
     <!--**********************************
-                                                                            Content body end
-                                                                        ***********************************-->
+                                                                                Content body end
+                                                                            ***********************************-->
 @endsection
 @section('scripts')
     <script src="https://code.jquery.com/jquery-3.7.1.min.js"

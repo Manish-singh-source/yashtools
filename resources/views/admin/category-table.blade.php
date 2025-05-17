@@ -62,7 +62,7 @@
                                             </td>
                                             <td style="width: 30%;">
                                                 <div class="d-flex align-items-center">
-                                                    <img src="uploads/categories/{{ $category->category_image }}"
+                                                    <img src="/uploads/categories/{{ $category->category_image }}"
                                                         class="rounded-lg me-2" width="40" alt="">
                                                     <div>
                                                         <h6 class="w-space-no mb-0 fs-14 font-w600">

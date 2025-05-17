@@ -212,7 +212,7 @@ class AdminController extends Controller
             $image = $request->profile;
             $ext = $image->getClientOriginalExtension();
             $imageName = time() . "." . $ext;
-            $image->move(public_path('uploads/profile'), $imageName);
+            $image->move(public_path('/uploads/profile'), $imageName);
             $user->profile = $imageName;
         }
         $user->save();
@@ -255,7 +255,7 @@ class AdminController extends Controller
             $image = $request->profile;
             $ext = $image->getClientOriginalExtension();
             $imageName = time() . "." . $ext;
-            $image->move(public_path('uploads/profile'), $imageName);
+            $image->move(public_path('/uploads/profile'), $imageName);
             $user->profile = $imageName;
         }
         $user->save();
@@ -321,7 +321,7 @@ class AdminController extends Controller
             $image = $request->profileImage;
             $ext = $image->getClientOriginalExtension();
             $imageName = time() . "." . $ext;
-            $image->move(public_path('uploads/profile'), $imageName);
+            $image->move(public_path('/uploads/profile'), $imageName);
 
             $user->profile = $imageName;
         }else {

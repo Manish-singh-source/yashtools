@@ -43,7 +43,7 @@ class UserShopController extends Controller
         ];
 
         if (!empty($selectedProduct->product_specs)) {
-            $path = public_path('uploads/products/product_specs/' . $selectedProduct->product_specs);
+            $path = public_path('/uploads/products/product_specs/' . $selectedProduct->product_specs);
 
             if (!file_exists($path)) {
                 die('File not found: ' . $path);
