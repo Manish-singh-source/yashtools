@@ -287,12 +287,11 @@ class AdminController extends Controller
 
     public function profileUpdate(Request $request)
     {
-
         $rules = [
-            'userId' => 'required',
-            "mobile_number" => "required|digits:10",
-            'profileImage' => 'image',
-            "email" => "required|email",
+            'userId' => 'required|exists:users,id',
+            'mobile_number' => 'required|digits:10',
+            'profileImage' => 'nullable|image',
+            'email' => 'required|email',
         ];
 
         $validations = Validator::make($request->all(), $rules);
@@ -302,42 +301,37 @@ class AdminController extends Controller
         }
 
         $user = User::find($request->userId);
+
         $user->mobile_number = $request->mobile_number;
         $user->email = $request->email;
+        $user->fullname = $request->fullname ?? $user->fullname;
+        $user->username = $request->username ?? $user->username;
 
-        if (!empty($request->fullname)) {
-            $user->fullname = $request->fullname;
-        }
-
-        if (!empty($request->fullname)) {
-            $user->username = $request->username;
-        }
-
-        if (!empty($request->profileImage)) {
-
-            if (!empty($user->profile)) {
+        if ($request->hasFile('profileImage')) {
+            if (!empty($user->profile) && file_exists(public_path('/uploads/profile/' . $user->profile))) {
                 File::delete(public_path('/uploads/profile/' . $user->profile));
             }
 
-            $image = $request->profileImage;
+            $image = $request->file('profileImage');
             $ext = $image->getClientOriginalExtension();
             $imageName = time() . "." . $ext;
             $image->move(public_path('/uploads/profile'), $imageName);
 
             $user->profile = $imageName;
-        } else {
-            $user->profile = '1.png';
         }
 
+        // Don't overwrite existing image if no new image is uploaded
         $user->save();
 
-        if ($user) {
+        if ($user->wasChanged()) {
             flash()->success('Successfully Updated Profile Details.');
             return redirect()->route('admin.dashboard');
+        } else {
+            flash()->warning('No changes detected.');
+            return back();
         }
-
-        flash()->error('Something Wrong. Please Try Again.');
     }
+
 
     public function updatePassword(Request $request)
     {
