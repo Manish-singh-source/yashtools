@@ -19,7 +19,7 @@ class AdminController extends Controller
     public function viewDashboard()
     {
         $totalCustomers = User::where('role', 'customer')->count();
-        $totalEnquiries = Enquiry::count();
+        $totalEnquiries = Enquiry::distinct('enquiry_id')->count('enquiry_id');
         $totalOrders = EnquiryProducts::whereHas('enquiry', function ($query) {
             $query->where('status', 'payment_received');
         })->count();
@@ -46,7 +46,7 @@ class AdminController extends Controller
         // Enquiries count details
         $EnqueriesCountOfMonthlyChart = Enquiry::whereYear('enquiries.created_at', $request->year)
             ->join('user_details', 'user_details.user_id', '=', 'enquiries.customer_id')
-            ->selectRaw('YEAR(enquiries.created_at) as year, MONTH(enquiries.created_at) as month, COUNT(*) as count')
+            ->selectRaw('YEAR(enquiries.created_at) as year, MONTH(enquiries.created_at) as month, COUNT(DISTINCT enquiries.enquiry_id) as count')
             ->groupBy('year', 'month')
             ->orderBy('year', 'asc');
 
@@ -173,7 +173,7 @@ class AdminController extends Controller
         // Fetch all notifications 
         $notifications = DB::table('notifications')
             ->join('users', 'users.id', '=', 'notifications.notifiable_id')
-            ->select('users.fullname', 'users.email', 'notifications.id', 'notifications.data', 'notifications.created_at','notifications.updated_at', 'notifications.read_at')
+            ->select('users.fullname', 'users.email', 'notifications.id', 'notifications.data', 'notifications.created_at', 'notifications.updated_at', 'notifications.read_at')
             ->orderBy('notifications.updated_at', 'desc')
             ->get();
         // dd($notifications);
@@ -305,10 +305,6 @@ class AdminController extends Controller
         $user->mobile_number = $request->mobile_number;
         $user->email = $request->email;
 
-        if (!empty($user->profile)) {
-            File::delete(public_path('/uploads/profile/' . $user->profile));
-        }
-
         if (!empty($request->fullname)) {
             $user->fullname = $request->fullname;
         }
@@ -318,13 +314,18 @@ class AdminController extends Controller
         }
 
         if (!empty($request->profileImage)) {
+
+            if (!empty($user->profile)) {
+                File::delete(public_path('/uploads/profile/' . $user->profile));
+            }
+
             $image = $request->profileImage;
             $ext = $image->getClientOriginalExtension();
             $imageName = time() . "." . $ext;
             $image->move(public_path('/uploads/profile'), $imageName);
 
             $user->profile = $imageName;
-        }else {
+        } else {
             $user->profile = '1.png';
         }
 
