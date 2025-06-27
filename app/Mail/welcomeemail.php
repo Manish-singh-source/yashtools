@@ -13,25 +13,25 @@ class welcomeemail extends Mailable
 {
     use Queueable, SerializesModels;
 
-    
-   
+
+
     public $subject;
     public $name;
+    public $msgformat;
 
     /**
-     * Create a new message instance.
+     * Create a new msgformat instance.
      */
-    public function __construct($subject,$name)
+    public function __construct($subject, $name, $msgformat)
     {
-       
-        $this->subject=$subject;
-        $this->name=$name;
-       
-       
+
+        $this->subject = $subject;
+        $this->name = $name;
+        $this->msgformat = $msgformat;
     }
 
     /**
-     * Get the message envelope.
+     * Get the msgformat envelope.
      */
     public function envelope(): Envelope
     {
@@ -41,17 +41,21 @@ class welcomeemail extends Mailable
     }
 
     /**
-     * Get the message content definition.
+     * Get the msgformat content definition.
      */
     public function content(): Content
     {
         return new Content(
             view: 'mail.welcome-mail',
+            with: [
+            'name' => $this->name,
+            'msgformat' => $this->msgformat,
+        ],
         );
     }
 
     /**
-     * Get the attachments for the message.
+     * Get the attachments for the msgformat.
      *
      * @return array<int, \Illuminate\Mail\Mailables\Attachment>
      */

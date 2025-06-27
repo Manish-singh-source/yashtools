@@ -105,7 +105,7 @@ class EnquiryOrdersController extends Controller
 
         $productData = Product::whereIn('id', $productIds)->get();
         $user = User::where('id', Auth::id())->first();
-        $adminEmail = "pradnya@technofra.com";
+        $adminEmail = "sales@yashtools.in";
         $userEmail = $user->email;
 
         Mail::to($adminEmail)->send(new adminEnquiry($productData, $productQuantities, $enquiryID, $user, $partNumber));

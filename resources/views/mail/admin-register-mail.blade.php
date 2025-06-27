@@ -54,7 +54,7 @@
             margin-top: 10px;
             font-size: 16px;
             color: #fff;
-            background-color: #007bff;
+            background-color: #343667;
             text-decoration: none;
             border-radius: 5px;
         }

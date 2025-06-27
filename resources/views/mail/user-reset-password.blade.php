@@ -14,7 +14,7 @@
         <p>Click the button below to reset your password:</p>
         <p style="text-align: center;">
             <a href="{{ url('/reset-password?token=' . $token) }}"
-                style="background-color: #007bff; color: white; padding: 10px 20px; text-decoration: none; border-radius: 5px;">
+                style="background-color: #343667; color: white; padding: 10px 20px; text-decoration: none; border-radius: 5px;">
                 Reset Password
             </a>
         </p>

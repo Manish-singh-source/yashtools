@@ -45,7 +45,7 @@
             margin-top: 10px;
             font-size: 16px;
             color: #fff;
-            background-color: #007bff;
+            background-color: #343667;
             text-decoration: none;
             border-radius: 5px;
         }
@@ -57,21 +57,19 @@
 <body>
     <div class="container">
         <div class="header">
-            <img src="https://yashtools.in/demo/assets/images/logo/logo.png" alt="Company Logo">
+            <img src="assets/images/logo/logo.png" alt="Company Logo">
             <h2>Welcome to Yash Tools</h2>
         </div>
         
         <div class="content">
-            <p>Dear <b>{{$name}}</b>,
-
-                Welcome to Yashtools! We're excited to have you on board.
-                You’ve successfully registered, and now you can explore all the amazing features we offer. If you ever need any assistance, feel free to reach out.</p>
-          
+            <p>Dear <b class="text-capitalize">{{$name}}</b>,
+                {!! $msgformat !!}
+            </p>
         </div>
         
         <div class="footer">
             <p>Best Regards,<br><strong>Yashtools</strong></p>
-            <p>Contact Us: support@yourcompany.com | +123 456 7890</p>
+            <p>Contact Us: sales@yashtools.in | +91-9326 17 8710</p>
         </div>
     </div>
 </body>

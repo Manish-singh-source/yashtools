@@ -26,7 +26,7 @@
         .header {
             text-align: center;
             padding: 10px;
-            background-color: #007bff;
+            background-color: #343667;
             color: white;
             border-radius: 8px 8px 0 0;
         }
@@ -51,7 +51,7 @@
         }
 
         .primary {
-            color: #007bff;
+            color: #343667;
         }
 
         .button {
@@ -60,7 +60,7 @@
             margin-top: 15px;
             text-decoration: none;
             color: white;
-            background-color: #007bff;
+            background-color: #343667;
             border-radius: 5px;
         }
 
@@ -90,7 +90,7 @@
                 {{ ucfirst(str_replace('_', ' ', $enquiry->status)) }}
             </p>
 
-            <a href="{{ route('product.info', $enquiry->enquiry_id) }}" class="button">View Order</a>
+            <a href="{{ route('product.info', $enquiry->enquiry_id) }}" class="button text-white text-decoration-none">View Order</a>
         </div>
         <div class="footer">
             <p>&copy; 2025 Your Company. All rights reserved.</p>
