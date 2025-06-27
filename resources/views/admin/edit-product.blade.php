@@ -61,7 +61,7 @@
                                                 class="form-control default-select h-auto wide @error('product_days_to_dispatch') is-invalid @enderror"
                                                 aria-label="Default select example" name="product_days_to_dispatch">
                                                 <option value="Same Days" @if ($selectedProduct->product_dispatch == 'Same Days') selected @endif>
-                                                    Same Days</option>
+                                                    Same Day</option>
                                                 <option value="1 Day to Dispatch"
                                                     @if ($selectedProduct->product_dispatch == '1 Day to Dispatch') selected @endif>1
                                                     Day to Dispatch</option>

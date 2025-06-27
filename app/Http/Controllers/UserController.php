@@ -74,6 +74,7 @@ class UserController extends Controller
         $userDetail->pincode = $request->pin_code;
         $userDetail->gstin = $request->gstin;
         $userDetail->save();
+        
         $subject = "Yash Tools Registeration";
         Mail::to($request->email)->send(new welcomeemail($subject, $request->fullname));
 

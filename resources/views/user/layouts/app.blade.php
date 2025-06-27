@@ -222,7 +222,7 @@
                                 </a>
                             </div>
                             <div class="inner">
-                                <p>YASH TOOLS INDIA LLP. LTD. focuses on collaboration with customers.
+                                <p>YASH TOOLS (INDIA) PVT. LTD. focuses on collaboration with customers.
                                 </p>
                                 <div class="social-share">
                                     <a href="#"><i class="fab fa-facebook-f"></i></a>
@@ -272,7 +272,7 @@
 
                             <div class="inner">
                                 <p>
-                                    YASH TOOLS INDIA LLP. LTD.,
+                                    YASH TOOLS (INDIA) PVT. LTD.,
                                     A- 202 B, Jaswanti Allied Business Centre,
                                     Kanchpada, Ramchandra Lane, Next to Khwaish Hotel
                                     Malad (West),
@@ -323,7 +323,7 @@
         <div class="copyright-area copyright-default separator-top">
             <div class="container">
                 <div class="row align-items-center">
-                    <div class="col-xl-7 col-lg-12">
+                    {{-- <div class="col-xl-7 col-lg-12">
                         <div class="copyright-left d-flex flex-wrap justify-content-xl-start justify-content-center">
 
                             <ul class="quick-link">
@@ -331,8 +331,8 @@
                                         href="https://yashtools.in/">Yashtools</a></li>
                             </ul>
                         </div>
-                    </div>
-                    <div class="col-xl-5 col-lg-12">
+                    </div> --}}
+                    <div class="col-xl-12 col-lg-12">
                         <div
                             class="copyright-right d-flex flex-wrap justify-content-xl-end justify-content-center align-items-center">
                             <span class="card-text">Designed &amp; Developed By TECHNOFRA</span>
@@ -412,7 +412,7 @@
                         searchItem: searchItem,
                     },
                     success: function(response) {
-                        
+
                         $('#product-list-suggestions').html('');
                         if (response.length > 0) {
                             $.each(response, function(index, product) {

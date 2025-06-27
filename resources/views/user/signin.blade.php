@@ -31,7 +31,7 @@
                                 <div class="axil-signin-form">
                                     <h3 class="title">Welcome to Yash Tools<br> Please log in to access your account.
                                     </h3>
-                                    <p class="b2 mb--55">Enter your detail below</p>
+                                    <p class="b2 mb--55 text-capitalize">Enter your details below</p>
                                     <form class="singin-form" action="{{ route('auth.user') }}" method="POST">
                                         @csrf
                                         @method('POST')

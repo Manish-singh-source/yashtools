@@ -300,9 +300,9 @@
                                             <li class="text-danger"><i class="fal fa-times"></i>Out of stock</li>
                                         @endif
                                     </ul>
-                                    <h6 class="title margbot">Available Quantity :
+                                    {{-- <h6 class="title margbot">Available Quantity :
                                         <span class="spnc">{{ $selectedProduct->product_quantity }}</span>
-                                    </h6>
+                                    </h6> --}}
                                     @if ($selectedProduct->product_sale != null)
                                         <div class="product-variation quantity-variant-wrapper margbot">
                                             <h6 class="title1">Price :</h6><span

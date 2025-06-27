@@ -7,6 +7,8 @@
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>Welcome</title>
     <style>
+
+        /* rgb(48, 54, 103); */
         body {
             font-family: Arial, sans-serif;
             background-color: #f4f4f4;
