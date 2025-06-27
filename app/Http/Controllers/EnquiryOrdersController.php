@@ -59,22 +59,23 @@ class EnquiryOrdersController extends Controller
     public function addEnquiry(Request $request)
     {
         // YASH2024030001 → (Year + Month + Order No.)
-        $prefix = "YASH";
-        $year = date("Y"); // Current Year
-        $month = date("m"); // Current Month
+        $prefix = "ENQUIRY";
+        // $year = date("Y"); // Current Year
+        // $month = date("m"); // Current Month
 
         $cartData = $request->cartData; // Expecting an array of cart items
         $lastEnquiry = Enquiry::orderBy('id', 'desc')->first();
 
         if ($lastEnquiry && preg_match('/YASH(\d{6})(\d+)/', $lastEnquiry->enquiry_id, $matches)) {
             $lastNumber = (int) $matches[2]; // Extract the numeric part
-            $nextNumber = str_pad($lastNumber + 1, 4, '0', STR_PAD_LEFT); // Increment and format as 4 digits
+            $nextNumber = str_pad($lastNumber + 1, 3, '0', STR_PAD_LEFT); // Increment and format as 3 digits
         } else {
-            $nextNumber = "0001"; // Start from 0001 if no previous record
+            $nextNumber = "001"; // Start from 0001 if no previous record
         }
 
         // Final Enquiry ID
-        $enquiryID = $prefix . $year . $month . $nextNumber;
+        // $enquiryID = $prefix . $year . $month . $nextNumber;
+        $enquiryID = $prefix . $nextNumber;
 
         $productIds = [];
         $productQuantities = [];
