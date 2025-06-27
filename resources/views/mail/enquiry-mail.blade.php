@@ -24,7 +24,7 @@
 
         .header {
             text-align: center;
-            background: #007bff;
+            background: #343667;
             color: #ffffff;
             padding: 10px;
             border-radius: 5px 5px 0 0;
@@ -84,8 +84,6 @@
                 @endforeach
             </table>
             <p>Our team will review your enquiry and get back to you soon.</p>
-            <p>If you have any further queries, feel free to contact us at <a
-                    href="mailto:support@example.com">support@example.com</a></p>
         </div>
         <div class="footer">
             <p>&copy; 2025 YashTools. All rights reserved.</p>

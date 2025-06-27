@@ -74,9 +74,10 @@ class UserController extends Controller
         $userDetail->pincode = $request->pin_code;
         $userDetail->gstin = $request->gstin;
         $userDetail->save();
-        
+
         $subject = "Yash Tools Registeration";
-        Mail::to($request->email)->send(new welcomeemail($subject, $request->fullname));
+        $message = "<p>Thank you for registering on our platform. We're excited to have you onboard!</p><p>You can now log in and start exploring our services.</p><p>If you have any questions, feel free to reply to this email.</p>";
+        Mail::to($request->email)->send(new welcomeemail($subject, $request->fullname, $message));
 
         return redirect()->route('signin');
     }

@@ -34,11 +34,11 @@ class EmailController extends Controller
             'message' => 'required',
             'phone' => 'required|digits:10',
         ]);
-        $adminEmail = "pradnya@technofra.com";
+        $adminEmail = "sales@yashtools.in";
         $userEmail = $request->email;
-        
+        $message = "<p>Thank you for contacting us!</p><p>We have received your message and our team will get back to you as soon as possible. If your inquiry is urgent, feel free to call us directly or reply to this email.</p>";
         $response = Mail::to($adminEmail)->send(new contactEmail($request->all()));
-        $userresponse = Mail::to($userEmail)->send(new welcomeemail("Subject", $request->name));
+        $userresponse = Mail::to($userEmail)->send(new welcomeemail("Subject", $request->name, $message));
 
         if ($response) {
             return redirect()->back()->with('success', 'Email has been sent successfully');
@@ -66,10 +66,11 @@ class EmailController extends Controller
             'message' => 'required',
             'phone' => 'required|digits:10',
         ]);
-        $adminEmail = "pradnya@technofra.com";
+        $adminEmail = "sales@yashtools.in";
         $userEmail = $request->email;
+        $message = "<p>We truly appreciate you taking the time to share your feedback with us.</p><p>Your input helps us improve our services and better serve awesome users like you.</p>";
         $response = Mail::to($adminEmail)->send(new feedbackEmail($request->all()));
-        $userresponse = Mail::to($userEmail)->send(new welcomeemail("Subject", $request->name));
+        $userresponse = Mail::to($userEmail)->send(new welcomeemail("Subject", $request->name, $message));
 
         if ($response) {
             return redirect()->back()->with('success', 'Email has been sent successfully');
@@ -84,10 +85,11 @@ class EmailController extends Controller
         $request->validate([
             'email' => 'required|email'
         ]);
-        $adminEmail = "pradnya@technofra.com";
+        $adminEmail = "sales@yashtools.in";
         $userEmail = $request->email;
+        $message = "<p>Thanks for subscribing to our newsletter! We’ll keep you updated with the latest news, tips, and exclusive offers.</p><p>If you ever wish to unsubscribe, you can do so at any time using the link at the bottom of our emails.</p>";
         $response = Mail::to($adminEmail)->send(new newsletter($request->all()));
-        Mail::to($userEmail)->send(new welcomeemail("Subject", $request->name));
+        Mail::to($userEmail)->send(new welcomeemail("Subject", $request->name, $message));
 
         if ($response) {
             return redirect()->back()->with('success', 'Email has been sent successfully');
