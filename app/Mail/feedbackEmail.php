@@ -27,7 +27,7 @@ class feedbackEmail extends Mailable
     public function envelope(): Envelope
     {
         return new Envelope(
-            subject: 'Feedback Form',
+            subject: 'Feedback Received',
         );
     }
 

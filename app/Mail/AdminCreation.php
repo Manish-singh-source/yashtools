@@ -36,7 +36,7 @@ class AdminCreation extends Mailable
     public function envelope(): Envelope
     {
         return new Envelope(
-            subject: 'New Admin Added',
+            subject: 'New Admin Account Created',
         );
     }
 

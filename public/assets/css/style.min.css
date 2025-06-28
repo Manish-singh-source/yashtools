@@ -2601,12 +2601,12 @@ input[type=submit] {
     font-weight: 500;
     transition: .3s;
     height: 60px;
-    background: var(--color-primary);
+    background: #323667;
     color: var(--color-white);
     font-weight: var(--p-medium);
     font-size: var(--font-size-b2);
     line-height: var(--line-height-b3);
-    border: 2px solid var(--color-primary)
+    border: 2px solid #343667;
 }
 
 input[type=submit]:hover {

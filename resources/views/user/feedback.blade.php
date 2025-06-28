@@ -28,7 +28,7 @@
                     <div class="row row--30">
                         <div class="col-lg-12">
                             <div class="contact-form">
-                                <p>Your Suggestions, Our Progress!</p>
+                                <p>Your suggestions, our progress!</p>
                                 <h3 class="title mb--10">Send Us a Message</h3>
 
                                 <form method="POST" action="{{ route('user.feedback.store') }}">

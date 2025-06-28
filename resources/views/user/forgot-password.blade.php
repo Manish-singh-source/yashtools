@@ -30,8 +30,7 @@
                             <div>
                                 <div class="axil-signin-form">
                                     <h3 class="title">Forgot Password?</h3>
-                                    <p class="b2 mb--55">Enter the email address you used when you joined and we’ll send you
-                                        instructions to reset your password.</p>
+                                    <p class="b2 mb--55">Please enter email address used for log in to reset password</p>
                                     <form class="singin-form" action="{{ route('user.reset.pass.link') }}" method="POST">
                                         @csrf
                                         @method('POST')

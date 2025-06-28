@@ -800,27 +800,41 @@
         });
     </script>
     <script>
-        document.getElementById("whatsapp-enquiry").addEventListener("click", function(event) {
-            event.preventDefault(); // Prevent default link behavior
+    // Run the code after the page is fully loaded
+    document.addEventListener("DOMContentLoaded", function () {
+        // Check if the WhatsApp enquiry button exists
+        var whatsappButton = document.getElementById("whatsapp-enquiry");
 
-            // WhatsApp Number (Fixed Number)
-            var whatsappNumber = "919326178710"; // Replace with your WhatsApp number (Use country code)
+        if (whatsappButton) {
+            whatsappButton.addEventListener("click", function (event) {
+                event.preventDefault(); // Prevent default link behavior
 
-            // Product Details
-            var productName = document.querySelector(".product-title").innerText; // Fetch product name dynamically
-            var productUrl = window.location.href; // Current page URL
+                // WhatsApp Number (with country code, no +)
+                var whatsappNumber = "919326178710";
 
-            // WhatsApp message format (Plain URL for Clickable Link)
-            var message = "Hello, I want to inquire about:\n\n" +
-                "📌 *Product:* " + productName + "\n" +
-                "🔗 *Link:* " + productUrl + "\n\n" +
-                "Please provide more details.";
+                // Try to get the product title element
+                var productTitleElement = document.querySelector(".product-title");
+                var productName = productTitleElement ? productTitleElement.innerText.trim() : "Product Name Not Found";
 
-            // WhatsApp API URL with fixed number
-            var whatsappUrl = "https://wa.me/" + whatsappNumber + "?text=" + encodeURIComponent(message);
+                // Get current page URL
+                var productUrl = window.location.href;
 
-            // Open WhatsApp in a new tab
-            window.open(whatsappUrl, "_blank");
-        });
-    </script>
+                // Format the message
+                var message = "Hello, I want to inquire about:\n\n" +
+                    "📌 *Product:* " + productName + "\n" +
+                    "🔗 *Link:* " + productUrl + "\n\n" +
+                    "Please provide more details.";
+
+                // Create WhatsApp API URL
+                var whatsappUrl = "https://wa.me/" + whatsappNumber + "?text=" + encodeURIComponent(message);
+
+                // Open WhatsApp in a new tab
+                window.open(whatsappUrl, "_blank");
+            });
+        } else {
+            console.error("WhatsApp enquiry button with ID 'whatsapp-enquiry' not found.");
+        }
+    });
+</script>
+
 @endsection
