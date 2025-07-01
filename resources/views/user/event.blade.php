@@ -605,7 +605,7 @@
                     <div class="col-lg-12 text-center pb-35">
                         <h2 class="title">Yash Tools Events</h2>
                         <p class="mx-auto w-100 w-md-50 text-center">
-                            Discover upcoming events, workshops, and experiences tailored just for you.
+                            Discover our past events, exhibitions and experiences.
                             Stay informed and never miss out on what's happening around you!
                         </p>
 

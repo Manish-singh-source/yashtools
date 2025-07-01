@@ -290,16 +290,16 @@
                                             <input type="text1" class="search-box" placeholder="Search...">
                                         </div>
                                     </div>
-                                    <ul class="product-meta margbot">
+                                    <!-- <ul class="product-meta margbot">
                                         @if ($selectedProduct->product_quantity > 0)
                                             <li><i class="fal fa-check"></i>In stock</li>
                                         @else
                                             <li class="text-danger"><i class="fal fa-times"></i>Out of stock</li>
                                         @endif
-                                    </ul>
+                                    </ul> -->
 
-                                    <h6 class="title margbot">Days to Dispatch :<span class="spnc">
-                                            {{ $selectedProduct->product_dispatch }}</span></h6>
+                                    <!-- <h6 class="title margbot">Days to Dispatch :<span class="spnc">
+                                            {{ $selectedProduct->product_dispatch }}</span></h6> -->
                                     <div class="manish1 margbot">
                                         <ul class="icon-list-row d-flex">
                                             @isset($selectedProduct->product_drawing)
