@@ -58,15 +58,15 @@
                                                 class="accordion-title">Do you provide technical support after the sale?</span><span
                                                 class="icon" aria-hidden="true"></span></button>
                                         <div class="accordion-content">
-                                            <p>Absolutely. We offer continuous technical support and follow-up services to ensure our solutions exceed your expectations.
+                                            <p>Absolutely. We offer continuous technical support and follow-up services to ensure our solutions exceed your expectations.</p>
+                                        </div>    
                                     </div>
                                     <div class="accordion-item">
                                         <button id="accordion-button-5" aria-expanded="false"><span
                                                 class="accordion-title">Do you offer customized tooling solutions?</span><span class="icon"
                                                 aria-hidden="true"></span></button>
                                         <div class="accordion-content">
-                                            <p>Yes, we provide customized solutions tailored to your specific requirements—especially for complex materials, tight tolerances, or challenging production environments.
-</p>
+                                            <p>Yes, we provide customized solutions tailored to your specific requirements—especially for complex materials, tight tolerances, or challenging production environments.</p>
                                         </div>
                                     </div>
                                 </div>
