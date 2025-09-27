@@ -112,8 +112,8 @@
                                         <!-- Start Single Select  -->
                                         <select class="single-select" id="sort_by">
                                             <option value="" selected disabled>Sort By</option>
-                                            <option value="latest">Short by Latest</option>
-                                            <option value="by_name">Short by Name</option>
+                                            <option value="latest">Sort by Latest</option>
+                                            <option value="by_name">Sort by Name</option>
                                         </select>
                                         <!-- End Single Select  -->
                                     </div>

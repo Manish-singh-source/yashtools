@@ -111,8 +111,7 @@
                             <div class="content">
                                 <h6 class="title">Vision</h6>
                                 <p>
-                                    To become the industry’s most trusted partner for Quality Assurance. To be the leading
-                                    supplier in Die & Mold industry providing comprehensive range of tools and equipments.
+                                    To become the industry’s most trusted partner for Quality Assurance.
                                     Be a great place to work where people are inspired to be the best they can be.
                                 </p>
                             </div>
@@ -125,8 +124,7 @@
                             </div>
                             <div class="content">
                                 <h6 class="title">Mission </h6>
-                                <p>To exceed our customers’ expectations with innovattive & bespoke Assurance,
-                                    Testing, Inspections and Certifications services for their operations.</p>
+                                <p>To be the leading supplier in the Die & Mold industry by providing the best products, consultancy, and services.</p>
                             </div>
                         </div>
                     </div>
@@ -137,7 +135,7 @@
                             </div>
                             <div class="content">
                                 <h6 class="title">Values</h6>
-                                <p>We believe in trust, transparency, and a strong relationship with all our stakeholders.
+                                <p>We believe in building trust, transperant, and a strong relationship with all our stakeholders.
                                     We have a passion to perform and consistently deliver excellence.</p>
                             </div>
                         </div>

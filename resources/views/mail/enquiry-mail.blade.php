@@ -74,8 +74,8 @@
                 @foreach ($requestData as $key => $product)
                     <tr>
                         <td>
-                            <img src="{{ asset('/uploads/products/thumbnails/' . $product->image) }}"
-                                alt="{{ $product->product_name }}">
+                            <img src="{{ asset('uploads/products/thumbnails/' . $product->product_thumbain) }}"
+                                style="width:50px;"alt="{{ $product->product_name }}">
                             {{ $product->product_name }}
                         </td>
                         <td>{{ $partNumber }}</td>

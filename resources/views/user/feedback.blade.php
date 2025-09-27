@@ -11,7 +11,7 @@
                             <ul class="axil-breadcrumb">
                                 <li class="axil-breadcrumb-item"><a href="{{ route('user.dashboard') }}">Home</a></li>
                                 <li class="separator"></li>
-                                <li class="axil-breadcrumb-item active" aria-current="page">Contact</li>
+                                <li class="axil-breadcrumb-item active" aria-current="page">Feedback</li>
                             </ul>
                             <h1 class="title">Feedback</h1>
                         </div>

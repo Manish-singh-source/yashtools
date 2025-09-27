@@ -494,7 +494,7 @@
                                     <img src="assets/images/icons/choose.png" alt="Service">
                                 </div>
                                 <h6 class="title">25+ Years of experience</h6>
-                                <p>Leveraging over 25 years of industry expertise to deliver exceptional results and
+                                <p>Leveraging over 25 years of industry expertise to deliver best products and 
                                     innovative solutions.</p>
                             </div>
                         </div>

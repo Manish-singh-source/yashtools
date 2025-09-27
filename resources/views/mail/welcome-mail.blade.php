@@ -57,7 +57,7 @@
 <body>
     <div class="container">
         <div class="header">
-            <img src="assets/images/logo/logo.png" alt="Company Logo">
+            <img src="https://yashtools.in/assets/images/logo/logo.png" alt="Company Logo">
             <h2>Welcome to Yash Tools</h2>
         </div>
         

@@ -30,7 +30,6 @@ class EventController extends Controller
 
 
         if (!empty($request->eventImage)) {
-
             $image = $request->eventImage;
             $ext = $image->getClientOriginalExtension();
             $imageName = time() . "." . $ext;

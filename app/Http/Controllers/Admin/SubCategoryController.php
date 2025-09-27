@@ -8,6 +8,7 @@ use App\Models\SubCategories;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Validator;
+use Illuminate\Validation\Rule;
 
 class SubCategoryController extends Controller
 {
@@ -22,8 +23,13 @@ class SubCategoryController extends Controller
     {
         $validations = Validator::make($request->all(), [
             'subcategoryId' => 'required|exists:categories,id',
-            'subcategory_name' => 'required|unique:sub_categories,sub_category_name,NULL,id,category_id,' . $request->subcategoryId,
-            "subcategoryImage" => "required|image",
+            'subcategory_name' => [
+                'required',
+                Rule::unique('sub_categories', 'sub_category_name')
+                    ->where('category_id', $request->subcategoryId)
+                    ->whereNull('deleted_at')
+            ],
+            'subcategoryImage' => 'required|image',
         ]);
 
         if ($validations->fails()) {
@@ -79,7 +85,15 @@ class SubCategoryController extends Controller
         $validations = Validator::make($request->all(), [
             'selectedSubcategoryId' => 'required',
             'categoryId' => 'required|exists:categories,id',
-            'subcategory_name' => 'required|unique:sub_categories,sub_category_name,' . $request->selectedSubcategoryId . ',id,category_id,' . $request->categoryId,
+            'subcategory_name' => [
+                'required',
+                Rule::unique('sub_categories', 'sub_category_name')
+                    ->ignore($request->selectedSubcategoryId) // allow updating the same subcategory
+                    ->where(function ($query) use ($request) {
+                        $query->where('category_id', $request->categoryId) // unique within same category
+                            ->whereNull('deleted_at');                  // ignore soft-deleted
+                    }),
+            ],
             "subcategoryImage" => "image",
         ]);
 

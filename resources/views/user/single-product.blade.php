@@ -281,7 +281,15 @@
                                     </h2>
                                     <h6 class="title margbot">Brand: <span
                                             class="spnc">{{ $selectedProduct->brands->brand_name }}</span></h6>
-                                    <div class="custom-dropdown margbot" id="dropdown">
+
+									@if (Auth::user())
+                                        @if (isset($selectedProduct->product_country_of_origin))
+                                            <h6 class="title margbot">Country Of Origin: <span
+                                                    class="spnc">{{ $selectedProduct->product_country_of_origin }}</span></h6>
+                                        @endif
+                                    @endif
+                                    
+									<div class="custom-dropdown margbot" id="dropdown">
                                         <div class="dropdown-selected">
                                             Part Number
                                             <span>▼</span>
@@ -290,13 +298,6 @@
                                             <input type="text1" class="search-box" placeholder="Search...">
                                         </div>
                                     </div>
-                                    <!-- <ul class="product-meta margbot">
-                                        @if ($selectedProduct->product_quantity > 0)
-                                            <li><i class="fal fa-check"></i>In stock</li>
-                                        @else
-                                            <li class="text-danger"><i class="fal fa-times"></i>Out of stock</li>
-                                        @endif
-                                    </ul> -->
 
                                     <!-- <h6 class="title margbot">Days to Dispatch :<span class="spnc">
                                             {{ $selectedProduct->product_dispatch }}</span></h6> -->
@@ -314,12 +315,14 @@
                                                         href="{{ asset('/uploads/products/pdf/' . $selectedProduct->product_pdf) }}">PDF</a>
                                                 </li>
                                             @endisset
-                                            @isset($selectedProduct->product_catalouge)
-                                                <li>
-                                                    <i class="fas fa-book"></i> <a target="_blank"
-                                                        href="{{ asset('/uploads/products/catalogue/' . $selectedProduct->product_catalouge) }}">Catalogue</a>
-                                                </li>
-                                            @endisset
+											@if (Auth::user())
+                                            	@isset($selectedProduct->product_catalouge)
+                                                	<li>
+                                                    	<i class="fas fa-book"></i> <a target="_blank"
+                                                    	    href="{{ asset('/uploads/products/catalogue/' . $selectedProduct->product_catalouge) }}">Catalogue</a>
+                                                	</li>
+                                            	@endisset 
+											@endif
                                         </ul>
                                     </div>
                                     <div id="showError" class="px-2 py-3 text-danger"></div>
@@ -355,12 +358,14 @@
         <div class="woocommerce-tabs wc-tabs-wrapper bg-vista-white">
             <div class="container">
                 <ul class="nav tabs" id="myTab" role="tablist">
+					@if (isset($sheetData) && count($sheetData) > 0)
                     <li class="nav-item" role="presentation">
                         <a class="active" id="description-tab" data-bs-toggle="tab" href="#description" role="tab"
                             aria-controls="description" aria-selected="true">Specifications</a>
                     </li>
+					@endif
                     <li class="nav-item " role="presentation">
-                        <a id="additional-info-tab" data-bs-toggle="tab" href="#additional-info" role="tab"
+                        <a @if (isset($sheetData) && count($sheetData) <= 0) class="active" @endif id="additional-info-tab" data-bs-toggle="tab" href="#additional-info" role="tab"
                             aria-controls="additional-info" aria-selected="false">Description</a>
                     </li>
                 </ul>
@@ -381,7 +386,7 @@
                                                                 <th>{{ $column }}</th>
                                                             @endif
                                                         @endforeach
-                                                        <th>Action</th>
+                                                        <!-- <th>Action</th> -->
                                                     </tr>
                                                 </thead>
                                                 <tbody>
@@ -395,6 +400,7 @@
                                                                         {{ $value }}</td>
                                                                 @endif
                                                             @endforeach
+															<!-- 
                                                             @foreach ($row as $key => $value)
                                                                 @if (!empty($value))
                                                                     <td data-label="Action"><button
@@ -403,6 +409,7 @@
                                                                 @endif
                                                             @break
                                                         @endforeach
+														-->
                                                     </tr>
                                                 @endforeach
                                             </tbody>
@@ -420,8 +427,6 @@
                                                 </div>
                                             </div>
                                         </div>
-                                    @else
-                                        <p>No data available or the file is empty.</p>
                                     @endif
                                 </div>
 
@@ -495,6 +500,8 @@
 
 
 @section('script')
+<script src="https://code.jquery.com/jquery-3.7.1.min.js"
+    integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
 <script>
     const dropdown = document.getElementById('dropdown');
     const selected = dropdown.querySelector('.dropdown-selected');
@@ -536,8 +543,6 @@
         }
     });
 </script>
-<script src="https://code.jquery.com/jquery-3.7.1.min.js"
-    integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
 <script>
     $(document).ready(function() {
         let $table = $("table");
@@ -630,10 +635,11 @@
                 url: "/check-auth", // Check if the user is logged in
                 type: "GET",
                 success: function(response) {
+console.log(response)
                     if (!response.isAuthenticated) {
                         $("#showError").show();
                         $("#showError").html(
-                            "Please <a href='/signup'>register</a>/<a href='/signin'>login</a> to add Product to favourites"
+                            "Please <a href='/signup'>Register</a>/<a href='/signin'>Login</a> To Add Product To Favourites."
                         ); // Show login popup
                         return;
                     }

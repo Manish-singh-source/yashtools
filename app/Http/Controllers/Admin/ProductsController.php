@@ -28,21 +28,23 @@ class ProductsController extends Controller
     public function addProducts(Request $request)
     {
         // Validate the request
+		// product_quantity'numeric
+        // product_price numeric
+
         $validations = Validator::make($request->all(), [
             'product_name' => 'required',
-            'product_quantity' => 'required|numeric',
-            'product_price' => 'numeric',
-            'product_days_to_dispatch' => 'required',
-            'product_description' => 'required',
-            'product_specs' => 'mimes:xlsx,csv,xls|max:2048',
-            'product_brand' => 'required',
-            'product_image' => 'required|image',
-            'product_pdf' => 'mimes:pdf|max:2048',
-            'product_catalogue' => 'mimes:pdf|max:2048',
-            'product_optional_pdf' => 'image',
-            'product_drawing' => 'image',
-            'product_category' => 'required',
-            'product_sub_category' => 'required',
+            'product_days_to_dispatch' => 'nullable',
+            'product_description' => 'nullable',
+            'product_specs' => 'nullable|mimes:xlsx,csv,xls|max:10240',
+            'product_brand' => 'nullable',
+            'product_image' => 'nullable|image|max:10240',
+            'product_pdf' => 'nullable|mimes:pdf|max:10240',
+			'product_country_of_origin' => 'nullable',
+            'product_catalogue' => 'nullable|mimes:pdf|max:10240',
+            'product_optional_pdf' => 'nullable|image|max:10240',
+            'product_drawing' => 'nullable|mimes:pdf,jpg,jpeg,png|max:10240',
+            'product_category' => 'nullable',
+            'product_sub_category' => 'nullable',
         ]);
 
         // Check validation errors
@@ -54,10 +56,11 @@ class ProductsController extends Controller
         // Create new product
         $product = new Product();
         $product->product_name = $request->product_name;
-        $product->product_quantity = $request->product_quantity;
-        $product->product_price = $request->product_price;
-        $product->product_dispatch = $request->product_days_to_dispatch;
-        $product->product_discription = $request->product_description;
+        $product->product_quantity = $request->product_quantity ?? 0;
+        $product->product_price = $request->product_price ?? 0;
+        $product->product_dispatch = $request->product_days_to_dispatch ?? "";
+        $product->product_discription = $request->product_description ?? "";
+		$product->product_country_of_origin = $request->product_country_of_origin ?? "";
 
         // Handle image upload
         if (!empty($request->product_specs)) {
@@ -125,9 +128,9 @@ class ProductsController extends Controller
         }
 
         // Save additional product details
-        $product->product_brand_id = $request->product_brand;
-        $product->product_category_id = $request->product_category;
-        $product->product_sub_category_id = $request->product_sub_category;
+        $product->product_brand_id = $request->product_brand ?? "";
+        $product->product_category_id = $request->product_category ?? "";
+        $product->product_sub_category_id = $request->product_sub_category ?? "";
         $product->product_arrivals = $request->new_products ?? "";
         $product->product_sale = $request->new_offer ?? "";
         $product->save();
@@ -195,19 +198,18 @@ class ProductsController extends Controller
         $validations = Validator::make($request->all(), [
             'productId' => 'required',
             'product_name' => 'required',
-            'product_quantity' => 'required|numeric',
-            'product_price' => 'numeric',
-            'product_days_to_dispatch' => 'required',
-            'product_specs' => 'mimes:xlsx,csv,xls|max:2048',
-            'product_description' => 'required',
-            'product_brand' => 'required',
-            'product_image' => 'image',
-            'product_optional_pdf' => 'image',
-            'product_pdf' => 'mimes:pdf|max:10240',
-            'product_catalogue' => 'mimes:pdf|max:10240',
-            'product_drawing' => 'image',
-            'product_category' => 'required',
-            'product_sub_category' => 'required',
+            'product_days_to_dispatch' => 'nullable',
+            'product_specs' => 'nullable|mimes:xlsx,csv,xls|max:10240',
+            'product_description' => 'nullable',
+            'product_brand' => 'nullable',
+            'product_image' => 'nullable|image|max:10240',
+            'product_optional_pdf' => 'nullable|image|max:10240',
+            'product_pdf' => 'nullable|mimes:pdf|max:10240',
+			'product_country_of_origin' => 'nullable',
+            'product_catalogue' => 'nullable|mimes:pdf|max:10240',
+            'product_drawing' => 'nullable|mimes:pdf,jpg,jpeg,png|max:10240',
+            'product_category' => 'nullable',
+            'product_sub_category' => 'nullable',
         ]);
 
         // Check validation errors
@@ -217,10 +219,11 @@ class ProductsController extends Controller
         // Create new product
         $product = Product::find($request->productId);
         $product->product_name = $request->product_name;
-        $product->product_quantity = $request->product_quantity;
-        $product->product_price = $request->product_price;
-        $product->product_dispatch = $request->product_days_to_dispatch;
-        $product->product_discription = $request->product_description;
+        $product->product_quantity = $request->product_quantity ?? 0;
+        $product->product_price = $request->product_price ?? 0;
+        $product->product_dispatch = $request->product_days_to_dispatch ?? "";
+        $product->product_discription = $request->product_description ?? "";
+		$product->product_country_of_origin = $request->product_country_of_origin ?? "";
 
 
         // Handle image upload
@@ -303,9 +306,9 @@ class ProductsController extends Controller
         }
 
         // Save additional product details
-        $product->product_brand_id = $request->product_brand;
-        $product->product_category_id = $request->product_category;
-        $product->product_sub_category_id = $request->product_sub_category;
+        $product->product_brand_id = $request->product_brand ?? "";
+        $product->product_category_id = $request->product_category ?? "";
+        $product->product_sub_category_id = $request->product_sub_category ?? "";
         $product->product_arrivals = $request->new_products ?? "";
         $product->product_sale = $request->new_offer ?? "";
         $product->save();
