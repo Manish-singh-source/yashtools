@@ -477,7 +477,7 @@
                                     <td>${product.enquiry_id}</td>
                                     <td>${product.products[0]?.product.product_name ? product.products[0]?.product.product_name : 'NA'}</td>
                                     <td>${product.quantity}</td>
-                                    <td>
+                                    <td class="text-capitalize">
                                         ${product.status === 'payment_received' ? 'Payment Done' : product.status ? product.status : 'Pending'}
                                     </td>
                                     <td>
@@ -551,7 +551,7 @@
                                     <td>${product.enquiry_id}</td>
                                     <td>${product.products[0]?.product.product_name ? product.products[0]?.product.product_name : 'NA'}</td>
                                     <td>${product.quantity}</td>
-                                    <td>
+                                    <td class="text-capitalize">
                                         ${product.status === 'payment_received' ? 'Payment Done' : product.status ? product.status : 'Pending'}
                                     </td>
                                     <td>

@@ -11,7 +11,7 @@
                             <ul class="axil-breadcrumb">
                                 <li class="axil-breadcrumb-item"><a href="{{ route('user.dashboard') }}">Home</a></li>
                                 <li class="separator"></li>
-                                <li class="axil-breadcrumb-item active" aria-current="page">Contact</li>
+                                <li class="axil-breadcrumb-item active" aria-current="page">Feedback</li>
                             </ul>
                             <h1 class="title">Feedback</h1>
                         </div>
@@ -28,7 +28,7 @@
                     <div class="row row--30">
                         <div class="col-lg-12">
                             <div class="contact-form">
-                                <p>Your Suggestions, Our Progress!</p>
+                                <p>Your suggestions, our progress!</p>
                                 <h3 class="title mb--10">Send Us a Message</h3>
 
                                 <form method="POST" action="{{ route('user.feedback.store') }}">

@@ -60,6 +60,7 @@
                                             <select
                                                 class="form-control default-select h-auto wide @error('product_days_to_dispatch') is-invalid @enderror"
                                                 aria-label="Default select example" name="product_days_to_dispatch">
+												<option value="" selected>Select</option>
                                                 <option value="Same Days" @if ($selectedProduct->product_dispatch == 'Same Days') selected @endif>
                                                     Same Day</option>
                                                 <option value="1 Day to Dispatch"
@@ -104,7 +105,7 @@
                                     </div>
                                     <div class="card-body">
                                         <div class="mb-3">
-                                            <h6><i class="fas fa-file-alt"></i> Upload Product Description CSV</h6>
+                                            <h6><i class="fas fa-file-alt"></i> Upload Product Specification(CSV File)</h6>
                                             <div class="d-flex align-items-center justify-content-between">
                                                 <a id="product_specs_preview"
                                                     href="{{ asset('/uploads/products/product_specs/' . $selectedProduct->product_specs) }}"
@@ -176,7 +177,7 @@
                                                         <i class="fas fa-eye"></i> View PDF
                                                     </a>
                                                     <input class="form-control w-50" type="file" id="product_pdf"
-                                                        name="product_pdf" accept=".pdf">
+                                                        name="product_pdf">
                                                 </div>
                                                 @error('product_pdf')
                                                     <div class="text-danger mt-2">{{ $message }}</div>
@@ -192,7 +193,7 @@
                                                         alt="Drawing Preview" class="rounded shadow-sm"
                                                         style="width: 100px; height: auto;">
                                                     <input class="form-control w-50" type="file" id="productDrawing"
-                                                        name="product_drawing" accept=".png, .jpg, .jpeg, .webp">
+                                                        name="product_drawing">
                                                 </div>
                                                 @error('product_drawing')
                                                     <div class="text-danger mt-2">{{ $message }}</div>
@@ -263,12 +264,35 @@
 
                                         </div>
                                     </div>
+
+
                                     <div class="card h-auto">
                                         <div class="card-header py-3">
-                                            <h4 class="card-title--medium mb-0">Catogery</h4>
+                                            <h4 class="card-title--medium mb-0">Country Of Origin</h4>
                                         </div>
                                         <div class="card-body">
-                                            <label class="form-label">Select Catogery</label>
+                                            <div class="mb-3">
+                                                <label class="form-label">Country Of Origin</label>
+                                                <input type="text" placeholder="Enter Country Of Origin"
+                                                    class="form-control @error('product_country_of_origin') is-invalid @enderror"
+                                                    name="product_country_of_origin"
+                                                    value="{{ old('product_country_of_origin', $selectedProduct->product_country_of_origin) }}">
+                                                @error('product_country_of_origin')
+                                                    <div class="invalid-feedback">
+                                                        {{ $message }}
+                                                    </div>
+                                                @enderror
+                                            </div>
+                                        </div>
+                                    </div>
+
+
+                                    <div class="card h-auto">
+                                        <div class="card-header py-3">
+                                            <h4 class="card-title--medium mb-0">Category</h4>
+                                        </div>
+                                        <div class="card-body">
+                                            <label class="form-label">Select Category</label>
                                             <select class="form-control h-auto product_category"
                                                 aria-label="Default select example" name="product_category">
                                                 @foreach ($categories as $category)
@@ -288,7 +312,7 @@
                                             @enderror
                                         </div>
                                         <div class="card-body">
-                                            <label class="form-label">Select Sub Catogery</label>
+                                            <label class="form-label">Select Sub Category</label>
                                             <select class="form-control h-auto wide" name="product_sub_category"
                                                 id="product_sub_category">
                                                 @isset($selectedProduct->product_sub_category_id)

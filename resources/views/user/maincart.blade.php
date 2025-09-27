@@ -86,7 +86,7 @@
                                             </td>
                                             @if ($index === 0)
                                                 <td rowspan="{{ $cartItems->count() }}" id="addEnquiry" class="vlt">
-                                                    <a href="#" class="cartbtn">Send Enquiry</a>
+                                                    <a href="#" class="cartbtn">Place Order(s)</a>
                                                 </td>
                                             @endif
                                         </tr>

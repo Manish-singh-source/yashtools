@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Validator;
+use Illuminate\Validation\Rule;
 
 class BrandController extends Controller
 {
@@ -19,7 +20,10 @@ class BrandController extends Controller
     public function addBrand(Request $request)
     {
         $validations = Validator::make($request->all(), [
-            'brand_name' => 'required|unique:brands,brand_name',
+            'brand_name' => [
+                'required',
+                    Rule::unique('brands')->whereNull('deleted_at')
+                ], 
             "brandImage" => "required|image",
         ]);
 
@@ -74,7 +78,12 @@ class BrandController extends Controller
     {
         $validations = Validator::make($request->all(), [
             'brandId' => 'required',
-            'brand_name' => 'required|unique:brands,brand_name,' . $request->brandId . '',
+            'brand_name' => [
+                'required',
+                Rule::unique('brands', 'brand_name')
+                    ->ignore($request->brandId) // allow updating same brand
+                    ->where(fn($query) => $query->whereNull('deleted_at')), // ignore soft deleted
+            ],
             "brandImage" => "image",
         ]);
 

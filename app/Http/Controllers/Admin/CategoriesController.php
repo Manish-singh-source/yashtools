@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Validator;
+use Illuminate\Validation\Rule;
 
 class CategoriesController extends Controller
 {
@@ -18,7 +19,10 @@ class CategoriesController extends Controller
     public function addCategory(Request $request)
     {
         $validations = Validator::make($request->all(), [
-            'category_name' => 'required|unique:categories,category_name',
+            'category_name' => [
+                'required',
+                Rule::unique('categories')->whereNull('deleted_at')
+            ],
             "categoryImage" => "required|image",
         ]);
 
@@ -78,7 +82,12 @@ class CategoriesController extends Controller
     {
         $validations = Validator::make($request->all(), [
             'category_id' => 'required',
-            'category_name' => 'required|unique:categories,category_name,' . $request->category_id . '',
+            'category_name' => [
+                'required',
+                Rule::unique('categories', 'category_name')
+                    ->ignore($request->category_id) // ignore current row
+                    ->whereNull('deleted_at')       // ignore soft-deleted rows
+            ],
             "categoryImage" => "image",
         ]);
 

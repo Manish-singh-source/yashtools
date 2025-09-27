@@ -144,14 +144,14 @@
                                         </div>
 
                                         <div class="megamenu-column">
-                                            <h4 class="menu-title">Brands</h4>
+                                            <h4 class="menu-title">Brand</h4>
                                             <ul>
                                                 @forelse ($brands as $brand)
                                                     <li><a
                                                             href="{{ route('user.shop', $brand->brand_slug) }}">{{ $brand->brand_name }}</a>
                                                     </li>
                                                 @empty
-                                                    <li><a href="#">No Brands Found</a></li>
+                                                    <li><a href="#">No Brand Found</a></li>
                                                 @endforelse
                                             </ul>
                                         </div>

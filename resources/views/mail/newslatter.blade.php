@@ -10,7 +10,7 @@
     <div style="max-width: 600px; margin: 0 auto; background: #ffffff; padding: 20px; border-radius: 8px; box-shadow: 0 0 10px rgba(0,0,0,0.1); border: 1px solid #ddd;">
         <!-- Header Section -->
         <div style="background: #f1f1f1; padding: 15px; text-align: center;">
-            <img src="{{ asset('admin/assets/images/myimg/logo.png') }}" alt="Company Logo" style="max-width: 150px;">
+            <img src="https://yashtools.in/assets/images/logo/logo.png" alt="Company Logo" style="max-width: 150px;">
         </div>
         
         <!-- Main Content -->

@@ -27,7 +27,7 @@ class newsletter extends Mailable
     public function envelope(): Envelope
     {
         return new Envelope(
-            subject: 'News Letter Form',
+            subject: 'Newsletter Subscription Confirmation',
         );
     }
 

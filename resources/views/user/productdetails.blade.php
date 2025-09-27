@@ -277,6 +277,10 @@
                                     </h2>
                                     <h6 class="title margbot">Brand: <span
                                             class="spnc">{{ $selectedProduct->brands->brand_name }}</span></h6>
+									@if (isset($selectedProduct->product_country_of_origin))
+                                        <h6 class="title margbot">Country Of Origin: <span
+                                                class="spnc">{{ $selectedProduct->product_country_of_origin }}</span></h6>
+                                    @endif
                                     <div class="custom-dropdown margbot" id="dropdown">
                                         <div class="dropdown-selected">
                                             Select Part Number
@@ -309,9 +313,11 @@
                                                 class="spnc">₹{{ $selectedProduct->product_price }}</span>
                                         </div>
                                     @endif
+									@if ($selectedProduct->product_dispatch != null)
                                     <h6 class="title margbot">Days to Dispatch :<span class="spnc">
                                             {{ $selectedProduct->product_dispatch }}</span>
                                     </h6>
+									@endif
                                     <!-- End Product Action Wrapper  -->
                                     <div class="product-action-wrapper margbot">
 

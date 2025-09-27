@@ -12,7 +12,7 @@
             <div class="col-lg-3">
                 <a href="#">
                     <div class="w-100 tagnew1 category-tab-link"><i class="fa fa-briefcase"></i>
-                        Brands</div>
+                        Brand</div>
                 </a>
             </div>
             <div class="col-lg-3">
@@ -320,7 +320,7 @@
                     $(".product-categories-section").show();
                     $(".product-brands-section").hide();
                     $(".product-new-n-sale-section").hide();
-                } else if (tab == 'Brands') {
+                } else if (tab == 'Brand') {
                     resetFilters()
                     $("#filter-section").show()
                     $("#products-section").removeClass("col-lg-12");
