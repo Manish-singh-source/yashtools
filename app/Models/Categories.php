@@ -28,17 +28,33 @@ class Categories extends Model
     {
         parent::boot();
 
-        static::creating(function ($categories) {
-            $categories->category_slug = Str::slug($categories->category_name, '-');
-        });
+        static::creating(function ($category) {
+        $category->category_slug = static::generateUniqueSlug($category->category_name);
+    });
 
-        // Auto-update slug when updating the title
-        static::updating(function ($categories) {
-            if ($categories->isDirty('category_name')) { // Check if title is changed
-                $categories->category_slug = Str::slug($categories->category_name, '-');
-            }
-        });
+    static::updating(function ($category) {
+        if ($category->isDirty('category_name')) {
+            $category->category_slug = static::generateUniqueSlug($category->category_name, $category->id);
+        }
+    });
+}
+
+protected static function generateUniqueSlug($name, $ignoreId = null)
+{
+    $slug = Str::slug($name, '-');
+    $originalSlug = $slug;
+    $counter = 1;
+
+    // Check across ALL rows including soft deleted
+    while (static::withTrashed()
+        ->where('category_slug', $slug)
+        ->when($ignoreId, fn($q) => $q->where('id', '!=', $ignoreId))
+        ->exists()) {
+        $slug = $originalSlug . '-' . $counter++;
     }
+
+    return $slug;
+}
 
     public function productsCount()
     {

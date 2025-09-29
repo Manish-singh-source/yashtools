@@ -3,7 +3,7 @@
 @section('style')
     <style>
         .backl {
-            background-image: url(assets/images/myimg/admin.png);
+            background-image: url(assets/images/myimg/admin3.png);
             height: 100vh;
             background-size: 100% 110%;
         }

@@ -28,6 +28,9 @@ class ProductsController extends Controller
     public function addProducts(Request $request)
     {
         // Validate the request
+		// product_quantity'numeric
+        // product_price numeric
+
         $validations = Validator::make($request->all(), [
             'product_name' => 'nullable',
             'product_quantity' => 'nullable|numeric',
@@ -39,9 +42,9 @@ class ProductsController extends Controller
             'product_image' => 'nullable|image|max:10240',
             'product_pdf' => 'nullable|mimes:pdf|max:10240',
 			'product_country_of_origin' => 'nullable',
-            'product_catalogue' => 'mimes:pdf|max:2048',
-            'product_optional_pdf' => 'image',
-            'product_drawing' => 'image',
+            'product_catalogue' => 'nullable|mimes:pdf|max:10240',
+            'product_optional_pdf' => 'nullable|image|max:10240',
+            'product_drawing' => 'nullable|mimes:pdf,jpg,jpeg,png|max:10240',
             'product_category' => 'nullable',
             'product_sub_category' => 'nullable',
         ]);
@@ -206,14 +209,14 @@ class ProductsController extends Controller
             'product_specs' => 'nullable|mimes:xlsx,csv,xls|max:10240',
             'product_description' => 'required',
             'product_brand' => 'required',
-            'product_image' => 'image',
-            'product_optional_pdf' => 'image',
-            'product_pdf' => 'mimes:pdf|max:10240',
-            'product_country_of_origin' => 'nullable',
-            'product_catalogue' => 'mimes:pdf|max:10240',
-            'product_drawing' => 'image',
-            'product_category' => 'required',
-            'product_sub_category' => 'required',
+            'product_image' => 'nullable|image|max:10240',
+            'product_optional_pdf' => 'nullable|image|max:10240',
+            'product_pdf' => 'nullable|mimes:pdf|max:10240',
+			'product_country_of_origin' => 'nullable',
+            'product_catalogue' => 'nullable|mimes:pdf|max:10240',
+            'product_drawing' => 'nullable|mimes:pdf,jpg,jpeg,png|max:10240',
+            'product_category' => 'nullable',
+            'product_sub_category' => 'nullable',
         ]);
 
         // Check validation errors
@@ -309,9 +312,9 @@ class ProductsController extends Controller
         }
 
         // Save additional product details
-        $product->product_brand_id = $request->product_brand;
-        $product->product_category_id = $request->product_category;
-        $product->product_sub_category_id = $request->product_sub_category;
+        $product->product_brand_id = $request->product_brand ?? "";
+        $product->product_category_id = $request->product_category ?? "";
+        $product->product_sub_category_id = $request->product_sub_category ?? "";
         $product->product_arrivals = $request->new_products ?? "";
         $product->product_sale = $request->new_offer ?? "";
         $product->save();

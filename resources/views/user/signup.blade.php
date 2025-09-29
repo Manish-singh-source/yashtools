@@ -30,7 +30,8 @@
                             <div>
                                 <div class="axil-signin-form">
                                     <h3 class="title">Sign Up and Stay Connected!</h3>
-                                    <p class="b2 mb--55 text-capitalize">Enter your details below</p>
+
+                                    <p class="b2 mb--55">Enter your details below</p>
                                     <form class="signin-form" action="{{ route('register.user') }}" method="post">
                                         @csrf
                                         @method('POST')

@@ -62,7 +62,8 @@
                                             {{-- <select
                                                 class="form-control default-select h-auto wide @error('product_days_to_dispatch') is-invalid @enderror"
                                                 aria-label="Default select example" name="product_days_to_dispatch">
-                                                <option value="Same Days" selected>Same Day</option>
+												<option value="" selected>Select</option>
+                                                <option value="Same Days">Same Day</option>
                                                 <option value="1 Day to Dispatch">1 Day to Dispatch</option>
                                                 <option value="2 Day to Dispatch">2 Day to Dispatch</option>
                                                 <option value="3 Day to Dispatch">3 Day to Dispatch</option>
@@ -110,7 +111,7 @@
                                         <div class="mb-3">
                                             <label for="formFileMultiple" class="form-label">Upload PDF (Optional)</label>
                                             <input class="form-control" type="file" id="formFileMultiple"
-                                                name="product_optional_pdf" accept=".png, .jpg, .jpeg, .webp">
+                                                name="product_optional_pdf">
                                         </div>
                                         @error('product_optional_pdf')
                                             {{ $message }}
@@ -126,7 +127,7 @@
                                             <div class="mb-3">
                                                 <label for="formFile" class="form-label">Upload Catalogue</label>
                                                 <input class="form-control" type="file" id="formFile"
-                                                    name="product_catalogue" accept=".pdf">
+                                                    name="product_catalogue">
                                             </div>
                                             @error('product_catalogue')
                                                 {{ $message }}
@@ -134,7 +135,7 @@
                                             <div class="mb-3">
                                                 <label for="formFileMultiple" class="form-label">Upload PDF</label>
                                                 <input class="form-control" type="file" id="formFileMultiple"
-                                                    name="product_pdf" accept=".pdf">
+                                                    name="product_pdf">
                                             </div>
                                             @error('product_pdf')
                                                 {{ $message }}
@@ -142,7 +143,7 @@
                                             <div class="mb-3">
                                                 <label for="formFileDisabled" class="form-label">Upload Drawing</label>
                                                 <input class="form-control" type="file" id="formFileDisabled"
-                                                    name="product_drawing" accept=".png, .jpg, .jpeg">
+                                                    name="product_drawing">
                                             </div>
                                             @error('product_drawing')
                                                 {{ $message }}

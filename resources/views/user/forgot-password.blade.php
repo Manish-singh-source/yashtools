@@ -11,9 +11,9 @@
                             <ul class="axil-breadcrumb">
                                 <li class="axil-breadcrumb-item"><a href="{{ route('user.dashboard') }}">Home</a></li>
                                 <li class="separator"></li>
-                                <li class="axil-breadcrumb-item active" aria-current="page">Forgot</li>
+                                <li class="axil-breadcrumb-item active" aria-current="page">Forgot Password</li>
                             </ul>
-                            <h1 class="title">Forgot</h1>
+                            <h1 class="title">Forgot Password</h1>
                         </div>
                     </div>
                 </div>
