@@ -59,6 +59,7 @@
                                             <th>State</th>
                                             <th>Date</th>
                                             <th>Company Name</th>
+                                            <th>Company Type</th>
                                             <th>Status</th>
                                             <th>Action</th>
                                         </tr>
@@ -95,6 +96,9 @@
                                                 </td>
                                                 <td>
                                                     {{ $customer->userDetail->company_name ?? '' }}
+                                                </td>
+                                                <td>
+                                                    {{ ucfirst($customer->customer_type) ?? 'NA' }}
                                                 </td>
                                                 <td>
                                                     <div class="form-check form-switch">

@@ -107,8 +107,6 @@ Route::get('/check-auth', function () {
 
 
 
-
-
 // admin routes: Authentication
 Route::view('/admin/signin', 'admin.page-login')->name('admin.signin');
 Route::view('/admin/signup', 'admin.page-register')->name('admin.signup');

@@ -157,6 +157,17 @@
                                             @enderror
                                         </div>
                                     </div>
+                                    <div class="col-sm-6">
+                                        <div class="mb-3">
+                                            <label class="form-label" for="customer_type">Customer Type</label>
+                                            <select class="form-control @error('customer_type') is-invalid @enderror" name="customer_type"> 
+                                                <option selected disabled value="0">-- Select Customer Type --</option> 
+                                                <option {{ $customerDetail->customer_type == 'regular' ? 'selected' : '' }} value="regular">Regular</option> 
+                                                <option {{ $customerDetail->customer_type == 'loyal' ? 'selected' : '' }} value="loyal">Loyal</option>  
+                                                <option {{ $customerDetail->customer_type == 'dealer' ? 'selected' : '' }} value="dealer">Dealer</option>  
+                                            </select>
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
                             <div class="card-footer">

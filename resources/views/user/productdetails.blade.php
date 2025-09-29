@@ -303,14 +303,17 @@
                                     {{-- <h6 class="title margbot">Available Quantity :
                                         <span class="spnc">{{ $selectedProduct->product_quantity }}</span>
                                     </h6> --}}
-                                    @if ($selectedProduct->product_sale != null)
-                                        <div class="product-variation quantity-variant-wrapper margbot">
-                                            <h6 class="title1">Price :</h6><span
-                                                class="spnc">₹{{ $selectedProduct->product_price }}</span>
-                                        </div>
+                                    @if (Auth::user()->customer_type == 'loyal' || Auth::user()->customer_type == 'dealer')
+                                        @if ($selectedProduct->product_price != null)
+                                            <div class="product-variation quantity-variant-wrapper margbot">
+                                                <h6 class="title1">Price :</h6><span
+                                                    class="spnc">₹{{ $selectedProduct->product_price }}</span>
+                                            </div>
+                                        @endif
                                     @endif
+
                                     <h6 class="title margbot">Days to Dispatch :<span class="spnc">
-                                            {{ $selectedProduct->product_dispatch }}</span>
+                                            {{ $selectedProduct->product_dispatch }} Day(s)</span>
                                     </h6>
                                     <!-- End Product Action Wrapper  -->
                                     <div class="product-action-wrapper margbot">
@@ -325,11 +328,8 @@
                                                     class="axil-btn btn-bg-primary" contenteditable="false"
                                                     style="cursor: pointer;"><i class="far fa-shopping-cart"></i> Add
                                                     to Cart</a></li>
-
-
                                         </ul>
                                         <!-- End Product Action  -->
-
                                     </div>
                                     <div class="manish1">
 
@@ -412,31 +412,63 @@
                                     <div class="col-lg-12 mb--30">
                                         <div class="table-responsive">
                                             @if (isset($sheetData) && count($sheetData) > 0)
-                                                <table>
-                                                    <thead>
-                                                        <tr>
-                                                            @foreach ($sheetData[0] as $column)
-                                                                @if (!empty($column))
-                                                                    <th>{{ $column }}</th>
-                                                                @endif
-                                                            @endforeach
-                                                        </tr>
-                                                    </thead>
-                                                    <tbody>
-                                                        @foreach (array_slice($sheetData, 1) as $row)
-                                                            <tr
-                                                                @foreach ($row as $key => $value)
-                                                                @if (!empty($value)) data-col{{ $key }}="{{ $value }}" @endif @endforeach>
-                                                                @foreach ($row as $key => $value)
-                                                                    @if (!empty($value))
-                                                                        <td data-label="Column {{ $key }}">
-                                                                            {{ $value }}</td>
-                                                                    @endif
+                                                @php
+                                                    // Remove completely empty rows
+                                                    $filteredRows = array_filter($sheetData, function ($row) {
+                                                        return collect($row)
+                                                            ->filter(function ($cell) {
+                                                                return !empty($cell);
+                                                            })
+                                                            ->isNotEmpty();
+                                                    });
+
+                                                    // Transpose array to work column-wise
+                                                    $transposed = [];
+                                                    foreach ($filteredRows as $row) {
+                                                        foreach ($row as $key => $cell) {
+                                                            $transposed[$key][] = $cell;
+                                                        }
+                                                    }
+
+                                                    // Keep only columns that have at least one non-empty value
+                                                    $nonEmptyCols = [];
+                                                    foreach ($transposed as $colIndex => $colCells) {
+                                                        if (
+                                                            collect($colCells)
+                                                                ->filter(function ($c) {
+                                                                    return !empty($c);
+                                                                })
+                                                                ->isNotEmpty()
+                                                        ) {
+                                                            $nonEmptyCols[] = $colIndex;
+                                                        }
+                                                    }
+                                                @endphp
+
+                                                @if (count($filteredRows) > 0 && count($nonEmptyCols) > 0)
+                                                    <table>
+                                                        <thead>
+                                                            <tr>
+                                                                @foreach ($nonEmptyCols as $colIndex)
+                                                                    <th>{{ $sheetData[0][$colIndex] ?? '' }}</th>
                                                                 @endforeach
                                                             </tr>
-                                                        @endforeach
-                                                    </tbody>
-                                                </table>
+                                                        </thead>
+                                                        <tbody>
+                                                            @foreach (array_slice($filteredRows, 1) as $row)
+                                                                <tr>
+                                                                    @foreach ($nonEmptyCols as $colIndex)
+                                                                        <td data-label="Column {{ $colIndex }}">
+                                                                            {{ $row[$colIndex] ?? '' }}
+                                                                        </td>
+                                                                    @endforeach
+                                                                </tr>
+                                                            @endforeach
+                                                        </tbody>
+                                                    </table>
+                                                @else
+                                                    <p>No valid data available.</p>
+                                                @endif
                                             @elseif($selectedProduct->product_optional_pdf != '')
                                                 <div class="single-product-thumbnail-wrap zoom-gallery">
                                                     <div
@@ -454,6 +486,7 @@
                                                 <p>No data available or the file is empty.</p>
                                             @endif
                                         </div>
+
 
                                     </div>
                                     <!-- End .col-lg-6 -->
@@ -800,41 +833,42 @@
         });
     </script>
     <script>
-    // Run the code after the page is fully loaded
-    document.addEventListener("DOMContentLoaded", function () {
-        // Check if the WhatsApp enquiry button exists
-        var whatsappButton = document.getElementById("whatsapp-enquiry");
+        // Run the code after the page is fully loaded
+        document.addEventListener("DOMContentLoaded", function() {
+            // Check if the WhatsApp enquiry button exists
+            var whatsappButton = document.getElementById("whatsapp-enquiry");
 
-        if (whatsappButton) {
-            whatsappButton.addEventListener("click", function (event) {
-                event.preventDefault(); // Prevent default link behavior
+            if (whatsappButton) {
+                whatsappButton.addEventListener("click", function(event) {
+                    event.preventDefault(); // Prevent default link behavior
 
-                // WhatsApp Number (with country code, no +)
-                var whatsappNumber = "919326178710";
+                    // WhatsApp Number (with country code, no +)
+                    var whatsappNumber = "919326178710";
 
-                // Try to get the product title element
-                var productTitleElement = document.querySelector(".product-title");
-                var productName = productTitleElement ? productTitleElement.innerText.trim() : "Product Name Not Found";
+                    // Try to get the product title element
+                    var productTitleElement = document.querySelector(".product-title");
+                    var productName = productTitleElement ? productTitleElement.innerText.trim() :
+                        "Product Name Not Found";
 
-                // Get current page URL
-                var productUrl = window.location.href;
+                    // Get current page URL
+                    var productUrl = window.location.href;
 
-                // Format the message
-                var message = "Hello, I want to inquire about:\n\n" +
-                    "📌 *Product:* " + productName + "\n" +
-                    "🔗 *Link:* " + productUrl + "\n\n" +
-                    "Please provide more details.";
+                    // Format the message
+                    var message = "Hello, I want to inquire about:\n\n" +
+                        "📌 *Product:* " + productName + "\n" +
+                        "🔗 *Link:* " + productUrl + "\n\n" +
+                        "Please provide more details.";
 
-                // Create WhatsApp API URL
-                var whatsappUrl = "https://wa.me/" + whatsappNumber + "?text=" + encodeURIComponent(message);
+                    // Create WhatsApp API URL
+                    var whatsappUrl = "https://wa.me/" + whatsappNumber + "?text=" + encodeURIComponent(
+                        message);
 
-                // Open WhatsApp in a new tab
-                window.open(whatsappUrl, "_blank");
-            });
-        } else {
-            console.error("WhatsApp enquiry button with ID 'whatsapp-enquiry' not found.");
-        }
-    });
-</script>
-
+                    // Open WhatsApp in a new tab
+                    window.open(whatsappUrl, "_blank");
+                });
+            } else {
+                console.error("WhatsApp enquiry button with ID 'whatsapp-enquiry' not found.");
+            }
+        });
+    </script>
 @endsection

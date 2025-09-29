@@ -33,8 +33,8 @@
                                         <div class="mb-3">
                                             <label class="form-label">Product Quantity</label>
                                             <input type="number" placeholder="Enter Product Quantity"
-                                                class="form-control @error('product_quantity') is-invalid @enderror" value="{{ old('product_quantity') }}"
-                                                name="product_quantity">
+                                                class="form-control @error('product_quantity') is-invalid @enderror"
+                                                value="{{ old('product_quantity') }}" name="product_quantity">
                                             @error('product_quantity')
                                                 <div class="invalid-feedback">
                                                     {{ $message }}
@@ -43,7 +43,8 @@
                                         </div>
                                         <div class="mb-3">
                                             <label class="form-label">Price</label>
-                                            <input type="number"  placeholder="Enter Product Price" value="{{ old('product_price') }}"
+                                            <input type="number" placeholder="Enter Product Price"
+                                                value="{{ old('product_price') }}"
                                                 class="form-control @error('product_price') is-invalid @enderror"
                                                 name="product_price">
                                             @error('product_price')
@@ -54,7 +55,11 @@
                                         </div>
                                         <div class="mb-3">
                                             <label class="form-label">Days to Dispatch</label>
-                                            <select
+                                            <input type="number" placeholder="Enter Days to Dispatch"
+                                                value="{{ old('product_days_to_dispatch') }}"
+                                                class="form-control @error('product_days_to_dispatch') is-invalid @enderror"
+                                                min="1" name="product_days_to_dispatch">
+                                            {{-- <select
                                                 class="form-control default-select h-auto wide @error('product_days_to_dispatch') is-invalid @enderror"
                                                 aria-label="Default select example" name="product_days_to_dispatch">
                                                 <option value="Same Days" selected>Same Day</option>
@@ -63,7 +68,7 @@
                                                 <option value="3 Day to Dispatch">3 Day to Dispatch</option>
                                                 <option value="4 Day to Dispatch">4 Day to Dispatch</option>
                                                 <option value="5 Day to Dispatch">5 Day to Dispatch</option>
-                                            </select>
+                                            </select> --}}
                                             @error('product_days_to_dispatch')
                                                 <div class="invalid-feedback">
                                                     {{ $message }}
@@ -73,8 +78,9 @@
                                         <div class="mb-3">
                                             <label class="form-label">Description</label>
                                             <div id="ckeditor"></div>
-                                            <textarea  placeholder="Enter Product Description" class="form-control @error('product_description') is-invalid @enderror" name="product_description" style="display: none"
-                                                id="editorContent"></textarea>
+                                            <textarea placeholder="Enter Product Description"
+                                                class="form-control @error('product_description') is-invalid @enderror" name="product_description"
+                                                style="display: none" id="editorContent"></textarea>
                                             @error('product_description')
                                                 <div class="invalid-feedback">
                                                     {{ $message }}
@@ -199,6 +205,27 @@
 
                                         </div>
                                     </div>
+
+                                    <div class="card h-auto">
+                                        <div class="card-header py-3">
+                                            <h4 class="card-title--medium mb-0">Country Of Origin</h4>
+                                        </div>
+                                        <div class="card-body">
+                                            <div class="mb-3">
+                                                <label class="form-label">Country Of Origin</label>
+                                                <input type="text" placeholder="Enter Country Of Origin"
+                                                    class="form-control @error('product_country_of_origin') is-invalid @enderror"
+                                                    name="product_country_of_origin"
+                                                    value="{{ old('product_country_of_origin') }}">
+                                                @error('product_country_of_origin')
+                                                    <div class="invalid-feedback">
+                                                        {{ $message }}
+                                                    </div>
+                                                @enderror
+                                            </div>
+                                        </div>
+                                    </div>
+                                    
                                     <div class="card h-auto">
                                         <div class="card-header py-3">
                                             <h4 class="card-title--medium mb-0">Catogery</h4>

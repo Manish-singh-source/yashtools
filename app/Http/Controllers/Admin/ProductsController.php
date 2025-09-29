@@ -29,110 +29,115 @@ class ProductsController extends Controller
     {
         // Validate the request
         $validations = Validator::make($request->all(), [
-            'product_name' => 'required',
-            'product_quantity' => 'required|numeric',
+            'product_name' => 'nullable',
+            'product_quantity' => 'nullable|numeric',
             'product_price' => 'numeric',
-            'product_days_to_dispatch' => 'required',
-            'product_description' => 'required',
-            'product_specs' => 'mimes:xlsx,csv,xls|max:2048',
-            'product_brand' => 'required',
-            'product_image' => 'required|image',
-            'product_pdf' => 'mimes:pdf|max:2048',
+            'product_days_to_dispatch' => 'nullable|numeric|min:1',
+            'product_description' => 'nullable',
+            'product_specs' => 'nullable|mimes:xlsx,csv,xls|max:10240',
+            'product_brand' => 'nullable',
+            'product_image' => 'nullable|image|max:10240',
+            'product_pdf' => 'nullable|mimes:pdf|max:10240',
+			'product_country_of_origin' => 'nullable',
             'product_catalogue' => 'mimes:pdf|max:2048',
             'product_optional_pdf' => 'image',
             'product_drawing' => 'image',
-            'product_category' => 'required',
-            'product_sub_category' => 'required',
+            'product_category' => 'nullable',
+            'product_sub_category' => 'nullable',
         ]);
 
         // Check validation errors
         if ($validations->fails()) {
+            dd($validations->errors());
             return back()->withErrors($validations)->withInput();
         }
 
+        try {
+            // Create new product
+            $product = new Product();
+            $product->product_name = $request->product_name;
+            $product->product_quantity = $request->product_quantity;
+            $product->product_price = $request->product_price;
+            $product->product_dispatch = $request->product_days_to_dispatch;
+            $product->product_discription = $request->product_description;
+            $product->product_country_of_origin = $request->product_country_of_origin ?? "";
 
-        // Create new product
-        $product = new Product();
-        $product->product_name = $request->product_name;
-        $product->product_quantity = $request->product_quantity;
-        $product->product_price = $request->product_price;
-        $product->product_dispatch = $request->product_days_to_dispatch;
-        $product->product_discription = $request->product_description;
-
-        // Handle image upload
-        if (!empty($request->product_specs)) {
-            $product_specs = $request->product_specs;
-            $excelExt = $product_specs->getClientOriginalExtension();
-            $filename = time() . "." . $excelExt;
-            $product_specs->move(public_path('/uploads/products/product_specs'), $filename);
-            $product->product_specs = $filename;
-        }
-
-        if (!empty($request->product_optional_pdf)) {
-            $product_optional_pdf = $request->product_optional_pdf;
-            $opPdfFile = $product_optional_pdf->getClientOriginalExtension();
-            $opFile = time() . "." . $opPdfFile;
-            $product_optional_pdf->move(public_path('/uploads/products/product_optional_pdf'), $opFile);
-            $product->product_optional_pdf = $opFile;
-        }
-
-        if (!empty($request->product_image)) {
-            $image1 = $request->product_image;
-            $ext1 = $image1->getClientOriginalExtension();
-            $imageName1 = time() . "." . $ext1;
-            $image1->move(public_path('/uploads/products/thumbnails'), $imageName1);
-            $product->product_thumbain = $imageName1;
-
-            // converting image as thumbnail
-            $manager = new ImageManager(Driver::class);
-            $img = $manager->read(public_path('/uploads/products/thumbnails/' . $imageName1));
-            $img->cover(150, 150);
-
-
-            $thumbPath = public_path('/uploads/products/thumbnails/thumb/');
-            if (!file_exists($thumbPath)) {
-                mkdir($thumbPath, 0755, true); // Create thumbnail directory if it doesn't exist
+            // Handle image upload
+            if (!empty($request->product_specs)) {
+                $product_specs = $request->product_specs;
+                $excelExt = $product_specs->getClientOriginalExtension();
+                $filename = time() . "." . $excelExt;
+                $product_specs->move(public_path('/uploads/products/product_specs'), $filename);
+                $product->product_specs = $filename;
             }
 
-            $img->save($thumbPath . '/' . $imageName1);
+            if (!empty($request->product_optional_pdf)) {
+                $product_optional_pdf = $request->product_optional_pdf;
+                $opPdfFile = $product_optional_pdf->getClientOriginalExtension();
+                $opFile = time() . "." . $opPdfFile;
+                $product_optional_pdf->move(public_path('/uploads/products/product_optional_pdf'), $opFile);
+                $product->product_optional_pdf = $opFile;
+            }
+
+            if (!empty($request->product_image)) {
+                $image1 = $request->product_image;
+                $ext1 = $image1->getClientOriginalExtension();
+                $imageName1 = time() . "." . $ext1;
+                $image1->move(public_path('/uploads/products/thumbnails'), $imageName1);
+                $product->product_thumbain = $imageName1;
+
+                // converting image as thumbnail
+                $manager = new ImageManager(Driver::class);
+                $img = $manager->read(public_path('/uploads/products/thumbnails/' . $imageName1));
+                $img->cover(150, 150);
+
+
+                $thumbPath = public_path('/uploads/products/thumbnails/thumb/');
+                if (!file_exists($thumbPath)) {
+                    mkdir($thumbPath, 0755, true); // Create thumbnail directory if it doesn't exist
+                }
+
+                $img->save($thumbPath . '/' . $imageName1);
+            }
+
+            // Handle PDF upload
+            if (!empty($request->product_pdf)) {
+                $image2 = $request->product_pdf;
+                $ext2 = $image2->getClientOriginalExtension();
+                $imageName2 = time() . "." . $ext2;
+                $image2->move(public_path('/uploads/products/pdf'), $imageName2);
+                $product->product_pdf = $imageName2;
+            }
+
+            // Handle catalogue upload
+            if (!empty($request->product_catalogue)) {
+                $image3 = $request->product_catalogue;
+                $ext3 = $image3->getClientOriginalExtension();
+                $imageName3 = time() . "." . $ext3;
+                $image3->move(public_path('/uploads/products/catalogue'), $imageName3);
+                $product->product_catalouge = $imageName3;
+            }
+
+            // Handle drawing upload
+            if (!empty($request->product_drawing)) {
+                $image4 = $request->product_drawing;
+                $ext4 = $image4->getClientOriginalExtension();
+                $imageName4 = time() . "." . $ext4;
+                $image4->move(public_path('/uploads/products/drawing'), $imageName4);
+                $product->product_drawing = $imageName4;
+            }
+
+            // Save additional product details
+            $product->product_brand_id = $request->product_brand;
+            $product->product_category_id = $request->product_category;
+            $product->product_sub_category_id = $request->product_sub_category;
+            $product->product_arrivals = $request->new_products ?? "";
+            $product->product_sale = $request->new_offer ?? "";
+            $product->save();
+            return redirect()->route('admin.table.product');
+        } catch (\Throwable $th) {
+            return back()->with('error', 'Please Try Again.');
         }
-
-        // Handle PDF upload
-        if (!empty($request->product_pdf)) {
-            $image2 = $request->product_pdf;
-            $ext2 = $image2->getClientOriginalExtension();
-            $imageName2 = time() . "." . $ext2;
-            $image2->move(public_path('/uploads/products/pdf'), $imageName2);
-            $product->product_pdf = $imageName2;
-        }
-
-        // Handle catalogue upload
-        if (!empty($request->product_catalogue)) {
-            $image3 = $request->product_catalogue;
-            $ext3 = $image3->getClientOriginalExtension();
-            $imageName3 = time() . "." . $ext3;
-            $image3->move(public_path('/uploads/products/catalogue'), $imageName3);
-            $product->product_catalouge = $imageName3;
-        }
-
-        // Handle drawing upload
-        if (!empty($request->product_drawing)) {
-            $image4 = $request->product_drawing;
-            $ext4 = $image4->getClientOriginalExtension();
-            $imageName4 = time() . "." . $ext4;
-            $image4->move(public_path('/uploads/products/drawing'), $imageName4);
-            $product->product_drawing = $imageName4;
-        }
-
-        // Save additional product details
-        $product->product_brand_id = $request->product_brand;
-        $product->product_category_id = $request->product_category;
-        $product->product_sub_category_id = $request->product_sub_category;
-        $product->product_arrivals = $request->new_products ?? "";
-        $product->product_sale = $request->new_offer ?? "";
-        $product->save();
-
-        return redirect()->route('admin.table.product');
     }
 
 
@@ -197,13 +202,14 @@ class ProductsController extends Controller
             'product_name' => 'required',
             'product_quantity' => 'required|numeric',
             'product_price' => 'numeric',
-            'product_days_to_dispatch' => 'required',
-            'product_specs' => 'mimes:xlsx,csv,xls|max:2048',
+            'product_days_to_dispatch' => 'required|numeric|min:1',
+            'product_specs' => 'nullable|mimes:xlsx,csv,xls|max:10240',
             'product_description' => 'required',
             'product_brand' => 'required',
             'product_image' => 'image',
             'product_optional_pdf' => 'image',
             'product_pdf' => 'mimes:pdf|max:10240',
+            'product_country_of_origin' => 'nullable',
             'product_catalogue' => 'mimes:pdf|max:10240',
             'product_drawing' => 'image',
             'product_category' => 'required',
@@ -221,7 +227,7 @@ class ProductsController extends Controller
         $product->product_price = $request->product_price;
         $product->product_dispatch = $request->product_days_to_dispatch;
         $product->product_discription = $request->product_description;
-
+        $product->product_country_of_origin = $request->product_country_of_origin ?? "";
 
         // Handle image upload
         if (!empty($request->product_specs)) {
