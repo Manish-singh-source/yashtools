@@ -61,6 +61,7 @@ class CustomersController extends Controller
             "country" => "required",
             "pin_code" => "required|digits:6",
             "email" => "required",
+            'customer_type' => 'required',
         ]);
 
 
@@ -71,6 +72,7 @@ class CustomersController extends Controller
         $user = User::find($request->customer_id);
         $user->fullname = $request->fullname;
         $user->mobile_number = $request->mobile_number;
+        $user->customer_type = $request->customer_type;
         $user->save();
 
         $userdetail = UserDetail::where('user_id', $user->id)->first();

@@ -39,12 +39,17 @@ class EnquiryOrdersController extends Controller
                 ->groupBy('enquiry_id');
         })
             ->orderBy('id', 'desc')
+            ->whereHas('customer', function ($q) {
+                $q->whereNull('deleted_at'); // only customers that are NOT soft deleted
+            })
             ->with('customer')
             ->with('notificationsMorph');
 
         $orders = $orders->get(); // Get the results
         return view('admin.order', compact('orders'));
     }
+
+
 
     public function showOrderDetails($id, $invoice_id = null)
     {

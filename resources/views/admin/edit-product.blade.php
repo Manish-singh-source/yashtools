@@ -57,28 +57,10 @@
                                         </div>
                                         <div class="mb-3">
                                             <label class="form-label">Days to Dispatch</label>
-                                            <select
-                                                class="form-control default-select h-auto wide @error('product_days_to_dispatch') is-invalid @enderror"
-                                                aria-label="Default select example" name="product_days_to_dispatch">
-												<option value="" selected>Select</option>
-                                                <option value="Same Days" @if ($selectedProduct->product_dispatch == 'Same Days') selected @endif>
-                                                    Same Day</option>
-                                                <option value="1 Day to Dispatch"
-                                                    @if ($selectedProduct->product_dispatch == '1 Day to Dispatch') selected @endif>1
-                                                    Day to Dispatch</option>
-                                                <option value="2 Day to Dispatch"
-                                                    @if ($selectedProduct->product_dispatch == '2 Day to Dispatch') selected @endif>2
-                                                    Day to Dispatch</option>
-                                                <option value="3 Day to Dispatch"
-                                                    @if ($selectedProduct->product_dispatch == '3 Day to Dispatch') selected @endif>3
-                                                    Day to Dispatch</option>
-                                                <option value="4 Day to Dispatch"
-                                                    @if ($selectedProduct->product_dispatch == '4 Day to Dispatch') selected @endif>4
-                                                    Day to Dispatch</option>
-                                                <option value="5 Day to Dispatch"
-                                                    @if ($selectedProduct->product_dispatch == '5 Day to Dispatch') selected @endif>5
-                                                    Day to Dispatch</option>
-                                            </select>
+                                            <input type="number" placeholder="Enter Days to Dispatch"
+                                                class="form-control @error('product_days_to_dispatch') is-invalid @enderror"
+                                                name="product_days_to_dispatch"
+                                                value="{{ $selectedProduct->product_dispatch }}">
                                             @error('product_days_to_dispatch')
                                                 <div class="invalid-feedback">
                                                     {{ $message }}
@@ -315,7 +297,6 @@
                                             </div>
                                         </div>
                                     </div>
-
 
                                     <div class="card h-auto">
                                         <div class="card-header py-3">

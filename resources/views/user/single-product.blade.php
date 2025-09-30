@@ -300,7 +300,7 @@
                                     </div>
 
                                     <!-- <h6 class="title margbot">Days to Dispatch :<span class="spnc">
-                                            {{ $selectedProduct->product_dispatch }}</span></h6> -->
+                                                    {{ $selectedProduct->product_dispatch }}</span></h6> -->
                                     <div class="manish1 margbot">
                                         <ul class="icon-list-row d-flex">
                                             @isset($selectedProduct->product_drawing)
@@ -384,68 +384,90 @@
                                 <div class="col-lg-12 mb--30">
                                     <div class="table-responsive">
                                         @if (isset($sheetData) && count($sheetData) > 0)
-                                            <table>
-                                                <thead>
-                                                    <tr>
-                                                        @foreach ($sheetData[0] as $column)
-                                                            @if (!empty($column))
-                                                                <th>{{ $column }}</th>
-                                                            @endif
-                                                        @endforeach
-                                                        <!-- <th>Action</th> -->
-                                                    </tr>
-                                                </thead>
-                                                <tbody>
-                                                    @foreach (array_slice($sheetData, 1) as $row)
-                                                        <tr
-                                                            @foreach ($row as $key => $value)
-                                                            @if (!empty($value)) data-col{{ $key }}="{{ $value }}" @endif @endforeach>
-                                                            @foreach ($row as $key => $value)
-                                                                @if (!empty($value))
-                                                                    <td data-label="Column {{ $key }}">
-                                                                        {{ $value }}</td>
-                                                                @endif
+
+                                            @php
+                                                // Remove completely empty rows
+                                                $filteredRows = array_filter($sheetData, function ($row) {
+                                                    return collect($row)
+                                                        ->filter(function ($cell) {
+                                                            return !empty($cell);
+                                                        })
+                                                        ->isNotEmpty();
+                                                });
+
+                                                // Transpose array to work column-wise
+                                                $transposed = [];
+                                                foreach ($filteredRows as $row) {
+                                                    foreach ($row as $key => $cell) {
+                                                        $transposed[$key][] = $cell;
+                                                    }
+                                                }
+
+                                                // Keep only columns that have at least one non-empty value
+                                                $nonEmptyCols = [];
+                                                foreach ($transposed as $colIndex => $colCells) {
+                                                    if (
+                                                        collect($colCells)
+                                                            ->filter(function ($c) {
+                                                                return !empty($c);
+                                                            })
+                                                            ->isNotEmpty()
+                                                    ) {
+                                                        $nonEmptyCols[] = $colIndex;
+                                                    }
+                                                }
+                                            @endphp
+
+                                            @if (count($filteredRows) > 0 && count($nonEmptyCols) > 0)
+                                                <table>
+                                                    <thead>
+                                                        <tr>
+                                                            @foreach ($nonEmptyCols as $colIndex)
+                                                                <th>{{ $sheetData[0][$colIndex] ?? '' }}</th>
                                                             @endforeach
-															<!-- 
-                                                            @foreach ($row as $key => $value)
-                                                                @if (!empty($value))
-                                                                    <td data-label="Action"><button
-                                                                            class="action-btn">3D</button>
+                                                        </tr>
+                                                    </thead>
+                                                    <tbody>
+                                                        @foreach (array_slice($filteredRows, 1) as $row)
+                                                            <tr>
+                                                                @foreach ($nonEmptyCols as $colIndex)
+                                                                    <td data-label="Column {{ $colIndex }}">
+                                                                        {{ $row[$colIndex] ?? '' }}
                                                                     </td>
-                                                                @endif
-                                                            @break
+                                                                @endforeach
+                                                            </tr>
                                                         @endforeach
-														-->
-                                                    </tr>
-                                                @endforeach
-                                            </tbody>
-                                        </table>
-                                    @elseif($selectedProduct->product_optional_pdf != '')
-                                        <div class="single-product-thumbnail-wrap zoom-gallery">
-                                            <div
-                                                class="single-product-thumbnail product-large-thumbnail-3 axil-product">
-                                                <div class="thumbnail">
-                                                    <a href="{{ asset('/uploads/products/product_optional_pdf/' . $selectedProduct->product_optional_pdf) }}"
-                                                        class="popup-zoom">
-                                                        <img src="{{ asset('/uploads/products/product_optional_pdf/' . $selectedProduct->product_optional_pdf) }}"
-                                                            alt="Product Images">
-                                                    </a>
+                                                    </tbody>
+                                                </table>
+                                            @else
+                                                <p>No valid data available.</p>
+                                            @endif
+                                        @elseif($selectedProduct->product_optional_pdf != '')
+                                            <div class="single-product-thumbnail-wrap zoom-gallery">
+                                                <div
+                                                    class="single-product-thumbnail product-large-thumbnail-3 axil-product">
+                                                    <div class="thumbnail">
+                                                        <a href="{{ asset('/uploads/products/product_optional_pdf/' . $selectedProduct->product_optional_pdf) }}"
+                                                            class="popup-zoom">
+                                                            <img src="{{ asset('/uploads/products/product_optional_pdf/' . $selectedProduct->product_optional_pdf) }}"
+                                                                alt="Product Images">
+                                                        </a>
+                                                    </div>
                                                 </div>
                                             </div>
-                                        </div>
-                                    @endif
+                                        @else
+                                            <p>No data available or the file is empty.</p>
+                                        @endif
+                                    </div>
                                 </div>
 
                             </div>
                             <!-- End .col-lg-6 -->
                         </div>
                         <!-- End .row -->
-
-                        <!-- End .row -->
                     </div>
                     <!-- End .product-desc-wrapper -->
                 </div>
-
                 <!-- Lead Time Tab -->
                 @if (isset($leadTimeData) && !empty($leadTimeData))
                 <div class="tab-pane fade @if (!isset($sheetData) || count($sheetData) <= 0) show active @endif" id="lead-time" role="tabpanel"
@@ -511,6 +533,7 @@
 
                 <div class="tab-pane fade @if ((!isset($sheetData) || count($sheetData) <= 0) && (!isset($leadTimeData) || empty($leadTimeData))) show active @endif" id="additional-info" role="tabpanel"
                     aria-labelledby="additional-info-tab">
+                <div class="tab-pane fade" id="additional-info" role="tabpanel" aria-labelledby="additional-info-tab">
                     <div class="product-desc-wrapper">
                         <div class="row">
                             <div class="col-lg-12 mb--30">
@@ -526,46 +549,46 @@
 
             </div>
         </div>
-    </div>
-    <!-- woocommerce-tabs -->
+        </div>
+        <!-- woocommerce-tabs -->
 
-    </div>
-    <!-- End Shop Area  -->
+        </div>
+        <!-- End Shop Area  -->
 
-    <!-- Start Recently Viewed Product Area  -->
-    <div class="axil-product-area bg-color-white axil-section-gap pb--50 pb_sm--30">
-        <div class="container">
-            <div class="section-title-wrapper">
+        <!-- Start Recently Viewed Product Area  -->
+        <div class="axil-product-area bg-color-white axil-section-gap pb--50 pb_sm--30">
+            <div class="container">
+                <div class="section-title-wrapper">
 
-                <h2 class="title">Recently Viewed Items</h2>
-            </div>
-            <div class="row row--15">
-                @foreach ($similarProducts as $product)
-                    <div class="col-xl-3 col-lg-4 col-sm-6 col-12 mb--30">
-                        <div class="axil-product product-style-one">
-                            <div class="thumbnail">
-                                <a href="{{ route('user.single.product', $product->product_slug) }}">
-                                    <img data-sal="fade" data-sal-delay="100" data-sal-duration="1500"
-                                        src="{{ asset('/uploads/products/thumbnails/' . $product->product_thumbain) }}"
-                                        alt="Product Images">
-                                </a>
-                            </div>
-                            <div class="product-content">
-                                <div class="inner">
-                                    <h5 class="title"><a
-                                            href="{{ route('user.single.product', $product->product_slug) }}">{{ $product->product_name }}</a>
-                                    </h5>
+                    <h2 class="title">Recently Viewed Items</h2>
+                </div>
+                <div class="row row--15">
+                    @foreach ($similarProducts as $product)
+                        <div class="col-xl-3 col-lg-4 col-sm-6 col-12 mb--30">
+                            <div class="axil-product product-style-one">
+                                <div class="thumbnail">
+                                    <a href="{{ route('user.single.product', $product->product_slug) }}">
+                                        <img data-sal="fade" data-sal-delay="100" data-sal-duration="1500"
+                                            src="{{ asset('/uploads/products/thumbnails/' . $product->product_thumbain) }}"
+                                            alt="Product Images">
+                                    </a>
+                                </div>
+                                <div class="product-content">
+                                    <div class="inner">
+                                        <h5 class="title"><a
+                                                href="{{ route('user.single.product', $product->product_slug) }}">{{ $product->product_name }}</a>
+                                        </h5>
+                                    </div>
                                 </div>
                             </div>
                         </div>
-                    </div>
-                @endforeach
+                    @endforeach
+                </div>
             </div>
         </div>
-    </div>
-    <!-- End Recently Viewed Product Area  -->
+        <!-- End Recently Viewed Product Area  -->
 
-</main>
+    </main>
 @endsection
 
 
@@ -579,32 +602,32 @@
     const searchBox = dropdown.querySelector('.search-box');
     const optionItems = options.querySelectorAll('div');
 
-    // Toggle dropdown visibility
-    selected.addEventListener('click', () => {
-        options.style.display = options.style.display === 'block' ? 'none' : 'block';
-    });
+        // Toggle dropdown visibility
+        selected.addEventListener('click', () => {
+            options.style.display = options.style.display === 'block' ? 'none' : 'block';
+        });
 
-    // Filter options based on search input
-    searchBox.addEventListener('input', () => {
-        const filter = searchBox.value.toLowerCase();
-        optionItems.forEach(option => {
-            if (option.textContent.toLowerCase().includes(filter)) {
-                option.style.display = '';
-            } else {
-                option.style.display = 'none';
+        // Filter options based on search input
+        searchBox.addEventListener('input', () => {
+            const filter = searchBox.value.toLowerCase();
+            optionItems.forEach(option => {
+                if (option.textContent.toLowerCase().includes(filter)) {
+                    option.style.display = '';
+                } else {
+                    option.style.display = 'none';
+                }
+            });
+        });
+
+        // Select an option
+        options.addEventListener('click', (event) => {
+            if (event.target.tagName === 'DIV') {
+                selected.childNodes[0].textContent = event.target.textContent;
+                options.style.display = 'none';
+                optionItems.forEach(option => option.classList.remove('selected'));
+                event.target.classList.add('selected');
             }
         });
-    });
-
-    // Select an option
-    options.addEventListener('click', (event) => {
-        if (event.target.tagName === 'DIV') {
-            selected.childNodes[0].textContent = event.target.textContent;
-            options.style.display = 'none';
-            optionItems.forEach(option => option.classList.remove('selected'));
-            event.target.classList.add('selected');
-        }
-    });
 
     // Close dropdown when clicking outside
     document.addEventListener('click', (event) => {
@@ -618,88 +641,88 @@
         let $table = $("table");
         if ($table.length === 0) return;
 
-        let $headers = $table.find("thead th");
-        let $rows = $table.find("tbody tr");
+            let $headers = $table.find("thead th");
+            let $rows = $table.find("tbody tr");
 
-        let uniqueValues = {};
+            let uniqueValues = {};
 
-        $rows.each(function() {
-            let $cells = $(this).find("td");
-            $cells.each(function(index) {
-                if (!$headers.eq(index).length) return;
-                let columnLabel = $headers.eq(index).data("column") || $.trim($headers.eq(index)
-                    .text());
-                let value = $.trim($(this).text());
-
-                if (!uniqueValues[columnLabel]) {
-                    uniqueValues[columnLabel] = new Set();
-                }
-                if (value !== "") { // Ignore empty values
-                    uniqueValues[columnLabel].add(value);
-                }
-            });
-        });
-
-        $headers.each(function(index) {
-            let columnLabel = $(this).data("column") || $.trim($(this).text());
-            if (columnLabel) {
-                let $select = $("<select>").on("change", function() {
-                    filterTable(index, $(this).val());
-                });
-
-                let $defaultOption = $("<option>").val("").text("All");
-                $select.append($defaultOption);
-                let iteration = 0;
-
-                if (uniqueValues[columnLabel]) {
-                    uniqueValues[columnLabel].forEach(value => {
-                        let $option = $("<option>").val(value).text(value);
-                        $select.append($option);
-                    });
-                }
-                $(this).append($select);
-            }
-        });
-
-
-        $rows.each(function() {
-            let partNumbers = {};
-            let $row = $(this).find("td");
-
-            let key = $row.eq(0).text().trim(); // Get the first <td> text
-            partNumbers[key] = key;
-
-            if (key) {
-                $(".dropdown-options").append(`<div>${key}</div>`);
-            }
-        });
-
-
-        function filterTable(columnIndex, value) {
             $rows.each(function() {
-                let $cell = $(this).find("td").eq(columnIndex);
-                if ($cell.length) {
-                    let cellValue = $.trim($cell.text());
-                    $(this).toggle(value === "" || cellValue === value);
+                let $cells = $(this).find("td");
+                $cells.each(function(index) {
+                    if (!$headers.eq(index).length) return;
+                    let columnLabel = $headers.eq(index).data("column") || $.trim($headers.eq(index)
+                        .text());
+                    let value = $.trim($(this).text());
+
+                    if (!uniqueValues[columnLabel]) {
+                        uniqueValues[columnLabel] = new Set();
+                    }
+                    if (value !== "") { // Ignore empty values
+                        uniqueValues[columnLabel].add(value);
+                    }
+                });
+            });
+
+            $headers.each(function(index) {
+                let columnLabel = $(this).data("column") || $.trim($(this).text());
+                if (columnLabel) {
+                    let $select = $("<select>").on("change", function() {
+                        filterTable(index, $(this).val());
+                    });
+
+                    let $defaultOption = $("<option>").val("").text("All");
+                    $select.append($defaultOption);
+                    let iteration = 0;
+
+                    if (uniqueValues[columnLabel]) {
+                        uniqueValues[columnLabel].forEach(value => {
+                            let $option = $("<option>").val(value).text(value);
+                            $select.append($option);
+                        });
+                    }
+                    $(this).append($select);
                 }
             });
-        }
-    });
-</script>
 
-<script>
-    $(document).ready(function() {
 
-        $("#showError").hide();
-        $.ajaxSetup({
-            headers: {
-                "X-CSRF-TOKEN": $('meta[name="csrf-token"]').attr("content"),
-            },
+            $rows.each(function() {
+                let partNumbers = {};
+                let $row = $(this).find("td");
+
+                let key = $row.eq(0).text().trim(); // Get the first <td> text
+                partNumbers[key] = key;
+
+                if (key) {
+                    $(".dropdown-options").append(`<div>${key}</div>`);
+                }
+            });
+
+
+            function filterTable(columnIndex, value) {
+                $rows.each(function() {
+                    let $cell = $(this).find("td").eq(columnIndex);
+                    if ($cell.length) {
+                        let cellValue = $.trim($cell.text());
+                        $(this).toggle(value === "" || cellValue === value);
+                    }
+                });
+            }
         });
+    </script>
 
-        $(document).on("click", "#wishlistBtn", function() {
-            let productid = $(this).data("productid");
-            let productStatus = $(this).siblings(".status").val() || 0;
+    <script>
+        $(document).ready(function() {
+
+            $("#showError").hide();
+            $.ajaxSetup({
+                headers: {
+                    "X-CSRF-TOKEN": $('meta[name="csrf-token"]').attr("content"),
+                },
+            });
+
+            $(document).on("click", "#wishlistBtn", function() {
+                let productid = $(this).data("productid");
+                let productStatus = $(this).siblings(".status").val() || 0;
 
             $.ajax({
                 url: "/check-auth", // Check if the user is logged in
@@ -714,28 +737,28 @@ console.log(response)
                         return;
                     }
 
-                    $.ajax({
-                        url: "/add-to-favourite",
-                        type: "POST",
-                        data: {
-                            productid: productid,
-                            productStatus: productStatus,
-                        },
-                        success: function(data) {
-                            if (data.status) {
-                                location.reload();
-                            }
-                        },
-                        error: function(xhr, status, error) {
-                            console.log(xhr);
-                            console.log(status);
-                            console.log(error);
-                        },
-                    });
+                        $.ajax({
+                            url: "/add-to-favourite",
+                            type: "POST",
+                            data: {
+                                productid: productid,
+                                productStatus: productStatus,
+                            },
+                            success: function(data) {
+                                if (data.status) {
+                                    location.reload();
+                                }
+                            },
+                            error: function(xhr, status, error) {
+                                console.log(xhr);
+                                console.log(status);
+                                console.log(error);
+                            },
+                        });
 
-                }
+                    }
+                });
             });
         });
-    });
-</script>
+    </script>
 @endsection
