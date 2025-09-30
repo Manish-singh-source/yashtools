@@ -364,8 +364,14 @@
                             aria-controls="description" aria-selected="true">Specifications</a>
                     </li>
 					@endif
+                    @if (isset($leadTimeData) && !empty($leadTimeData))
+                    <li class="nav-item" role="presentation">
+                        <a @if (!isset($sheetData) || count($sheetData) <= 0) class="active" @endif id="lead-time-tab" data-bs-toggle="tab" href="#lead-time" role="tab"
+                            aria-controls="lead-time" aria-selected="false">Lead Time</a>
+                    </li>
+                    @endif
                     <li class="nav-item " role="presentation">
-                        <a @if (isset($sheetData) && count($sheetData) <= 0) class="active" @endif id="additional-info-tab" data-bs-toggle="tab" href="#additional-info" role="tab"
+                        <a @if ((!isset($sheetData) || count($sheetData) <= 0) && (!isset($leadTimeData) || empty($leadTimeData))) class="active" @endif id="additional-info-tab" data-bs-toggle="tab" href="#additional-info" role="tab"
                             aria-controls="additional-info" aria-selected="false">Description</a>
                     </li>
                 </ul>
@@ -439,7 +445,71 @@
                     </div>
                     <!-- End .product-desc-wrapper -->
                 </div>
-                <div class="tab-pane fade" id="additional-info" role="tabpanel"
+
+                <!-- Lead Time Tab -->
+                @if (isset($leadTimeData) && !empty($leadTimeData))
+                <div class="tab-pane fade @if (!isset($sheetData) || count($sheetData) <= 0) show active @endif" id="lead-time" role="tabpanel"
+                    aria-labelledby="lead-time-tab">
+                    <div class="product-desc-wrapper">
+                        <div class="row">
+                            <div class="col-lg-12 mb--30">
+                                <div class="lead-time-content">
+                                    <h4 class="mb-3"><i class="fas fa-clock text-primary"></i> Lead Time Information</h4>
+
+                                    @if (isset($leadTimeType) && $leadTimeType === 'excel' && is_array($leadTimeData))
+                                        <!-- Excel Data Display -->
+                                        <div class="table-responsive">
+                                            <table class="table table-striped table-hover">
+                                                <thead class="table-dark">
+                                                    <tr>
+                                                        @foreach ($leadTimeData[0] as $column)
+                                                            @if (!empty($column))
+                                                                <th class="text-center">{{ $column }}</th>
+                                                            @endif
+                                                        @endforeach
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                    @foreach (array_slice($leadTimeData, 1) as $row)
+                                                        <tr>
+                                                            @foreach ($row as $key => $value)
+                                                                @if (!empty($value) || $value === '0' || $value === 0)
+                                                                    <td class="text-center">{{ $value }}</td>
+                                                                @elseif (isset($leadTimeData[0][$key]) && !empty($leadTimeData[0][$key]))
+                                                                    <td class="text-center text-muted">-</td>
+                                                                @endif
+                                                            @endforeach
+                                                        </tr>
+                                                    @endforeach
+                                                </tbody>
+                                            </table>
+                                        </div>
+
+                                        <!-- Download Link for Excel File -->
+                                        @if (!empty($selectedProduct->lead_time))
+                                        <div class="mt-3">
+                                            <a href="{{ asset('/uploads/products/lead_time/' . $selectedProduct->lead_time) }}"
+                                               class="btn btn-outline-primary btn-sm"
+                                               download>
+                                                <i class="fas fa-download"></i> Download Excel File
+                                            </a>
+                                        </div>
+                                        @endif
+
+                                    @else
+                                        <!-- No Lead Time Data -->
+                                        <div class="alert alert-info">
+                                            <i class="fas fa-info-circle"></i> No lead time information available for this product.
+                                        </div>
+                                    @endif
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                @endif
+
+                <div class="tab-pane fade @if ((!isset($sheetData) || count($sheetData) <= 0) && (!isset($leadTimeData) || empty($leadTimeData))) show active @endif" id="additional-info" role="tabpanel"
                     aria-labelledby="additional-info-tab">
                     <div class="product-desc-wrapper">
                         <div class="row">

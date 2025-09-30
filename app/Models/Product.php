@@ -17,6 +17,28 @@ class Product extends Model
     use SoftDeletes;
     protected $dates = ['created_at', 'updated_at'];
 
+    protected $fillable = [
+        'product_name',
+        'product_quantity',
+        'product_price',
+        'product_dispatch',
+        'product_discription',
+        'product_specs',
+        'lead_time',
+        'product_catalouge',
+        'product_pdf',
+        'product_drawing',
+        'product_thumbain',
+        'product_brand_id',
+        'product_category_id',
+        'product_sub_category_id',
+        'product_arrivals',
+        'product_sale',
+        'product_optional_pdf',
+        'product_country_of_origin',
+        'product_slug'
+    ];
+
     public function history()
     {
         return $this->morphMany(MorphHistory::class, 'modifiable');
