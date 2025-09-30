@@ -15,6 +15,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\File;
 use Maatwebsite\Excel\Facades\Excel;
+use App\Services\LeadTimeExcelService;
 
 class HomeController extends Controller
 {
@@ -142,6 +143,23 @@ class HomeController extends Controller
             $similarProducts = Product::where('id', '!=', $selectedProduct->id)->limit(4)->get();
         }
 
+        // Process Lead Time data
+        $leadTimeData = null;
+        $leadTimeType = null;
+
+        if (!empty($selectedProduct->lead_time)) {
+            $leadTimeService = new LeadTimeExcelService();
+
+            // Read Excel file
+            $excelResult = $leadTimeService->readLeadTimeExcel($selectedProduct->lead_time);
+            if ($excelResult['success']) {
+                $leadTimeData = $excelResult['data'];
+                $leadTimeType = 'excel';
+            }
+        }
+
+        // Process product specifications
+        $sheetData = null;
         if (!empty($selectedProduct->product_specs)) {
             $path = public_path('/uploads/products/product_specs/' . $selectedProduct->product_specs);
 
@@ -154,9 +172,9 @@ class HomeController extends Controller
                 $sheetData = $data[0];
             }
             $spreadsheet = \PhpOffice\PhpSpreadsheet\IOFactory::load($path);
-            return view('user.single-product', compact('categories', 'brands', 'subcategories', 'selectedProduct', 'sheetData', 'favouritesProducts', 'similarProducts', 'breadcrumbs'));
         }
-        return view('user.single-product', compact('categories', 'brands', 'subcategories', 'selectedProduct', 'favouritesProducts', 'similarProducts', 'breadcrumbs'));
+
+        return view('user.single-product', compact('categories', 'brands', 'subcategories', 'selectedProduct', 'sheetData', 'leadTimeData', 'leadTimeType', 'favouritesProducts', 'similarProducts', 'breadcrumbs'));
     }
 
     public function events()

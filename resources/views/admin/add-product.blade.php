@@ -95,17 +95,40 @@
                                         <h4 class="card-title--medium mb-0">Specifications</h4>
                                     </div>
                                     <div class="card-body">
-                                        <div class="dz-default ic-message upload-img mb-3">
-                                            <div class="dropzone">
-                                                <div class="fallback">
-                                                    <input type="file" accept=".xlsx, .csv, .xls" name="product_specs"
-                                                        multiple>
+                                        <div class="mb-3">
+                                            <label for="product_specs" class="form-label">
+                                                <i class="fas fa-file-excel"></i> Upload Product Specifications (Excel File)
+                                            </label>
+                                            <div class="dz-default ic-message upload-img mb-3">
+                                                <div class="dropzone">
+                                                    <div class="fallback">
+                                                        <input type="file" accept=".xlsx, .csv, .xls" name="product_specs"
+                                                            multiple>
+                                                    </div>
                                                 </div>
                                             </div>
+                                            @error('product_specs')
+                                                <div class="text-danger">{{ $message }}</div>
+                                            @enderror
                                         </div>
-                                        @error('excelFile')
-                                            {{ $message }}
-                                        @enderror
+
+
+
+                                        <!-- Lead Time Section -->
+                                        <div class="mb-3">
+                                            <label for="lead_time_excel" class="form-label">
+                                                <i class="fas fa-file-excel"></i> Lead Time Excel File
+                                            </label>
+                                            <input class="form-control @error('lead_time_excel') is-invalid @enderror"
+                                                type="file"
+                                                id="lead_time_excel"
+                                                name="lead_time_excel"
+                                                accept=".xlsx,.xls,.csv">
+                                            <div class="form-text">Upload Excel file containing lead time data. Supported formats: .xlsx, .xls, .csv (Max: 10MB)</div>
+                                            @error('lead_time_excel')
+                                                <div class="invalid-feedback">{{ $message }}</div>
+                                            @enderror
+                                        </div>
                                     </div>
                                     <div class="card-body">
                                         <div class="mb-3">

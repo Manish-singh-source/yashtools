@@ -14,6 +14,7 @@ use Illuminate\Support\Facades\File;
 use Intervention\Image\ImageManager;
 use Illuminate\Support\Facades\Validator;
 use Intervention\Image\Drivers\Gd\Driver;
+use App\Services\LeadTimeExcelService;
 
 class ProductsController extends Controller
 {
@@ -38,6 +39,7 @@ class ProductsController extends Controller
             'product_days_to_dispatch' => 'nullable|numeric|min:1',
             'product_description' => 'nullable',
             'product_specs' => 'nullable|mimes:xlsx,csv,xls|max:10240',
+            'lead_time_excel' => 'nullable|mimes:xlsx,csv,xls|max:10240',
             'product_brand' => 'nullable',
             'product_image' => 'nullable|image|max:10240',
             'product_pdf' => 'nullable|mimes:pdf|max:10240',
@@ -129,6 +131,31 @@ class ProductsController extends Controller
                 $image4->move(public_path('/uploads/products/drawing'), $imageName4);
                 $product->product_drawing = $imageName4;
             }
+          
+            // Handle Lead Time Excel file processing
+            if (!empty($request->lead_time_excel)) {
+                $leadTimeService = new LeadTimeExcelService();
+
+                // Validate the Excel file
+                $validationResult = $leadTimeService->validateLeadTimeExcel($request->lead_time_excel);
+
+                if ($validationResult['success']) {
+                    // Save the Excel file
+                    $saveResult = $leadTimeService->saveLeadTimeExcel($request->lead_time_excel);
+
+                    if ($saveResult['success']) {
+                        $product->lead_time = $saveResult['filename'];
+                    } else {
+                        return redirect()->back()
+                            ->withErrors(['lead_time_excel' => $saveResult['message']])
+                            ->withInput();
+                    }
+                } else {
+                    return redirect()->back()
+                        ->withErrors(['lead_time_excel' => $validationResult['message']])
+                        ->withInput();
+                }
+            }
 
             // Save additional product details
             $product->product_brand_id = $request->product_brand;
@@ -170,6 +197,10 @@ class ProductsController extends Controller
         if (!empty($product->product_thumbain)) {
             File::delete(public_path('/uploads/products/thumbnails/' . $product->product_thumbain));
         }
+        if (!empty($product->lead_time)) {
+            $leadTimeService = new LeadTimeExcelService();
+            $leadTimeService->deleteLeadTimeExcel($product->lead_time);
+        }
 
         $product->delete();
 
@@ -207,12 +238,13 @@ class ProductsController extends Controller
             'product_price' => 'numeric',
             'product_days_to_dispatch' => 'required|numeric|min:1',
             'product_specs' => 'nullable|mimes:xlsx,csv,xls|max:10240',
-            'product_description' => 'required',
-            'product_brand' => 'required',
+            'lead_time_excel' => 'nullable|mimes:xlsx,csv,xls|max:10240',
+            'product_description' => 'nullable',
+            'product_brand' => 'nullable',
             'product_image' => 'nullable|image|max:10240',
             'product_optional_pdf' => 'nullable|image|max:10240',
             'product_pdf' => 'nullable|mimes:pdf|max:10240',
-			'product_country_of_origin' => 'nullable',
+            'product_country_of_origin' => 'nullable',
             'product_catalogue' => 'nullable|mimes:pdf|max:10240',
             'product_drawing' => 'nullable|mimes:pdf,jpg,jpeg,png|max:10240',
             'product_category' => 'nullable',
@@ -309,6 +341,36 @@ class ProductsController extends Controller
             $imageName4 = time() . "." . $ext4;
             $image4->move(public_path('/uploads/products/drawing'), $imageName4);
             $product->product_drawing = $imageName4;
+        }
+
+        // Handle Lead Time Excel file processing
+        if (!empty($request->lead_time_excel)) {
+            $leadTimeService = new LeadTimeExcelService();
+
+            // Delete old Lead Time file if it exists
+            if (!empty($product->lead_time)) {
+                $leadTimeService->deleteLeadTimeExcel($product->lead_time);
+            }
+
+            // Validate the new Excel file
+            $validationResult = $leadTimeService->validateLeadTimeExcel($request->lead_time_excel);
+
+            if ($validationResult['success']) {
+                // Save the new Excel file
+                $saveResult = $leadTimeService->saveLeadTimeExcel($request->lead_time_excel);
+
+                if ($saveResult['success']) {
+                    $product->lead_time = $saveResult['filename'];
+                } else {
+                    return redirect()->back()
+                        ->withErrors(['lead_time_excel' => $saveResult['message']])
+                        ->withInput();
+                }
+            } else {
+                return redirect()->back()
+                    ->withErrors(['lead_time_excel' => $validationResult['message']])
+                    ->withInput();
+            }
         }
 
         // Save additional product details
