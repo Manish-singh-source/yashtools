@@ -360,7 +360,7 @@
                         </a>
                         <ul aria-expanded="false">
                             <li><a href="{{ route('admin.customers.list') }}">Customer Table</a></li>
-                            {{-- <li><a href="{{ route('admin.edit.customer') }}">Edit Customer</a></li> --}}
+                            <li><a href="{{ route('admin.show-customer-category-percentage') }}">Add Customer Category Percentage</a></li>
                         </ul>
                     </li>
                     <li><a class="has-arrow " href="javascript:void(0);" aria-expanded="false">

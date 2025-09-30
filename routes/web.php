@@ -127,6 +127,14 @@ Route::middleware(AdminAuthMiddleware::class . ':admin,superadmin', 'shareUserNN
     Route::get('/edit-customer/{id}', [CustomersController::class, 'editCustomerDetails'])->name('admin.edit.customer');
     Route::put('/update-customer', [CustomersController::class, 'updateCustomerDetails'])->name('admin.update.customer');
 
+    // Customer Category Percentage Routes
+    Route::get('/customer-category-percentage', [CustomersController::class, 'showCustomerCategoryPercentage'])->name('admin.show-customer-category-percentage');
+    Route::get('/add-customer-category-percentage', [CustomersController::class, 'addCustomerCategoryPercentage'])->name('admin.add-customer-category-percentage');
+    Route::post('/store-customer-category-percentage', [CustomersController::class, 'storeCustomerCategoryPercentage'])->name('admin.store-customer-category-percentage');
+    Route::get('/edit-customer-category-percentage/{id}', [CustomersController::class, 'editCustomerCategoryPercentage'])->name('admin.edit-customer-category-percentage');
+    Route::put('/update-customer-category-percentage', [CustomersController::class, 'updateCustomerCategoryPercentage'])->name('admin.update-customer-category-percentage');
+    Route::delete('/delete-customer-category-percentage', [CustomersController::class, 'deleteCustomerCategoryPercentage'])->name('admin.delete-customer-category-percentage');
+
     // Banner Routes
     Route::get('/add-banner', [BannerController::class, 'viewAddBanner'])->name('admin.view.banner');
     Route::post('/add-banner', [BannerController::class, 'addBanner'])->name('admin.add.banner');
