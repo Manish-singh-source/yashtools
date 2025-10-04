@@ -233,10 +233,10 @@ class ProductsController extends Controller
         // Validate the request
         $validations = Validator::make($request->all(), [
             'productId' => 'required',
-            'product_name' => 'required',
-            'product_quantity' => 'required|numeric',
+            'product_name' => 'nullable',
+            'product_quantity' => 'nullable|numeric',
             'product_price' => 'numeric',
-            'product_days_to_dispatch' => 'required|numeric|min:1',
+            'product_days_to_dispatch' => 'nullable|numeric|min:1',
             'product_specs' => 'nullable|mimes:xlsx,csv,xls|max:10240',
             'lead_time_excel' => 'nullable|mimes:xlsx,csv,xls|max:10240',
             'product_description' => 'nullable',
@@ -257,11 +257,11 @@ class ProductsController extends Controller
         }
         // Create new product
         $product = Product::find($request->productId);
-        $product->product_name = $request->product_name;
-        $product->product_quantity = $request->product_quantity;
-        $product->product_price = $request->product_price;
-        $product->product_dispatch = $request->product_days_to_dispatch;
-        $product->product_discription = $request->product_description;
+        $product->product_name = $request->product_name ?? "";
+        $product->product_quantity = $request->product_quantity ?? "";
+        $product->product_price = $request->product_price ?? "";
+        $product->product_dispatch = $request->product_days_to_dispatch ?? "";
+        $product->product_discription = $request->product_description ?? "";
         $product->product_country_of_origin = $request->product_country_of_origin ?? "";
 
         // Handle image upload

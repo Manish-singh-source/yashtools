@@ -46,6 +46,10 @@
                                     <th scope="col" class="product-title">Title</th>
                                     <th scope="col" class="product-price">Part No</th>
                                     <th scope="col" class="product-quantity">Quantity</th>
+                                    @if (Auth::user()->customer_type == 'loyal' || Auth::user()->customer_type == 'dealer')
+                                    <th scope="col" class="product-quantity">Price</th>
+                                    <th scope="col" class="product-quantity">Total Price</th>
+                                    @endif
                                     <th scope="col" class="product-remove"></th>
                                     <th scope="col" class="product-remove">Action</th>
                                 </tr>
@@ -66,20 +70,29 @@
                                                         alt="Digital Product"></a>
                                             </td>
                                             <td class="product-title">
+                                                <input type="hidden" name="productId" class="productId"
+                                                    value="{{ $cartItem->products->id }}">
+                                                <input type="hidden" name="userId" class="userId"
+                                                    value="{{ Auth::id() }}">
+                                                <input type="hidden" class="cartId" value="{{ $cartItem->id }}">
                                                 <a
                                                     href="{{ route('user.product.details', $cartItem->products->product_slug) }}">{{ $cartItem->products->product_name }}</a>
                                             </td>
                                             <td class="partNumber">{{ $cartItem->part_number }}</td>
-                                            <input type="hidden" name="productId" class="productId"
-                                                value="{{ $cartItem->products->id }}">
-                                            <input type="hidden" name="userId" class="userId"
-                                                value="{{ Auth::id() }}">
-                                            <input type="hidden" class="cartId" value="{{ $cartItem->id }}">
                                             <td class="product-info" data-title="Qty">
                                                 <div class="pro-qty">
-                                                    <input type="number" class="enquiryQuantity" value="1">
+                                                    <input type="number" class="enquiryQuantity"
+                                                        value="{{ $cartItem->quantity ?? 1 }}">
                                                 </div>
                                             </td>
+                                            @if (Auth::user()->customer_type == 'loyal' || Auth::user()->customer_type == 'dealer')
+                                            <td class="product-price" data-title="Price">
+                                                {{ $cartItem->price }}
+                                            </td>
+                                            <td class="products-total-price" data-title="Price">
+                                                {{ $cartItem->total }}
+                                            </td>
+                                            @endif
                                             <td class="product-remove">
                                                 <a href="#" data-cartid="{{ $cartItem->id }}"
                                                     class="remove-wishlist"><i class="fal fa-times"></i></a>
@@ -95,7 +108,7 @@
                             @empty
                                 <tbody>
                                     <tr>
-                                        <td class="text-center" colspan="7">You don't have any items in your cart. <a
+                                        <td class="text-center" colspan="9">You don't have any items in your cart. <a
                                                 href="{{ route('user.product.category') }}">Shop Now</a></td>
                                     </tr>
                                 </tbody>
@@ -156,6 +169,7 @@
 
 
         $(document).on("click", "#addEnquiry", function() {
+            alert("clicked");
             var button = $(this).prop("disabled", true);
             button.find("a").text("Processing...");
 
@@ -168,12 +182,16 @@
                 let userId = $(this).find(".userId").val();
                 let enquiryQuantity = $(this).find(".enquiryQuantity").val();
                 let partNumber = $(this).find(".partNumber").text();
+                let price = $(this).find(".product-price").text();
+                let totalPrice = $(this).find(".products-total-price").text();
 
                 cartData.push({
                     productId: productId,
                     userId: userId,
                     enquiryQuantity: enquiryQuantity,
-                    partNumber: partNumber
+                    partNumber: partNumber,
+                    price: price,
+                    totalPrice: totalPrice
                 });
             });
 
@@ -252,5 +270,31 @@
                 }
             });
         });
+
+        $(document).on("change", ".enquiryQuantity", function() {
+            let quantity = $(this).val();
+            if(quantity < 1) {
+                quantity = 1;
+                $(this).val(1);
+            }
+            priceCal($(this));
+        });
+
+        $(document).on("click", ".qtybtn", function() {
+            let quantity = $(this).closest(".pro-qty").find(".enquiryQuantity").val();
+            if(quantity < 1) {
+                quantity = 1;
+                $(this).closest(".pro-qty").find(".enquiryQuantity").val(1);
+            }
+            priceCal($(".enquiryQuantity"));
+        });
+
+        function priceCal(e) {
+            let quantity = e.val();
+            let price = e.closest("tr").find(".product-price").text();
+            let total = quantity * price;
+            console.log(total);
+            e.closest("tr").find(".products-total-price").text(total.toFixed(2));
+        }
     </script>
 @endsection

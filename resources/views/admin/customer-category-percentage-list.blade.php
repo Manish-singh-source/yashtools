@@ -43,28 +43,28 @@
                                     <thead>
                                         <tr>
                                             <th>Customer Type</th>
-                                            <th>Category</th>
+                                            <th>Sub Category</th>
                                             <th>Percentage</th>
                                             <th>Action</th>
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        @forelse ($userCategories as $category)
+                                        @forelse ($userCategories as $sub_category)
                                             <tr>
                                                 <td>
                                                     <div>
-                                                        <h6>{{ ucfirst($category->user_role) ?? '' }}</h6>
+                                                        <h6>{{ ucfirst($sub_category->user_role) ?? '' }}</h6>
                                                     </div>
                                                 </td>
                                                 <td>
-                                                    {{ $category->category->category_name ?? '' }}
+                                                    {{ $sub_category->subcategory->sub_category_name ?? '' }}
                                                 </td>
                                                 <td>
-                                                    {{ $category->percentage ?? '' }}
+                                                    {{ $sub_category->percentage ?? '' }}
                                                 </td>
                                                 <td>
                                                     <div class="d-flex justify-content-end gap-3">
-                                                        <a href="{{ route('admin.edit-customer-category-percentage', $category->id) }}"
+                                                        <a href="{{ route('admin.edit-customer-category-percentage', $sub_category->id) }}"
                                                             class="btn btn-primary btn-sm">Edit</a>
                                                         <form
                                                             action="{{ route('admin.delete-customer-category-percentage') }}"
@@ -72,9 +72,9 @@
                                                             @csrf
                                                             @method('Delete')
                                                             <input type="hidden" name="user_role"
-                                                                value="{{ $category->user_role }}">
+                                                                value="{{ $sub_category->user_role }}">
                                                             <input type="hidden" name="category_id"
-                                                                value="{{ $category->category_id }}">
+                                                                value="{{ $sub_category->sub_category_id }}">
                                                             <button type="submit"
                                                                 class="btn btn-danger btn-sm">Delete</button>
                                                         </form>

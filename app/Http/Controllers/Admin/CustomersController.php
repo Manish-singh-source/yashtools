@@ -4,11 +4,12 @@ namespace App\Http\Controllers\Admin;
 
 use App\Models\User;
 use App\Models\Enquiry;
+use App\Models\Categories;
 use App\Models\UserDetail;
 use App\Models\UserCategory;
 use Illuminate\Http\Request;
+use App\Models\SubCategories;
 use App\Http\Controllers\Controller;
-use App\Models\Categories;
 use Illuminate\Support\Facades\Validator;
 use PhpOffice\PhpSpreadsheet\Calculation\Category;
 
@@ -111,43 +112,43 @@ class CustomersController extends Controller
 
     public function showCustomerCategoryPercentage(Request $request)
     {
-        $userCategories = UserCategory::with('category')->get();
+        $userCategories = UserCategory::with('subcategory')->get();
         return view('admin.customer-category-percentage-list', compact('userCategories'));
     }
 
     public function addCustomerCategoryPercentage(Request $request)
     { 
         $user_roles = ['loyal', 'regular', 'dealer'];
-        $categories = Categories::all();
-        return view('admin.add-customer-category-percentage', compact('categories', 'user_roles'));
+        $subcategories = SubCategories::all();
+        return view('admin.add-customer-category-percentage', compact('subcategories', 'user_roles'));
     }
 
     public function editCustomerCategoryPercentage($id)
     {
         $user_roles = ['loyal', 'regular', 'dealer'];
-        $categories = Categories::all();
+        $subcategories = SubCategories::all();
         $userCategory = UserCategory::find($id);
-        return view('admin.update-customer-category-percentage', compact('categories', 'user_roles', 'userCategory'));
+        return view('admin.update-customer-category-percentage', compact('subcategories', 'user_roles', 'userCategory'));
     }
 
     public function storeCustomerCategoryPercentage(Request $request)
     {
         $validations = Validator::make($request->all(), [
             'user_role' => 'required',
-            'category_id' => 'required',
+            'sub_category_id' => 'required',
             "percentage" => "required",
         ]);
 
         if ($validations->fails()) {
             return back()->withErrors($validations)->withInput();
         }
-        $userCategory = UserCategory::where('user_role', $request->user_role)->where('category_id', $request->category_id)->first();
+        $userCategory = UserCategory::where('user_role', $request->user_role)->where('sub_category_id', $request->sub_category_id)->first();
         if (isset($userCategory)) {
             return back()->withInput()->with('error', 'Category Already Exists for this User Role.');
         } else {
             $userCategory = new UserCategory();
             $userCategory->user_role = $request->user_role;
-            $userCategory->category_id = $request->category_id;
+            $userCategory->sub_category_id = $request->sub_category_id;
             $userCategory->percentage = $request->percentage;
             $userCategory->save();
         }
@@ -165,7 +166,7 @@ class CustomersController extends Controller
         $validations = Validator::make($request->all(), [
             'id' => 'required',
             'user_role' => 'required',
-            'category_id' => 'required',
+            'sub_category_id' => 'required',
             "percentage" => "required",
         ]);
         
@@ -175,8 +176,8 @@ class CustomersController extends Controller
         
         $userCategory = UserCategory::find($request->id);
         if (isset($userCategory)) {
-            if($request->category_id != $userCategory->category_id){
-                $checkCategory = UserCategory::where('user_role', $request->user_role)->where('category_id', $request->category_id)->first();
+            if($request->sub_category_id != $userCategory->sub_category_id){
+                $checkCategory = UserCategory::where('user_role', $request->user_role)->where('sub_category_id', $request->sub_category_id)->first();
                 if (isset($checkCategory)) {
                     return back()->withInput()->with('error', 'Category Already Exists for this User Role.');
                 }
@@ -199,16 +200,16 @@ class CustomersController extends Controller
     {
         $validations = Validator::make($request->all(), [
             'user_role' => 'required',
-            'category_id' => 'required',
+            'sub_category_id' => 'required',
         ]);
 
         if ($validations->fails()) {
             return back()->withErrors($validations)->withInput();
         }
 
-        $userCategory = UserCategory::where('user_role', $request->user_role)->where('category_id', $request->category_id)->first();
+        $userCategory = UserCategory::where('user_role', $request->user_role)->where('sub_category_id', $request->sub_category_id)->first();
         if (isset($userCategory)) {
-            UserCategory::where('user_role', $request->user_role)->where('category_id', $request->category_id)->delete();
+            UserCategory::where('user_role', $request->user_role)->where('sub_category_id', $request->sub_category_id)->delete();
         }
 
         if ($userCategory) {

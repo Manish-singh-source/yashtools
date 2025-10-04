@@ -15,6 +15,9 @@ class CartController extends Controller
         $cart->user_id = $request->userId;
         $cart->product_id = $request->productId;
         $cart->part_number = $request->partNumber;
+        $cart->price = $request->price;
+        $cart->quantity = $request->quantity ?? 1;
+        $cart->total = $request->price * $request->quantity;
         $cart->save();
 
         if ($cart) {

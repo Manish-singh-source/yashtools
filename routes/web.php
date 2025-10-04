@@ -64,6 +64,7 @@ Route::get('/shop-api', [HomeController::class, 'shopViewAPI'])->name('user.shop
 Route::get('/shop-api-category-filter', [HomeController::class, 'subCategoriesFilter']);
 Route::get('/single-product/{slug}', [HomeController::class, 'singleProductView'])->name('user.single.product');
 
+Route::post('/get-discount-price', [HomeController::class, 'getDiscountPrice']);
 
 
 // Authenticated & Authorized Users Routes

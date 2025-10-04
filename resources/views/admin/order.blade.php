@@ -201,20 +201,20 @@
                                                             <div class="py-2">
                                                                 <a class="dropdown-item changeStatus"
                                                                     data-orderid="{{ $order->id }}"
-                                                                    data-orderstatus="dismissed" href="#!">Enquiry
+                                                                    data-orderstatus="dismissed" href="#">Enquiry
                                                                     Dismissed</a>
                                                                 <a class="dropdown-item changeStatus"
                                                                     data-orderid="{{ $order->id }}"
-                                                                    data-orderstatus="confirmed" href="#!">Order
+                                                                    data-orderstatus="confirmed" href="#">Order
                                                                     Confirmeded</a>
                                                                 <a class="dropdown-item changeStatus"
                                                                     data-orderid="{{ $order->id }}"
-                                                                    data-orderstatus="delivered" href="#!">Order
+                                                                    data-orderstatus="delivered" href="#">Order
                                                                     Delivered</a>
                                                                 <a class="dropdown-item changeStatus"
                                                                     data-orderid="{{ $order->id }}"
                                                                     data-orderstatus="payment_received"
-                                                                    href="#!">Payment Received</a>
+                                                                    href="#">Payment Received</a>
                                                                 <input type="hidden" name="currentOrderStatus" class="currentOrderStatus"
                                                                     value="{{ $order->status }}">
                                                                 </>

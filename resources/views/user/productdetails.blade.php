@@ -277,7 +277,7 @@
                                     </h2>
                                     <h6 class="title margbot">Brand: <span
                                             class="spnc">{{ $selectedProduct->brands->brand_name }}</span></h6>
-									@if (isset($selectedProduct->product_country_of_origin))
+                                    @if (isset($selectedProduct->product_country_of_origin))
                                         <h6 class="title margbot">Country Of Origin: <span
                                                 class="spnc">{{ $selectedProduct->product_country_of_origin }}</span></h6>
                                     @endif
@@ -286,7 +286,8 @@
                                             Select Part Number
                                         </div>
                                         <div class="dropdown-options">
-                                            <input type="text1" class="search-box" placeholder="Search...">
+                                            <input type="text1" id="searchInput" class="search-box"
+                                                placeholder="Search...">
                                         </div>
                                     </div>
                                     <input type="hidden" name="productId" class="productId"
@@ -310,8 +311,8 @@
                                     @if (Auth::user()->customer_type == 'loyal' || Auth::user()->customer_type == 'dealer')
                                         @if ($selectedProduct->product_price != null)
                                             <div class="product-variation quantity-variant-wrapper margbot">
-                                                <h6 class="title1">Price :</h6><span
-                                                    class="spnc">₹{{ $selectedProduct->product_price }}</span>
+                                                <h6 class="title1">Price :</h6><span class="spnc">₹<span
+                                                        id="discountedPrice">{{ $selectedProduct->product_price }}</span></span>
                                             </div>
                                         @endif
                                     @endif
@@ -319,7 +320,7 @@
                                     <h6 class="title margbot">Days to Dispatch :<span class="spnc">
                                             {{ $selectedProduct->product_dispatch }} Day(s)</span>
                                     </h6>
-									@endif
+
                                     <!-- End Product Action Wrapper  -->
                                     <div class="product-action-wrapper margbot">
 
@@ -399,14 +400,19 @@
             <div class="woocommerce-tabs wc-tabs-wrapper bg-vista-white">
                 <div class="container">
                     <ul class="nav tabs" id="myTab" role="tablist">
-                        <li class="nav-item" role="presentation">
-                            <a class="active" id="description-tab" data-bs-toggle="tab" href="#description"
-                                role="tab" aria-controls="description" aria-selected="true">Specifications</a>
-                        </li>
-                        <li class="nav-item " role="presentation">
-                            <a id="additional-info-tab" data-bs-toggle="tab" href="#additional-info" role="tab"
-                                aria-controls="additional-info" aria-selected="false">Description</a>
-                        </li>
+                        @if (isset($sheetData) && count($sheetData) > 0)
+                            <li class="nav-item" role="presentation">
+                                <a class="active" id="description-tab" data-bs-toggle="tab" href="#description"
+                                    role="tab" aria-controls="description" aria-selected="true">Specifications</a>
+                            </li>
+                        @endif
+
+                        @if ($selectedProduct->product_discription != '')
+                            <li class="nav-item " role="presentation">
+                                <a id="additional-info-tab" data-bs-toggle="tab" href="#additional-info" role="tab"
+                                    aria-controls="additional-info" aria-selected="false">Description</a>
+                            </li>
+                        @endif
                     </ul>
                     <div class="tab-content" id="myTabContent">
                         <div class="tab-pane fade show active" id="description" role="tabpanel"
@@ -454,15 +460,23 @@
                                                     <table>
                                                         <thead>
                                                             <tr>
-                                                                @foreach ($nonEmptyCols as $colIndex)
+                                                                @php
+                                                                    // If customer is regular, remove last column from headers
+                                                                    $colsToShow = $nonEmptyCols;
+                                                                    if (Auth::user()->customer_type === 'regular') {
+                                                                        $colsToShow = array_slice($nonEmptyCols, 0, -1);
+                                                                    }
+                                                                @endphp
+
+                                                                @foreach ($colsToShow as $colIndex)
                                                                     <th>{{ $sheetData[0][$colIndex] ?? '' }}</th>
                                                                 @endforeach
                                                             </tr>
                                                         </thead>
-                                                        <tbody>
+                                                        <tbody class="table-body">
                                                             @foreach (array_slice($filteredRows, 1) as $row)
-                                                                <tr>
-                                                                    @foreach ($nonEmptyCols as $colIndex)
+                                                                <tr data-row-value="{{ $row[0] }}">
+                                                                    @foreach ($colsToShow as $colIndex)
                                                                         <td data-label="Column {{ $colIndex }}">
                                                                             {{ $row[$colIndex] ?? '' }}
                                                                         </td>
@@ -564,316 +578,255 @@
 @endsection
 
 @section('script')
-    <script>
-        const dropdown = document.getElementById('dropdown');
-        const selected = dropdown.querySelector('.dropdown-selected');
-        const options = dropdown.querySelector('.dropdown-options');
-        const searchBox = dropdown.querySelector('.search-box');
-        const optionItems = options.querySelectorAll('div');
-
-        // Toggle dropdown visibility
-        selected.addEventListener('click', () => {
-            options.style.display = options.style.display === 'block' ? 'none' : 'block';
-        });
-
-        // Filter options based on search input
-        searchBox.addEventListener('input', () => {
-            const filter = searchBox.value.toLowerCase();
-            optionItems.forEach(option => {
-                if (option.textContent.toLowerCase().includes(filter)) {
-                    option.style.display = '';
-                } else {
-                    option.style.display = 'none';
-                }
-            });
-        });
-
-        // Select an option
-        options.addEventListener('click', (event) => {
-            if (event.target.tagName === 'DIV') {
-                selected.childNodes[0].textContent = event.target.textContent;
-                options.style.display = 'none';
-                optionItems.forEach(option => option.classList.remove('selected'));
-                event.target.classList.add('selected');
-            }
-        });
-
-        // Close dropdown when clicking outside
-        document.addEventListener('click', (event) => {
-            if (!dropdown.contains(event.target)) {
-                options.style.display = 'none';
-            }
-        });
-    </script>
     <script src="https://code.jquery.com/jquery-3.7.1.min.js"
         integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
+
     <script>
         $(document).ready(function() {
-            let $table = $("table");
-            if ($table.length === 0) return;
+            var $dropdown = $('#dropdown');
+            var $selected = $dropdown.find('.dropdown-selected');
+            var $options = $dropdown.find('.dropdown-options');
+            var $searchBox = $dropdown.find('.search-box');
 
-            let $headers = $table.find("thead th");
-            let $rows = $table.find("tbody tr");
+            // Toggle dropdown visibility
+            $selected.on('click', function() {
+                $options.toggle();
+                $searchBox.focus();
+            });
 
-            let uniqueValues = {};
-
-            $rows.each(function() {
-                let $cells = $(this).find("td");
-                $cells.each(function(index) {
-                    if (!$headers.eq(index).length) return;
-                    let columnLabel = $headers.eq(index).data("column") || $.trim($headers.eq(index)
-                        .text());
-                    let value = $.trim($(this).text());
-
-                    if (!uniqueValues[columnLabel]) {
-                        uniqueValues[columnLabel] = new Set();
-                    }
-                    if (value !== "") { // Ignore empty values
-                        uniqueValues[columnLabel].add(value);
-                    }
+            // Filter options on input
+            $searchBox.on('input', function() {
+                var filter = $(this).val().toLowerCase();
+                $options.find('div').each(function() {
+                    $(this).toggle($(this).text().toLowerCase().includes(filter));
                 });
             });
 
-            $headers.each(function(index) {
-                let columnLabel = $(this).data("column") || $.trim($(this).text());
-                if (columnLabel) {
-                    let $select = $("<select>").on("change", function() {
-                        filterTable(index, $(this).val());
-                    });
-
-                    let $defaultOption = $("<option>").val("").text("All");
-                    $select.append($defaultOption);
-
-                    if (uniqueValues[columnLabel]) {
-                        uniqueValues[columnLabel].forEach(value => {
-                            let $option = $("<option>").val(value).text(value);
-                            $select.append($option);
-                        });
-                    }
-                    $(this).append($select);
-                }
+            // Select option
+            $options.on('click', 'div', function() {
+                $selected.text($(this).text());
+                $options.hide();
+                $options.find('div').removeClass('selected');
+                $(this).addClass('selected');
             });
 
-
-            $rows.each(function() {
-                let partNumbers = {};
-                let $row = $(this).find("td");
-
-                let key = $row.eq(0).text().trim(); // Get the first <td> text
-                partNumbers[key] = key;
-
-                if (key) {
-                    $(".dropdown-options").append(`<div>${key}</div>`);
+            // Close dropdown when clicking outside
+            $(document).on('click', function(e) {
+                if (!$dropdown.is(e.target) && $dropdown.has(e.target).length === 0) {
+                    $options.hide();
                 }
             });
-
-
-            function filterTable(columnIndex, value) {
-                $rows.each(function() {
-                    let $cell = $(this).find("td").eq(columnIndex);
-                    if ($cell.length) {
-                        let cellValue = $.trim($cell.text());
-                        $(this).toggle(value === "" || cellValue === value);
-                    }
-                });
-            }
         });
     </script>
 
     <script>
         $(document).ready(function() {
+            var $table = $('table');
+            if (!$table.length) return;
 
+            var $headers = $table.find('thead th');
+            var $rows = $table.find('tbody tr');
+            var uniqueValues = {};
+
+            // Collect unique column values
+            $rows.each(function() {
+                $(this).find('td').each(function(i) {
+                    var columnLabel = $headers.eq(i).data('column') || $.trim($headers.eq(i)
+                        .text());
+                    var value = $.trim($(this).text());
+                    if (!uniqueValues[columnLabel]) uniqueValues[columnLabel] = new Set();
+                    if (value) uniqueValues[columnLabel].add(value);
+                });
+            });
+
+            // Append select dropdowns in headers
+            $headers.each(function(i) {
+                var columnLabel = $(this).data('column') || $.trim($(this).text());
+                if (!columnLabel) return;
+
+                var $select = $('<select>').append('<option value="">All</option>')
+                    .on('change', function() {
+                        filterTable(i, $(this).val());
+                    });
+
+                uniqueValues[columnLabel]?.forEach(value => $select.append($('<option>').val(value).text(
+                    value)));
+                $(this).append($select);
+            });
+
+            // Populate dropdown options
+            var $dropdownOptions = $('.dropdown-options').empty();
+            $rows.each(function() {
+                var key = $(this).find('td').eq(0).text().trim();
+                if (key) $dropdownOptions.append(`<div>${key}</div>`);
+            });
+
+            function filterTable(colIndex, value) {
+                $rows.each(function() {
+                    var cellValue = $.trim($(this).find('td').eq(colIndex).text());
+                    $(this).toggle(!value || cellValue === value);
+                });
+            }
+        });
+    </script>
+
+
+
+
+    <script>
+        $(document).ready(function() {
             $("#showError").hide();
             $.ajaxSetup({
                 headers: {
-                    "X-CSRF-TOKEN": $('meta[name="csrf-token"]').attr("content"),
-                },
+                    "X-CSRF-TOKEN": $('meta[name="csrf-token"]').attr("content")
+                }
             });
 
+            function authAjaxCheck(callback) {
+                $.get('/check-auth', function(response) {
+                    if (!response.isAuthenticated) {
+                        $("#showError").show().html("Please <a href='/signin'>register</a> to proceed");
+                        return;
+                    }
+                    callback();
+                });
+            }
+
+            // Add Enquiry
             $(document).on("click", "#addEnquiry", function() {
+                var enquiryQuantity = $(".enquiryQuantity").val();
+                var productId = $(".productId").val();
+                var userId = $(".userId").val();
+                var partNumber = $(".dropdown-selected").text().trim();
+                var price = $('#discountedPrice').text();
 
-
-                let enquiryQuantity = $(".enquiryQuantity").val();
-                let productId = $(".productId").val();
-                let userId = $(".userId").val();
-                let partNumber = $(".dropdown-selected").text();
-                if (partNumber.trim() == 'Select Part Number') {
-                    if (confirm('Please Select Part Number')) {
-                        return;
-                    }
+                if (partNumber === 'Select Part Number') {
+                    alert('Please select Part Number');
+                    return;
                 }
-                let cartData = [];
 
-                cartData.push({
-                    userId: userId,
-                    productId: productId,
-                    enquiryQuantity: enquiryQuantity,
-                    partNumber: partNumber,
+                var cartData = [{
+                    userId,
+                    productId,
+                    enquiryQuantity,
+                    partNumber,
+                    price,
+                    totalPrice: price * enquiryQuantity
+                }];
+                var $btn = $(this).prop("disabled", true);
+
+                authAjaxCheck(function() {
+                    $.post('/add-enquiry', {
+                        cartData
+                    }, function(data) {
+                        if (data.status) location.reload();
+                    });
                 });
-
-                var button = $(this).prop("disabled", true);
-                button.find("a").text("Processing...");
-
-                $.ajax({
-                    url: "/check-auth", // Check if the user is logged in
-                    type: "GET",
-                    success: function(response) {
-                        if (!response.isAuthenticated) {
-                            $("#showError").show();
-                            $("#showError").html(
-                                "Please <a href='/signin'>register</a> to add Product to favourites"
-                            ); // Show login popup
-                            return;
-                        }
-
-                        $.ajax({
-                            url: "/add-enquiry",
-                            type: "POST",
-                            data: {
-                                cartData: cartData
-                            },
-                            success: function(data) {
-
-                                if (data.status) {
-                                    location.reload();
-                                }
-                            },
-                            error: function(xhr, status, error) {
-                                console.log(xhr);
-                                console.log(status);
-                                console.log(error);
-                            },
-                        });
-
-                    }
-                });
-
             });
 
+            // Add to Cart
             $(document).on("click", "#addCart", function() {
-                let productId = $(".productId").val();
-                let userId = $(".userId").val();
-                let partNumber = $(".dropdown-selected").text();
+                var productId = $(".productId").val();
+                var userId = $(".userId").val();
+                var partNumber = $(".dropdown-selected").text().trim();
+                var price = $('#discountedPrice').text();
+                var quantity = $(".enquiryQuantity").val();
 
-                if (partNumber.trim() == 'Select Part Number') {
-                    if (confirm('Please Select Part Number')) {
-                        return;
-                    }
+                if (partNumber === 'Select Part Number') {
+                    alert('Please select Part Number');
+                    return;
                 }
-                $.ajax({
-                    url: "/check-auth", // Check if the user is logged in
-                    type: "GET",
-                    success: function(response) {
-                        if (!response.isAuthenticated) {
-                            $("#showError").show();
-                            $("#showError").html(
-                                "Please <a href='/signin'>register</a> to add Product to favourites"
-                            ); // Show login popup
-                            return;
-                        }
 
-                        $.ajax({
-                            url: "/add-to-cart",
-                            type: "POST",
-                            data: {
-                                userId: userId,
-                                productId: productId,
-                                partNumber: partNumber,
-                            },
-                            success: function(data) {
-                                if (data.status) {
-                                    location.reload();
-                                }
-                            },
-                            error: function(xhr, status, error) {
-                                console.log(xhr);
-                                console.log(status);
-                                console.log(error);
-                            },
-                        });
-
-                    }
+                authAjaxCheck(function() {
+                    $.post('/add-to-cart', {
+                        userId,
+                        productId,
+                        partNumber,
+                        price,
+                        quantity
+                    }, function(data) {
+                        if (data.status) location.reload();
+                    });
                 });
-
             });
 
+            // Wishlist
             $(document).on("click", "#wishlistBtn", function() {
-                let productid = $(this).data("productid");
-                let productStatus = $(this).siblings(".status").val() || 0;
+                var productid = $(this).data("productid");
+                var productStatus = $(this).siblings(".status").val() || 0;
 
-                $.ajax({
-                    url: "/check-auth", // Check if the user is logged in
-                    type: "GET",
-                    success: function(response) {
-                        if (!response.isAuthenticated) {
-                            $("#showError").show();
-                            $("#showError").html(
-                                "Please <a href='/signin'>register</a> to add Product to favourites"
-                            ); // Show login popup
-                            return;
-                        }
-
-                        $.ajax({
-                            url: "/add-to-favourite",
-                            type: "POST",
-                            data: {
-                                productid: productid,
-                                productStatus: productStatus,
-                            },
-                            success: function(data) {
-                                if (data.status) {
-                                    location.reload();
-                                }
-                            },
-                            error: function(xhr, status, error) {
-                                console.log(xhr);
-                                console.log(status);
-                                console.log(error);
-                            },
-                        });
-
-                    }
+                authAjaxCheck(function() {
+                    $.post('/add-to-favourite', {
+                        productid,
+                        productStatus
+                    }, function(data) {
+                        if (data.status) location.reload();
+                    });
                 });
             });
         });
     </script>
+
+
+    {{-- whatsapp enquiry --}}
     <script>
-        // Run the code after the page is fully loaded
-        document.addEventListener("DOMContentLoaded", function() {
-            // Check if the WhatsApp enquiry button exists
-            var whatsappButton = document.getElementById("whatsapp-enquiry");
+        $(document).ready(function() {
+            $("#whatsapp-enquiry").on('click', function(e) {
+                e.preventDefault();
+                var whatsappNumber = "919326178710";
+                var productName = $(".product-title").text().trim() || "Product Name Not Found";
+                var productUrl = window.location.href;
 
-            if (whatsappButton) {
-                whatsappButton.addEventListener("click", function(event) {
-                    event.preventDefault(); // Prevent default link behavior
+                var message =
+                    `Hello, I want to inquire about:\n\n📌 *Product:* ${productName}\n🔗 *Link:* ${productUrl}\n\nPlease provide more details.`;
+                window.open("https://wa.me/" + whatsappNumber + "?text=" + encodeURIComponent(message),
+                    "_blank");
+            });
+        });
+    </script>
 
-                    // WhatsApp Number (with country code, no +)
-                    var whatsappNumber = "919326178710";
 
-                    // Try to get the product title element
-                    var productTitleElement = document.querySelector(".product-title");
-                    var productName = productTitleElement ? productTitleElement.innerText.trim() :
-                        "Product Name Not Found";
+    {{-- apply customer discount price --}}
+    <script>
+        $(document).ready(function() {
+            var partNumber = $(document).find('.dropdown-options div.selected').text().trim();
+            var $dropdown = $('#dropdown');
+            var $options = $dropdown.find('.dropdown-options');
 
-                    // Get current page URL
-                    var productUrl = window.location.href;
+            $options.on('click', 'div', function() {
+                var selectedPartNumber = $(this).text().trim();
+                var subCategoryId = {{ $selectedProduct->subcategories->id }};
 
-                    // Format the message
-                    var message = "Hello, I want to inquire about:\n\n" +
-                        "📌 *Product:* " + productName + "\n" +
-                        "🔗 *Link:* " + productUrl + "\n\n" +
-                        "Please provide more details.";
 
-                    // Create WhatsApp API URL
-                    var whatsappUrl = "https://wa.me/" + whatsappNumber + "?text=" + encodeURIComponent(
-                        message);
-
-                    // Open WhatsApp in a new tab
-                    window.open(whatsappUrl, "_blank");
+                var $row = $('.table-body tr').filter(function() {
+                    return $(this).find('td').first().text().trim() === selectedPartNumber;
                 });
-            } else {
-                console.error("WhatsApp enquiry button with ID 'whatsapp-enquiry' not found.");
-            }
+
+                if ($row.length) {
+                    var price = $row.find('td').last().text().trim();
+                }
+                var customerId = {{ Auth::user()->id }};
+                console.log(customerId)
+                console.log(subCategoryId)
+                console.log(price)
+                console.log(selectedPartNumber)
+                $.ajax({
+                    url: '/get-discount-price',
+                    method: 'POST',
+                    data: {
+                        customerId: customerId,
+                        subCategoryId: subCategoryId,
+                        partNumber: selectedPartNumber,
+                        price: price
+                    },
+                    success: function(response) {
+                        if (response.discountedPrice) {
+                            $('#discountedPrice').text(response.discountedPrice);
+                        }
+                    }
+                });
+            });
+
         });
     </script>
 @endsection

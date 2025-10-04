@@ -46,6 +46,7 @@
                                         <th>Item</th>
                                         <th>Price</th>
                                         <th>Quantity</th>
+                                        <th>Total Price</th>
                                     </tr>
                                 </thead>
                                 @isset($order)
@@ -64,10 +65,12 @@
                                                         </div>
                                                     </div>
                                                 </td>
-                                                <td>₹<span
-                                                        class="product_price">{{ $product->products[0]->product->product_price }}</span>
+                                                <td>₹<span>{{ $product->price }}</span>
                                                 </td>
                                                 <td>{{ $product->quantity }}</td>
+
+                                                <td>₹<span class="product_price">{{ $product->total_price }}</span>
+                                                </td>
                                             </tr>
                                             <!-- Add more products as needed -->
                                         </tbody>
@@ -422,11 +425,13 @@
     <script src="https://code.jquery.com/jquery-3.7.1.min.js"
         integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
     <script>
-        let sum = 0;
-        $(".product_price").each(function() {
-            sum += parseFloat($(this).text());
-        });
+        $(document).ready(function() {
+            let sum = 0;
+            $(".product_price").each(function() {
+                sum += parseFloat($(this).text());
+            });
 
-        $(".totalPrice").html(sum);
+            $(".totalPrice").html(sum);
+        });
     </script>
 @endsection

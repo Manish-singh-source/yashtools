@@ -11,9 +11,10 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::table('users', function (Blueprint $table) {
+        Schema::table('enquiries', function (Blueprint $table) {
             //
-            $table->enum('customer_type', ['loyal', 'dealer', 'regular'])->default('regular')->after('role');
+            $table->double('price')->nullable();
+            $table->double('total_price')->nullable();
         });
     }
 
@@ -22,9 +23,10 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::table('users', function (Blueprint $table) {
+        Schema::table('enquiries', function (Blueprint $table) {
             //
-            $table->dropColumn('customer_type');
+            $table->dropColumn('price');
+            $table->dropColumn('total_price');
         });
     }
 };

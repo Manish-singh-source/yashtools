@@ -68,7 +68,10 @@
                                                         <th scope="col">Product Name</th>
                                                         <th scope="col">Part Number</th>
                                                         <th scope="col">Quantity</th>
-
+                                                        @if (Auth::user()->customer_type == 'loyal' || Auth::user()->customer_type == 'dealer')
+                                                            <th scope="col">Price</th>
+                                                            <th scope="col">Total Price</th>
+                                                        @endif
                                                     </tr>
                                                 </thead>
                                                 <tbody id="product_list">
@@ -81,6 +84,10 @@
                                                             <td>{{ $order->products[0]->product->product_name }}</td>
                                                             <td>{{ $order->part_number }}</td>
                                                             <td>{{ $order->quantity }}</td>
+                                                            @if (Auth::user()->customer_type == 'loyal' || Auth::user()->customer_type == 'dealer')
+                                                                <td>{{ $order->price }}</td>
+                                                                <td>{{ $order->total_price }}</td>
+                                                            @endif
                                                         </tr>
                                                     @endforeach
                                                 </tbody>

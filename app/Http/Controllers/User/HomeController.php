@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\User;
 
+use App\Models\User;
 use App\Models\Brand;
 use App\Models\Event;
 use App\Models\Banner;
@@ -12,6 +13,7 @@ use Illuminate\Http\Request;
 use App\Models\SubCategories;
 use Illuminate\Support\Facades\DB;
 use App\Http\Controllers\Controller;
+use App\Models\UserCategory;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\File;
 use Maatwebsite\Excel\Facades\Excel;
@@ -238,5 +240,35 @@ class HomeController extends Controller
         $brands = Brand::orderby('updated_at', 'desc')->limit(8)->get();
         $events = Event::get();
         return view('user.feedback', compact('categories', 'brands', 'subcategories', 'events'));
+    }
+
+    public function getDiscountPrice(Request $request)
+    {
+        $validated = $request->validate([
+            'customerId' => 'required|exists:users,id',
+            'subCategoryId' => 'required',
+            'partNumber' => 'required',
+            'price' => 'required',
+        ]);
+
+        if($validated){
+            $customer = User::find($request->customerId);
+            if($customer->customer_type == 'loyal' || $customer->customer_type == 'dealer'){
+                $subCategorySearch = UserCategory::where('sub_category_id', $request->subCategoryId)->where('user_role', $customer->customer_type)->first();
+                if($subCategorySearch){
+                    // calculate discount
+                    $discountedPrice = $validated['price'] * ($subCategorySearch->percentage / 100);
+                    $discountedPrice = $validated['price'] - $discountedPrice;
+                    return response()->json(['discountedPrice' => $discountedPrice], 200);
+                }else {
+                    return response()->json(['error' => 'No Discount Found'], 400);
+                }
+            }else {
+                return response()->json(['error' => 'Invalid Customer Type'], 400);
+            }
+        }
+
+        // If validation fails, return an error response
+        return response()->json(['error' => 'Invalid request'], 400);
     }
 }

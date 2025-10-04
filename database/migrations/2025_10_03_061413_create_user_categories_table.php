@@ -14,16 +14,16 @@ return new class extends Migration
         Schema::create('user_categories', function (Blueprint $table) {
             $table->id();
             $table->string('user_role');
-            $table->unsignedBigInteger('category_id');
+            $table->unsignedBigInteger('sub_category_id');
             $table->decimal('percentage', 5, 2); // e.g., 75.50%
 
             $table->timestamps();
 
             // Unique constraint for combination of user_role + category_id
-            $table->unique(['user_role', 'category_id']);
+            $table->unique(['user_role', 'sub_category_id']);
 
             // Foreign key constraint
-            $table->foreign('category_id')->references('id')->on('categories')->onDelete('cascade');
+            $table->foreign('sub_category_id')->references('id')->on('sub_categories')->onDelete('cascade');
         });
     }
 

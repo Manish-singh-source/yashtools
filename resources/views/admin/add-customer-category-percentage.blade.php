@@ -37,17 +37,17 @@
 
                                     <div class="col-sm-6">
                                         <div class="mb-3">
-                                            <label class="form-label" for="Name">Category</label>
-                                            <select class="form-control @error('category_id') is-invalid @enderror"
-                                                name="category_id">
-                                                <option selected disabled value="0">-- Select Category --
+                                            <label class="form-label" for="Name">Sub Category</label>
+                                            <select class="form-control @error('sub_category_id') is-invalid @enderror"
+                                                name="sub_category_id">
+                                                <option selected disabled value="0">-- Select Sub Category --
                                                 </option>
-                                                @foreach ($categories as $category)
-                                                    <option value="{{ $category->id }}" {{ old('category_id') == $category->id ? 'selected' : '' }}>{{ $category->category_name }}
+                                                @foreach ($subcategories as $sub_category)
+                                                    <option value="{{ $sub_category->id }}" {{ old('sub_category_id') == $sub_category->id ? 'selected' : '' }}>{{ $sub_category->sub_category_name }}
                                                     </option>
                                                 @endforeach
                                             </select>
-                                            @error('category_id')
+                                            @error('sub_category_id')
                                                 {{ $message }}
                                             @enderror
                                         </div>
