@@ -11,9 +11,12 @@ return new class extends Migration
      */
     public function up(): void
     {
-        if (Schema::hasTable('products') && !Schema::hasColumn('products', 'product_country_of_origin')) {
+        if (Schema::hasTable('products')) {
             Schema::table('products', function (Blueprint $table) {
-                $table->string('product_country_of_origin')->nullable();
+                //
+                if (Schema::hasColumn('products', 'product_discription')) {
+                    $table->text('product_discription')->nullable()->change();
+                }
             });
         }
     }
@@ -23,9 +26,12 @@ return new class extends Migration
      */
     public function down(): void
     {
-        if (Schema::hasTable('products') && Schema::hasColumn('products', 'product_country_of_origin')) {
+        if (Schema::hasTable('products')) {
             Schema::table('products', function (Blueprint $table) {
-                $table->dropColumn('product_country_of_origin');
+                //
+                if (Schema::hasColumn('products', 'product_discription')) {
+                    $table->text('product_discription')->nullable(false)->change();
+                }
             });
         }
     }

@@ -11,16 +11,25 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::table('user_details', function (Blueprint $table) {
-            //
-            $table->string('company_name')->nullable()->change();
-            $table->string('company_address')->nullable()->change();
-            $table->string('city')->nullable()->change();
-            $table->string('state')->nullable()->change();
-            $table->string('country')->nullable()->change();
-            $table->string('pincode')->nullable()->change();
-            $table->string('gstin')->nullable()->change();
-        });
+        if (Schema::hasTable('user_details')) {
+            $columns = [
+                'company_name',
+                'company_address',
+                'city',
+                'state',
+                'country',
+                'pincode',
+                'gstin'
+            ];
+
+            Schema::table('user_details', function (Blueprint $table) use ($columns) {
+                foreach ($columns as $column) {
+                    if (Schema::hasColumn('user_details', $column)) {
+                        $table->string($column)->nullable()->change();
+                    }
+                }
+            });
+        }
     }
 
     /**
@@ -28,15 +37,24 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::table('user_details', function (Blueprint $table) {
-            //
-            $table->string('company_name')->nullable(false)->change();
-            $table->string('company_address')->nullable(false)->change();
-            $table->string('city')->nullable(false)->change();
-            $table->string('state')->nullable(false)->change();
-            $table->string('country')->nullable(false)->change();
-            $table->string('pincode')->nullable(false)->change();
-            $table->string('gstin')->nullable(false)->change();
-        });
+        if (Schema::hasTable('user_details')) {
+            $columns = [
+                'company_name',
+                'company_address',
+                'city',
+                'state',
+                'country',
+                'pincode',
+                'gstin'
+            ];
+
+            Schema::table('user_details', function (Blueprint $table) use ($columns) {
+                foreach ($columns as $column) {
+                    if (Schema::hasColumn('user_details', $column)) {
+                        $table->string($column)->nullable(false)->change();
+                    }
+                }
+            });
+        }
     }
 };

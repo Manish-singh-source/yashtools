@@ -35,7 +35,7 @@ class ProductsController extends Controller
         $validations = Validator::make($request->all(), [
             'product_name' => 'nullable',
             'product_quantity' => 'nullable|numeric',
-            'product_price' => 'numeric',
+            'product_price' => 'nullable|numeric',
             'product_days_to_dispatch' => 'nullable|numeric|min:0',
             'product_description' => 'nullable',
             'product_specs' => 'nullable|mimes:xlsx,csv,xls|max:10240',
@@ -166,6 +166,7 @@ class ProductsController extends Controller
             $product->save();
             return redirect()->route('admin.table.product');
         } catch (\Throwable $th) {
+            dd($th);
             return back()->with('error', 'Please Try Again.');
         }
     }
@@ -235,7 +236,7 @@ class ProductsController extends Controller
             'productId' => 'required',
             'product_name' => 'nullable',
             'product_quantity' => 'nullable|numeric',
-            'product_price' => 'numeric',
+            'product_price' => 'nullable|numeric',
             'product_days_to_dispatch' => 'nullable|numeric|min:0',
             'product_specs' => 'nullable|mimes:xlsx,csv,xls|max:10240',
             'lead_time_excel' => 'nullable|mimes:xlsx,csv,xls|max:10240',

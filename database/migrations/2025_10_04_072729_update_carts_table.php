@@ -11,14 +11,25 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::table('carts', function (Blueprint $table) {
-            //
-            $table->integer('quantity')->default(1);
-            $table->double('price', 8, 2)->nullable();
-            $table->double('discount', 8, 2)->nullable();
-            $table->double('original_price', 8, 2)->nullable();
-            $table->double('total', 8, 2)->nullable();
-        });
+        if (Schema::hasTable('carts')) {
+            Schema::table('carts', function (Blueprint $table) {
+                if (!Schema::hasColumn('carts', 'quantity')) {
+                    $table->integer('quantity')->default(1);
+                }
+                if (!Schema::hasColumn('carts', 'price')) {
+                    $table->double('price', 8, 2)->nullable();
+                }
+                if (!Schema::hasColumn('carts', 'discount')) {
+                    $table->double('discount', 8, 2)->nullable();
+                }
+                if (!Schema::hasColumn('carts', 'original_price')) {
+                    $table->double('original_price', 8, 2)->nullable();
+                }
+                if (!Schema::hasColumn('carts', 'total')) {
+                    $table->double('total', 8, 2)->nullable();
+                }
+            });
+        }        
     }
 
     /**
@@ -26,13 +37,24 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::table('carts', function (Blueprint $table) {
-            //
-            $table->dropColumn('quantity');
-            $table->dropColumn('price');
-            $table->dropColumn('discount');
-            $table->dropColumn('original_price');
-            $table->dropColumn('total');
-        });
+        if (Schema::hasTable('carts')) {
+            Schema::table('carts', function (Blueprint $table) {
+                if (Schema::hasColumn('carts', 'quantity')) {
+                    $table->dropColumn('quantity');
+                }
+                if (Schema::hasColumn('carts', 'price')) {
+                    $table->dropColumn('price');
+                }
+                if (Schema::hasColumn('carts', 'discount')) {
+                    $table->dropColumn('discount');
+                }
+                if (Schema::hasColumn('carts', 'original_price')) {
+                    $table->dropColumn('original_price');
+                }
+                if (Schema::hasColumn('carts', 'total')) {
+                    $table->dropColumn('total');
+                }
+            });
+        }
     }
 };

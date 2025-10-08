@@ -11,15 +11,28 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::table('enquiry_products', function (Blueprint $table) {
-            //
-            $table->integer('quantity')->default(1);
-            $table->string('part_number')->nullable();
-            $table->double('price')->nullable();
-            $table->double('discount', 8, 2)->nullable();
-            $table->double('original_price', 8, 2)->nullable();
-            $table->double('total_price')->nullable();
-        });
+        if (Schema::hasTable('enquiry_products')) {
+            Schema::table('enquiry_products', function (Blueprint $table) {
+                if (!Schema::hasColumn('enquiry_products', 'quantity')) {
+                    $table->integer('quantity')->default(1);
+                }
+                if (!Schema::hasColumn('enquiry_products', 'part_number')) {
+                    $table->string('part_number')->nullable();
+                }
+                if (!Schema::hasColumn('enquiry_products', 'price')) {
+                    $table->double('price', 8, 2)->nullable();
+                }
+                if (!Schema::hasColumn('enquiry_products', 'discount')) {
+                    $table->double('discount')->nullable();
+                }
+                if (!Schema::hasColumn('enquiry_products', 'original_price')) {
+                    $table->double('original_price', 8, 2)->nullable();
+                }
+                if (!Schema::hasColumn('enquiry_products', 'total_price')) {
+                    $table->double('total_price')->nullable();
+                }
+            });
+        }
     }
 
     /**
@@ -27,14 +40,27 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::table('enquiry_products', function (Blueprint $table) {
-            //
-            $table->dropColumn('quantity');
-            $table->dropColumn('part_number');
-            $table->dropColumn('price');
-            $table->dropColumn('discount');
-            $table->dropColumn('original_price');
-            $table->dropColumn('total_price');
-        });
+        if (Schema::hasTable('enquiry_products')) {
+            Schema::table('enquiry_products', function (Blueprint $table) {
+                if (Schema::hasColumn('enquiry_products', 'quantity')) {
+                    $table->dropColumn('quantity');
+                }
+                if (Schema::hasColumn('enquiry_products', 'part_number')) {
+                    $table->dropColumn('part_number');
+                }
+                if (Schema::hasColumn('enquiry_products', 'price')) {
+                    $table->dropColumn('price');
+                }
+                if (Schema::hasColumn('enquiry_products', 'discount')) {
+                    $table->dropColumn('discount');
+                }
+                if (Schema::hasColumn('enquiry_products', 'original_price')) {
+                    $table->dropColumn('original_price');
+                }
+                if (Schema::hasColumn('enquiry_products', 'total_price')) {
+                    $table->dropColumn('total_price');
+                }
+            });
+        }
     }
 };

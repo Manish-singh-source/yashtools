@@ -11,13 +11,22 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::table('enquiries', function (Blueprint $table) {
-            //
-            $table->double('price')->nullable();
-            $table->double('discount', 8, 2)->nullable();
-            $table->double('original_price', 8, 2)->nullable();
-            $table->double('total_price')->nullable();
-        });
+        if (Schema::hasTable('enquiries')) {
+            Schema::table('enquiries', function (Blueprint $table) {
+                if (!Schema::hasColumn('enquiries', 'price')) {
+                    $table->double('price', 8, 2)->nullable();
+                }
+                if (!Schema::hasColumn('enquiries', 'discount')) {
+                    $table->double('discount')->nullable();
+                }
+                if (!Schema::hasColumn('enquiries', 'original_price')) {
+                    $table->double('original_price', 8, 2)->nullable();
+                }
+                if (!Schema::hasColumn('enquiries', 'total_price')) {
+                    $table->double('total_price', 8, 2)->nullable();
+                }
+            });
+        }
     }
 
     /**
@@ -25,12 +34,21 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::table('enquiries', function (Blueprint $table) {
-            //
-            $table->dropColumn('price');
-            $table->dropColumn('discount');
-            $table->dropColumn('original_price');
-            $table->dropColumn('total_price');
-        });
+        if (Schema::hasTable('enquiries')) {
+            Schema::table('enquiries', function (Blueprint $table) {
+                if (Schema::hasColumn('enquiries', 'price')) {
+                    $table->dropColumn('price');
+                }
+                if (Schema::hasColumn('enquiries', 'discount')) {
+                    $table->dropColumn('discount');
+                }
+                if (Schema::hasColumn('enquiries', 'original_price')) {
+                    $table->dropColumn('original_price');
+                }
+                if (Schema::hasColumn('enquiries', 'total_price')) {
+                    $table->dropColumn('total_price');
+                }
+            });
+        }
     }
 };

@@ -12,19 +12,22 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::table('products', function (Blueprint $table) {
-            // First, clear any existing JSON data in lead_time column
-            // since we're switching to file-based storage
-            if (Schema::hasColumn('products', 'lead_time')) {
-                // Clear existing data as we're changing the storage approach
-                DB::table('products')->update(['lead_time' => null]);
+        if (Schema::hasTable('products')) {
 
-                // Now change the column type
-                $table->string('lead_time')->nullable()->change();
-            } else {
-                $table->string('lead_time')->nullable()->after('product_specs');
+            // First, clear any existing data if the column exists
+            if (Schema::hasColumn('products', 'lead_time')) {
+                DB::table('products')->update(['lead_time' => null]);
             }
-        });
+
+            // Now modify or create the column
+            Schema::table('products', function (Blueprint $table) {
+                if (Schema::hasColumn('products', 'lead_time')) {
+                    $table->string('lead_time')->nullable()->change();
+                } else {
+                    $table->string('lead_time')->nullable()->after('product_specs');
+                }
+            });
+        }
     }
 
     /**
@@ -32,10 +35,10 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::table('products', function (Blueprint $table) {
-            if (Schema::hasColumn('products', 'lead_time')) {
+        if (Schema::hasTable('products') && Schema::hasColumn('products', 'lead_time')) {
+            Schema::table('products', function (Blueprint $table) {
                 $table->text('lead_time')->nullable()->change();
-            }
-        });
+            });
+        }
     }
 };

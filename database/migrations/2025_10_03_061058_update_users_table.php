@@ -11,10 +11,13 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::table('users', function (Blueprint $table) {
-            //
-            $table->enum('customer_type', ['loyal', 'dealer', 'regular'])->default('regular')->after('role');
-        });
+        if (Schema::hasTable('users') && !Schema::hasColumn('users', 'customer_type')) {
+            Schema::table('users', function (Blueprint $table) {
+                $table->enum('customer_type', ['loyal', 'dealer', 'regular'])
+                      ->default('regular')
+                      ->after('role');
+            });
+        }
     }
 
     /**
@@ -22,9 +25,10 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::table('users', function (Blueprint $table) {
-            //
-            $table->dropColumn('customer_type');
-        });
+        if (Schema::hasTable('users') && Schema::hasColumn('users', 'customer_type')) {
+            Schema::table('users', function (Blueprint $table) {
+                $table->dropColumn('customer_type');
+            });
+        }
     }
 };

@@ -11,21 +11,23 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('user_categories', function (Blueprint $table) {
-            $table->id();
-            $table->unsignedBigInteger('user_id');
-            $table->unsignedBigInteger('sub_category_id');
-            $table->decimal('percentage', 5, 2); // e.g., 75.50%
+        if (!Schema::hasTable('user_categories')) {
+            Schema::create('user_categories', function (Blueprint $table) {
+                $table->id();
+                $table->unsignedBigInteger('user_id');
+                $table->unsignedBigInteger('sub_category_id');
+                $table->decimal('percentage', 5, 2); // e.g., 75.50%
 
-            $table->timestamps();
+                $table->timestamps();
 
-            // Unique constraint for combination of user_role + category_id
-            $table->unique(['user_id', 'sub_category_id']);
+                // Unique constraint for combination of user_role + category_id
+                $table->unique(['user_id', 'sub_category_id']);
 
-            // Foreign key constraint
-            $table->foreign('sub_category_id')->references('id')->on('sub_categories')->onDelete('cascade');
-            $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
-        });
+                // Foreign key constraint
+                $table->foreign('sub_category_id')->references('id')->on('sub_categories')->onDelete('cascade');
+                $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
+            });
+        }
     }
 
     /**
@@ -33,6 +35,8 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('user_categories');
+        if (Schema::hasTable('user_categories')) {
+            Schema::dropIfExists('user_categories');
+        }
     }
 };
