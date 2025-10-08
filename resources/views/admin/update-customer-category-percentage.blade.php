@@ -19,29 +19,7 @@
                             <input type="hidden" name="id" value="{{ $userCategory->id }}">
                             <div class="card-body">
                                 <div class="row">
-                                    <div class="col-sm-6">
-                                        <div class="mb-3">
-                                            <label class="form-label" for="Name">Customer Role</label>
-                                            <select class="form-control @error('user_role') is-invalid @enderror"
-                                                name="user_role">
-                                                <option selected disabled value="0">-- Select Customer Role --
-                                                </option>
-                                                @foreach ($user_roles as $user_role)
-                                                    <option value="{{ $user_role }}"
-                                                        @if ($user_role == $userCategory->user_role) selected @endif>
-                                                        {{ ucfirst($user_role) }}
-                                                    </option>
-                                                @endforeach
-                                                @error('user_role')
-                                                    {{ $message }}
-                                                @enderror
-                                            </select>
-                                            @error('user_role')
-                                                {{ $message }}
-                                            @enderror
-                                        </div>
-                                    </div>
-
+                                    <input type="hidden" name="id" value="{{ $userCategory->id }}">
                                     <div class="col-sm-6">
                                         <div class="mb-3">
                                             <label class="form-label" for="Name">Sub Category</label>

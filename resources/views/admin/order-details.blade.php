@@ -44,8 +44,10 @@
                                 <thead>
                                     <tr>
                                         <th>Item</th>
-                                        <th>Price</th>
                                         <th>Quantity</th>
+                                        <th>Original Price</th>
+                                        <th>Discount</th>
+                                        <th>Price</th>
                                         <th>Total Price</th>
                                     </tr>
                                 </thead>
@@ -65,9 +67,11 @@
                                                         </div>
                                                     </div>
                                                 </td>
-                                                <td>₹<span>{{ $product->price }}</span>
-                                                </td>
                                                 <td>{{ $product->quantity }}</td>
+                                                </td>
+                                                <td>₹<span>{{ $product->original_price }}</span></td>
+                                                <td>{{ $product->discount . ' %' }}</td>
+                                                <td>₹<span>{{ $product->price }}</span>
 
                                                 <td>₹<span class="product_price">{{ $product->total_price }}</span>
                                                 </td>

@@ -44,11 +44,11 @@
                                     <th scope="col" class="product-thumbnail">Date</th>
                                     <th scope="col" class="product-thumbnail">Product</th>
                                     <th scope="col" class="product-title">Title</th>
-                                    <th scope="col" class="product-price">Part No</th>
+                                    <th scope="col" class="product-price">Part&nbsp;No</th>
                                     <th scope="col" class="product-quantity">Quantity</th>
                                     @if (Auth::user()->customer_type == 'loyal' || Auth::user()->customer_type == 'dealer')
-                                    <th scope="col" class="product-quantity">Price</th>
-                                    <th scope="col" class="product-quantity">Total Price</th>
+                                    <th scope="col" class="product-quantity">Price&nbsp;Per&nbsp;Peice</th>
+                                    <th scope="col" class="product-quantity">Total&nbsp;Price</th>
                                     @endif
                                     <th scope="col" class="product-remove"></th>
                                     <th scope="col" class="product-remove">Action</th>
@@ -91,6 +91,12 @@
                                             </td>
                                             <td class="products-total-price" data-title="Price">
                                                 {{ $cartItem->total }}
+                                            </td>
+                                            <td class="discounted-percentage" data-title="Price">
+                                                {{ $cartItem->discount }}
+                                            </td>
+                                            <td class="original-price" data-title="Price">
+                                                {{ $cartItem->original_price }}
                                             </td>
                                             @endif
                                             <td class="product-remove">
@@ -169,7 +175,6 @@
 
 
         $(document).on("click", "#addEnquiry", function() {
-            alert("clicked");
             var button = $(this).prop("disabled", true);
             button.find("a").text("Processing...");
 
@@ -184,6 +189,8 @@
                 let partNumber = $(this).find(".partNumber").text();
                 let price = $(this).find(".product-price").text();
                 let totalPrice = $(this).find(".products-total-price").text();
+                let discountedPercentage = $(this).find(".discounted-percentage").text();
+                let originalPrice = $(this).find(".original-price").text();
 
                 cartData.push({
                     productId: productId,
@@ -191,7 +198,9 @@
                     enquiryQuantity: enquiryQuantity,
                     partNumber: partNumber,
                     price: price,
-                    totalPrice: totalPrice
+                    totalPrice: totalPrice, 
+                    discountPercentage: discountedPercentage,
+                    originalPrice: originalPrice
                 });
             });
 

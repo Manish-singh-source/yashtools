@@ -249,9 +249,6 @@
                                             </li>
                                         @endif
                                     @endforeach
-                                    {{-- <li class="breadcrumb-item"><a href="#">Home</a></li>
-                                    <li class="breadcrumb-item"><a href="#">Category</a></li>
-                                    <li class="breadcrumb-item active" aria-current="page">Current Page</li> --}}
                                 </ol>
                             </nav>
                         </div>
@@ -266,30 +263,29 @@
                                         </a>
                                     </div>
                                 </div>
-                                {{-- <div class="product-quick-view position-view">
-                                    <a href="https://dq2c38sk8yrcb.cloudfront.net/product_group/line_drawing/VB1.1LineDrawing.jpg"
-                                        class="popup-zoom">
-                                        <i class="far fa-search-plus"></i>
-                                    </a>
-                                </div> --}}
                             </div>
                         </div>
                         <div class="col-lg-6 mb--40">
                             <div class="single-product-content">
                                 <div class="inner">
-                                    <h2 class="product-title margbot text-capitalize">{{ $selectedProduct->product_name }}
-                                    </h2>
-                                    <h6 class="title margbot">Brand: <span
-                                            class="spnc">{{ $selectedProduct->brands->brand_name }}</span></h6>
+                                    @isset($selectedProduct->product_name)
+                                        <h2 class="product-title margbot text-capitalize">{{ $selectedProduct->product_name }}
+                                        </h2>
+                                    @endisset
+                                    @isset($selectedProduct->brands->brand_name)
+                                        <h6 class="title margbot">Brand: <span
+                                                class="spnc">{{ $selectedProduct->brands->brand_name }}</span></h6>
+                                    @endisset
 
-									@if (Auth::user())
+                                    @if (Auth::user())
                                         @if (isset($selectedProduct->product_country_of_origin))
                                             <h6 class="title margbot">Country Of Origin: <span
-                                                    class="spnc">{{ $selectedProduct->product_country_of_origin }}</span></h6>
+                                                    class="spnc">{{ $selectedProduct->product_country_of_origin }}</span>
+                                            </h6>
                                         @endif
                                     @endif
-                                    
-									<div class="custom-dropdown margbot" id="dropdown">
+
+                                    <div class="custom-dropdown margbot" id="dropdown">
                                         <div class="dropdown-selected">
                                             Part Number
                                             <span>▼</span>
@@ -299,8 +295,6 @@
                                         </div>
                                     </div>
 
-                                    <!-- <h6 class="title margbot">Days to Dispatch :<span class="spnc">
-                                                    {{ $selectedProduct->product_dispatch }}</span></h6> -->
                                     <div class="manish1 margbot">
                                         <ul class="icon-list-row d-flex">
                                             @isset($selectedProduct->product_drawing)
@@ -315,14 +309,14 @@
                                                         href="{{ asset('/uploads/products/pdf/' . $selectedProduct->product_pdf) }}">PDF</a>
                                                 </li>
                                             @endisset
-											@if (Auth::user())
-                                            	@isset($selectedProduct->product_catalouge)
-                                                	<li>
-                                                    	<i class="fas fa-book"></i> <a target="_blank"
-                                                    	    href="{{ asset('/uploads/products/catalogue/' . $selectedProduct->product_catalouge) }}">Catalogue</a>
-                                                	</li>
-                                            	@endisset 
-											@endif
+                                            @if (Auth::user())
+                                                @isset($selectedProduct->product_catalouge)
+                                                    <li>
+                                                        <i class="fas fa-book"></i> <a target="_blank"
+                                                            href="{{ asset('/uploads/products/catalogue/' . $selectedProduct->product_catalouge) }}">Catalogue</a>
+                                                    </li>
+                                                @endisset
+                                            @endif
                                         </ul>
                                     </div>
                                     <div id="showError" class="px-2 py-3 text-danger"></div>
@@ -358,22 +352,26 @@
         <div class="woocommerce-tabs wc-tabs-wrapper bg-vista-white">
             <div class="container">
                 <ul class="nav tabs" id="myTab" role="tablist">
-					@if (isset($sheetData) && count($sheetData) > 0)
-                    <li class="nav-item" role="presentation">
-                        <a class="active" id="description-tab" data-bs-toggle="tab" href="#description" role="tab"
-                            aria-controls="description" aria-selected="true">Specifications</a>
-                    </li>
-					@endif
-                    @if (isset($leadTimeData) && !empty($leadTimeData))
-                    <li class="nav-item" role="presentation">
-                        <a @if (!isset($sheetData) || count($sheetData) <= 0) class="active" @endif id="lead-time-tab" data-bs-toggle="tab" href="#lead-time" role="tab"
-                            aria-controls="lead-time" aria-selected="false">Lead Time</a>
-                    </li>
+                    @if (isset($sheetData) && count($sheetData) > 0)
+                        <li class="nav-item" role="presentation">
+                            <a class="active" id="description-tab" data-bs-toggle="tab" href="#description" role="tab"
+                                aria-controls="description" aria-selected="true">Specifications</a>
+                        </li>
                     @endif
-                    <li class="nav-item " role="presentation">
-                        <a @if ((!isset($sheetData) || count($sheetData) <= 0) && (!isset($leadTimeData) || empty($leadTimeData))) class="active" @endif id="additional-info-tab" data-bs-toggle="tab" href="#additional-info" role="tab"
-                            aria-controls="additional-info" aria-selected="false">Description</a>
-                    </li>
+                    @if (isset($leadTimeData) && !empty($leadTimeData))
+                        <li class="nav-item" role="presentation">
+                            <a @if (!isset($sheetData) || count($sheetData) <= 0) class="active" @endif id="lead-time-tab"
+                                data-bs-toggle="tab" href="#lead-time" role="tab" aria-controls="lead-time"
+                                aria-selected="false">Lead Time</a>
+                        </li>
+                    @endif
+                    @if ($selectedProduct->product_discription != '')
+                        <li class="nav-item " role="presentation">
+                            <a @if ((!isset($sheetData) || count($sheetData) <= 0) && (!isset($leadTimeData) || empty($leadTimeData))) class="active" @endif id="additional-info-tab"
+                                data-bs-toggle="tab" href="#additional-info" role="tab"
+                                aria-controls="additional-info" aria-selected="false">Description</a>
+                        </li>
+                    @endif
                 </ul>
                 <div class="tab-content" id="myTabContent">
                     <div class="tab-pane fade show active" id="description" role="tabpanel"
@@ -384,7 +382,6 @@
                                 <div class="col-lg-12 mb--30">
                                     <div class="table-responsive">
                                         @if (isset($sheetData) && count($sheetData) > 0)
-
                                             @php
                                                 // Remove completely empty rows
                                                 $filteredRows = array_filter($sheetData, function ($row) {
@@ -470,75 +467,72 @@
                 </div>
                 <!-- Lead Time Tab -->
                 @if (isset($leadTimeData) && !empty($leadTimeData))
-                <div class="tab-pane fade @if (!isset($sheetData) || count($sheetData) <= 0) show active @endif" id="lead-time" role="tabpanel"
-                    aria-labelledby="lead-time-tab">
-                    <div class="product-desc-wrapper">
-                        <div class="row">
-                            <div class="col-lg-12 mb--30">
-                                <div class="lead-time-content">
-                                    <h4 class="mb-3"><i class="fas fa-clock text-primary"></i> Lead Time Information</h4>
+                    <div class="tab-pane fade @if (!isset($sheetData) || count($sheetData) <= 0) show active @endif" id="lead-time"
+                        role="tabpanel" aria-labelledby="lead-time-tab">
+                        <div class="product-desc-wrapper">
+                            <div class="row">
+                                <div class="col-lg-12 mb--30">
+                                    <div class="lead-time-content">
 
-                                    @if (isset($leadTimeType) && $leadTimeType === 'excel' && is_array($leadTimeData))
-                                        <!-- Excel Data Display -->
-                                        <div class="table-responsive">
-                                            <table class="table table-striped table-hover">
-                                                <thead class="table-dark">
-                                                    <tr>
-                                                        @foreach ($leadTimeData[0] as $column)
-                                                            @if (!empty($column))
-                                                                <th class="text-center">{{ $column }}</th>
-                                                            @endif
-                                                        @endforeach
-                                                    </tr>
-                                                </thead>
-                                                <tbody>
-                                                    @foreach (array_slice($leadTimeData, 1) as $row)
+                                        @if (isset($leadTimeType) && $leadTimeType === 'excel' && is_array($leadTimeData))
+                                            <!-- Excel Data Display -->
+                                            <div class="table-responsive">
+                                                <table class="table table-striped table-hover">
+                                                    <thead class="table-dark">
                                                         <tr>
-                                                            @foreach ($row as $key => $value)
-                                                                @if (!empty($value) || $value === '0' || $value === 0)
-                                                                    <td class="text-center">{{ $value }}</td>
-                                                                @elseif (isset($leadTimeData[0][$key]) && !empty($leadTimeData[0][$key]))
-                                                                    <td class="text-center text-muted">-</td>
+                                                            @foreach ($leadTimeData[0] as $column)
+                                                                @if (!empty($column))
+                                                                    <th class="text-center">{{ $column }}</th>
                                                                 @endif
                                                             @endforeach
                                                         </tr>
-                                                    @endforeach
-                                                </tbody>
-                                            </table>
-                                        </div>
+                                                    </thead>
+                                                    <tbody>
+                                                        @foreach (array_slice($leadTimeData, 1) as $row)
+                                                            <tr>
+                                                                @foreach ($row as $key => $value)
+                                                                    @if (!empty($value) || $value === '0' || $value === 0)
+                                                                        <td class="text-center">{{ $value }}</td>
+                                                                    @elseif (isset($leadTimeData[0][$key]) && !empty($leadTimeData[0][$key]))
+                                                                        <td class="text-center text-muted">-</td>
+                                                                    @endif
+                                                                @endforeach
+                                                            </tr>
+                                                        @endforeach
+                                                    </tbody>
+                                                </table>
+                                            </div>
 
-                                        <!-- Download Link for Excel File -->
-                                        @if (!empty($selectedProduct->lead_time))
-                                        <div class="mt-3">
-                                            <a href="{{ asset('/uploads/products/lead_time/' . $selectedProduct->lead_time) }}"
-                                               class="btn btn-outline-primary btn-sm"
-                                               download>
-                                                <i class="fas fa-download"></i> Download Excel File
-                                            </a>
-                                        </div>
+                                            <!-- Download Link for Excel File -->
+                                            @if (!empty($selectedProduct->lead_time))
+                                                <div class="mt-3">
+                                                    <a href="{{ asset('/uploads/products/lead_time/' . $selectedProduct->lead_time) }}"
+                                                        class="btn btn-outline-primary btn-sm" download>
+                                                        <i class="fas fa-download"></i> Download Excel File
+                                                    </a>
+                                                </div>
+                                            @endif
+                                        @else
+                                            <!-- No Lead Time Data -->
+                                            <div class="alert alert-info">
+                                                <i class="fas fa-info-circle"></i> No lead time information available for
+                                                this product.
+                                            </div>
                                         @endif
-
-                                    @else
-                                        <!-- No Lead Time Data -->
-                                        <div class="alert alert-info">
-                                            <i class="fas fa-info-circle"></i> No lead time information available for this product.
-                                        </div>
-                                    @endif
+                                    </div>
                                 </div>
                             </div>
                         </div>
                     </div>
-                </div>
                 @endif
 
-                <div class="tab-pane fade @if ((!isset($sheetData) || count($sheetData) <= 0) && (!isset($leadTimeData) || empty($leadTimeData))) show active @endif" id="additional-info" role="tabpanel"
-                    aria-labelledby="additional-info-tab">
-                <div class="tab-pane fade" id="additional-info" role="tabpanel" aria-labelledby="additional-info-tab">
+                <div class="tab-pane fade" id="additional-info"
+                    role="tabpanel" aria-labelledby="additional-info-tab">
                     <div class="product-desc-wrapper">
                         <div class="row">
                             <div class="col-lg-12 mb--30">
                                 <div class="single-desc">
-                                    <p>{!! $selectedProduct->product_discription !!}</p>
+                                    <p>{!! $selectedProduct->product_discription ?? 'No additional information available.' !!}</p>
                                 </div>
                             </div>
                             <!-- End .col-lg-6 -->
@@ -546,9 +540,7 @@
                         <!-- End .row -->
                     </div>
                 </div>
-
             </div>
-        </div>
         </div>
         <!-- woocommerce-tabs -->
 
@@ -593,14 +585,14 @@
 
 
 @section('script')
-<script src="https://code.jquery.com/jquery-3.7.1.min.js"
-    integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
-<script>
-    const dropdown = document.getElementById('dropdown');
-    const selected = dropdown.querySelector('.dropdown-selected');
-    const options = dropdown.querySelector('.dropdown-options');
-    const searchBox = dropdown.querySelector('.search-box');
-    const optionItems = options.querySelectorAll('div');
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js"
+        integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
+    <script>
+        const dropdown = document.getElementById('dropdown');
+        const selected = dropdown.querySelector('.dropdown-selected');
+        const options = dropdown.querySelector('.dropdown-options');
+        const searchBox = dropdown.querySelector('.search-box');
+        const optionItems = options.querySelectorAll('div');
 
         // Toggle dropdown visibility
         selected.addEventListener('click', () => {
@@ -629,17 +621,17 @@
             }
         });
 
-    // Close dropdown when clicking outside
-    document.addEventListener('click', (event) => {
-        if (!dropdown.contains(event.target)) {
-            options.style.display = 'none';
-        }
-    });
-</script>
-<script>
-    $(document).ready(function() {
-        let $table = $("table");
-        if ($table.length === 0) return;
+        // Close dropdown when clicking outside
+        document.addEventListener('click', (event) => {
+            if (!dropdown.contains(event.target)) {
+                options.style.display = 'none';
+            }
+        });
+    </script>
+    <script>
+        $(document).ready(function() {
+            let $table = $("table");
+            if ($table.length === 0) return;
 
             let $headers = $table.find("thead th");
             let $rows = $table.find("tbody tr");
@@ -724,18 +716,18 @@
                 let productid = $(this).data("productid");
                 let productStatus = $(this).siblings(".status").val() || 0;
 
-            $.ajax({
-                url: "/check-auth", // Check if the user is logged in
-                type: "GET",
-                success: function(response) {
-console.log(response)
-                    if (!response.isAuthenticated) {
-                        $("#showError").show();
-                        $("#showError").html(
-                            "Please <a href='/signup'>Register</a>/<a href='/signin'>Login</a> To Add Product To Favourites."
-                        ); // Show login popup
-                        return;
-                    }
+                $.ajax({
+                    url: "/check-auth", // Check if the user is logged in
+                    type: "GET",
+                    success: function(response) {
+                        console.log(response)
+                        if (!response.isAuthenticated) {
+                            $("#showError").show();
+                            $("#showError").html(
+                                "Please <a href='/signup'>Register</a>/<a href='/signin'>Login</a> To Add Product To Favourites."
+                            ); // Show login popup
+                            return;
+                        }
 
                         $.ajax({
                             url: "/add-to-favourite",

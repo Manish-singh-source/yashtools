@@ -127,9 +127,9 @@ Route::middleware(AdminAuthMiddleware::class . ':admin,superadmin', 'shareUserNN
     Route::get('/customer-overview/{id}', [CustomersController::class, 'customerOverview'])->name('customer.overview');
     Route::get('/edit-customer/{id}', [CustomersController::class, 'editCustomerDetails'])->name('admin.edit.customer');
     Route::put('/update-customer', [CustomersController::class, 'updateCustomerDetails'])->name('admin.update.customer');
-
+    Route::get('/view-customer-details/{id}', [CustomersController::class, 'viewCustomerDetails'])->name('admin.view.customer.details');
     // Customer Category Percentage Routes
-    Route::get('/customer-category-percentage', [CustomersController::class, 'showCustomerCategoryPercentage'])->name('admin.show-customer-category-percentage');
+    // Route::get('/customer-category-percentage', [CustomersController::class, 'showCustomerCategoryPercentage'])->name('admin.show-customer-category-percentage');
     Route::get('/add-customer-category-percentage', [CustomersController::class, 'addCustomerCategoryPercentage'])->name('admin.add-customer-category-percentage');
     Route::post('/store-customer-category-percentage', [CustomersController::class, 'storeCustomerCategoryPercentage'])->name('admin.store-customer-category-percentage');
     Route::get('/edit-customer-category-percentage/{id}', [CustomersController::class, 'editCustomerCategoryPercentage'])->name('admin.edit-customer-category-percentage');

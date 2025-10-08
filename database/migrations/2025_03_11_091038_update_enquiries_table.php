@@ -24,6 +24,7 @@ return new class extends Migration
     {
         Schema::table('enquiries', function (Blueprint $table) {
             //
+            $table->integer('enquiry_id')->change();
         });
     }
 };

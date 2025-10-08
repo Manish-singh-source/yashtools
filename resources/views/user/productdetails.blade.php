@@ -229,6 +229,17 @@
             margin-bottom: 0;
             min-width: 70px;
         }
+
+        .discount-badge {
+            background: #e4e4e4;
+            color: #111;
+            font-size: 12px;
+            font-weight: 600;
+            padding: 2px 6px;
+            border-radius: 4px;
+            margin-left: 5px;
+            text-decoration: line-through;
+        }
     </style>
 @endsection
 
@@ -273,10 +284,15 @@
                         <div class="col-lg-5 mb--40">
                             <div class="single-product-content">
                                 <div class="inner">
-                                    <h2 class="product-title margbot text-capitalize">{{ $selectedProduct->product_name }}
-                                    </h2>
-                                    <h6 class="title margbot">Brand: <span
-                                            class="spnc">{{ $selectedProduct->brands->brand_name }}</span></h6>
+                                    @isset($selectedProduct->product_name)
+                                        <h2 class="product-title margbot text-capitalize">{{ $selectedProduct->product_name }}
+                                        </h2>
+                                    @endisset
+                                    @isset($selectedProduct->brands->brand_name)
+                                        <h6 class="title margbot">Brand: <span
+                                                class="spnc">{{ $selectedProduct->brands->brand_name }}</span></h6>
+                                    @endisset
+
                                     @if (isset($selectedProduct->product_country_of_origin))
                                         <h6 class="title margbot">Country Of Origin: <span
                                                 class="spnc">{{ $selectedProduct->product_country_of_origin }}</span></h6>
@@ -292,12 +308,15 @@
                                     </div>
                                     <input type="hidden" name="productId" class="productId"
                                         value="{{ $selectedProduct->id }}">
+
                                     <input type="hidden" name="userId" class="userId" value="{{ Auth::id() }}">
+
                                     <div class="product-variation quantity-variant-wrapper margbot">
                                         <h6 class="title">Quantity</h6>
                                         <div class="pro-qty"><input class="enquiryQuantity" type="text" value="1">
                                         </div>
                                     </div>
+
                                     <ul class="product-meta margbot">
                                         @if ($selectedProduct->product_quantity > 0)
                                             <li><i class="fal fa-check"></i>In stock</li>
@@ -305,21 +324,32 @@
                                             <li class="text-danger"><i class="fal fa-times"></i>Out of stock</li>
                                         @endif
                                     </ul>
-                                    {{-- <h6 class="title margbot">Available Quantity :
-                                        <span class="spnc">{{ $selectedProduct->product_quantity }}</span>
-                                    </h6> --}}
+
                                     @if (Auth::user()->customer_type == 'loyal' || Auth::user()->customer_type == 'dealer')
                                         @if ($selectedProduct->product_price != null)
                                             <div class="product-variation quantity-variant-wrapper margbot">
-                                                <h6 class="title1">Price :</h6><span class="spnc">₹<span
+                                                <div id="discountPercentage" style="display: none"></div>
+                                                <h6 class="title1">Price :</h6>
+                                                <span class="spnc">₹<span
                                                         id="discountedPrice">{{ $selectedProduct->product_price }}</span></span>
+                                                <span class="discount-badge" style="display: none"></span>
                                             </div>
                                         @endif
                                     @endif
 
-                                    <h6 class="title margbot">Days to Dispatch :<span class="spnc">
-                                            {{ $selectedProduct->product_dispatch }} Day(s)</span>
-                                    </h6>
+                                    @isset($selectedProduct->product_dispatch)
+                                        <h6 class="title margbot">Days to Dispatch :
+                                            @if ($selectedProduct->product_dispatch == 0)
+                                                <span class="spnc">
+                                                    Same Day
+                                                </span>
+                                            @else
+                                                <span class="spnc">
+                                                    {{ $selectedProduct->product_dispatch }} Day(s)</span>
+                                                </span>
+                                            @endif
+                                        </h6>
+                                    @endisset
 
                                     <!-- End Product Action Wrapper  -->
                                     <div class="product-action-wrapper margbot">
@@ -329,7 +359,7 @@
                                             <li class="add-to-cart" id="addEnquiry"><a href="#"
                                                     class="axil-btn btn-bg-secondary" contenteditable="false"
                                                     style="cursor: pointer;"><i class="far fa-envelope"></i>
-                                                    Send Enquiry</a></li>
+                                                    Place Order</a></li>
                                             <li class="add-to-cart" id="addCart"><a href="#"
                                                     class="axil-btn btn-bg-primary" contenteditable="false"
                                                     style="cursor: pointer;"><i class="far fa-shopping-cart"></i> Add
@@ -404,6 +434,14 @@
                             <li class="nav-item" role="presentation">
                                 <a class="active" id="description-tab" data-bs-toggle="tab" href="#description"
                                     role="tab" aria-controls="description" aria-selected="true">Specifications</a>
+                            </li>
+                        @endif
+
+                        @if (isset($leadTimeData) && !empty($leadTimeData))
+                            <li class="nav-item" role="presentation">
+                                <a @if (!isset($sheetData) || count($sheetData) <= 0) class="active" @endif id="lead-time-tab"
+                                    data-bs-toggle="tab" href="#lead-time" role="tab" aria-controls="lead-time"
+                                    aria-selected="false">Lead Time</a>
                             </li>
                         @endif
 
@@ -516,6 +554,71 @@
                             </div>
                             <!-- End .product-desc-wrapper -->
                         </div>
+
+                        <!-- Lead Time Tab -->
+                        @if (isset($leadTimeData) && !empty($leadTimeData))
+                            <div class="tab-pane fade @if (!isset($sheetData) || count($sheetData) <= 0) show active @endif"
+                                id="lead-time" role="tabpanel" aria-labelledby="lead-time-tab">
+                                <div class="product-desc-wrapper">
+                                    <div class="row">
+                                        <div class="col-lg-12 mb--30">
+                                            <div class="lead-time-content">
+
+                                                @if (isset($leadTimeType) && $leadTimeType === 'excel' && is_array($leadTimeData))
+                                                    <!-- Excel Data Display -->
+                                                    <div class="table-responsive">
+                                                        <table class="table table-striped table-hover">
+                                                            <thead class="table-dark">
+                                                                <tr>
+                                                                    @foreach ($leadTimeData[0] as $column)
+                                                                        @if (!empty($column))
+                                                                            <th class="text-center">{{ $column }}
+                                                                            </th>
+                                                                        @endif
+                                                                    @endforeach
+                                                                </tr>
+                                                            </thead>
+                                                            <tbody>
+                                                                @foreach (array_slice($leadTimeData, 1) as $row)
+                                                                    <tr>
+                                                                        @foreach ($row as $key => $value)
+                                                                            @if (!empty($value) || $value === '0' || $value === 0)
+                                                                                <td class="text-center">
+                                                                                    {{ $value }}</td>
+                                                                            @elseif (isset($leadTimeData[0][$key]) && !empty($leadTimeData[0][$key]))
+                                                                                <td class="text-center text-muted">-</td>
+                                                                            @endif
+                                                                        @endforeach
+                                                                    </tr>
+                                                                @endforeach
+                                                            </tbody>
+                                                        </table>
+                                                    </div>
+
+                                                    <!-- Download Link for Excel File -->
+                                                    @if (!empty($selectedProduct->lead_time))
+                                                        <div class="mt-3">
+                                                            <a href="{{ asset('/uploads/products/lead_time/' . $selectedProduct->lead_time) }}"
+                                                                class="btn btn-outline-primary btn-sm" download>
+                                                                <i class="fas fa-download"></i> Download Excel File
+                                                            </a>
+                                                        </div>
+                                                    @endif
+                                                @else
+                                                    <!-- No Lead Time Data -->
+                                                    <div class="alert alert-info">
+                                                        <i class="fas fa-info-circle"></i> No lead time information
+                                                        available for
+                                                        this product.
+                                                    </div>
+                                                @endif
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        @endif
+
                         <div class="tab-pane fade" id="additional-info" role="tabpanel"
                             aria-labelledby="additional-info-tab">
                             <div class="product-desc-wrapper">
@@ -528,10 +631,8 @@
                                     <!-- End .col-lg-6 -->
                                 </div>
                                 <!-- End .row -->
-                                <!-- End .row -->
                             </div>
                         </div>
-
                     </div>
                 </div>
             </div>
@@ -699,6 +800,8 @@
                 var userId = $(".userId").val();
                 var partNumber = $(".dropdown-selected").text().trim();
                 var price = $('#discountedPrice').text();
+                var originalPrice = $('.discount-badge').text().split('₹')[1];
+                var discountPercentage = $("#discountPercentage").text();
 
                 if (partNumber === 'Select Part Number') {
                     alert('Please select Part Number');
@@ -711,7 +814,9 @@
                     enquiryQuantity,
                     partNumber,
                     price,
-                    totalPrice: price * enquiryQuantity
+                    totalPrice: price * enquiryQuantity,
+                    originalPrice,
+                    discountPercentage
                 }];
                 var $btn = $(this).prop("disabled", true);
 
@@ -731,6 +836,8 @@
                 var partNumber = $(".dropdown-selected").text().trim();
                 var price = $('#discountedPrice').text();
                 var quantity = $(".enquiryQuantity").val();
+                var originalPrice = $('.discount-badge').text().split('₹')[1];
+                var discountPercentage = $("#discountPercentage").text();
 
                 if (partNumber === 'Select Part Number') {
                     alert('Please select Part Number');
@@ -743,7 +850,9 @@
                         productId,
                         partNumber,
                         price,
-                        quantity
+                        quantity,
+                        originalPrice,
+                        discountPercentage
                     }, function(data) {
                         if (data.status) location.reload();
                     });
@@ -810,6 +919,7 @@
                 console.log(subCategoryId)
                 console.log(price)
                 console.log(selectedPartNumber)
+
                 $.ajax({
                     url: '/get-discount-price',
                     method: 'POST',
@@ -822,6 +932,9 @@
                     success: function(response) {
                         if (response.discountedPrice) {
                             $('#discountedPrice').text(response.discountedPrice);
+                            $('.discount-badge').text('₹' + response.originalPrice);
+                            $('.discount-badge').show();
+                            $("#discountPercentage").text(response.discountPercentage);
                         }
                     }
                 });

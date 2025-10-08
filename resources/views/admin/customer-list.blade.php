@@ -112,6 +112,10 @@
                                                 </td>
                                                 <td>
                                                     <div class="d-flex justify-content-end">
+                                                        <a href="{{ route('admin.view.customer.details', $customer->id) }}"
+                                                            class="btn btn-primary shadow btn-xs sharp me-1"><i
+                                                                class="fa fa-eye"></i></a>
+
                                                         <a href="{{ route('admin.edit.customer', $customer->id) }}"
                                                             class="btn btn-primary shadow btn-xs sharp me-1"><i
                                                                 class="fa fa-pencil"></i></a>

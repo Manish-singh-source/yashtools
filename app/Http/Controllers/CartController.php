@@ -11,6 +11,7 @@ class CartController extends Controller
     public function addCart(Request $request)
     {
 
+
         $cart = new Cart();
         $cart->user_id = $request->userId;
         $cart->product_id = $request->productId;
@@ -18,6 +19,8 @@ class CartController extends Controller
         $cart->price = $request->price;
         $cart->quantity = $request->quantity ?? 1;
         $cart->total = $request->price * $request->quantity;
+        $cart->discount = $request->discountPercentage;
+        $cart->original_price = $request->originalPrice;
         $cart->save();
 
         if ($cart) {

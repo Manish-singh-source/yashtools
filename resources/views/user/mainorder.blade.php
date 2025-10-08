@@ -63,7 +63,7 @@
                         <div class="media">
 
                             <div class="media-body">
-                                <h5 class="title mb-0 text-capitalize">Hello {{ $user->username ?? "User" }}</h5>
+                                <h5 class="title mb-0 text-capitalize">Hello {{ $user->fullname ?? "User" }}</h5>
                                 <span class="joining-date">Yash Tools Member Since {{ $user->created_at }}</span>
                             </div>
                         </div>
@@ -137,9 +137,9 @@
                                             <table class="table">
                                                 <thead>
                                                     <tr>
-                                                        <th scope="col">Sr. No.</th>
-                                                        <th scope="col">Enquiry Id</th>
-                                                        <th scope="col">Product Name</th>
+                                                        <th scope="col">Sr.&nbsp;No.</th>
+                                                        <th scope="col">Enquiry&nbsp;Id</th>
+                                                        <th scope="col">Product&nbsp;Name</th>
                                                         <th scope="col">Quantity</th>
                                                         <th scope="col">Status</th>
                                                         <th scope="col">Action</th>
@@ -184,9 +184,9 @@
                                             <table class="table">
                                                 <thead>
                                                     <tr>
-                                                        <th scope="col">Sr. No.</th>
-                                                        <th scope="col">Enquiry Id</th>
-                                                        <th scope="col">Product Name</th>
+                                                        <th scope="col">Sr.&nbsp;No.</th>
+                                                        <th scope="col">Enquiry&nbsp;Id</th>
+                                                        <th scope="col">Product&nbsp;Name</th>
                                                         <th scope="col">Quantity</th>
                                                         <th scope="col">Status</th>
                                                         <th scope="col">Action</th>
@@ -468,9 +468,10 @@
                         toDate: toDate,
                     },
                     success: function(response) {
+                        console.log(response)
                         $('#product_list').html('');
+                        let productCount = 0;
                         $.each(response.data, function(index, product) {
-
                             $('#product_list').append(
                                 `<tr>
                                     <td>${index + 1}</td>

@@ -14,6 +14,8 @@ return new class extends Migration
         Schema::table('enquiries', function (Blueprint $table) {
             //
             $table->double('price')->nullable();
+            $table->double('discount', 8, 2)->nullable();
+            $table->double('original_price', 8, 2)->nullable();
             $table->double('total_price')->nullable();
         });
     }
@@ -26,6 +28,8 @@ return new class extends Migration
         Schema::table('enquiries', function (Blueprint $table) {
             //
             $table->dropColumn('price');
+            $table->dropColumn('discount');
+            $table->dropColumn('original_price');
             $table->dropColumn('total_price');
         });
     }

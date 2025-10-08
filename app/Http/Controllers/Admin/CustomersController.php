@@ -55,17 +55,17 @@ class CustomersController extends Controller
     {
         $validations = Validator::make($request->all(), [
             'customer_id' => 'required',
-            "company_name" => "required",
-            "fullname" => "required",
-            "company_address" => "required",
-            "mobile_number" => "required|digits:10",
-            "gstin" => "required",
-            "city" => "required",
-            "state" => "required",
-            "country" => "required",
-            "pin_code" => "required|digits:6",
-            "email" => "required",
-            'customer_type' => 'required',
+            "company_name" => "nullable",
+            "fullname" => "nullable",
+            "company_address" => "nullable",
+            "mobile_number" => "nullable|digits:10",
+            "gstin" => "nullable",
+            "city" => "nullable",
+            "state" => "nullable",
+            "country" => "nullable",
+            "pin_code" => "nullable|digits:6",
+            "email" => "required|email|unique:users,email," . $request->customer_id . ',id',
+            'customer_type' => 'nullable',
         ]);
 
 
@@ -110,11 +110,14 @@ class CustomersController extends Controller
         return back()->with('error', 'Please Try Again.');
     }
 
-    public function showCustomerCategoryPercentage(Request $request)
-    {
-        $userCategories = UserCategory::with('subcategory')->get();
-        return view('admin.customer-category-percentage-list', compact('userCategories'));
+    public function viewCustomerDetails($id) {
+        $customerDetail = User::with('userDetail', 'userCategory.subcategory')->find($id);
+        $subcategories = SubCategories::all();
+        // $userCategories = UserCategory::with('subcategory')->get();
+        // dd($customerDetail);
+        return view('admin.view-customer-details', compact('customerDetail', 'subcategories'));
     }
+
 
     public function addCustomerCategoryPercentage(Request $request)
     { 
@@ -125,16 +128,15 @@ class CustomersController extends Controller
 
     public function editCustomerCategoryPercentage($id)
     {
-        $user_roles = ['loyal', 'regular', 'dealer'];
+        $userCategory = UserCategory::with('subcategory')->find($id);
         $subcategories = SubCategories::all();
-        $userCategory = UserCategory::find($id);
-        return view('admin.update-customer-category-percentage', compact('subcategories', 'user_roles', 'userCategory'));
+        return view('admin.update-customer-category-percentage', compact('userCategory', 'subcategories'));
     }
 
     public function storeCustomerCategoryPercentage(Request $request)
     {
         $validations = Validator::make($request->all(), [
-            'user_role' => 'required',
+            'user_id' => 'required',
             'sub_category_id' => 'required',
             "percentage" => "required",
         ]);
@@ -142,19 +144,19 @@ class CustomersController extends Controller
         if ($validations->fails()) {
             return back()->withErrors($validations)->withInput();
         }
-        $userCategory = UserCategory::where('user_role', $request->user_role)->where('sub_category_id', $request->sub_category_id)->first();
+        $userCategory = UserCategory::where('user_id', $request->user_id)->where('sub_category_id', $request->sub_category_id)->first();
         if (isset($userCategory)) {
             return back()->withInput()->with('error', 'Category Already Exists for this User Role.');
         } else {
             $userCategory = new UserCategory();
-            $userCategory->user_role = $request->user_role;
+            $userCategory->user_id = $request->user_id;
             $userCategory->sub_category_id = $request->sub_category_id;
             $userCategory->percentage = $request->percentage;
             $userCategory->save();
         }
         if ($userCategory) {
             flash()->success('Customer Category Percentage Added Successfully.');
-            return redirect()->route('admin.show-customer-category-percentage');
+            return redirect()->back();
         }
 
         return back()->with('error', 'Please Try Again.');
@@ -165,7 +167,6 @@ class CustomersController extends Controller
     {
         $validations = Validator::make($request->all(), [
             'id' => 'required',
-            'user_role' => 'required',
             'sub_category_id' => 'required',
             "percentage" => "required",
         ]);
@@ -176,21 +177,14 @@ class CustomersController extends Controller
         
         $userCategory = UserCategory::find($request->id);
         if (isset($userCategory)) {
-            if($request->sub_category_id != $userCategory->sub_category_id){
-                $checkCategory = UserCategory::where('user_role', $request->user_role)->where('sub_category_id', $request->sub_category_id)->first();
-                if (isset($checkCategory)) {
-                    return back()->withInput()->with('error', 'Category Already Exists for this User Role.');
-                }
-            }
+            $userCategory->sub_category_id = $request->sub_category_id;
             $userCategory->percentage = $request->percentage ?? 0;
             $userCategory->save();
-        } else {
-            return back()->withInput()->with('error', 'Category Already Exists for this User Role.');
         }
 
         if ($userCategory) {
             flash()->success('Customer Category Percentage Updated Successfully.');
-            return redirect()->route('admin.show-customer-category-percentage');
+            return redirect()->route('admin.view.customer.details', $userCategory->user_id);
         }
 
         return back()->with('error', 'Please Try Again.');
@@ -199,22 +193,19 @@ class CustomersController extends Controller
     public function deleteCustomerCategoryPercentage(Request $request)
     {
         $validations = Validator::make($request->all(), [
-            'user_role' => 'required',
-            'sub_category_id' => 'required',
+            'id' => 'required',
         ]);
 
         if ($validations->fails()) {
             return back()->withErrors($validations)->withInput();
         }
 
-        $userCategory = UserCategory::where('user_role', $request->user_role)->where('sub_category_id', $request->sub_category_id)->first();
-        if (isset($userCategory)) {
-            UserCategory::where('user_role', $request->user_role)->where('sub_category_id', $request->sub_category_id)->delete();
-        }
+        $userCategory = UserCategory::find($request->id);
+        $userCategory->delete();
 
         if ($userCategory) {
             flash()->success('Customer Category Percentage Deleted Successfully.');
-            return redirect()->route('admin.show-customer-category-percentage');
+            return redirect()->back();
         }
 
         return back()->with('error', 'Please Try Again.');

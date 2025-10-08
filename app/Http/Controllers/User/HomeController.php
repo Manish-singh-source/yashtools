@@ -254,12 +254,12 @@ class HomeController extends Controller
         if($validated){
             $customer = User::find($request->customerId);
             if($customer->customer_type == 'loyal' || $customer->customer_type == 'dealer'){
-                $subCategorySearch = UserCategory::where('sub_category_id', $request->subCategoryId)->where('user_role', $customer->customer_type)->first();
+                $subCategorySearch = UserCategory::where('sub_category_id', $request->subCategoryId)->where('user_id', $customer->id)->first();
                 if($subCategorySearch){
                     // calculate discount
                     $discountedPrice = $validated['price'] * ($subCategorySearch->percentage / 100);
                     $discountedPrice = $validated['price'] - $discountedPrice;
-                    return response()->json(['discountedPrice' => $discountedPrice], 200);
+                    return response()->json(['discountedPrice' => $discountedPrice, 'originalPrice' => $validated['price'], 'discountPercentage' => $subCategorySearch->percentage], 200);
                 }else {
                     return response()->json(['error' => 'No Discount Found'], 400);
                 }

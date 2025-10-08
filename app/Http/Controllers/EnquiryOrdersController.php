@@ -98,7 +98,9 @@ class EnquiryOrdersController extends Controller
                 'quantity' => $item['enquiryQuantity'],
                 'part_number' => $partNumber,
                 'price' => $item['price'],
-                'total_price' => $item['totalPrice']
+                'total_price' => $item['totalPrice'],
+                'discount' => $item['discountPercentage'],
+                'original_price' => $item['originalPrice'],
             ]);
 
             // Add Product to EnquiryProducts

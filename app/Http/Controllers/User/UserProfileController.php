@@ -23,16 +23,16 @@ class UserProfileController extends Controller
     {
         $validations = Validator::make($request->all(), [
             'userId' => 'required',
-            'fullname' => 'required',
-            "email" => "required|email",
-            "company_name" => "required",
-            "company_address" => "required",
-            "mobile_number" => "required",
-            "gstin" => "required",
-            "city" => "required",
-            "state" => "required",
-            "country" => "required",
-            "pin_code" => "required",
+            'fullname' => 'nullable',
+            "email" => "nullable|email|unique:users,email," . $request->userId . ",id",
+            "company_name" => "nullable",
+            "company_address" => "nullable",
+            "mobile_number" => "nullable",
+            "gstin" => "nullable",
+            "city" => "nullable",
+            "state" => "nullable",
+            "country" => "nullable",
+            "pin_code" => "nullable",
         ]);
 
         if ($validations->fails()) {

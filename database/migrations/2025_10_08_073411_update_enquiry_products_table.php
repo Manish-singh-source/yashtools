@@ -11,13 +11,14 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::table('carts', function (Blueprint $table) {
+        Schema::table('enquiry_products', function (Blueprint $table) {
             //
             $table->integer('quantity')->default(1);
-            $table->double('price', 8, 2)->nullable();
+            $table->string('part_number')->nullable();
+            $table->double('price')->nullable();
             $table->double('discount', 8, 2)->nullable();
             $table->double('original_price', 8, 2)->nullable();
-            $table->double('total', 8, 2)->nullable();
+            $table->double('total_price')->nullable();
         });
     }
 
@@ -26,13 +27,14 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::table('carts', function (Blueprint $table) {
+        Schema::table('enquiry_products', function (Blueprint $table) {
             //
             $table->dropColumn('quantity');
+            $table->dropColumn('part_number');
             $table->dropColumn('price');
             $table->dropColumn('discount');
             $table->dropColumn('original_price');
-            $table->dropColumn('total');
+            $table->dropColumn('total_price');
         });
     }
 };

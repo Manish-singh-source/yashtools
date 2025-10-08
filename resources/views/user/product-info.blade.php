@@ -63,14 +63,14 @@
                                             <table class="table">
                                                 <thead>
                                                     <tr>
-                                                        <th scope="col">Sr. No.</th>
-                                                        <th scope="col">Product Image</th>
-                                                        <th scope="col">Product Name</th>
-                                                        <th scope="col">Part Number</th>
+                                                        <th scope="col">Sr.&nbsp;No.</th>
+                                                        <th scope="col">Product&nbsp;Image</th>
+                                                        <th scope="col">Product&nbsp;Name</th>
+                                                        <th scope="col">Part&nbsp;Number</th>
                                                         <th scope="col">Quantity</th>
                                                         @if (Auth::user()->customer_type == 'loyal' || Auth::user()->customer_type == 'dealer')
-                                                            <th scope="col">Price</th>
-                                                            <th scope="col">Total Price</th>
+                                                            <th scope="col">Price&nbsp;Per&nbsp;Peice</th>
+                                                            <th scope="col">Total&nbsp;Price</th>
                                                         @endif
                                                     </tr>
                                                 </thead>
