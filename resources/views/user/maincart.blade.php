@@ -46,9 +46,11 @@
                                     <th scope="col" class="product-title">Title</th>
                                     <th scope="col" class="product-price">Part&nbsp;No</th>
                                     <th scope="col" class="product-quantity">Quantity</th>
-                                    @if (Auth::user()->customer_type == 'loyal' || Auth::user()->customer_type == 'dealer')
-                                    <th scope="col" class="product-quantity">Price&nbsp;Per&nbsp;Peice</th>
-                                    <th scope="col" class="product-quantity">Total&nbsp;Price</th>
+                                    @if (Auth::user()->customer_type != 'regular')
+                                        <th scope="col" class="product-quantity">Price&nbsp;Per&nbsp;Peice</th>
+                                        <th scope="col" class="product-quantity">Total&nbsp;Price</th>
+                                        <th scope="col" class="product-quantity">Discount</th>
+                                        <th scope="col" class="product-quantity">Original&nbsp;Price</th>
                                     @endif
                                     <th scope="col" class="product-remove"></th>
                                     <th scope="col" class="product-remove">Action</th>
@@ -85,19 +87,19 @@
                                                         value="{{ $cartItem->quantity ?? 1 }}">
                                                 </div>
                                             </td>
-                                            @if (Auth::user()->customer_type == 'loyal' || Auth::user()->customer_type == 'dealer')
-                                            <td class="product-price" data-title="Price">
-                                                {{ $cartItem->price }}
-                                            </td>
-                                            <td class="products-total-price" data-title="Price">
-                                                {{ $cartItem->total }}
-                                            </td>
-                                            <td class="discounted-percentage" data-title="Price">
-                                                {{ $cartItem->discount }}
-                                            </td>
-                                            <td class="original-price" data-title="Price">
-                                                {{ $cartItem->original_price }}
-                                            </td>
+                                            @if (Auth::user()->customer_type != 'regular')
+                                                <td class="product-price" data-title="Price">
+                                                    {{ $cartItem->price }}
+                                                </td>
+                                                <td class="products-total-price" data-title="Price">
+                                                    {{ $cartItem->total }}
+                                                </td>
+                                                <td class="discounted-percentage" data-title="Price">
+                                                    {{ $cartItem->discount }}
+                                                </td>
+                                                <td class="original-price" data-title="Price">
+                                                    {{ $cartItem->original_price }}
+                                                </td>
                                             @endif
                                             <td class="product-remove">
                                                 <a href="#" data-cartid="{{ $cartItem->id }}"
@@ -198,7 +200,7 @@
                     enquiryQuantity: enquiryQuantity,
                     partNumber: partNumber,
                     price: price,
-                    totalPrice: totalPrice, 
+                    totalPrice: totalPrice,
                     discountPercentage: discountedPercentage,
                     originalPrice: originalPrice
                 });
@@ -282,7 +284,7 @@
 
         $(document).on("change", ".enquiryQuantity", function() {
             let quantity = $(this).val();
-            if(quantity < 1) {
+            if (quantity < 1) {
                 quantity = 1;
                 $(this).val(1);
             }
@@ -291,7 +293,7 @@
 
         $(document).on("click", ".qtybtn", function() {
             let quantity = $(this).closest(".pro-qty").find(".enquiryQuantity").val();
-            if(quantity < 1) {
+            if (quantity < 1) {
                 quantity = 1;
                 $(this).closest(".pro-qty").find(".enquiryQuantity").val(1);
             }

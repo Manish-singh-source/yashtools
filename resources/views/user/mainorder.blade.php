@@ -75,9 +75,9 @@
                                     <div class="nav nav-tabs" role="tablist">
                                         <a class="nav-item nav-link active" data-bs-toggle="tab" href="#nav-dashboard"
                                             role="tab" aria-selected="true"><i class="fas fa-th-large"></i>Dashboard</a>
-                                        <a class="nav-item nav-link" data-bs-toggle="tab" href="#nav-enquiries"
+                                        {{-- <a class="nav-item nav-link" data-bs-toggle="tab" href="#nav-enquiries"
                                             role="tab" aria-selected="false"><i
-                                                class="fas fa-shopping-cart"></i>Enquiries</a>
+                                                class="fas fa-shopping-cart"></i>Enquiries</a> --}}
                                         <a class="nav-item nav-link" data-bs-toggle="tab" href="#nav-orders" role="tab"
                                             aria-selected="false"><i class="fas fa-shopping-basket"></i>Orders</a>
                                         <a class="nav-item nav-link" data-bs-toggle="tab" href="#nav-account" role="tab"

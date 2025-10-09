@@ -90,7 +90,8 @@ class EnvoiceController extends Controller
     public function ordersList(Request $request)
     {
 
-        $query = Enquiry::where('status', '!=', 'pending')->where('customer_id', Auth::id())->with('invoice')->with('products.product');
+        // $query = Enquiry::where('status', '!=', 'pending')->where('customer_id', Auth::id())->with('invoice')->with('products.product');
+        $query = Enquiry::where('status', 'pending')->where('customer_id', Auth::id())->with('invoice')->with('products.product');
 
         if ($request->filled('fromDate') && $request->filled('toDate')) {
             $fromDate = Carbon::parse($request->fromDate)->startOfDay(); // Sets time to 00:00:00

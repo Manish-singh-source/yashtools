@@ -419,18 +419,27 @@
                                                 <table>
                                                     <thead>
                                                         <tr>
-                                                            @foreach ($nonEmptyCols as $colIndex)
-                                                                <th>{{ $sheetData[0][$colIndex] ?? '' }}</th>
+                                                            @php
+                                                                $colsToShow = $nonEmptyCols;
+                                                            @endphp
+
+                                                            @foreach ($colsToShow as $colIndex)
+                                                                @if ($sheetData[0][$colIndex] != 'Price' && $sheetData[0][$colIndex] != 'Quantity')
+                                                                    <th>{{ $sheetData[0][$colIndex] ?? '' }}</th>
+                                                                @endif
                                                             @endforeach
                                                         </tr>
                                                     </thead>
-                                                    <tbody>
+                                                    <tbody class="table-body">
                                                         @foreach (array_slice($filteredRows, 1) as $row)
-                                                            <tr>
-                                                                @foreach ($nonEmptyCols as $colIndex)
-                                                                    <td data-label="Column {{ $colIndex }}">
-                                                                        {{ $row[$colIndex] ?? '' }}
-                                                                    </td>
+                                                            <tr data-row-value="{{ $row[0] }}">
+                                                                @foreach ($colsToShow as $colIndex)
+                                                                    @if ($sheetData[0][$colIndex] != 'Price' && $sheetData[0][$colIndex] != 'Quantity')
+                                                                        <td
+                                                                            data-label="{{ $sheetData[0][$colIndex] ?? 'Column ' . $colIndex }}">
+                                                                            {{ $row[$colIndex] ?? '' }}
+                                                                        </td>
+                                                                    @endif
                                                                 @endforeach
                                                             </tr>
                                                         @endforeach
@@ -456,7 +465,10 @@
                                             <p>No data available or the file is empty.</p>
                                         @endif
                                     </div>
+
+
                                 </div>
+                                <!-- End .col-lg-6 -->
 
                             </div>
                             <!-- End .col-lg-6 -->
@@ -526,8 +538,7 @@
                     </div>
                 @endif
 
-                <div class="tab-pane fade" id="additional-info"
-                    role="tabpanel" aria-labelledby="additional-info-tab">
+                <div class="tab-pane fade" id="additional-info" role="tabpanel" aria-labelledby="additional-info-tab">
                     <div class="product-desc-wrapper">
                         <div class="row">
                             <div class="col-lg-12 mb--30">

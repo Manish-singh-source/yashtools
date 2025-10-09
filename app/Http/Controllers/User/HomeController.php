@@ -249,6 +249,7 @@ class HomeController extends Controller
             'subCategoryId' => 'required',
             'partNumber' => 'required',
             'price' => 'required',
+            'quantity' => 'nullable|integer|min:1',
         ]);
 
         if($validated){
@@ -259,7 +260,7 @@ class HomeController extends Controller
                     // calculate discount
                     $discountedPrice = $validated['price'] * ($subCategorySearch->percentage / 100);
                     $discountedPrice = $validated['price'] - $discountedPrice;
-                    return response()->json(['discountedPrice' => $discountedPrice, 'originalPrice' => $validated['price'], 'discountPercentage' => $subCategorySearch->percentage], 200);
+                    return response()->json(['discountedPrice' => $discountedPrice, 'originalPrice' => $validated['price'], 'discountPercentage' => $subCategorySearch->percentage, 'quantity' => $validated['quantity']], 200);
                 }else {
                     return response()->json(['error' => 'No Discount Found'], 400);
                 }

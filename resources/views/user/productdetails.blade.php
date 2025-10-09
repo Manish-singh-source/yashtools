@@ -334,6 +334,9 @@
                                                         id="discountedPrice">{{ $selectedProduct->product_price }}</span></span>
                                                 <span class="discount-badge" style="display: none"></span>
                                             </div>
+                                            <div class="product-variation quantity-variant-wrapper margbot"
+                                                style="display: none; font-weight: 500; margin-top: 5px;" id="quantityInfo">
+                                            </div>
                                         @endif
                                     @endif
 
@@ -502,12 +505,18 @@
                                                                     // If customer is regular, remove last column from headers
                                                                     $colsToShow = $nonEmptyCols;
                                                                     if (Auth::user()->customer_type === 'regular') {
-                                                                        $colsToShow = array_slice($nonEmptyCols, 0, -1);
+                                                                        // $colsToShow = array_slice($nonEmptyCols, 0, -1);
                                                                     }
                                                                 @endphp
 
                                                                 @foreach ($colsToShow as $colIndex)
-                                                                    <th>{{ $sheetData[0][$colIndex] ?? '' }}</th>
+                                                                    @if (Auth::user()->customer_type === 'regular')
+                                                                        @if ($sheetData[0][$colIndex] != 'Price' && $sheetData[0][$colIndex] != 'Quantity')
+                                                                            <th>{{ $sheetData[0][$colIndex] ?? '' }}</th>
+                                                                        @endif
+                                                                    @else
+                                                                        <th>{{ $sheetData[0][$colIndex] ?? '' }}</th>
+                                                                    @endif
                                                                 @endforeach
                                                             </tr>
                                                         </thead>
@@ -515,9 +524,19 @@
                                                             @foreach (array_slice($filteredRows, 1) as $row)
                                                                 <tr data-row-value="{{ $row[0] }}">
                                                                     @foreach ($colsToShow as $colIndex)
-                                                                        <td data-label="Column {{ $colIndex }}">
-                                                                            {{ $row[$colIndex] ?? '' }}
-                                                                        </td>
+                                                                        @if (Auth::user()->customer_type === 'regular')
+                                                                            @if ($sheetData[0][$colIndex] != 'Price' && $sheetData[0][$colIndex] != 'Quantity')
+                                                                                <td data-label="Column-{{ $sheetData[0][$colIndex] }}"
+                                                                                    class="Column-{{ $sheetData[0][$colIndex] }}">
+                                                                                    {{ $row[$colIndex] ?? '' }}
+                                                                                </td>
+                                                                            @endif
+                                                                        @else
+                                                                            <td data-label="Column-{{ $sheetData[0][$colIndex] }}"
+                                                                                class="Column-{{ $sheetData[0][$colIndex] }}">
+                                                                                {{ $row[$colIndex] ?? '' }}
+                                                                            </td>
+                                                                        @endif
                                                                     @endforeach
                                                                 </tr>
                                                             @endforeach
@@ -912,7 +931,8 @@
                 });
 
                 if ($row.length) {
-                    var price = $row.find('td').last().text().trim();
+                    var price = $row.find('td.Column-Price').text().trim();
+                    var quantity = $row.find('td.Column-Quantity').text().trim();
                 }
                 var customerId = {{ Auth::user()->id }};
                 console.log(customerId)
@@ -927,7 +947,8 @@
                         customerId: customerId,
                         subCategoryId: subCategoryId,
                         partNumber: selectedPartNumber,
-                        price: price
+                        price: price,
+                        quantity: quantity
                     },
                     success: function(response) {
                         if (response.discountedPrice) {
@@ -935,7 +956,14 @@
                             $('.discount-badge').text('₹' + response.originalPrice);
                             $('.discount-badge').show();
                             $("#discountPercentage").text(response.discountPercentage);
+                            $("#quantityInfo").text('Available Quantity: ' + response.quantity);
+                            $("#quantityInfo").show();
                         }
+                    },
+                    error: function(xhr, status, error) {
+                        console.error('Error fetching discount price:', error);
+                        console.error('Response text:', xhr.responseText);
+                        console.error('Status code:', xhr.status);
                     }
                 });
             });
