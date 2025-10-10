@@ -248,8 +248,8 @@ class HomeController extends Controller
             'customerId' => 'required|exists:users,id',
             'subCategoryId' => 'required',
             'partNumber' => 'required',
-            'price' => 'required',
-            'quantity' => 'nullable|integer|min:1',
+            // 'price' => 'required',
+            // 'quantity' => 'nullable|integer|min:1',
         ]);
 
         if($validated){
@@ -258,14 +258,14 @@ class HomeController extends Controller
                 $subCategorySearch = UserCategory::where('sub_category_id', $request->subCategoryId)->where('user_id', $customer->id)->first();
                 if($subCategorySearch){
                     // calculate discount
-                    $discountedPrice = $validated['price'] * ($subCategorySearch->percentage / 100);
-                    $discountedPrice = $validated['price'] - $discountedPrice;
-                    return response()->json(['discountedPrice' => $discountedPrice, 'originalPrice' => $validated['price'], 'discountPercentage' => $subCategorySearch->percentage, 'quantity' => $validated['quantity']], 200);
+                    $discountedPrice = $request->price * ($subCategorySearch->percentage / 100);
+                    $discountedPrice = $request->price - $discountedPrice;
+                    return response()->json(['discountedPrice' => $discountedPrice, 'originalPrice' => $request->price, 'discountPercentage' => $subCategorySearch->percentage, 'quantity' => $request->quantity], 200);
                 }else {
                     return response()->json(['error' => 'No Discount Found'], 400);
                 }
             }else {
-                return response()->json(['error' => 'Invalid Customer Type'], 400);
+                return response()->json(['success' => 'Customer Type Is Regular', 'originalPrice' => $request->price], 400);
             }
         }
 

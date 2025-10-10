@@ -284,19 +284,21 @@
                         <div class="col-lg-5 mb--40">
                             <div class="single-product-content">
                                 <div class="inner">
-                                    @isset($selectedProduct->product_name)
+                                    @if(!empty($selectedProduct->product_name))
                                         <h2 class="product-title margbot text-capitalize">{{ $selectedProduct->product_name }}
                                         </h2>
-                                    @endisset
-                                    @isset($selectedProduct->brands->brand_name)
+                                    @endif
+
+                                    @if(!empty($selectedProduct->brands->brand_name))
                                         <h6 class="title margbot">Brand: <span
                                                 class="spnc">{{ $selectedProduct->brands->brand_name }}</span></h6>
-                                    @endisset
+                                    @endif
 
-                                    @if (isset($selectedProduct->product_country_of_origin))
+                                    @if (!empty($selectedProduct->product_country_of_origin))
                                         <h6 class="title margbot">Country Of Origin: <span
                                                 class="spnc">{{ $selectedProduct->product_country_of_origin }}</span></h6>
                                     @endif
+                                    
                                     <div class="custom-dropdown margbot" id="dropdown">
                                         <div class="dropdown-selected">
                                             Select Part Number
@@ -318,10 +320,12 @@
                                     </div>
 
                                     <ul class="product-meta margbot">
-                                        @if ($selectedProduct->product_quantity > 0)
+                                        @if (!empty($selectedProduct->product_quantity) && $selectedProduct->product_quantity > 0)
                                             <li><i class="fal fa-check"></i>In stock</li>
                                         @else
-                                            <li class="text-danger"><i class="fal fa-times"></i>Out of stock</li>
+                                            @if ($selectedProduct->product_quantity != null)
+                                                <li class="text-danger"><i class="fal fa-times"></i>Out of stock</li>
+                                            @endif
                                         @endif
                                     </ul>
 
@@ -340,7 +344,7 @@
                                         @endif
                                     @endif
 
-                                    @isset($selectedProduct->product_dispatch)
+                                    @if(!empty($selectedProduct->product_dispatch))
                                         <h6 class="title margbot">Days to Dispatch :
                                             @if ($selectedProduct->product_dispatch == 0)
                                                 <span class="spnc">
@@ -352,7 +356,7 @@
                                                 </span>
                                             @endif
                                         </h6>
-                                    @endisset
+                                    @endif
 
                                     <!-- End Product Action Wrapper  -->
                                     <div class="product-action-wrapper margbot">
@@ -373,24 +377,24 @@
                                     <div class="manish1">
 
                                         <ul class="icon-list-row">
-                                            @isset($selectedProduct->product_drawing)
+                                            @if(!empty($selectedProduct->product_drawing))
                                                 <li>
                                                     <i class="fas fa-pencil-ruler"></i><a target="_blank"
                                                         href="{{ asset('/uploads/products/drawing/' . $selectedProduct->product_drawing) }}">Drawing</a>
                                                 </li>
-                                            @endisset
-                                            @isset($selectedProduct->product_pdf)
+                                            @endif
+                                            @if(!empty($selectedProduct->product_pdf))
                                                 <li>
                                                     <i class="fas fa-file-pdf"></i> <a target="_blank"
                                                         href="{{ asset('/uploads/products/pdf/' . $selectedProduct->product_pdf) }}">PDF</a>
                                                 </li>
-                                            @endisset
-                                            @isset($selectedProduct->product_catalouge)
+                                            @endif
+                                            @if(!empty($selectedProduct->product_catalouge))
                                                 <li>
                                                     <i class="fas fa-book"></i> <a target="_blank"
                                                         href="{{ asset('/uploads/products/catalogue/' . $selectedProduct->product_catalouge) }}">Catalogue</a>
                                                 </li>
-                                            @endisset
+                                            @endif
                                         </ul>
                                         <ul class="icon-list-row">
                                             <li>
@@ -924,7 +928,7 @@
             $options.on('click', 'div', function() {
                 var selectedPartNumber = $(this).text().trim();
                 var subCategoryId = {{ $selectedProduct->subcategories->id }};
-
+                var originalPrice = $('.discount-badge').text().split('₹')[1];
 
                 var $row = $('.table-body tr').filter(function() {
                     return $(this).find('td').first().text().trim() === selectedPartNumber;
@@ -948,7 +952,8 @@
                         subCategoryId: subCategoryId,
                         partNumber: selectedPartNumber,
                         price: price,
-                        quantity: quantity
+                        quantity: quantity, 
+                        originalPrice: originalPrice
                     },
                     success: function(response) {
                         if (response.discountedPrice) {
@@ -958,6 +963,11 @@
                             $("#discountPercentage").text(response.discountPercentage);
                             $("#quantityInfo").text('Available Quantity: ' + response.quantity);
                             $("#quantityInfo").show();
+                        } else if (response.originalPrice) {
+                            $('#discountedPrice').text(response.originalPrice);
+                            $('.discount-badge').hide();
+                        } else {
+                            console.error('No discount found or invalid response:', response);
                         }
                     },
                     error: function(xhr, status, error) {

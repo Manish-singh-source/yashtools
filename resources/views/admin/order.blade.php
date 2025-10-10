@@ -114,7 +114,7 @@
                                     </thead>
                                     <tbody id="product_list">
                                         @forelse ($orders as $order)
-                                            @if (!empty($order->customer->id))
+                                            @if (!empty($order->customer->id))
                                             <tr class="btn-reveal-trigger">
                                                 <td class="py-2">
                                                     <div class="form-check custom-checkbox checkbox-primary me-3">
