@@ -386,13 +386,11 @@
                                                 // Remove completely empty rows
                                                 $filteredRows = array_filter($sheetData, function ($row) {
                                                     return collect($row)
-                                                        ->filter(function ($cell) {
-                                                            return !empty($cell);
-                                                        })
+                                                        ->filter(fn($cell) => !empty($cell))
                                                         ->isNotEmpty();
                                                 });
 
-                                                // Transpose array to work column-wise
+                                                // Transpose to get column-wise data
                                                 $transposed = [];
                                                 foreach ($filteredRows as $row) {
                                                     foreach ($row as $key => $cell) {
@@ -400,46 +398,44 @@
                                                     }
                                                 }
 
-                                                // Keep only columns that have at least one non-empty value
+                                                // Get indices of columns with at least one non-empty cell
                                                 $nonEmptyCols = [];
                                                 foreach ($transposed as $colIndex => $colCells) {
                                                     if (
-                                                        collect($colCells)
-                                                            ->filter(function ($c) {
-                                                                return !empty($c);
-                                                            })
-                                                            ->isNotEmpty()
+                                                        collect($colCells)->filter(fn($c) => !empty($c))->isNotEmpty()
                                                     ) {
                                                         $nonEmptyCols[] = $colIndex;
                                                     }
                                                 }
+
+                                                $excludedCols = ['price', 'quantity'];
+                                                $colsToShow = collect($nonEmptyCols)
+                                                    ->filter(
+                                                        fn($colIndex) => !in_array(
+                                                            strtolower(trim($sheetData[0][$colIndex] ?? '')),
+                                                            $excludedCols,
+                                                        ),
+                                                    )
+                                                    ->all();
                                             @endphp
 
-                                            @if (count($filteredRows) > 0 && count($nonEmptyCols) > 0)
+                                            @if (count($filteredRows) > 0 && count($colsToShow) > 0)
                                                 <table>
                                                     <thead>
                                                         <tr>
-                                                            @php
-                                                                $colsToShow = $nonEmptyCols;
-                                                            @endphp
-
                                                             @foreach ($colsToShow as $colIndex)
-                                                                @if ($sheetData[0][$colIndex] != 'Price' && $sheetData[0][$colIndex] != 'Quantity')
-                                                                    <th>{{ $sheetData[0][$colIndex] ?? '' }}</th>
-                                                                @endif
+                                                                <th>{{ $sheetData[0][$colIndex] ?? '' }}</th>
                                                             @endforeach
                                                         </tr>
                                                     </thead>
                                                     <tbody class="table-body">
                                                         @foreach (array_slice($filteredRows, 1) as $row)
-                                                            <tr data-row-value="{{ $row[0] }}">
+                                                            <tr data-row-value="{{ $row[0] ?? '' }}">
                                                                 @foreach ($colsToShow as $colIndex)
-                                                                    @if ($sheetData[0][$colIndex] != 'Price' && $sheetData[0][$colIndex] != 'Quantity')
-                                                                        <td
-                                                                            data-label="{{ $sheetData[0][$colIndex] ?? 'Column ' . $colIndex }}">
-                                                                            {{ $row[$colIndex] ?? '' }}
-                                                                        </td>
-                                                                    @endif
+                                                                    <td
+                                                                        data-label="{{ $sheetData[0][$colIndex] ?? 'Column ' . $colIndex }}">
+                                                                        {{ $row[$colIndex] ?? '' }}
+                                                                    </td>
                                                                 @endforeach
                                                             </tr>
                                                         @endforeach
@@ -448,7 +444,7 @@
                                             @else
                                                 <p>No valid data available.</p>
                                             @endif
-                                        @elseif($selectedProduct->product_optional_pdf != '')
+                                        @elseif (!empty($selectedProduct->product_optional_pdf))
                                             <div class="single-product-thumbnail-wrap zoom-gallery">
                                                 <div
                                                     class="single-product-thumbnail product-large-thumbnail-3 axil-product">
@@ -465,6 +461,7 @@
                                             <p>No data available or the file is empty.</p>
                                         @endif
                                     </div>
+
 
 
                                 </div>
