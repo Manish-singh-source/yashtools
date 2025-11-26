@@ -111,9 +111,9 @@
                                                 <i class="fas fa-file-excel"></i> Lead Time Excel File
                                             </label>
                                             <div class="d-flex align-items-center justify-content-between mb-2">
-                                                @if(!empty($selectedProduct->lead_time))
+                                                @if (!empty($selectedProduct->lead_time))
                                                     <a href="{{ asset('/uploads/products/lead_time/' . $selectedProduct->lead_time) }}"
-                                                       target="_blank" class="text-success fw-bold">
+                                                        target="_blank" class="text-success fw-bold">
                                                         <i class="fas fa-file-excel"></i> View Current Excel File
                                                     </a>
                                                 @else
@@ -123,11 +123,10 @@
                                                 @endif
                                             </div>
                                             <input class="form-control @error('lead_time_excel') is-invalid @enderror"
-                                                type="file"
-                                                id="lead_time_excel"
-                                                name="lead_time_excel"
+                                                type="file" id="lead_time_excel" name="lead_time_excel"
                                                 accept=".xlsx,.xls,.csv">
-                                            <div class="form-text">Upload Excel file containing lead time data. Supported formats: .xlsx, .xls, .csv (Max: 10MB)</div>
+                                            <div class="form-text">Upload Excel file containing lead time data. Supported
+                                                formats: .xlsx, .xls, .csv (Max: 10MB)</div>
                                             @error('lead_time_excel')
                                                 <div class="invalid-feedback">{{ $message }}</div>
                                             @enderror
@@ -306,17 +305,21 @@
                                             <label class="form-label">Select Category</label>
                                             <select class="form-control h-auto product_category"
                                                 aria-label="Default select example" name="product_category">
-                                                @foreach ($categories as $category)
-                                                    @if ($selectedProduct->product_category_id == $category->id)
-                                                        <option value="{{ $category->id }}" selected>
-                                                            {{ $category->category_name }}
-                                                        </option>
-                                                    @else
-                                                        <option value="{{ $category->id }}">
-                                                            {{ $category->category_name }}
-                                                        </option>
-                                                    @endif
-                                                @endforeach
+                                                @isset($selectedProduct->product_category_id)
+                                                    @foreach ($categories as $category)
+                                                        @if ($selectedProduct->product_category_id == $category->id)
+                                                            <option value="{{ $category->id }}" selected>
+                                                                {{ $category->category_name }}
+                                                            </option>
+                                                        @else
+                                                            <option value="{{ $category->id }}">
+                                                                {{ $category->category_name }}
+                                                            </option>
+                                                        @endif
+                                                    @endforeach
+                                                @else
+                                                    <option value="0">Select Category</option>
+                                                @endisset
                                             </select>
                                             @error('product_category')
                                                 {{ $message }}
