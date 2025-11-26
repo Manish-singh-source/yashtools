@@ -277,13 +277,13 @@
                                                 class="spnc">{{ $selectedProduct->brands->brand_name }}</span></h6>
                                     @endisset
 
-                                    @if (Auth::user())
-                                        @if (isset($selectedProduct->product_country_of_origin))
-                                            <h6 class="title margbot">Country Of Origin: <span
-                                                    class="spnc">{{ $selectedProduct->product_country_of_origin }}</span>
-                                            </h6>
-                                        @endif
-                                    @endif
+                                    {{-- 
+                                    @if (Auth::user() && isset($selectedProduct->product_country_of_origin))
+                                        <h6 class="title margbot">Country Of Origin: <span class="spnc">
+                                                {{ $selectedProduct->product_country_of_origin }}
+                                            </span></h6>
+                                    @endif 
+                                    --}}
 
                                     <div class="custom-dropdown margbot" id="dropdown">
                                         <div class="dropdown-selected">
@@ -309,6 +309,7 @@
                                                         href="{{ asset('/uploads/products/pdf/' . $selectedProduct->product_pdf) }}">PDF</a>
                                                 </li>
                                             @endisset
+                                            {{-- 
                                             @if (Auth::user())
                                                 @isset($selectedProduct->product_catalouge)
                                                     <li>
@@ -316,7 +317,8 @@
                                                             href="{{ asset('/uploads/products/catalogue/' . $selectedProduct->product_catalouge) }}">Catalogue</a>
                                                     </li>
                                                 @endisset
-                                            @endif
+                                            @endif 
+                                            --}}
                                         </ul>
                                     </div>
                                     <div id="showError" class="px-2 py-3 text-danger"></div>
