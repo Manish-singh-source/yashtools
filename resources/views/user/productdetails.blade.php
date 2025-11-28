@@ -284,12 +284,13 @@
                         <div class="col-lg-5 mb--40">
                             <div class="single-product-content">
                                 <div class="inner">
-                                    @if(!empty($selectedProduct->product_name))
-                                        <h2 class="product-title margbot text-capitalize">{{ $selectedProduct->product_name }}
+                                    @if (!empty($selectedProduct->product_name))
+                                        <h2 class="product-title margbot text-capitalize">
+                                            {{ $selectedProduct->product_name }}
                                         </h2>
                                     @endif
 
-                                    @if(!empty($selectedProduct->brands->brand_name))
+                                    @if (!empty($selectedProduct->brands->brand_name))
                                         <h6 class="title margbot">Brand: <span
                                                 class="spnc">{{ $selectedProduct->brands->brand_name }}</span></h6>
                                     @endif
@@ -298,7 +299,7 @@
                                         <h6 class="title margbot">Country Of Origin: <span
                                                 class="spnc">{{ $selectedProduct->product_country_of_origin }}</span></h6>
                                     @endif
-                                    
+
                                     <div class="custom-dropdown margbot" id="dropdown">
                                         <div class="dropdown-selected">
                                             Select Part Number
@@ -344,7 +345,7 @@
                                         @endif
                                     @endif
 
-                                    @if(!empty($selectedProduct->product_dispatch))
+                                    @if (!empty($selectedProduct->product_dispatch))
                                         <h6 class="title margbot">Days to Dispatch :
                                             @if ($selectedProduct->product_dispatch == 0)
                                                 <span class="spnc">
@@ -352,7 +353,8 @@
                                                 </span>
                                             @else
                                                 <span class="spnc">
-                                                    {{ $selectedProduct->product_dispatch }} Day(s)</span>
+                                                    {{ $selectedProduct->product_dispatch == 'Same Days' ? 'Same' : ($selectedProduct->product_dispatch == '2 Day to Dispatch' ? '2' : ($selectedProduct->product_dispatch == '3 Day to Dispatch' ? '3' : ($selectedProduct->product_dispatch == '0' ? 'Same' : $selectedProduct->product_dispatch))) }}
+                                                    Day(s)</span>
                                                 </span>
                                             @endif
                                         </h6>
@@ -377,19 +379,19 @@
                                     <div class="manish1">
 
                                         <ul class="icon-list-row">
-                                            @if(!empty($selectedProduct->product_drawing))
+                                            @if (!empty($selectedProduct->product_drawing))
                                                 <li>
                                                     <i class="fas fa-pencil-ruler"></i><a target="_blank"
                                                         href="{{ asset('/uploads/products/drawing/' . $selectedProduct->product_drawing) }}">Drawing</a>
                                                 </li>
                                             @endif
-                                            @if(!empty($selectedProduct->product_pdf))
+                                            @if (!empty($selectedProduct->product_pdf))
                                                 <li>
                                                     <i class="fas fa-file-pdf"></i> <a target="_blank"
                                                         href="{{ asset('/uploads/products/pdf/' . $selectedProduct->product_pdf) }}">PDF</a>
                                                 </li>
                                             @endif
-                                            @if(!empty($selectedProduct->product_catalouge))
+                                            @if (!empty($selectedProduct->product_catalouge))
                                                 <li>
                                                     <i class="fas fa-book"></i> <a target="_blank"
                                                         href="{{ asset('/uploads/products/catalogue/' . $selectedProduct->product_catalouge) }}">Catalogue</a>
@@ -952,7 +954,7 @@
                         subCategoryId: subCategoryId,
                         partNumber: selectedPartNumber,
                         price: price,
-                        quantity: quantity, 
+                        quantity: quantity,
                         originalPrice: originalPrice
                     },
                     success: function(response) {
