@@ -338,7 +338,7 @@ class FetchAPIs extends Controller
         if (!$checkedValues) {
             return response()->json([
                 'status' => false,
-                'message' => 'Enquiry ID is required.',
+                'message' => 'Order ID is required.',
             ], 400);
         }
 
@@ -347,15 +347,15 @@ class FetchAPIs extends Controller
         if (!$rows) {
             return response()->json([
                 'status' => false,
-                'message' => 'No Enquiries found.',
+                'message' => 'No Orders found.',
                 'data' => $rows,
             ], 404);
         }
 
-        flash()->success('Deleted Selected Enquiries Successfully.');
+        flash()->success('Deleted Selected Orders Successfully.');
         return response()->json([
             'status' => true,
-            'message' => 'Deleted Selected Enquiries Successfully.',
+            'message' => 'Deleted Selected Orders Successfully.',
         ]);
     }
 
@@ -479,7 +479,7 @@ class FetchAPIs extends Controller
         if (!isset($enquiryid)) {
             return response()->json([
                 'status' => false,
-                'message' => 'Enquiry ID is required.',
+                'message' => 'Order ID is required.',
             ], 400);
         }
 
@@ -504,7 +504,7 @@ class FetchAPIs extends Controller
         if (!$enquiry) {
             return response()->json([
                 'status' => false,
-                'message' => 'No Enquiry found.',
+                'message' => 'No Order found.',
                 'data' => $enquiry,
             ], 404);
         }
@@ -515,10 +515,10 @@ class FetchAPIs extends Controller
         $enquiryData = Enquiry::where('id', $enquiryid)->first();
         Mail::to($userEmail)->send(new statusChange($user, $enquiryData));
         
-        flash()->success('Enquiry Status Changed Successfully.');
+        flash()->success('Order Status Changed Successfully.');
         return response()->json([
             'status' => $enquiry,
-            'message' => 'Enquiry Status Changed Successfully.',
+            'message' => 'Order Status Changed Successfully.',
         ]);
     }
 }

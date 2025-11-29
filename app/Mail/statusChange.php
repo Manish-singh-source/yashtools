@@ -32,7 +32,7 @@ class statusChange extends Mailable
     public function envelope(): Envelope
     {
         return new Envelope(
-            subject: 'Enquiry Status Update',
+            subject: 'Order Status Update',
         );
     }
 

@@ -36,7 +36,7 @@
                             <div class="card ic-chart-card">
                                 <div class="card-header d-block border-0">
                                     <div class="d-flex justify-content-between">
-                                        <h6 class="mb-0">Total Enquiry</h6>
+                                        <h6 class="mb-0">Total Order</h6>
                                     </div>
                                     <span
                                         class="data-value">{{ $totalEnquiries > 1000 ? $totalEnquiries . ' K' : $totalEnquiries }}</span>

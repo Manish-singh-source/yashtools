@@ -138,7 +138,7 @@
                                                 <thead>
                                                     <tr>
                                                         <th scope="col">Sr.&nbsp;No.</th>
-                                                        <th scope="col">Enquiry&nbsp;Id</th>
+                                                        <th scope="col">Order&nbsp;Id</th>
                                                         <th scope="col">Product&nbsp;Name</th>
                                                         <th scope="col">Quantity</th>
                                                         <th scope="col">Status</th>
@@ -185,7 +185,7 @@
                                                 <thead>
                                                     <tr>
                                                         <th scope="col">Sr.&nbsp;No.</th>
-                                                        <th scope="col">Enquiry&nbsp;Id</th>
+                                                        <th scope="col">Order&nbsp;Id</th>
                                                         <th scope="col">Product&nbsp;Name</th>
                                                         <th scope="col">Quantity</th>
                                                         <th scope="col">Status</th>

@@ -351,7 +351,7 @@
                     </li>
                     <li><a href="{{ route('admin.order') }}" class="ai-icon" aria-expanded="false">
                             <i class="fa-solid fa-cart-arrow-down"></i>
-                            <span class="nav-text">Enquiry</span>
+                            <span class="nav-text">Order</span>
                         </a>
                     </li>
                     <li><a class="has-arrow " href="javascript:void(0);" aria-expanded="false">

@@ -50,7 +50,7 @@
                     <div class="axil-dashboard-author">
                         <div class="media">
                             <div class="media-body">
-                                <h5 class="title mb-0">Enquiry Number : {{ $data[0]->enquiry_id }}</h5>
+                                <h5 class="title mb-0">Order Number : {{ $data[0]->enquiry_id }}</h5>
                             </div>
                         </div>
                     </div>

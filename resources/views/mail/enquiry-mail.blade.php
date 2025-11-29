@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Enquiry Sent</title>
+    <title>Order Sent</title>
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -59,11 +59,11 @@
 <body>
     <div class="email-container">
         <div class="header">
-            <h2>Enquiry Sent</h2>
+            <h2>Order Sent</h2>
         </div>
         <div class="content">
             <p>Dear <strong>{{ $user->fullname }}</strong>,</p>
-            <p>Thank you for your enquiry! Your enquiry ID <strong>#{{ $enquiry_id }}</strong> has been successfully
+            <p>Thank you for your order! Your order ID <strong>#{{ $enquiry_id }}</strong> has been successfully
                 submitted.</p>
             <table class="order-details">
                 <tr>
@@ -83,7 +83,7 @@
                     </tr>
                 @endforeach
             </table>
-            <p>Our team will review your enquiry and get back to you soon.</p>
+            <p>Our team will review your order and get back to you soon.</p>
         </div>
         <div class="footer">
             <p>&copy; 2025 YashTools. All rights reserved.</p>

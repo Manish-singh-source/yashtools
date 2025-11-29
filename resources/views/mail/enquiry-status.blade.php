@@ -80,7 +80,7 @@
         </div>
         <div class="content">
             <p>Dear <strong>{{ $user->fullname }}</strong>,</p>
-            <p>Your enquiry <strong>#{{ $enquiry->enquiry_id }}</strong> status has been updated.</p>
+            <p>Your order <strong>#{{ $enquiry->enquiry_id }}</strong> status has been updated.</p>
             
             <p class="status 
                 @if ($enquiry->status == 'confirmed' || $enquiry->status == 'delivered') info

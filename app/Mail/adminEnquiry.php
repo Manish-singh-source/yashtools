@@ -38,7 +38,7 @@ class adminEnquiry extends Mailable
     public function envelope(): Envelope
     {
         return new Envelope(
-            subject: 'New Enquiry Received',
+            subject: 'New Order Received',
         );
     }
 

@@ -21,7 +21,7 @@ class DeleteOldEnquiries extends Command
      *
      * @var string
      */
-    protected $description = 'Delete enquiries older than one month';
+    protected $description = 'Delete orders older than one month';
 
     /**
      * Execute the console command.
@@ -39,7 +39,7 @@ class DeleteOldEnquiries extends Command
             $query->select('id')->from('enquiries');
         })->delete();
         // $deletedProducts = EnquiryProducts::where('created_at', '<', Carbon::now()->subMonth())->delete();
-        $this->info("Deleted $deleted old enquiries.");
-        $this->info("Deleted $deletedProducts old enquiry products.");
+        $this->info("Deleted $deleted old orders.");
+        $this->info("Deleted $deletedProducts old order products.");
     }
 }
