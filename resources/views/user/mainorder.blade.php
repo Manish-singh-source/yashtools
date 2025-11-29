@@ -188,6 +188,7 @@
                                                         <th scope="col">Order&nbsp;Id</th>
                                                         <th scope="col">Product&nbsp;Name</th>
                                                         <th scope="col">Quantity</th>
+                                                        <th scope="col">Date</th>
                                                         <th scope="col">Status</th>
                                                         <th scope="col">Action</th>
                                                     </tr>
@@ -478,6 +479,7 @@
                                     <td>${product.enquiry_id}</td>
                                     <td>${product.products[0]?.product.product_name ? product.products[0]?.product.product_name : 'NA'}</td>
                                     <td>${product.quantity}</td>
+                                    <td>${new Date(product.created_at).toLocaleDateString('en-GB').replaceAll('/', '-')}</td>
                                     <td class="text-capitalize">
                                         ${product.status === 'payment_received' ? 'Payment Done' : product.status ? product.status : 'Pending'}
                                     </td>
