@@ -453,9 +453,8 @@
                                     aria-selected="false">Lead Time</a>
                             </li>
                         @endif
-
-                        @if ($selectedProduct->product_discription != '')
-                            <li class="nav-item " role="presentation">
+                        @if (!empty(trim(strip_tags($selectedProduct->product_discription))))
+                            <li class="nav-item" role="presentation">
                                 <a id="additional-info-tab" data-bs-toggle="tab" href="#additional-info" role="tab"
                                     aria-controls="additional-info" aria-selected="false">Description</a>
                             </li>
@@ -466,7 +465,6 @@
                             aria-labelledby="description-tab">
                             <div class="product-desc-wrapper">
                                 <div class="row">
-                                    <!-- End .col-lg-6 -->
                                     <div class="col-lg-12 mb--30">
                                         <div class="table-responsive">
                                             @if (isset($sheetData) && count($sheetData) > 0)
@@ -564,20 +562,11 @@
                                                         </div>
                                                     </div>
                                                 </div>
-                                            @else
-                                                <p>No data available or the file is empty.</p>
                                             @endif
                                         </div>
-
-
                                     </div>
-                                    <!-- End .col-lg-6 -->
                                 </div>
-                                <!-- End .row -->
-
-                                <!-- End .row -->
                             </div>
-                            <!-- End .product-desc-wrapper -->
                         </div>
 
                         <!-- Lead Time Tab -->
@@ -644,29 +633,25 @@
                             </div>
                         @endif
 
-                        <div class="tab-pane fade" id="additional-info" role="tabpanel"
-                            aria-labelledby="additional-info-tab">
-                            <div class="product-desc-wrapper">
-                                <div class="row">
-                                    <div class="col-lg-12 mb--30">
-                                        <div class="single-desc">
-                                            <p>{!! $selectedProduct->product_discription !!}</p>
+                        @if (!empty(trim(strip_tags($selectedProduct->product_discription))))
+                            <div class="tab-pane fade @if ((!isset($sheetData) || count($sheetData) <= 0) && !isset($leadTimeData) && empty($leadTimeData)) show active @endif" id="additional-info" role="tabpanel"
+                                aria-labelledby="additional-info-tab">
+                                <div class="product-desc-wrapper">
+                                    <div class="row">
+                                        <div class="col-lg-12 mb--30">
+                                            <div class="single-desc">
+                                                {!! $selectedProduct->product_discription !!}
+                                            </div>
                                         </div>
                                     </div>
-                                    <!-- End .col-lg-6 -->
                                 </div>
-                                <!-- End .row -->
                             </div>
-                        </div>
+                        @endif
                     </div>
                 </div>
             </div>
-            <!-- woocommerce-tabs -->
-
         </div>
-        <!-- End Shop Area  -->
 
-        <!-- Start Recently Viewed Product Area  -->
         <div class="axil-product-area bg-color-white axil-section-gap pb--50 pb_sm--30">
             <div class="container">
                 <div class="section-title-wrapper">
@@ -697,10 +682,7 @@
                 </div>
             </div>
         </div>
-        <!-- End Recently Viewed Product Area  -->
-
     </main>
-
 @endsection
 
 @section('script')
@@ -824,9 +806,9 @@
                 var productId = $(".productId").val();
                 var userId = $(".userId").val();
                 var partNumber = $(".dropdown-selected").text().trim();
-                var price = $('#discountedPrice').text();
-                var originalPrice = $('.discount-badge').text().split('₹')[1];
-                var discountPercentage = $("#discountPercentage").text();
+                var price = $('#discountedPrice').text() || 0;
+                var originalPrice = $('.discount-badge').text().split('₹')[1] || 0;
+                var discountPercentage = $("#discountPercentage").text() || 0;
 
                 if (partNumber === 'Select Part Number') {
                     alert('Please select Part Number');
@@ -928,7 +910,7 @@
             var $options = $dropdown.find('.dropdown-options');
 
             $options.on('click', 'div', function() {
-                var selectedPartNumber = $(this).text().trim();
+                var selectedPartNumber = $(this).text();
                 var subCategoryId = {{ $selectedProduct->subcategories->id }};
                 var originalPrice = $('.discount-badge').text().split('₹')[1];
 
@@ -937,8 +919,8 @@
                 });
 
                 if ($row.length) {
-                    var price = $row.find('td.Column-Price').text().trim();
-                    var quantity = $row.find('td.Column-Quantity').text().trim();
+                    var price = $row.find('td.Column-Price').text().trim() || 0;
+                    var quantity = $row.find('td.Column-Quantity').text().trim() || 1;
                 }
                 var customerId = {{ Auth::user()->id }};
                 console.log(customerId)

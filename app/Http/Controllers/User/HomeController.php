@@ -248,8 +248,8 @@ class HomeController extends Controller
             'customerId' => 'required|exists:users,id',
             'subCategoryId' => 'required',
             'partNumber' => 'required',
-            // 'price' => 'required',
-            // 'quantity' => 'nullable|integer|min:1',
+            'price' => 'required',
+            'quantity' => 'nullable|integer|min:1',
         ]);
 
         if($validated){
@@ -262,7 +262,7 @@ class HomeController extends Controller
                     $discountedPrice = $request->price - $discountedPrice;
                     return response()->json(['discountedPrice' => $discountedPrice, 'originalPrice' => $request->price, 'discountPercentage' => $subCategorySearch->percentage, 'quantity' => $request->quantity], 200);
                 }else {
-                    return response()->json(['error' => 'No Discount Found'], 400);
+                    return response()->json(['success' => 'No Discount Found', 'originalPrice' => $request->price], 400);
                 }
             }else {
                 return response()->json(['success' => 'Customer Type Is Regular', 'originalPrice' => $request->price], 400);
