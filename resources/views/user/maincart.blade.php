@@ -216,7 +216,7 @@
                 success: function(response) {
                     if (!response.isAuthenticated) {
                         $("#showError").show().html(
-                            "Please <a href='/signin'>register</a> to send an enquiry."
+                            "Please <a href='/signin'>register</a> to send an order."
                         );
                         return;
                     }

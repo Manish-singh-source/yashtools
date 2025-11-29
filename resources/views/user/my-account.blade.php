@@ -163,7 +163,7 @@
                                                     <tr>
                                                         <th scope="col">Sr No</th>
                                                         <th scope="col">Order Date</th>
-                                                        <th scope="col">Enquiry Number</th>
+                                                        <th scope="col">Order Number</th>
                                                         <th scope="col">Inv PDF</th>
                                                         <th scope="col">Tracking</th>
                                                         <th scope="col">Status</th>

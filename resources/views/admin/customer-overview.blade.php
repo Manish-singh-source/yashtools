@@ -106,7 +106,7 @@
                                     <table class="table mb-1 table-striped-thead table-wide table-md table-border-last-0">
                                         <thead>
                                             <tr>
-                                                <th>Enquiry Id</th>
+                                                <th>Order Id</th>
                                                 <th>Date Added</th>
                                                 <th>Status</th>
                                             </tr>
@@ -138,7 +138,7 @@
                                                                 Payment Received</span>
                                                         @else
                                                             <span class="badge badge-sm badge-danger light border-0"><span
-                                                                    class="ms-1 fa fa-check"></span>Pending Enquiry</span>
+                                                                    class="ms-1 fa fa-check"></span>Pending Order</span>
                                                         @endif
                                                     </td>
                                                 </tr>

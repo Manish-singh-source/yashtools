@@ -66,9 +66,9 @@
                 <div class="col-lg-12">
                     <div class="card">
                         <div class="card-header">
-                            <h4 class="card-title">Enquiry</h4>
+                            <h4 class="card-title">Order</h4>
                             <div>
-                                Date Range of Enquiry
+                                Date Range of Order
                                 <input type="text" class="datef" name="dates" value="" />
                             </div>
                         </div>
@@ -105,7 +105,7 @@
                                                     <label class="form-check-label" for="checkAll"></label>
                                                 </div>
                                             </th>
-                                            <th class="align-middle">Enquiry ID </th>
+                                            <th class="align-middle">Order ID </th>
                                             <th class="align-middle">Customer</th>
                                             <th class="align-middle pr-7">Date</th>
                                             <th class="align-middle text-end">Status</th>
@@ -166,7 +166,7 @@
                                                         <span class="badge badge-sm badge-danger light border-0 w-75">
                                                             <span class="text-danger"><span
                                                                     class="ms-1 fa fa-check"></span>Pending
-                                                                Enquiry</span>
+                                                                Order</span>
                                                         </span>
                                                     @endif
                                                 </td>
@@ -201,12 +201,12 @@
                                                             <div class="py-2">
                                                                 <a class="dropdown-item changeStatus"
                                                                     data-orderid="{{ $order->id }}"
-                                                                    data-orderstatus="dismissed" href="#">Enquiry
+                                                                    data-orderstatus="dismissed" href="#">Order
                                                                     Dismissed</a>
                                                                 <a class="dropdown-item changeStatus"
                                                                     data-orderid="{{ $order->id }}"
                                                                     data-orderstatus="confirmed" href="#">Order
-                                                                    Confirmeded</a>
+                                                                    Confirmed</a>
                                                                 <a class="dropdown-item changeStatus"
                                                                     data-orderid="{{ $order->id }}"
                                                                     data-orderstatus="delivered" href="#">Order
@@ -226,7 +226,7 @@
                                         @empty
                                             <tr class="btn-reveal-trigger">
                                                 <td class="py-2" colspan="">
-                                                    No Enquiries Found
+                                                    No order-status Found
                                                 </td>
                                             </tr>
                                         @endforelse

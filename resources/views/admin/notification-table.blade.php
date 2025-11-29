@@ -19,7 +19,7 @@
                                 <table id="projectlist" class="display">
                                     <thead>
                                         <tr>
-                                            <th>Enquiry Id</th>
+                                            <th>Order Id</th>
                                             <th>User</th>
                                             <th>Email</th>
                                             <th>Status</th>

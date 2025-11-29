@@ -166,7 +166,7 @@ class EnquiryOrdersController extends Controller
         if ($enquiries->isEmpty()) {
             return response()->json([
                 'status' => false,
-                'message' => 'No enquiries found for the given date range.',
+                'message' => 'No orders found for the given date range.',
                 'data' => [],
             ], 404);
         }

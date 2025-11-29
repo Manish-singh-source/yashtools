@@ -35,7 +35,7 @@
                 <div class="col-md-8">
                     <div class="card h-auto">
                         <div class="card-header">
-                            <h5>Enquiry No - <span class="text-primary">{{ $order[0]->enquiry_id }}</span></h5>
+                            <h5>Order No - <span class="text-primary">{{ $order[0]->enquiry_id }}</span></h5>
                             <span class="float-right text-muted">Estimated delivery:
                                 {{ $order[0]->products[0]->product->product_dispatch }}</span>
                         </div>
@@ -83,7 +83,7 @@
                                     <tbody>
                                         <!-- Repeat this TR block for each product -->
                                         <tr>
-                                            <td class="text-center" colspan="3">No Enquiries Found</td>
+                                            <td class="text-center" colspan="3">No Orders Found</td>
                                         </tr>
                                         <!-- Add more products as needed -->
                                     </tbody>
