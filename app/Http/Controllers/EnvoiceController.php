@@ -131,6 +131,6 @@ class EnvoiceController extends Controller
                 ->groupBy('enquiry_id');
         })->orderBy('id', 'desc')->paginate(5);
 
-        return response()->json($requst->all());
+        return response()->json($request->all());
     }
 }
