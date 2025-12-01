@@ -137,12 +137,12 @@
                                             <table class="table">
                                                 <thead>
                                                     <tr>
-                                                        <th scope="col">Sr.&nbsp;No.</th>
-                                                        <th scope="col">Order&nbsp;Id</th>
-                                                        <th scope="col">Product&nbsp;Name</th>
-                                                        <th scope="col">Quantity</th>
-                                                        <th scope="col">Status</th>
-                                                        <th scope="col">Action</th>
+                                                        <th scope="col" class="text-center">Sr.&nbsp;No.</th>
+                                                        <th scope="col" class="text-center">Order&nbsp;Id</th>
+                                                        <th scope="col" class="text-center">Product&nbsp;Name</th>
+                                                        <th scope="col" class="text-center">Quantity</th>
+                                                        <th scope="col" class="text-center">Status</th>
+                                                        <th scope="col" class="text-center">Action</th>
                                                     </tr>
                                                 </thead>
                                                 <tbody id="enquiries_list">
@@ -184,13 +184,13 @@
                                             <table class="table">
                                                 <thead>
                                                     <tr>
-                                                        <th scope="col">Sr.&nbsp;No.</th>
-                                                        <th scope="col">Order&nbsp;Id</th>
-                                                        <th scope="col">Product&nbsp;Name</th>
-                                                        <th scope="col">Quantity</th>
-                                                        <th scope="col">Date</th>
-                                                        <th scope="col">Status</th>
-                                                        <th scope="col">Action</th>
+                                                        <th scope="col" class="text-center">Sr.&nbsp;No.</th>
+                                                        <th scope="col" class="text-center">Order&nbsp;Id</th>
+                                                        <th scope="col" class="text-center">Product&nbsp;Name</th>
+                                                        <th scope="col" class="text-center">Quantity</th>
+                                                        <th scope="col" class="text-center">Date</th>
+                                                        <th scope="col" class="text-center">Status</th>
+                                                        <th scope="col" class="text-center">Action</th>
                                                     </tr>
                                                 </thead>
                                                 <tbody id="product_list">
