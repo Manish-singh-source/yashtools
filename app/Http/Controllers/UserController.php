@@ -237,10 +237,15 @@ class UserController extends Controller
 
     public function updatePassword(Request $request)
     {
-        $request->validate([
+        $validator = Validator::make($request->all(),([
             'password' => 'required|min:6|confirmed',
-            'token' => 'required'
-        ]);
+            'token' => 'required|exists:users,password_reset_token',
+        ]));
+
+        if ($validator->fails()) {
+            flash()->error('Your Reset Link is Invalid or Expired.');
+            return back()->withErrors($validator)->withInput();
+        }
 
         $user = User::where('password_reset_token', $request->token)->first();
         $userRole = $user->role;
