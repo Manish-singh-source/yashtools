@@ -1,5 +1,31 @@
 @extends('user.layouts.app')
 
+
+@section('style')
+    <style>
+        .field-icon {
+            position: absolute;
+            top: 50%;
+            right: 20px;
+            transform: translateY(-50%);
+            cursor: pointer;
+            font-size: 18px;
+            color: #888;
+        }
+
+        @media (max-width: 480px) {
+            .field-icon {
+                top: 40%;
+            }
+        }
+
+        .form-group {
+            position: relative;
+            /* required for absolute icon positioning */
+        }
+    </style>
+@endsection
+
 @section('content')
     <main class="main-wrapper">
         <!-- Start Breadcrumb Area  -->
@@ -116,7 +142,8 @@
                                                 <label>State<span>*</span></label>
                                                 <select class="@error('state') is-invalid @enderror" name="state">
                                                     <option selected disabled value="0">-- Select State --</option>
-                                                    <option value="Andaman and Nicobar Islands">Andaman and Nicobar Islands</option>
+                                                    <option value="Andaman and Nicobar Islands">Andaman and Nicobar Islands
+                                                    </option>
                                                     <option value="Andhra Pradesh">Andhra Pradesh</option>
                                                     <option value="Arunachal Pradesh">Arunachal Pradesh</option>
                                                     <option value="Assam">Assam</option>
@@ -180,9 +207,15 @@
                                             </div>
                                             <div class="col-md-4 form-group">
                                                 <label>Password<span>*</span></label>
+                                                {{-- 
                                                 <input type="password"
                                                     class="form-control @error('password') is-invalid @enderror"
-                                                    aria-describedby="password" name="password">
+                                                    aria-describedby="password" name="password"> --}}
+                                                <input id="password-field" type="password"
+                                                    class="form-control @error('password') is-invalid @enderror"
+                                                    name="password" value="">
+                                                <span toggle="#password-field"
+                                                    class="fa fa-fw fa-eye field-icon toggle-password"></span>
                                                 @error('password')
                                                     <div class="invalid-feedback" id="password">
                                                         {{ $message }}
@@ -191,9 +224,15 @@
                                             </div>
                                             <div class="col-md-4 form-group">
                                                 <label>Confirm Password<span>*</span></label>
-                                                <input type="password"
+                                                {{-- <input type="password"
                                                     class="form-control @error('password_confirmation') is-invalid @enderror"
-                                                    aria-describedby="password_confirmation" name="password_confirmation">
+                                                    aria-describedby="password_confirmation" name="password_confirmation"> --}}
+
+                                                <input type="password" id="password-confirmation-field" 
+                                                    class="form-control @error('password_confirmation') is-invalid @enderror"
+                                                    name="password_confirmation" value="">
+                                                <span toggle="#password-confirmation-field"
+                                                    class="fa fa-fw fa-eye field-icon toggle-password"></span>
                                                 @error('password_confirmation')
                                                     <div class="invalid-feedback" id="password_confirmation">
                                                         {{ $message }}
@@ -215,4 +254,22 @@
         </div>
         <!-- End Contact Area  -->
     </main>
+@endsection
+
+
+@section('script')
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js"
+        integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
+    <script>
+        $(".toggle-password").click(function() {
+
+            $(this).toggleClass("fa-eye fa-eye-slash");
+            var input = $($(this).attr("toggle"));
+            if (input.attr("type") == "password") {
+                input.attr("type", "text");
+            } else {
+                input.attr("type", "password");
+            }
+        });
+    </script>
 @endsection

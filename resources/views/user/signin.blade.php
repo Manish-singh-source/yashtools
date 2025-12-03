@@ -1,5 +1,24 @@
 @extends('user.layouts.app')
 
+@section('style')
+    <style>
+        .field-icon {
+            position: absolute;
+            top: 50%;
+            right: 15px;
+            transform: translateY(-50%);
+            cursor: pointer;
+            font-size: 18px;
+            color: #888;
+        }
+
+        .form-group {
+            position: relative;
+            /* required for absolute icon positioning */
+        }
+    </style>
+@endsection
+
 @section('content')
     <main class="main-wrapper">
         <!-- Start Breadcrumb Area  -->
@@ -47,9 +66,14 @@
                                         </div>
                                         <div class="form-group">
                                             <label>Password<span>*</span></label>
-                                            <input type="password"
+                                            {{-- <input type="password"
                                                 class="form-control @error('password') is-invalid @enderror"
-                                                aria-describedby="password" name="password">
+                                                aria-describedby="password" name="password" id="password"> --}}
+                                            <input id="password-field" type="password"
+                                                class="form-control @error('password') is-invalid @enderror" name="password"
+                                                value="">
+                                            <span toggle="#password-field"
+                                                class="fa fa-fw fa-eye field-icon toggle-password"></span>
                                             @error('password')
                                                 <div class="invalid-feedback" id="password">
                                                     {{ $message }}
@@ -59,7 +83,8 @@
 
                                         <div class="form-group d-flex align-items-center justify-content-between">
                                             <button type="submit" class="axil-btn btn-bg-primary submit-btn">Login</button>
-                                            <a href="{{ route('user.forgot.password') }}" class="forgot-btn">Forgot password?</a>
+                                            <a href="{{ route('user.forgot.password') }}" class="forgot-btn">Forgot
+                                                password?</a>
                                         </div>
                                     </form>
                                 </div>
@@ -71,4 +96,21 @@
         </div>
         <!-- End Contact Area  -->
     </main>
+@endsection
+
+@section('script')
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js"
+        integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
+    <script>
+        $(".toggle-password").click(function() {
+
+            $(this).toggleClass("fa-eye fa-eye-slash");
+            var input = $($(this).attr("toggle"));
+            if (input.attr("type") == "password") {
+                input.attr("type", "text");
+            } else {
+                input.attr("type", "password");
+            }
+        });
+    </script>
 @endsection

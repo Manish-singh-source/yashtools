@@ -176,6 +176,8 @@ class HomeController extends Controller
             $spreadsheet = \PhpOffice\PhpSpreadsheet\IOFactory::load($path);
         }
 
+        // dd($spreadsheet);
+
         return view('user.single-product', compact('categories', 'brands', 'subcategories', 'selectedProduct', 'sheetData', 'leadTimeData', 'leadTimeType', 'favouritesProducts', 'similarProducts', 'breadcrumbs'));
     }
 
