@@ -300,15 +300,17 @@
                                                 class="spnc">{{ $selectedProduct->product_country_of_origin }}</span></h6>
                                     @endif
 
-                                    <div class="custom-dropdown margbot" id="dropdown">
-                                        <div class="dropdown-selected">
-                                            Select Part Number
+                                    @if (isset($sheetData) && count($sheetData) > 1 && isset($sheetData[1][0]))
+                                        <div class="custom-dropdown margbot" id="dropdown">
+                                            <div class="dropdown-selected">
+                                                Select Part Number
+                                            </div>
+                                            <div class="dropdown-options">
+                                                <input type="text1" id="searchInput" class="search-box"
+                                                    placeholder="Search...">
+                                            </div>
                                         </div>
-                                        <div class="dropdown-options">
-                                            <input type="text1" id="searchInput" class="search-box"
-                                                placeholder="Search...">
-                                        </div>
-                                    </div>
+                                    @endif
                                     <input type="hidden" name="productId" class="productId"
                                         value="{{ $selectedProduct->id }}">
 
@@ -365,10 +367,13 @@
 
                                         <!-- Start Product Action  -->
                                         <ul class="product-action d-flex-center mb--0">
-                                            <li class="add-to-cart" id="addEnquiry"><a href="#"
-                                                    class="axil-btn btn-bg-secondary" contenteditable="false"
-                                                    style="cursor: pointer;"><i class="far fa-envelope"></i>
-                                                    Place Order</a></li>
+                                            <li class="add-to-cart" id="addEnquiry">
+                                                <a href="#" class="axil-btn btn-bg-secondary" contenteditable="false"
+                                                    style="cursor: pointer;">
+                                                    <i class="far fa-envelope"></i>
+                                                    <span class="text">Place Order</span>
+                                                </a>
+                                            </li>
                                             <li class="add-to-cart" id="addCart"><a href="#"
                                                     class="axil-btn btn-bg-primary" contenteditable="false"
                                                     style="cursor: pointer;"><i class="far fa-shopping-cart"></i> Add
@@ -502,7 +507,7 @@
                                                 @endphp
 
                                                 @if (count($filteredRows) > 0 && count($nonEmptyCols) > 0)
-                                                    <table>
+                                                    <table class="specification-table">
                                                         <thead>
                                                             <tr>
                                                                 @php
@@ -634,8 +639,8 @@
                         @endif
 
                         @if (!empty(trim(strip_tags($selectedProduct->product_discription))))
-                            <div class="tab-pane fade @if ((!isset($sheetData) || count($sheetData) <= 0) && !isset($leadTimeData) && empty($leadTimeData)) show active @endif" id="additional-info" role="tabpanel"
-                                aria-labelledby="additional-info-tab">
+                            <div class="tab-pane fade @if ((!isset($sheetData) || count($sheetData) <= 0) && !isset($leadTimeData) && empty($leadTimeData)) show active @endif"
+                                id="additional-info" role="tabpanel" aria-labelledby="additional-info-tab">
                                 <div class="product-desc-wrapper">
                                     <div class="row">
                                         <div class="col-lg-12 mb--30">
@@ -729,7 +734,7 @@
 
     <script>
         $(document).ready(function() {
-            var $table = $('table');
+            var $table = $('table.specification-table');
             if (!$table.length) return;
 
             var $headers = $table.find('thead th');
@@ -766,6 +771,7 @@
             var $dropdownOptions = $('.dropdown-options').empty();
             $rows.each(function() {
                 var key = $(this).find('td').eq(0).text().trim();
+                if(key === '.') return;
                 if (key) $dropdownOptions.append(`<div>${key}</div>`);
             });
 
@@ -802,6 +808,11 @@
 
             // Add Enquiry
             $(document).on("click", "#addEnquiry", function() {
+
+                // show text loading on button
+                var $btn = $('#addEnquiry .text').prop("disabled", true);
+                $btn.text("Loading...");
+
                 var enquiryQuantity = $(".enquiryQuantity").val();
                 var productId = $(".productId").val();
                 var userId = $(".userId").val();
@@ -810,10 +821,10 @@
                 var originalPrice = $('.discount-badge').text().split('₹')[1] || 0;
                 var discountPercentage = $("#discountPercentage").text() || 0;
 
-                if (partNumber === 'Select Part Number') {
-                    alert('Please select Part Number');
-                    return;
-                }
+                // if (partNumber === 'Select Part Number') {
+                //     alert('Please select Part Number');
+                //     return;
+                // }
 
                 var cartData = [{
                     userId,
@@ -831,6 +842,9 @@
                     $.post('/add-enquiry', {
                         cartData
                     }, function(data) {
+                        console.log(data);
+                        alert('Enquiry Added');
+                        $btn.text("Enquiry Added");
                         if (data.status) location.reload();
                     });
                 });
@@ -846,10 +860,10 @@
                 var originalPrice = $('.discount-badge').text().split('₹')[1];
                 var discountPercentage = $("#discountPercentage").text();
 
-                if (partNumber === 'Select Part Number') {
-                    alert('Please select Part Number');
-                    return;
-                }
+                // if (partNumber === 'Select Part Number') {
+                //     alert('Please select Part Number');
+                //     return;
+                // }
 
                 authAjaxCheck(function() {
                     $.post('/add-to-cart', {

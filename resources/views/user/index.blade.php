@@ -357,7 +357,7 @@
 
 
         <!-- Start Best Sellers Product Area  -->
-        <!-- Start Categorie Area  -->
+        <!-- Start Categories Area  -->
         <div class="axil-categorie-area bg-c bg-color-white axil-section-gap pb--0">
             <div class="container">
                 <div class="pb--50">
@@ -368,89 +368,80 @@
                         <div class="slick-single-layout slick-slide">
                             <div class="categrie-product categrie-product-3" data-sal="zoom-out" data-sal-delay="100"
                                 data-sal-duration="500">
-                                <a href="#">
+                                <a href="javascript:void(0)">
                                     <img class="img-fluid" src="assets\images\myimg\daikin.png" alt="product categorie">
                                 </a>
                             </div>
                         </div>
-                        <!-- End .categories-product -->
                         <div class="slick-single-layout slick-slide">
                             <div class="categrie-product categrie-product-3" data-sal="zoom-out" data-sal-delay="100"
                                 data-sal-duration="500">
-                                <a href="#">
+                                <a href="javascript:void(0)">
                                     <img class="img-fluid" src="assets\images\myimg\bkt.png" alt="product categorie">
                                 </a>
                             </div>
                         </div>
-                        <!-- End .categrie-product -->
                         <div class="slick-single-layout slick-slide">
                             <div class="categrie-product categrie-product-3" data-sal="zoom-out" data-sal-delay="100"
                                 data-sal-duration="500">
-                                <a href="#">
+                                <a href="javascript:void(0)">
                                     <img class="img-fluid" src="assets\images\myimg\joorij.png" alt="product categorie">
                                 </a>
                             </div>
-                            <!-- End .categrie-product -->
                         </div>
                         <div class="slick-single-layout slick-slide">
                             <div class="categrie-product categrie-product-3" data-sal="zoom-out" data-sal-delay="100"
                                 data-sal-duration="500">
-                                <a href="#">
+                                <a href="javascript:void(0)">
                                     <img class="img-fluid" src="assets\images\myimg\gold.png" alt="product categorie">
                                 </a>
                             </div>
                         </div>
-                        <!-- End .categrie-product -->
                         <div class="slick-single-layout slick-slide">
                             <div class="categrie-product categrie-product-3" data-sal="zoom-out" data-sal-delay="100"
                                 data-sal-duration="500">
-                                <a href="#">
+                                <a href="javascript:void(0)">
                                     <img class="img-fluid" src="assets\images\myimg\hitachi.png" alt="product categorie">
                                 </a>
                             </div>
                         </div>
-                        <!-- End .categrie-product -->
                         <div class="slick-single-layout slick-slide">
                             <div class="categrie-product categrie-product-3" data-sal="zoom-out" data-sal-delay="100"
                                 data-sal-duration="500">
-                                <a href="#">
+                                <a href="javascript:void(0)">
                                     <img class="img-fluid" src="assets\images\myimg\raja.png" alt="product categorie">
                                 </a>
                             </div>
                         </div>
-                        <!-- End .categrie-product -->
                         <div class="slick-single-layout slick-slide">
                             <div class="categrie-product categrie-product-3" data-sal="zoom-out" data-sal-delay="100"
                                 data-sal-duration="500">
-                                <a href="#">
+                                <a href="javascript:void(0)">
                                     <img class="img-fluid" src="assets\images\myimg\maruti.png" alt="product categorie">
                                 </a>
                             </div>
                         </div>
-                        <!-- End .categrie-product -->
                         <div class="slick-single-layout slick-slide">
                             <div class="categrie-product categrie-product-3" data-sal="zoom-out" data-sal-delay="100"
                                 data-sal-duration="500">
-                                <a href="#">
+                                <a href="javascript:void(0)">
                                     <img class="img-fluid" src="assets\images\myimg\short.png" alt="product categorie">
                                 </a>
                             </div>
-                            <!-- End .categrie-product -->
                         </div>
                         <div class="slick-single-layout slick-slide">
                             <div class="categrie-product categrie-product-3" data-sal="zoom-out" data-sal-delay="100"
                                 data-sal-duration="500">
-                                <a href="#">
+                                <a href="javascript:void(0)">
                                     <img class="img-fluid" src="assets\images\myimg\motherson.png"
                                         alt="product categorie">
                                 </a>
                             </div>
                         </div>
-                        <!-- End .categrie-product -->
                         <div class="slick-single-layout slick-slide">
                             <div class="categrie-product categrie-product-3" data-sal="zoom-out" data-sal-delay="100"
                                 data-sal-duration="500">
-                                <a href="#">
+                                <a href="javascript:void(0)">
                                     <img class="img-fluid" src="assets\images\myimg\nilkamal.png"
                                         alt="product categorie">
                                 </a>
@@ -459,20 +450,18 @@
                         <div class="slick-single-layout slick-slide">
                             <div class="categrie-product categrie-product-3" data-sal="zoom-out" data-sal-delay="100"
                                 data-sal-duration="500">
-                                <a href="#">
+                                <a href="javascript:void(0)">
                                     <img class="img-fluid" src="assets\images\myimg\superme.png" alt="product categorie">
                                 </a>
                             </div>
                         </div>
-                        <!-- End .categrie-product -->
 
 
-                        <!-- End .slick-single-layout -->
                     </div>
                 </div>
             </div>
         </div>
-        <!-- End Categorie Area  -->
+
         <!-- Start Why Choose Area  -->
         <div class="how-to-sell-area axil-section-gap">
             <div class="container">
@@ -523,7 +512,7 @@
                                 <div class="icon">
                                     <img src="assets/images/icons/dancing.png" alt="Service">
                                 </div>
-                                <h6 class="title">Trust, Transparency  <br> & Commitment</h6>
+                                <h6 class="title">Trust, Transparency  <br> & Commitment</h6>
                                 <p>Building long-term relationships through unwavering trust, clear communication, and
                                     dedicated service.</p>
                             </div>

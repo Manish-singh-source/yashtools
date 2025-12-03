@@ -153,7 +153,7 @@
       <p>
         If you have any questions in relation to this privacy policy, kindly connect with Yash Tools
         on <a href="tel:+919326178710">+91 9326 17 8710</a> / <a href="tel:+919322258458">+91 9322 25 8458</a>
-        between 09:030 am and 06:00 pm, Monday to Saturday. Alternatively, you can email us at
+        between 09:30 am and 06:00 pm, Monday to Saturday. Alternatively, you can email us at
         <a href="mailto:sales@yashtools.in">sales@yashtools.in</a>.
       </p>
     </div>

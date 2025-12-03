@@ -277,23 +277,18 @@
                                                 class="spnc">{{ $selectedProduct->brands->brand_name }}</span></h6>
                                     @endisset
 
-                                    {{-- 
-                                    @if (Auth::user() && isset($selectedProduct->product_country_of_origin))
-                                        <h6 class="title margbot">Country Of Origin: <span class="spnc">
-                                                {{ $selectedProduct->product_country_of_origin }}
-                                            </span></h6>
-                                    @endif 
-                                    --}}
-
-                                    <div class="custom-dropdown margbot part-number-section" id="dropdown">
-                                        <div class="dropdown-selected">
-                                            Part Number
-                                            <span>▼</span>
+                                    @if ($sheetData && count($sheetData) > 1 && isset($sheetData[1][0]))
+                                        {{-- <h6 class="manish margbot">Part Number: <span class="spnc">{{ $sheetData[1][0] }}</span></h6> --}}
+                                        <div class="custom-dropdown margbot part-number-section" id="dropdown">
+                                            <div class="dropdown-selected">
+                                                Part Number
+                                                <span>▼</span>
+                                            </div>
+                                            <div class="dropdown-options">
+                                                <input type="text1" class="search-box" placeholder="Search...">
+                                            </div>
                                         </div>
-                                        <div class="dropdown-options">
-                                            <input type="text1" class="search-box" placeholder="Search...">
-                                        </div>
-                                    </div>
+                                    @endif
 
                                     <div class="manish1 margbot">
                                         <ul class="icon-list-row d-flex">
@@ -309,16 +304,7 @@
                                                         href="{{ asset('/uploads/products/pdf/' . $selectedProduct->product_pdf) }}">PDF</a>
                                                 </li>
                                             @endisset
-                                            {{-- 
-                                            @if (Auth::user())
-                                                @isset($selectedProduct->product_catalouge)
-                                                    <li>
-                                                        <i class="fas fa-book"></i> <a target="_blank"
-                                                            href="{{ asset('/uploads/products/catalogue/' . $selectedProduct->product_catalouge) }}">Catalogue</a>
-                                                    </li>
-                                                @endisset
-                                            @endif 
-                                            --}}
+
                                         </ul>
                                     </div>
                                     <div id="showError" class="px-2 py-3 text-danger"></div>
@@ -349,256 +335,236 @@
                 </div>
             </div>
         </div>
-        <!-- End .single-product-thumb -->
 
-        @if (isset($sheetData) &&
-                count($sheetData) > 0 &&
-                isset($leadTimeData) &&
-                !empty($leadTimeData) &&
-                isset($selectedProduct->product_discription) &&
-                !empty($selectedProduct->product_discription))
-            <div class="woocommerce-tabs wc-tabs-wrapper bg-vista-white">
-                <div class="container">
-                    <ul class="nav tabs" id="myTab" role="tablist">
-                        @if (isset($sheetData) && count($sheetData) > 0)
-                            @php
-                                // Remove completely empty rows
-                                $filteredRows = array_filter($sheetData, function ($row) {
-                                    return collect($row)->filter(fn($cell) => !empty($cell))->isNotEmpty();
-                                });
 
-                                // Transpose to get column-wise data
-                                $transposed = [];
-                                foreach ($filteredRows as $row) {
-                                    foreach ($row as $key => $cell) {
-                                        $transposed[$key][] = $cell;
-                                    }
+        <div class="woocommerce-tabs wc-tabs-wrapper bg-vista-white">
+            <div class="container">
+                <ul class="nav tabs" id="myTab" role="tablist">
+                    @if (isset($sheetData) && count($sheetData) > 0)
+                        @php
+                            // Remove completely empty rows
+                            $filteredRows = array_filter($sheetData, function ($row) {
+                                return collect($row)->filter(fn($cell) => !empty($cell))->isNotEmpty();
+                            });
+
+                            // Transpose to get column-wise data
+                            $transposed = [];
+                            foreach ($filteredRows as $row) {
+                                foreach ($row as $key => $cell) {
+                                    $transposed[$key][] = $cell;
                                 }
+                            }
 
-                                // Get indices of columns with at least one non-empty cell
-                                $nonEmptyCols = [];
-                                foreach ($transposed as $colIndex => $colCells) {
-                                    if (collect($colCells)->filter(fn($c) => !empty($c))->isNotEmpty()) {
-                                        $nonEmptyCols[] = $colIndex;
-                                    }
+                            // Get indices of columns with at least one non-empty cell
+                            $nonEmptyCols = [];
+                            foreach ($transposed as $colIndex => $colCells) {
+                                if (collect($colCells)->filter(fn($c) => !empty($c))->isNotEmpty()) {
+                                    $nonEmptyCols[] = $colIndex;
                                 }
+                            }
 
-                                $excludedCols = ['price', 'quantity'];
-                                $colsToShow = collect($nonEmptyCols)
-                                    ->filter(
-                                        fn($colIndex) => !in_array(
-                                            strtolower(trim($sheetData[0][$colIndex] ?? '')),
-                                            $excludedCols,
-                                        ),
-                                    )
-                                    ->all();
-                            @endphp
-                            @if (count($filteredRows) > 0 && count($colsToShow) > 0)
-                                <li class="nav-item" role="presentation">
-                                    <a class="active" id="description-tab" data-bs-toggle="tab" href="#description"
-                                        role="tab" aria-controls="description" aria-selected="true">Specifications</a>
-                                </li>
-                            @endif
-                        @endif
-                        @if (isset($leadTimeData) && !empty($leadTimeData))
+                            $excludedCols = ['price', 'quantity'];
+                            $colsToShow = collect($nonEmptyCols)
+                                ->filter(
+                                    fn($colIndex) => !in_array(
+                                        strtolower(trim($sheetData[0][$colIndex] ?? '')),
+                                        $excludedCols,
+                                    ),
+                                )
+                                ->all();
+                        @endphp
+                        @if (count($filteredRows) > 0 && count($colsToShow) > 0)
                             <li class="nav-item" role="presentation">
-                                <a @if (!isset($sheetData) || count($sheetData) <= 0) class="active" @endif id="lead-time-tab"
-                                    data-bs-toggle="tab" href="#lead-time" role="tab" aria-controls="lead-time"
-                                    aria-selected="false">Lead Time</a>
+                                <a class="active" id="description-tab" data-bs-toggle="tab" href="#description"
+                                    role="tab" aria-controls="description" aria-selected="true">Specifications</a>
                             </li>
                         @endif
-                        @if (!isset($selectedProduct->product_discription) && $selectedProduct->product_discription != '')
-                            <li class="nav-item " role="presentation">
-                                <a @if ((!isset($sheetData) || count($sheetData) <= 0) && (!isset($leadTimeData) || empty($leadTimeData))) class="active" @endif id="additional-info-tab"
-                                    data-bs-toggle="tab" href="#additional-info" role="tab"
-                                    aria-controls="additional-info" aria-selected="false">Description</a>
-                            </li>
-                        @endif
-                    </ul>
-                    @if (isset($sheetData) && !empty($sheetData))
-                        <div class="tab-content" id="myTabContent">
-                            <div class="tab-pane fade show active" id="description" role="tabpanel"
-                                aria-labelledby="description-tab">
-                                <div class="product-desc-wrapper">
-                                    <div class="row">
-                                        <!-- End .col-lg-6 -->
-                                        <div class="col-lg-12 mb--30">
-                                            <div class="table-responsive">
-                                                @if (isset($sheetData) && count($sheetData) > 0)
-                                                    @php
-                                                        // Remove completely empty rows
-                                                        $filteredRows = array_filter($sheetData, function ($row) {
-                                                            return collect($row)
-                                                                ->filter(fn($cell) => !empty($cell))
-                                                                ->isNotEmpty();
-                                                        });
-
-                                                        // Transpose to get column-wise data
-                                                        $transposed = [];
-                                                        foreach ($filteredRows as $row) {
-                                                            foreach ($row as $key => $cell) {
-                                                                $transposed[$key][] = $cell;
-                                                            }
-                                                        }
-
-                                                        // Get indices of columns with at least one non-empty cell
-                                                        $nonEmptyCols = [];
-                                                        foreach ($transposed as $colIndex => $colCells) {
-                                                            if (
-                                                                collect($colCells)
-                                                                    ->filter(fn($c) => !empty($c))
-                                                                    ->isNotEmpty()
-                                                            ) {
-                                                                $nonEmptyCols[] = $colIndex;
-                                                            }
-                                                        }
-
-                                                        $excludedCols = ['price', 'quantity'];
-                                                        $colsToShow = collect($nonEmptyCols)
-                                                            ->filter(
-                                                                fn($colIndex) => !in_array(
-                                                                    strtolower(trim($sheetData[0][$colIndex] ?? '')),
-                                                                    $excludedCols,
-                                                                ),
-                                                            )
-                                                            ->all();
-                                                    @endphp
-
-                                                    @if (count($filteredRows) > 0 && count($colsToShow) > 0)
-                                                        <table class="specification-table">
-                                                            <thead>
-                                                                <tr>
-                                                                    @foreach ($colsToShow as $colIndex)
-                                                                        <th>{{ $sheetData[0][$colIndex] ?? '' }}</th>
-                                                                    @endforeach
-                                                                </tr>
-                                                            </thead>
-                                                            <tbody class="table-body">
-                                                                @foreach (array_slice($filteredRows, 1) as $row)
-                                                                    <tr data-row-value="{{ $row[0] ?? '' }}">
-                                                                        @foreach ($colsToShow as $colIndex)
-                                                                            <td
-                                                                                data-label="{{ $sheetData[0][$colIndex] ?? 'Column ' . $colIndex }}">
-                                                                                {{ $row[$colIndex] ?? '' }}
-                                                                            </td>
-                                                                        @endforeach
-                                                                    </tr>
-                                                                @endforeach
-                                                            </tbody>
-                                                        </table>
-                                                    @else
-                                                        <p>No valid data available.</p>
-                                                    @endif
-                                                @elseif (!empty($selectedProduct->product_optional_pdf))
-                                                    <div class="single-product-thumbnail-wrap zoom-gallery">
-                                                        <div
-                                                            class="single-product-thumbnail product-large-thumbnail-3 axil-product">
-                                                            <div class="thumbnail">
-                                                                <a href="{{ asset('/uploads/products/product_optional_pdf/' . $selectedProduct->product_optional_pdf) }}"
-                                                                    class="popup-zoom">
-                                                                    <img src="{{ asset('/uploads/products/product_optional_pdf/' . $selectedProduct->product_optional_pdf) }}"
-                                                                        alt="Product Images">
-                                                                </a>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                @else
-                                                    <p>No data available or the file is empty.</p>
-                                                @endif
-                                            </div>
-
-
-
-                                        </div>
-                                        <!-- End .col-lg-6 -->
-
-                                    </div>
-                                    <!-- End .col-lg-6 -->
-                                </div>
-                                <!-- End .row -->
-                            </div>
-                            <!-- End .product-desc-wrapper -->
-                        </div>
                     @endif
-                    <!-- Lead Time Tab -->
                     @if (isset($leadTimeData) && !empty($leadTimeData))
-                        <div class="tab-pane fade @if (!isset($sheetData) || count($sheetData) <= 0) show active @endif" id="lead-time"
-                            role="tabpanel" aria-labelledby="lead-time-tab">
+                        <li class="nav-item" role="presentation">
+                            <a @if (!isset($sheetData) || count($sheetData) <= 0) class="active" @endif id="lead-time-tab"
+                                data-bs-toggle="tab" href="#lead-time" role="tab" aria-controls="lead-time"
+                                aria-selected="false">Lead Time</a>
+                        </li>
+                    @endif
+                    @if (isset($selectedProduct->product_discription) && !empty($selectedProduct->product_discription))
+                        <li class="nav-item" role="presentation">
+                            <a @if ((!isset($sheetData) || count($sheetData) <= 0) && (!isset($leadTimeData) || empty($leadTimeData))) class="active" @endif id="additional-info-tab"
+                                data-bs-toggle="tab" href="#additional-info" role="tab" aria-controls="additional-info"
+                                aria-selected="false">Description</a>
+                        </li>
+                    @endif
+                </ul>
+                @if (isset($sheetData) && !empty($sheetData))
+                    <div class="tab-content" id="myTabContent">
+                        <div class="tab-pane fade show active" id="description" role="tabpanel"
+                            aria-labelledby="description-tab">
                             <div class="product-desc-wrapper">
                                 <div class="row">
                                     <div class="col-lg-12 mb--30">
-                                        <div class="lead-time-content">
+                                        <div class="table-responsive">
+                                            @if (isset($sheetData) && count($sheetData) > 0)
+                                                @php
+                                                    // Remove completely empty rows
+                                                    $filteredRows = array_filter($sheetData, function ($row) {
+                                                        return collect($row)
+                                                            ->filter(fn($cell) => !empty($cell))
+                                                            ->isNotEmpty();
+                                                    });
 
-                                            @if (isset($leadTimeType) && $leadTimeType === 'excel' && is_array($leadTimeData))
-                                                <!-- Excel Data Display -->
-                                                <div class="table-responsive">
-                                                    <table class="table table-striped table-hover">
-                                                        <thead class="table-dark">
+                                                    // Transpose to get column-wise data
+                                                    $transposed = [];
+                                                    foreach ($filteredRows as $row) {
+                                                        foreach ($row as $key => $cell) {
+                                                            $transposed[$key][] = $cell;
+                                                        }
+                                                    }
+
+                                                    // Get indices of columns with at least one non-empty cell
+                                                    $nonEmptyCols = [];
+                                                    foreach ($transposed as $colIndex => $colCells) {
+                                                        if (
+                                                            collect($colCells)
+                                                                ->filter(fn($c) => !empty($c))
+                                                                ->isNotEmpty()
+                                                        ) {
+                                                            $nonEmptyCols[] = $colIndex;
+                                                        }
+                                                    }
+
+                                                    $excludedCols = ['price', 'quantity'];
+                                                    $colsToShow = collect($nonEmptyCols)
+                                                        ->filter(
+                                                            fn($colIndex) => !in_array(
+                                                                strtolower(trim($sheetData[0][$colIndex] ?? '')),
+                                                                $excludedCols,
+                                                            ),
+                                                        )
+                                                        ->all();
+                                                @endphp
+
+                                                @if (count($filteredRows) > 0 && count($colsToShow) > 0)
+                                                    <table class="specification-table">
+                                                        <thead>
                                                             <tr>
-                                                                @foreach ($leadTimeData[0] as $column)
-                                                                    @if (!empty($column))
-                                                                        <th class="text-center">{{ $column }}</th>
-                                                                    @endif
+                                                                @foreach ($colsToShow as $colIndex)
+                                                                    <th>{{ $sheetData[0][$colIndex] ?? '' }}</th>
                                                                 @endforeach
                                                             </tr>
                                                         </thead>
-                                                        <tbody>
-                                                            @foreach (array_slice($leadTimeData, 1) as $row)
-                                                                <tr>
-                                                                    @foreach ($row as $key => $value)
-                                                                        @if (!empty($value) || $value === '0' || $value === 0)
-                                                                            <td class="text-center">{{ $value }}
-                                                                            </td>
-                                                                        @elseif (isset($leadTimeData[0][$key]) && !empty($leadTimeData[0][$key]))
-                                                                            <td class="text-center text-muted">-</td>
-                                                                        @endif
+                                                        <tbody class="table-body">
+                                                            @foreach (array_slice($filteredRows, 1) as $row)
+                                                                <tr data-row-value="{{ $row[0] ?? '' }}">
+                                                                    @foreach ($colsToShow as $colIndex)
+                                                                        <td
+                                                                            data-label="{{ $sheetData[0][$colIndex] ?? 'Column ' . $colIndex }}">
+                                                                            {{ $row[$colIndex] ?? '' }}
+                                                                        </td>
                                                                     @endforeach
                                                                 </tr>
                                                             @endforeach
                                                         </tbody>
                                                     </table>
-                                                </div>
-
-                                                <!-- Download Link for Excel File -->
-                                                @if (!empty($selectedProduct->lead_time))
-                                                    <div class="mt-3">
-                                                        <a href="{{ asset('/uploads/products/lead_time/' . $selectedProduct->lead_time) }}"
-                                                            class="btn btn-outline-primary btn-sm" download>
-                                                            <i class="fas fa-download"></i> Download Excel File
-                                                        </a>
-                                                    </div>
+                                                @else
+                                                    <p>No valid data available.</p>
                                                 @endif
+                                            @elseif (!empty($selectedProduct->product_optional_pdf))
+                                                <div class="single-product-thumbnail-wrap zoom-gallery">
+                                                    <div
+                                                        class="single-product-thumbnail product-large-thumbnail-3 axil-product">
+                                                        <div class="thumbnail">
+                                                            <a href="{{ asset('/uploads/products/product_optional_pdf/' . $selectedProduct->product_optional_pdf) }}"
+                                                                class="popup-zoom">
+                                                                <img src="{{ asset('/uploads/products/product_optional_pdf/' . $selectedProduct->product_optional_pdf) }}"
+                                                                    alt="Product Images">
+                                                            </a>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            @else
+                                                <p>No data available or the file is empty.</p>
                                             @endif
                                         </div>
                                     </div>
                                 </div>
                             </div>
                         </div>
-                    @endif
+                    </div>
+                @endif
+                <!-- Lead Time Tab -->
+                @if (isset($leadTimeData) && !empty($leadTimeData))
+                    <div class="tab-pane fade @if (!isset($sheetData) || count($sheetData) <= 0) show active @endif" id="lead-time"
+                        role="tabpanel" aria-labelledby="lead-time-tab">
+                        <div class="product-desc-wrapper">
+                            <div class="row">
+                                <div class="col-lg-12 mb--30">
+                                    <div class="lead-time-content">
 
-                    @if (isset($selectedProduct->product_discription) && !empty($selectedProduct->product_discription))
-                        <div class="tab-pane fade" id="additional-info" role="tabpanel"
-                            aria-labelledby="additional-info-tab">
-                            <div class="product-desc-wrapper">
-                                <div class="row">
-                                    <div class="col-lg-12 mb--30">
-                                        <div class="single-desc">
-                                            <p>{!! $selectedProduct->product_discription ?? 'No additional information available.' !!}</p>
-                                        </div>
+                                        @if (isset($leadTimeType) && $leadTimeType === 'excel' && is_array($leadTimeData))
+                                            <!-- Excel Data Display -->
+                                            <div class="table-responsive">
+                                                <table class="table table-striped table-hover">
+                                                    <thead class="table-dark">
+                                                        <tr>
+                                                            @foreach ($leadTimeData[0] as $column)
+                                                                @if (!empty($column))
+                                                                    <th class="text-center">{{ $column }}</th>
+                                                                @endif
+                                                            @endforeach
+                                                        </tr>
+                                                    </thead>
+                                                    <tbody>
+                                                        @foreach (array_slice($leadTimeData, 1) as $row)
+                                                            <tr>
+                                                                @foreach ($row as $key => $value)
+                                                                    @if (!empty($value) || $value === '0' || $value === 0)
+                                                                        <td class="text-center">{{ $value }}
+                                                                        </td>
+                                                                    @elseif (isset($leadTimeData[0][$key]) && !empty($leadTimeData[0][$key]))
+                                                                        <td class="text-center text-muted">-</td>
+                                                                    @endif
+                                                                @endforeach
+                                                            </tr>
+                                                        @endforeach
+                                                    </tbody>
+                                                </table>
+                                            </div>
+
+                                            <!-- Download Link for Excel File -->
+                                            @if (!empty($selectedProduct->lead_time))
+                                                <div class="mt-3">
+                                                    <a href="{{ asset('/uploads/products/lead_time/' . $selectedProduct->lead_time) }}"
+                                                        class="btn btn-outline-primary btn-sm" download>
+                                                        <i class="fas fa-download"></i> Download Excel File
+                                                    </a>
+                                                </div>
+                                            @endif
+                                        @endif
                                     </div>
-                                    <!-- End .col-lg-6 -->
                                 </div>
-                                <!-- End .row -->
                             </div>
                         </div>
-                    @endif
-                </div>
-            </div>
-            <!-- woocommerce-tabs -->
+                    </div>
+                @endif
 
+                @if (isset($selectedProduct->product_discription) && !empty($selectedProduct->product_discription))
+                    <div class="tab-pane @if (!isset($sheetData) && empty($sheetData)) show @endif fade" id="additional-info"
+                        role="tabpanel" aria-labelledby="additional-info-tab">
+                        <div class="product-desc-wrapper">
+                            <div class="row">
+                                <div class="col-lg-12 mb--30">
+                                    <div class="single-desc">
+                                        {!! $selectedProduct->product_discription !!}
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                @endif
             </div>
-            <!-- End Shop Area  -->
-        @endif
+        </div>
+
+
 
         <!-- Start Recently Viewed Product Area  -->
         <div class="axil-product-area bg-color-white axil-section-gap pb--50 pb_sm--30">
@@ -736,6 +702,7 @@
                 let $row = $(this).find("td");
 
                 let key = $row.eq(0).text().trim(); // Get the first <td> text
+                if(key === '.') return;
                 partNumbers[key] = key;
 
                 if (key) {
@@ -749,6 +716,7 @@
                     let $cell = $(this).find("td").eq(columnIndex);
                     if ($cell.length) {
                         let cellValue = $.trim($cell.text());
+                        // if(key === '.') return;
                         $(this).toggle(value === "" || cellValue === value);
                     }
                 });

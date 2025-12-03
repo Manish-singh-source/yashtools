@@ -74,12 +74,12 @@
                 @foreach ($requestData as $key => $product)
                     <tr>
                         <td>
-                            <img src="{{ asset('uploads/products/thumbnails/' . $product->product_thumbain) }}"
+                            <img src="{{ asset('/uploads/products/thumbnails/' . $product->product_thumbain) }}"
                                 style="width:50px;"alt="{{ $product->product_name }}">
                             {{ $product->product_name }}
                         </td>
-                        <td>{{ $partNumber }}</td>
-                        <td>{{ $productQuantities[$key] }}</td>
+                        <td>{{ $partNumber ?? 'N/A' }}</td>
+                        <td>{{ $productQuantities[$key] ?? 'N/A' }}</td>
                     </tr>
                 @endforeach
             </table>
