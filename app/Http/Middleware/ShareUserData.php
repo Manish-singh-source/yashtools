@@ -28,7 +28,6 @@ class ShareUserData
             ->where('notifications.read_at', '=', null)
             ->orderBy('notifications.created_at', 'desc')
             ->get();
-        // dd($notifications);
         // Share data with all views
         
         View::share([

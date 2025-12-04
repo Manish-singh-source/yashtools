@@ -53,7 +53,6 @@ class ProductsController extends Controller
 
         // Check validation errors
         if ($validations->fails()) {
-            dd($validations->errors());
             return back()->withErrors($validations)->withInput();
         }
 
@@ -166,7 +165,6 @@ class ProductsController extends Controller
             $product->save();
             return redirect()->route('admin.table.product');
         } catch (\Throwable $th) {
-            dd($th);
             return back()->with('error', 'Please Try Again.');
         }
     }

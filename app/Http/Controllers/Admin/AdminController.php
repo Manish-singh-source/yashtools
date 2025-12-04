@@ -176,7 +176,6 @@ class AdminController extends Controller
             ->select('users.fullname', 'users.email', 'notifications.id', 'notifications.data', 'notifications.created_at', 'notifications.updated_at', 'notifications.read_at')
             ->orderBy('notifications.updated_at', 'desc')
             ->get();
-        // dd($notifications);
         return view('admin.notification-table', compact('notifications'));
     }
 

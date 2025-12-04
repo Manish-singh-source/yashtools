@@ -305,21 +305,20 @@
                                             <label class="form-label">Select Category</label>
                                             <select class="form-control h-auto product_category"
                                                 aria-label="Default select example" name="product_category">
-                                                @isset($selectedProduct->product_category_id)
-                                                    @foreach ($categories as $category)
-                                                        @if ($selectedProduct->product_category_id == $category->id)
-                                                            <option value="{{ $category->id }}" selected>
-                                                                {{ $category->category_name }}
-                                                            </option>
-                                                        @else
-                                                            <option value="{{ $category->id }}">
-                                                                {{ $category->category_name }}
-                                                            </option>
-                                                        @endif
-                                                    @endforeach
-                                                @else
-                                                    <option value="0">Select Category</option>
-                                                @endisset
+                                                <option value="0" selected>Select Category</option>
+                                                {{-- @isset($selectedProduct->product_category_id) --}}
+                                                @foreach ($categories as $category)
+                                                    @if ($selectedProduct->product_category_id == $category->id)
+                                                        <option value="{{ $category->id }}" selected>
+                                                            {{ $category->category_name }}
+                                                        </option>
+                                                    @else
+                                                        <option value="{{ $category->id }}">
+                                                            {{ $category->category_name }}
+                                                        </option>
+                                                    @endif
+                                                @endforeach
+                                                {{-- @endisset --}}
                                             </select>
                                             @error('product_category')
                                                 {{ $message }}
@@ -329,21 +328,20 @@
                                             <label class="form-label">Select Sub Category</label>
                                             <select class="form-control h-auto wide" name="product_sub_category"
                                                 id="product_sub_category">
-                                                @isset($selectedProduct->product_sub_category_id)
-                                                    @foreach ($subcategories as $subcategory)
-                                                        @if ($selectedProduct->product_sub_category_id == $subcategory->id)
-                                                            <option value="{{ $subcategory->id }}" selected>
-                                                                {{ $subcategory->sub_category_name }}
-                                                            </option>
-                                                        @else
-                                                            <option value="{{ $subcategory->id }}">
-                                                                {{ $subcategory->sub_category_name }}
-                                                            </option>
-                                                        @endif
-                                                    @endforeach
-                                                @else
-                                                    <option value="0">Select Sub Category</option>
-                                                @endisset
+                                                <option value="0" selected>Select Sub Category</option>
+                                                {{-- @isset($selectedProduct->product_sub_category_id) --}}
+                                                @foreach ($subcategories as $subcategory)
+                                                    @if ($selectedProduct->product_sub_category_id == $subcategory->id)
+                                                        <option value="{{ $subcategory->id }}" selected>
+                                                            {{ $subcategory->sub_category_name }}
+                                                        </option>
+                                                    @else
+                                                        <option value="{{ $subcategory->id }}">
+                                                            {{ $subcategory->sub_category_name }}
+                                                        </option>
+                                                    @endif
+                                                @endforeach
+                                                {{-- @endisset --}}
                                             </select>
                                             @error('product_sub_category')
                                                 {{ $message }}

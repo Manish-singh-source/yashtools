@@ -114,7 +114,6 @@ class CustomersController extends Controller
         $customerDetail = User::with('userDetail', 'userCategory.subcategory')->find($id);
         $subcategories = SubCategories::all();
         // $userCategories = UserCategory::with('subcategory')->get();
-        // dd($customerDetail);
         return view('admin.view-customer-details', compact('customerDetail', 'subcategories'));
     }
 
