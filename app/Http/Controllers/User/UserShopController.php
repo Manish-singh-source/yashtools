@@ -61,15 +61,31 @@ class UserShopController extends Controller
         if (!empty($selectedProduct->product_specs)) {
             $path = public_path('/uploads/products/product_specs/' . $selectedProduct->product_specs);
 
+            // Stop — file does not exist
             if (!file_exists($path)) {
-                die('File not found: ' . $path);
+                $sheetData = null;
             }
 
-            if (File::exists($path)) {
-                $data = Excel::toArray([], $path);
-                $sheetData = $data[0];
+            // Stop — empty file
+            if (filesize($path) === 0) {
+                $sheetData = null;
             }
-            $spreadsheet = \PhpOffice\PhpSpreadsheet\IOFactory::load($path);
+
+            try {
+                // Load spreadsheet
+                $spreadsheet = \PhpOffice\PhpSpreadsheet\IOFactory::load($path);
+
+                // If there is more than 1 sheet → ignore
+                if ($spreadsheet->getSheetCount() > 1) {
+                    $sheetData = null;
+                }
+
+                // Convert to array safely
+                $sheetData = $spreadsheet->getActiveSheet()->toArray();
+            } catch (\Exception $e) {
+                // Any error reading spreadsheet → treat as invalid
+                $sheetData = null;
+            }
             return view('user.productdetails', compact('categories', 'brands', 'leadTimeData', 'leadTimeType', 'subcategories', 'selectedProduct', 'sheetData', 'favouritesProducts', 'similarProducts', 'breadcrumbs'));
         }
         return view('user.productdetails', compact('categories', 'brands', 'subcategories', 'selectedProduct', 'favouritesProducts', 'similarProducts', 'breadcrumbs'));

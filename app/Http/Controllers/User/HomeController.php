@@ -160,23 +160,40 @@ class HomeController extends Controller
             }
         }
 
-        // Process product specifications
         $sheetData = null;
+
         if (!empty($selectedProduct->product_specs)) {
-            $path = public_path('/uploads/products/product_specs/' . $selectedProduct->product_specs);
+            $path = public_path('uploads/products/product_specs/' . $selectedProduct->product_specs);
 
+            // Stop — file does not exist
             if (!file_exists($path)) {
-                die('File not found: ' . $path);
+                $sheetData = null;
             }
 
-            if (File::exists($path)) {
-                $data = Excel::toArray([], $path);
-                $sheetData = $data[0];
+            // Stop — empty file
+            if (filesize($path) === 0) {
+                $sheetData = null;
             }
-            $spreadsheet = \PhpOffice\PhpSpreadsheet\IOFactory::load($path);
+
+            try {
+                // Load spreadsheet
+                $spreadsheet = \PhpOffice\PhpSpreadsheet\IOFactory::load($path);
+
+                // If there is more than 1 sheet → ignore
+                if ($spreadsheet->getSheetCount() > 1) {
+                    $sheetData = null;
+                }
+
+                // Convert to array safely
+                $sheetData = $spreadsheet->getActiveSheet()->toArray();
+            } catch (\Exception $e) {
+                // Any error reading spreadsheet → treat as invalid
+                $sheetData = null;
+            }
         }
 
-       
+
+
         return view('user.single-product', compact('categories', 'brands', 'subcategories', 'selectedProduct', 'sheetData', 'leadTimeData', 'leadTimeType', 'favouritesProducts', 'similarProducts', 'breadcrumbs'));
     }
 
@@ -253,19 +270,19 @@ class HomeController extends Controller
             'quantity' => 'nullable|integer|min:1',
         ]);
 
-        if($validated){
+        if ($validated) {
             $customer = User::find($request->customerId);
-            if($customer->customer_type == 'loyal' || $customer->customer_type == 'dealer'){
+            if ($customer->customer_type == 'loyal' || $customer->customer_type == 'dealer') {
                 $subCategorySearch = UserCategory::where('sub_category_id', $request->subCategoryId)->where('user_id', $customer->id)->first();
-                if($subCategorySearch){
+                if ($subCategorySearch) {
                     // calculate discount
                     $discountedPrice = $request->price * ($subCategorySearch->percentage / 100);
                     $discountedPrice = $request->price - $discountedPrice;
                     return response()->json(['discountedPrice' => $discountedPrice, 'originalPrice' => $request->price, 'discountPercentage' => $subCategorySearch->percentage, 'quantity' => $request->quantity], 200);
-                }else {
+                } else {
                     return response()->json(['success' => 'No Discount Found', 'originalPrice' => $request->price], 400);
                 }
-            }else {
+            } else {
                 return response()->json(['success' => 'Customer Type Is Regular', 'originalPrice' => $request->price], 400);
             }
         }
