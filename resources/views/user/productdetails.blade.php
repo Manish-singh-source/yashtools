@@ -520,11 +520,13 @@
 
                                                                 @foreach ($colsToShow as $colIndex)
                                                                     @if (Auth::user()->customer_type === 'regular')
-                                                                        @if ($sheetData[0][$colIndex] != 'Price' && $sheetData[0][$colIndex] != 'Quantity')
-                                                                            <th>{{ $sheetData[0][$colIndex] ?? '' }}</th>
+                                                                        @if (ucfirst(trim($sheetData[0][$colIndex])) != 'Price' && ucfirst(trim($sheetData[0][$colIndex])) != 'Quantity')
+                                                                            <th>{{ ucfirst(trim($sheetData[0][$colIndex])) ?? '' }}
+                                                                            </th>
                                                                         @endif
                                                                     @else
-                                                                        <th>{{ $sheetData[0][$colIndex] ?? '' }}</th>
+                                                                        <th>{{ ucfirst(trim($sheetData[0][$colIndex])) ?? '' }}
+                                                                        </th>
                                                                     @endif
                                                                 @endforeach
                                                             </tr>
@@ -533,16 +535,21 @@
                                                             @foreach (array_slice($filteredRows, 1) as $row)
                                                                 <tr data-row-value="{{ $row[0] }}">
                                                                     @foreach ($colsToShow as $colIndex)
+                                                                        @php
+                                                                            $value = strtolower(
+                                                                                $sheetData[0][$colIndex],
+                                                                            );
+                                                                        @endphp
                                                                         @if (Auth::user()->customer_type === 'regular')
-                                                                            @if ($sheetData[0][$colIndex] != 'Price' && $sheetData[0][$colIndex] != 'Quantity')
-                                                                                <td data-label="Column-{{ $sheetData[0][$colIndex] }}"
-                                                                                    class="Column-{{ $sheetData[0][$colIndex] }}">
+                                                                            @if ($value != 'price' && $value != 'quantity')
+                                                                                <td data-label="Column-{{ $value }}"
+                                                                                    class="Column-{{ $value }}">
                                                                                     {{ $row[$colIndex] ?? '' }}
                                                                                 </td>
                                                                             @endif
                                                                         @else
-                                                                            <td data-label="Column-{{ $sheetData[0][$colIndex] }}"
-                                                                                class="Column-{{ $sheetData[0][$colIndex] }}">
+                                                                            <td data-label="Column-{{ $value }}"
+                                                                                class="Column-{{ $value }}">
                                                                                 {{ $row[$colIndex] ?? '' }}
                                                                             </td>
                                                                         @endif
@@ -771,7 +778,7 @@
             var $dropdownOptions = $('.dropdown-options').empty();
             $rows.each(function() {
                 var key = $(this).find('td').eq(0).text().trim();
-                if(key === '.') return;
+                if (key === '.') return;
                 if (key) $dropdownOptions.append(`<div>${key}</div>`);
             });
 
@@ -933,8 +940,8 @@
                 });
 
                 if ($row.length) {
-                    var price = $row.find('td.Column-Price').text().trim() || 0;
-                    var quantity = $row.find('td.Column-Quantity').text().trim() || 1;
+                    var price = $row.find('td.Column-price').text().trim() || 0;
+                    var quantity = $row.find('td.Column-quantity').text().trim() || 1;
                 }
                 var customerId = {{ Auth::user()->id }};
                 console.log(customerId)
