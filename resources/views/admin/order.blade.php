@@ -136,7 +136,7 @@
                                                             href="mailto:ricky@example.com">{{ $order->customer->email }}</a>
                                                 </td>
 
-                                                <td class="py-2">{{ $order->created_at }}</td>
+                                                <td class="py-2">{{ $order->created_at ? \Carbon\Carbon::parse($order->created_at)->format('d-M-Y') : '' }}</td>
 
                                                 <td class="py-2 text-center">
                                                     @if ($order->status == 'confirmed')

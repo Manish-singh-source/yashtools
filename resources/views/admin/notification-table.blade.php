@@ -45,7 +45,7 @@
                                                     {{ $notification->read_at ? 'Viewed' : 'Read' }}
                                                 </td>
                                                 <td>
-                                                    {{ $notification->created_at }}
+                                                    {{ $notification->created_at ? \Carbon\Carbon::parse($notification->created_at)->format('d-M-Y h:i A') : '' }}
                                                 </td>
                                             </tr>
                                         @empty

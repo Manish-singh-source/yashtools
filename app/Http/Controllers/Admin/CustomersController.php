@@ -35,11 +35,12 @@ class CustomersController extends Controller
     public function customerOverview(String $id)
     {
         $customerDetail = User::with('userDetail')->with('enquiries.products')->where('role', 'customer')->find($id);
-        $orders = Enquiry::where('customer_id', $id)->whereIn('id', function ($query) {
-            $query->selectRaw('MIN(id)')
-                ->from('enquiries')
-                ->groupBy('enquiry_id');
-            })
+        $orders = Enquiry::where('customer_id', $id)
+            // ->whereIn('id', function ($query) {
+            // $query->selectRaw('MIN(id)')
+            //     ->from('enquiries')
+            //     ->groupBy('enquiry_id');
+            // })
             ->orderBy('id', 'desc')
             ->with('customer')->get();
         return view('admin.customer-overview', compact('customerDetail', 'orders'));

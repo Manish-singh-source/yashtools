@@ -33,11 +33,12 @@ class EnquiryOrdersController extends Controller
             $orders->whereBetween('updated_at', [$start_date, $end_date]); // Use parsed Carbon objects
         }
 
-        $orders->whereIn('id', function ($query) {
-            $query->selectRaw('MIN(id)')
-                ->from('enquiries')
-                ->groupBy('enquiry_id');
-        })
+        $orders
+        // ->whereIn('id', function ($query) {
+        //     $query->selectRaw('MIN(id)')
+        //         ->from('enquiries')
+        //         ->groupBy('enquiry_id');
+        // })
             ->orderBy('id', 'desc')
             ->whereHas('customer', function ($q) {
                 $q->whereNull('deleted_at'); // only customers that are NOT soft deleted

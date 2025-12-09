@@ -119,7 +119,7 @@
                                                             {{ $products->enquiry_id }}
                                                         </a>
                                                     </td>
-                                                    <td>{{ $products->updated_at }}</td>
+                                                    <td>{{ $products->updated_at ? \Carbon\Carbon::parse($products->updated_at)->format('d-M-Y') : '' }}</td>
                                                     <td>
                                                         @if ($products->status == 'confirmed')
                                                             <span class="badge badge-sm badge-success light border-0"><span

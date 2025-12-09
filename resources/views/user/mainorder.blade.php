@@ -63,8 +63,9 @@
                         <div class="media">
 
                             <div class="media-body">
-                                <h5 class="title mb-0 text-capitalize">Hello {{ $user->fullname ?? "User" }}</h5>
-                                <span class="joining-date">Yash Tools Member Since {{ $user->created_at }}</span>
+                                <h5 class="title mb-0 text-capitalize">Hello {{ $user->fullname ?? 'User' }}</h5>
+                                <span class="joining-date">Yash Tools Member Since
+                                    {{ $user->created_at ? \Carbon\Carbon::parse($user->created_at)->format('d-M-Y') : '' }}</span>
                             </div>
                         </div>
                     </div>
@@ -95,8 +96,9 @@
                             <div class="tab-content">
                                 <div class="tab-pane fade show active" id="nav-dashboard" role="tabpanel">
                                     <div class="axil-dashboard-overview">
-                                        <div class="welcome-text text-capitalize">Hello {{ $user->fullname ?? "User" }} (not
-                                            <span class="text-capitalize">{{ $user->fullname ?? "User" }}?</span> <a href="{{ route('customer.logout') }}">Log
+                                        <div class="welcome-text text-capitalize">Hello {{ $user->fullname ?? 'User' }} (not
+                                            <span class="text-capitalize">{{ $user->fullname ?? 'User' }}?</span> <a
+                                                href="{{ route('customer.logout') }}">Log
                                                 Out</a>)
                                         </div>
                                         <p>From your account dashboard you can view your recent orders, manage your
@@ -261,7 +263,8 @@
                                                         <label class="form-label" for="state">State</label>
                                                         {{-- <input type="text" class="form-control"
                                                             value="{{ $user->userDetail->state }}" name="state"> --}}
-                                                        <select class="custom-form-input @error('state') is-invalid @enderror"
+                                                        <select
+                                                            class="custom-form-input @error('state') is-invalid @enderror"
                                                             name="state" id="state">
                                                             <option selected disabled value="0">-- Select State --
                                                             </option>
@@ -475,15 +478,21 @@
                         $.each(response.data, function(index, product) {
                             $('#product_list').append(
                                 `<tr>
-                                    <td>${index + 1}</td>
-                                    <td>${product.enquiry_id}</td>
+                                    <td class="text-center">${index + 1}</td>
+                                    <td class="text-center">${product.enquiry_id}</td>
                                     <td>${product.products[0]?.product.product_name ? product.products[0]?.product.product_name : 'NA'}</td>
-                                    <td>${product.quantity}</td>
-                                    <td>${new Date(product.created_at).toLocaleDateString('en-GB').replaceAll('/', '-')}</td>
-                                    <td class="text-capitalize">
+                                    <td class="text-center">${product.quantity}</td>
+                                    <td class="text-center">
+                                        ${new Date(product.created_at).toLocaleDateString('en-GB', {
+                                            day: '2-digit',
+                                            month: 'short',
+                                            year: 'numeric'
+                                        }).replace(/ /g, '-')}
+                                    </td>
+                                    <td class="text-capitalize text-center">
                                         ${product.status === 'payment_received' ? 'Payment Done' : product.status ? product.status : 'Pending'}
                                     </td>
-                                    <td>
+                                    <td class="text-center"> 
                                         <div><a href='/product-info/${product.enquiry_id}'>View</a> </div>
                                     </td>
                                 </tr>`

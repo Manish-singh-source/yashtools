@@ -91,7 +91,9 @@
                                                 </td>
                                                 <td>
                                                     <div>
-                                                        <h6 class="text-primary">{{ $customer->created_at ?? '' }}</h6>
+                                                        <h6 class="text-primary">
+                                                            {{ $customer->created_at ? \Carbon\Carbon::parse($customer->created_at)->format('d-M-Y') : '' }}
+                                                        </h6>
                                                     </div>
                                                 </td>
                                                 <td>

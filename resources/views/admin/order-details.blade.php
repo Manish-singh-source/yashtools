@@ -336,7 +336,8 @@
                                     <div class="text">
                                         {{ ucfirst(str_replace('_', ' ', $statusDetail->status)) }}
                                     </div>
-                                    <div class="ml-auto"> {{ $statusDetail->created_at }}</div>
+                                    <div class="ml-auto"> {{ $statusDetail->created_at ? \Carbon\Carbon::parse($statusDetail->created_at)->format('d-M-Y') : '' }}</div>
+                                    
                                 </div>
                             @endforeach
                         </div>

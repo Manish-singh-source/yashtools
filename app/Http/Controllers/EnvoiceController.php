@@ -89,28 +89,35 @@ class EnvoiceController extends Controller
 
     public function ordersList(Request $request)
     {
+        $query = Enquiry::where('customer_id', Auth::id())
+            ->with(['invoice', 'products.product']);
 
-        // $query = Enquiry::whereIn('status', ['pending', 'confirmed'])->where('customer_id', Auth::id())->with('invoice')->with('products.product');
-        $query = Enquiry::where('customer_id', Auth::id())->with('invoice')->with('products.product');
-
+        // Filter by date range
         if ($request->filled('fromDate') && $request->filled('toDate')) {
-            $fromDate = Carbon::parse($request->fromDate)->startOfDay(); // Sets time to 00:00:00
-            $toDate = Carbon::parse($request->toDate)->endOfDay(); // Sets time to 23:59:59
+            $fromDate = Carbon::parse($request->fromDate)->startOfDay();
+            $toDate = Carbon::parse($request->toDate)->endOfDay();
 
             $query->whereBetween('created_at', [$fromDate, $toDate]);
         }
 
+        // Sort order
         $sortBy = in_array($request->sort_by, ['asc', 'desc']) ? $request->sort_by : 'desc';
+
+        // If your intention is to avoid duplicate enquiry IDs:
+        // $query->whereIn('id', function ($subQuery) {
+        //     $subQuery->selectRaw('MIN(id)')
+        //         ->from('enquiries')
+        //         ->groupBy('enquiry_id');
+        // });
+
+        // Apply final order
         $query->orderBy('updated_at', $sortBy);
-        $products = $query->whereIn('id', function ($query) {
-            $query->selectRaw('MIN(id)')
-                ->from('enquiries')
-                ->groupBy('enquiry_id');
-        })
-            ->orderBy('id', 'desc')->paginate(5);
+
+        $products = $query->paginate(5);
 
         return response()->json($products);
     }
+
     public function enquiriesList(Request $request)
     {
 

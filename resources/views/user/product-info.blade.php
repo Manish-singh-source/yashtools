@@ -85,7 +85,7 @@
                                                             <td>{{ $order->products[0]->product->product_name }}</td>
                                                             <td>{{ $order->part_number }}</td>
                                                             <td>{{ $order->quantity }}</td>
-                                                            <td>{{ date('d-m-Y', strtotime($order->created_at)) }}</td>
+                                                            <td>{{ date('d-M-Y', strtotime($order->created_at)) }}</td>
                                                             @if (Auth::user()->customer_type == 'loyal' || Auth::user()->customer_type == 'dealer')
                                                                 <td>{{ $order->price }}</td>
                                                                 <td>{{ $order->total_price }}</td>
