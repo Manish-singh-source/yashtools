@@ -850,8 +850,8 @@
                         cartData
                     }, function(data) {
                         console.log(data);
-                        alert('Enquiry Added');
-                        $btn.text("Enquiry Added");
+                        alert('Order Added');
+                        $btn.text("Order Added");
                         if (data.status) location.reload();
                     });
                 });
