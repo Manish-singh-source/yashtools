@@ -62,7 +62,8 @@
                                         <tr>
                                             @if ($index === 0)
                                                 {{-- Apply rowspan only on the first row --}}
-                                                <td rowspan="{{ $cartItems->count() }}" class="vlt">{{ $date }}
+                                                <td rowspan="{{ $cartItems->count() }}" class="vlt">
+                                                    {{ \Carbon\Carbon::parse($date)->format('d-M-Y') }}
                                                 </td>
                                             @endif
                                             <td class="product-thumbnail">
