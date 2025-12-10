@@ -240,6 +240,18 @@
             margin-left: 5px;
             text-decoration: line-through;
         }
+
+        .pro-qty { 
+            width: 200px
+        }
+
+        .pro-qty .enquiryQuantity {
+            width: auto;
+            min-width: 30px;
+            border: 1px solid #ccc;
+            padding: 4px 6px;
+            font-size: 14px;
+        }
     </style>
 @endsection
 
@@ -318,7 +330,8 @@
 
                                     <div class="product-variation quantity-variant-wrapper margbot">
                                         <h6 class="title">Quantity</h6>
-                                        <div class="pro-qty"><input class="enquiryQuantity" type="text" value="1">
+                                        <div class="pro-qty">
+                                            <input class="enquiryQuantity" type="text" value="1">
                                         </div>
                                     </div>
 
@@ -980,6 +993,13 @@
                         console.error('Response text:', xhr.responseText);
                         console.error('Status code:', xhr.status);
                     }
+                });
+            });
+
+            document.querySelectorAll('.enquiryQuantity').forEach(function(input) {
+                input.style.width = input.value.length + 1 + 'ch';
+                input.addEventListener('input', function() {
+                    this.style.width = (this.value.length + 1) + 'ch';
                 });
             });
 
