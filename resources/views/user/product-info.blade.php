@@ -64,11 +64,11 @@
                                                 <thead>
                                                     <tr>
                                                         <th scope="col">Sr.&nbsp;No.</th>
+                                                        <th scope="col">Date</th>
                                                         <th scope="col">Product&nbsp;Image</th>
                                                         <th scope="col">Product&nbsp;Name</th>
                                                         <th scope="col">Part&nbsp;Number</th>
                                                         <th scope="col">Quantity</th>
-                                                        <th scope="col">Date</th>
                                                         @if (Auth::user()->customer_type == 'loyal' || Auth::user()->customer_type == 'dealer')
                                                             <th scope="col">Price&nbsp;Per&nbsp;Peice</th>
                                                             <th scope="col">Total&nbsp;Price</th>
@@ -79,13 +79,13 @@
                                                     @foreach ($data as $key => $order)
                                                         <tr>
                                                             <td>{{ $key + 1 }}</td>
+                                                            <td>{{ date('d-M-Y', strtotime($order->created_at)) }}</td>
                                                             <td><img width="40" height="40"
                                                                     src="{{ asset('/uploads/products/thumbnails/' . $order->products[0]->product->product_thumbain) }}" />
                                                             </td>
                                                             <td>{{ $order->products[0]->product->product_name }}</td>
                                                             <td>{{ $order->part_number }}</td>
                                                             <td>{{ $order->quantity }}</td>
-                                                            <td>{{ date('d-M-Y', strtotime($order->created_at)) }}</td>
                                                             @if (Auth::user()->customer_type == 'loyal' || Auth::user()->customer_type == 'dealer')
                                                                 <td>{{ $order->price }}</td>
                                                                 <td>{{ $order->total_price }}</td>

@@ -187,10 +187,10 @@
                                                 <thead>
                                                     <tr>
                                                         <th scope="col" class="text-center">Sr.&nbsp;No.</th>
+                                                        <th scope="col" class="text-center">Date</th>
                                                         <th scope="col" class="text-center">Order&nbsp;Id</th>
                                                         <th scope="col" class="text-center">Product&nbsp;Name</th>
                                                         <th scope="col" class="text-center">Quantity</th>
-                                                        <th scope="col" class="text-center">Date</th>
                                                         <th scope="col" class="text-center">Status</th>
                                                         <th scope="col" class="text-center">Action</th>
                                                     </tr>
@@ -479,9 +479,6 @@
                             $('#product_list').append(
                                 `<tr>
                                     <td class="text-center">${index + 1}</td>
-                                    <td class="text-center">${product.enquiry_id}</td>
-                                    <td>${product.products[0]?.product.product_name ? product.products[0]?.product.product_name : 'NA'}</td>
-                                    <td class="text-center">${product.quantity}</td>
                                     <td class="text-center">
                                         ${new Date(product.created_at).toLocaleDateString('en-GB', {
                                             day: '2-digit',
@@ -489,6 +486,9 @@
                                             year: 'numeric'
                                         }).replace(/ /g, '-')}
                                     </td>
+                                    <td class="text-center">${product.enquiry_id}</td>
+                                    <td>${product.products[0]?.product.product_name ? product.products[0]?.product.product_name : 'NA'}</td>
+                                    <td class="text-center">${product.quantity}</td>
                                     <td class="text-capitalize text-center">
                                         ${product.status === 'payment_received' ? 'Payment Done' : product.status ? product.status : 'Pending'}
                                     </td>
