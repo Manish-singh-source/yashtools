@@ -241,13 +241,16 @@
             text-decoration: line-through;
         }
 
-        .pro-qty { 
-            width: 200px
+        .pro-qty {
+            width: auto;
+            display: flex;
+            align-items: center;
         }
+
 
         .pro-qty .enquiryQuantity {
             width: auto;
-            min-width: 30px;
+            min-width: 50px;
             border: 1px solid #ccc;
             padding: 4px 6px;
             font-size: 14px;
@@ -331,7 +334,10 @@
                                     <div class="product-variation quantity-variant-wrapper margbot">
                                         <h6 class="title">Quantity</h6>
                                         <div class="pro-qty">
-                                            <input class="enquiryQuantity" type="text" value="1">
+                                            <span class="dec qtybtn">-</span>
+                                            <input class="enquiryQuantity" type="number" value="1" min="1"
+                                                step="1">
+                                            <span class="inc qtybtn">+</span>
                                         </div>
                                     </div>
 
@@ -996,10 +1002,45 @@
                 });
             });
 
+
+            $(document).on("click", ".qtybtn", function() {
+                var $input = $(this).closest(".pro-qty").find(".enquiryQuantity");
+                let quantity = parseInt($input.val()) || 0;
+                if (quantity < 1) {
+                    quantity = 1;
+                    $input.val(1);
+                }
+                priceCal($input);
+            });
+
+            function priceCal($input) {
+                // For product details, we don't need to update a total cell
+                // Just ensure the quantity is valid (min 1)
+                var quantity = parseFloat($input.val());
+                if (isNaN(quantity) || quantity < 1) {
+                    quantity = 1;
+                    $input.val(1);
+                }
+                return quantity;
+            }
+
             document.querySelectorAll('.enquiryQuantity').forEach(function(input) {
+                // Ensure attributes exist and enforce minimum value of 1
+                input.setAttribute('min', '1');
+                input.setAttribute('step', '1');
+                // initialize width based on content
                 input.style.width = input.value.length + 1 + 'ch';
                 input.addEventListener('input', function() {
+                    if (this.value === '') return;
+                    if (parseInt(this.value) < 1) this.value = 1;
                     this.style.width = (this.value.length + 1) + 'ch';
+                });
+                input.addEventListener('paste', function() {
+                    setTimeout(() => {
+                        if (this.value === '') return;
+                        if (parseInt(this.value) < 1) this.value = 1;
+                        this.style.width = (this.value.length + 1) + 'ch';
+                    }, 0);
                 });
             });
 
