@@ -17,7 +17,7 @@ class EnvoiceController extends Controller
         $validations = Validator::make($request->all(), [
             'enquiry_id' => 'required',
             'courier_name' => 'required',
-            'courier_number' => 'required|numeric',
+            'courier_number' => 'required|alpha_num',
             'courier_website' => 'required',
             'invoice_file' => 'required|mimes:pdf|max:10240',
         ]);
@@ -55,7 +55,7 @@ class EnvoiceController extends Controller
             'invoice_id' => 'required',
             'enquiry_id' => 'required',
             'courier_name' => 'required',
-            'courier_number' => 'required|numeric',
+            'courier_number' => 'required|alpha_num',
             'courier_website' => 'required',
             'invoice_file' => 'mimes:pdf|max:10240',
         ]);
