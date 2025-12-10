@@ -162,6 +162,19 @@
     <script src="https://code.jquery.com/jquery-3.7.1.min.js"
         integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
     <script>
+        // Helper function to format number with commas for display only
+        function formatPriceDisplay(number) {
+            return parseFloat(number).toLocaleString('en-IN', {
+                minimumFractionDigits: 2,
+                maximumFractionDigits: 2
+            });
+        }
+
+        // Helper function to extract numeric value from formatted price string
+        function extractNumericPrice(priceText) {
+            return parseFloat(priceText.replace(/[^0-9.\-]/g, ''));
+        }
+
         $.ajaxSetup({
             headers: {
                 "X-CSRF-TOKEN": $('meta[name="csrf-token"]').attr("content"),
@@ -337,15 +350,15 @@
 
             // Find the price text in the same row and extract numeric value
             var priceText = $input.closest("tr").find(".product-price").text() || '';
-            // Remove any non-numeric characters (currency symbols, commas, spaces)
-            var priceNum = parseFloat(priceText.replace(/[^0-9.\-]/g, ''));
+            // Use helper function to extract numeric value safely
+            var priceNum = extractNumericPrice(priceText);
             if (isNaN(priceNum)) priceNum = 0;
 
             var total = quantity * priceNum;
-            // Update total cell (if present) — format to 2 decimals
+            // Update total cell (if present) — format to 2 decimals with comma display
             var $totalCell = $input.closest("tr").find(".products-total-price");
             if ($totalCell.length) {
-                $totalCell.text(total.toFixed(2));
+                $totalCell.text(formatPriceDisplay(total));
             }
             return total;
         }
@@ -367,6 +380,42 @@
                     if (parseInt(this.value) < 1) this.value = 1;
                     this.style.width = (this.value.length + 1) + 'ch';
                 }, 0);
+            });
+        });
+
+        // Format all existing prices on page load (display only, doesn't affect logic)
+        $(document).ready(function() {
+            // Format price-per-piece column
+            $('td.product-price').each(function() {
+                var priceText = $(this).text();
+                if (priceText && priceText !== '-') {
+                    var numPrice = extractNumericPrice(priceText);
+                    if (!isNaN(numPrice)) {
+                        $(this).text(formatPriceDisplay(numPrice));
+                    }
+                }
+            });
+
+            // Format total-price column
+            $('td.products-total-price').each(function() {
+                var priceText = $(this).text();
+                if (priceText && priceText !== '-') {
+                    var numPrice = extractNumericPrice(priceText);
+                    if (!isNaN(numPrice)) {
+                        $(this).text(formatPriceDisplay(numPrice));
+                    }
+                }
+            });
+
+            // Format original-price column
+            $('td.original-price').each(function() {
+                var priceText = $(this).text();
+                if (priceText && priceText !== '-') {
+                    var numPrice = extractNumericPrice(priceText);
+                    if (!isNaN(numPrice)) {
+                        $(this).text(formatPriceDisplay(numPrice));
+                    }
+                }
             });
         });
     </script>

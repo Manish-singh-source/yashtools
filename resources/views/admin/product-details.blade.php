@@ -20,7 +20,7 @@
                         <div class="clearfix pe-md-5">
                             <h3 class="fw-semibold mb-1">{{ $productDetails->product_name }}</h3>
                             <h6>Quntity :- <span>{{ $productDetails->product_quantity }}</span></h6>
-                            <h6>Price :- <span>{{ $productDetails->product_price }}</span></h6>
+                            <h6>Price :- <span>{{ number_format(floatval($productDetails->product_price), 2) }}</span></h6>
                             <h6>Brand Name :- <span>{{ $productDetails->brands->brand_name }}</span></h6>
                             <h6>Category Name :- <span>{{ $productDetails->categories->category_name }}</span></h6>
                             <h6>Sub Category Name :- <span>{{ $productDetails->subcategories->sub_category_name }}</span>

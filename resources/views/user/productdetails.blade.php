@@ -814,6 +814,19 @@
 
 
     <script>
+        // Helper function to format number with commas for display only
+        function formatPriceDisplay(number) {
+            return parseFloat(number).toLocaleString('en-IN', {
+                minimumFractionDigits: 2,
+                maximumFractionDigits: 2
+            });
+        }
+
+        // Helper function to extract numeric value from formatted price string
+        function extractNumericPrice(priceText) {
+            return parseFloat(priceText.replace(/[^0-9.\-]/g, ''));
+        }
+
         $(document).ready(function() {
             $("#showError").hide();
             $.ajaxSetup({
@@ -821,6 +834,12 @@
                     "X-CSRF-TOKEN": $('meta[name="csrf-token"]').attr("content")
                 }
             });
+
+            // Format initial price display with commas
+            var initialPrice = $('#discountedPrice').text();
+            if (initialPrice) {
+                $('#discountedPrice').text(formatPriceDisplay(initialPrice));
+            }
 
             function authAjaxCheck(callback) {
                 $.get('/check-auth', function(response) {
@@ -843,8 +862,8 @@
                 var productId = $(".productId").val();
                 var userId = $(".userId").val();
                 var partNumber = $(".dropdown-selected").text().trim();
-                var price = $('#discountedPrice').text() || 0;
-                var originalPrice = $('.discount-badge').text().split('₹')[1] || 0;
+                var price = extractNumericPrice($('#discountedPrice').text()) || 0;
+                var originalPrice = extractNumericPrice($('.discount-badge').text()) || 0;
                 var discountPercentage = $("#discountPercentage").text() || 0;
 
                 // if (partNumber === 'Select Part Number') {
@@ -881,9 +900,9 @@
                 var productId = $(".productId").val();
                 var userId = $(".userId").val();
                 var partNumber = $(".dropdown-selected").text().trim();
-                var price = $('#discountedPrice').text();
+                var price = extractNumericPrice($('#discountedPrice').text());
                 var quantity = $(".enquiryQuantity").val();
-                var originalPrice = $('.discount-badge').text().split('₹')[1];
+                var originalPrice = extractNumericPrice($('.discount-badge').text());
                 var discountPercentage = $("#discountPercentage").text();
 
                 // if (partNumber === 'Select Part Number') {
@@ -981,14 +1000,17 @@
                     },
                     success: function(response) {
                         if (response.discountedPrice) {
-                            $('#discountedPrice').text(response.discountedPrice);
-                            $('.discount-badge').text('₹' + response.originalPrice);
+                            $('#discountedPrice').text(formatPriceDisplay(response
+                                .discountedPrice));
+                            $('.discount-badge').text('₹' + formatPriceDisplay(response
+                                .originalPrice));
                             $('.discount-badge').show();
                             $("#discountPercentage").text(response.discountPercentage);
                             $("#quantityInfo").text('Available Quantity: ' + response.quantity);
                             $("#quantityInfo").show();
                         } else if (response.originalPrice) {
-                            $('#discountedPrice').text(response.originalPrice);
+                            $('#discountedPrice').text(formatPriceDisplay(response
+                                .originalPrice));
                             $('.discount-badge').hide();
                         } else {
                             console.error('No discount found or invalid response:', response);

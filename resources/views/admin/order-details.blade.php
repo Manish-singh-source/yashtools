@@ -336,8 +336,10 @@
                                     <div class="text">
                                         {{ ucfirst(str_replace('_', ' ', $statusDetail->status)) }}
                                     </div>
-                                    <div class="ml-auto"> {{ $statusDetail->created_at ? \Carbon\Carbon::parse($statusDetail->created_at)->format('d-M-Y') : '' }}</div>
-                                    
+                                    <div class="ml-auto">
+                                        {{ $statusDetail->created_at ? \Carbon\Carbon::parse($statusDetail->created_at)->format('d-M-Y') : '' }}
+                                    </div>
+
                                 </div>
                             @endforeach
                         </div>
@@ -363,13 +365,45 @@
     <script src="https://code.jquery.com/jquery-3.7.1.min.js"
         integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
     <script>
+        // Helper function to format number with commas for display only
+        function formatPriceDisplay(number) {
+            return parseFloat(number).toLocaleString('en-IN', {
+                minimumFractionDigits: 2,
+                maximumFractionDigits: 2
+            });
+        }
+
+        // Helper function to extract numeric value from formatted price string
+        function extractNumericPrice(priceText) {
+            return parseFloat(priceText.replace(/[^0-9.\-]/g, ''));
+        }
+
         $(document).ready(function() {
             let sum = 0;
+
+            // Format all price columns and calculate total with raw numeric values
             $(".product_price").each(function() {
-                sum += parseFloat($(this).text());
+                // Extract numeric value for calculation
+                var numPrice = extractNumericPrice($(this).text());
+                sum += numPrice;
+                // Display formatted price with commas
+                $(this).text(formatPriceDisplay(numPrice));
             });
 
-            $(".totalPrice").html(sum);
+            // Format Original Price column
+            $('td').each(function() {
+                var text = $(this).text().trim();
+                // Check if this is an original price cell (contains ₹ and a number)
+                if (text.includes('₹') && !$(this).hasClass('product_price')) {
+                    var numPrice = extractNumericPrice(text);
+                    if (!isNaN(numPrice) && numPrice > 0) {
+                        $(this).text('₹' + formatPriceDisplay(numPrice));
+                    }
+                }
+            });
+
+            // Display formatted total price
+            $(".totalPrice").text(formatPriceDisplay(sum));
         });
     </script>
 @endsection

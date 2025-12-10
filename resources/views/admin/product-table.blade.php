@@ -88,7 +88,8 @@
                                                 <td>{{ $product->subcategories->sub_category_name ?? '' }}</td>
                                                 <td>{{ $product->brands->brand_name ?? 'Not Added' }}</td>
                                                 <td>{{ $product->product_quantity }}</td>
-                                                <td>{{ $product->product_price }}</td>
+                                                {{-- make comma separated price --}}
+                                                <td>{{ number_format(floatval($product->product_price), 2) }}</td>
                                                 <td>
                                                     <div
                                                         class="form-check

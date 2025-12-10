@@ -176,10 +176,49 @@
 
 @section('script')
     <script>
+        // Helper function to format number with commas for display only
+        function formatPriceDisplay(number) {
+            return parseFloat(number).toLocaleString('en-IN', {
+                minimumFractionDigits: 2,
+                maximumFractionDigits: 2
+            });
+        }
+
+        // Helper function to extract numeric value from formatted price string
+        function extractNumericPrice(priceText) {
+            return parseFloat(priceText.replace(/[^0-9.\-]/g, ''));
+        }
+
         $("#SubmitPO").submit(function(event) {
             event.preventDefault();
 
             this.submit(); // Submit the form
+        });
+
+        // Format all prices on page load (display only, doesn't affect logic)
+        $(document).ready(function() {
+            // Find all price cells and format them with commas
+            $('#product_list tr').each(function() {
+                // Format Price Per Piece column (6th td if dealer/loyal customer)
+                var $priceCell = $(this).find('td').eq(6);
+                if ($priceCell.length && $priceCell.text().trim()) {
+                    var priceText = $priceCell.text().trim();
+                    var numPrice = extractNumericPrice(priceText);
+                    if (!isNaN(numPrice)) {
+                        $priceCell.text(formatPriceDisplay(numPrice));
+                    }
+                }
+
+                // Format Total Price column (7th td if dealer/loyal customer)
+                var $totalCell = $(this).find('td').eq(7);
+                if ($totalCell.length && $totalCell.text().trim()) {
+                    var totalText = $totalCell.text().trim();
+                    var numTotal = extractNumericPrice(totalText);
+                    if (!isNaN(numTotal)) {
+                        $totalCell.text(formatPriceDisplay(numTotal));
+                    }
+                }
+            });
         });
     </script>
 @endsection
