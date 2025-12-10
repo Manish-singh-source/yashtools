@@ -3,6 +3,31 @@
     <meta name="csrf-token" content="{{ csrf_token() }}">
 @endsection
 
+@section('style')
+    <style>
+        .product-quantity,
+        .product-info {
+            width: 100px;
+            margin-right: 20px;
+            margin-left: 20px;
+        }
+
+        .pro-qty {
+            width: auto;
+            display: flex;
+            align-items: center;
+        }
+
+        .pro-qty .enquiryQuantity {
+            width: auto;
+            min-width: 30px;
+            border: 1px solid #ccc;
+            padding: 4px 6px;
+            font-size: 14px;
+        }
+    </style>
+@endsection
+
 @section('content')
     <!-- Start Breadcrumb Area  -->
     <div class="axil-breadcrumb-area">
@@ -47,10 +72,10 @@
                                     <th scope="col" class="product-price">Part&nbsp;No</th>
                                     <th scope="col" class="product-quantity">Quantity</th>
                                     @if (Auth::user()->customer_type != 'regular')
-                                        <th scope="col" class="product-quantity">Price&nbsp;Per&nbsp;Peice</th>
-                                        <th scope="col" class="product-quantity">Total&nbsp;Price</th>
-                                        <th scope="col" class="product-quantity">Discount</th>
-                                        <th scope="col" class="product-quantity">Original&nbsp;Price</th>
+                                        <th scope="col" class="product-price">Price&nbsp;Per&nbsp;Peice</th>
+                                        <th scope="col" class="product-price">Total&nbsp;Price</th>
+                                        <th scope="col" class="product-price">Discount</th>
+                                        <th scope="col" class="product-price">Original&nbsp;Price</th>
                                     @endif
                                     <th scope="col" class="product-remove"></th>
                                     <th scope="col" class="product-remove">Action</th>
@@ -84,8 +109,10 @@
                                             <td class="partNumber">{{ $cartItem->part_number }}</td>
                                             <td class="product-info" data-title="Qty">
                                                 <div class="pro-qty">
-                                                    <input type="number" class="enquiryQuantity"
-                                                        value="{{ $cartItem->quantity ?? 1 }}">
+                                                    <span class="dec qtybtn">-</span>
+                                                    <input type="number" min="1" step="1"
+                                                        class="enquiryQuantity" value="{{ $cartItem->quantity ?? 1 }}">
+                                                    <span class="inc qtybtn">+</span>
                                                 </div>
                                             </td>
                                             @if (Auth::user()->customer_type != 'regular')
@@ -294,20 +321,53 @@
         });
 
         $(document).on("click", ".qtybtn", function() {
-            let quantity = $(this).closest(".pro-qty").find(".enquiryQuantity").val();
+            var $input = $(this).closest(".pro-qty").find(".enquiryQuantity");
+            let quantity = parseInt($input.val()) || 0;
             if (quantity < 1) {
                 quantity = 1;
-                $(this).closest(".pro-qty").find(".enquiryQuantity").val(1);
+                $input.val(1);
             }
-            priceCal($(".enquiryQuantity"));
+            priceCal($input);
         });
 
-        function priceCal(e) {
-            let quantity = e.val();
-            let price = e.closest("tr").find(".product-price").text();
-            let total = quantity * price;
-            console.log(total);
-            e.closest("tr").find(".products-total-price").text(total.toFixed(2));
+        function priceCal($input) {
+            // $input is a jQuery object for the quantity input
+            var quantity = parseFloat($input.val());
+            if (isNaN(quantity) || quantity < 0) quantity = 0;
+
+            // Find the price text in the same row and extract numeric value
+            var priceText = $input.closest("tr").find(".product-price").text() || '';
+            // Remove any non-numeric characters (currency symbols, commas, spaces)
+            var priceNum = parseFloat(priceText.replace(/[^0-9.\-]/g, ''));
+            if (isNaN(priceNum)) priceNum = 0;
+
+            var total = quantity * priceNum;
+            // Update total cell (if present) — format to 2 decimals
+            var $totalCell = $input.closest("tr").find(".products-total-price");
+            if ($totalCell.length) {
+                $totalCell.text(total.toFixed(2));
+            }
+            return total;
         }
+
+        document.querySelectorAll('.enquiryQuantity').forEach(function(input) {
+            // Ensure attributes exist and enforce minimum value of 1
+            input.setAttribute('min', '1');
+            input.setAttribute('step', '1');
+            // initialize width based on content
+            input.style.width = input.value.length + 1 + 'ch';
+            input.addEventListener('input', function() {
+                if (this.value === '') return;
+                if (parseInt(this.value) < 1) this.value = 1;
+                this.style.width = (this.value.length + 1) + 'ch';
+            });
+            input.addEventListener('paste', function() {
+                setTimeout(() => {
+                    if (this.value === '') return;
+                    if (parseInt(this.value) < 1) this.value = 1;
+                    this.style.width = (this.value.length + 1) + 'ch';
+                }, 0);
+            });
+        });
     </script>
 @endsection
