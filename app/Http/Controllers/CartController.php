@@ -40,7 +40,7 @@ class CartController extends Controller
 
     public function viewCartItems()
     {
-        $cartItems = Cart::where('user_id', Auth::id())->with('products')->get();
+        $cartItems = Cart::where('user_id', Auth::id())->with('products')->orderBy('created_at', 'desc')->get();
         $groupedCartItems = $cartItems->groupBy(function ($item) {
             return $item->created_at;
         });

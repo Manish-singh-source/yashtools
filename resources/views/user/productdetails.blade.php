@@ -358,7 +358,7 @@
                                                 <h6 class="title1">Price :</h6>
                                                 <span class="spnc">₹<span
                                                         id="discountedPrice">{{ $selectedProduct->product_price }}</span></span>
-                                                <span class="discount-badge" style="display: none"></span>
+                                                <span class="discount-badge" style="display: none">{{ $selectedProduct->product_price }}</span>
                                             </div>
                                             <div class="product-variation quantity-variant-wrapper margbot"
                                                 style="display: none; font-weight: 500; margin-top: 5px;" id="quantityInfo">
@@ -366,7 +366,7 @@
                                         @endif
                                     @endif
 
-                                    @if ( $selectedProduct->product_dispatch === '0' || !empty($selectedProduct->product_dispatch))
+                                    @if ($selectedProduct->product_dispatch === '0' || !empty($selectedProduct->product_dispatch))
                                         <h6 class="title margbot">Days to Dispatch :
                                             @if ($selectedProduct->product_dispatch == 0)
                                                 <span class="spnc">
@@ -374,11 +374,15 @@
                                                 </span>
                                             @else
                                                 <span class="spnc">
-                                                    {{ $selectedProduct->product_dispatch == 'Same Days' ? 'Same' : 
-                                                        ($selectedProduct->product_dispatch == '2 Day to Dispatch' ? '2' : 
-                                                            ($selectedProduct->product_dispatch == '3 Day to Dispatch' ? '3' : 
-                                                                ($selectedProduct->product_dispatch === '0' ? 'Same' : 
-                                                                        $selectedProduct->product_dispatch))) }}
+                                                    {{ $selectedProduct->product_dispatch == 'Same Days'
+                                                        ? 'Same'
+                                                        : ($selectedProduct->product_dispatch == '2 Day to Dispatch'
+                                                            ? '2'
+                                                            : ($selectedProduct->product_dispatch == '3 Day to Dispatch'
+                                                                ? '3'
+                                                                : ($selectedProduct->product_dispatch === '0'
+                                                                    ? 'Same'
+                                                                    : $selectedProduct->product_dispatch))) }}
                                                     Day(s)</span>
                                                 </span>
                                             @endif
@@ -537,7 +541,7 @@
                                                                     // If customer is regular, remove last column from headers
                                                                     $colsToShow = $nonEmptyCols;
                                                                     if (Auth::user()->customer_type === 'regular') {
-                                                                        // $colsToShow = array_slice($nonEmptyCols, 0, -1);
+                                                                        $colsToShow = array_slice($nonEmptyCols, 0, -2);
                                                                     }
                                                                 @endphp
 
@@ -581,8 +585,6 @@
                                                             @endforeach
                                                         </tbody>
                                                     </table>
-                                                @else
-                                                    <p>No valid data available.</p>
                                                 @endif
                                             @elseif($selectedProduct->product_optional_pdf != '')
                                                 <div class="single-product-thumbnail-wrap zoom-gallery">
@@ -865,7 +867,10 @@
                 var enquiryQuantity = $(".enquiryQuantity").val() || 1;
                 var productId = $(".productId").val();
                 var userId = $(".userId").val();
-                var partNumber = $(".dropdown-selected").text().trim() || "Select Part Number";
+                var partNumber = $(".dropdown-selected").text().trim();
+                if(partNumber === 'Select Part Number') {
+                    partNumber = "N/A";
+                }
                 var price = extractNumericPrice($('#discountedPrice').text()) || 0;
                 var originalPrice = extractNumericPrice($('.discount-badge').text()) || 0;
                 var discountPercentage = $("#discountPercentage").text() || 0;
@@ -904,7 +909,10 @@
                 console.log("clicked");
                 var productId = $(".productId").val();
                 var userId = $(".userId").val();
-                var partNumber = $(".dropdown-selected").text().trim() || "Select Part Number";
+                var partNumber = $(".dropdown-selected").text().trim() || "";
+                if(partNumber === 'Select Part Number') {
+                    partNumber = "N/A";
+                }
                 var price = extractNumericPrice($('#discountedPrice').text()) || 0;
                 var quantity = $(".enquiryQuantity").val() || 1;
                 var originalPrice = extractNumericPrice($('.discount-badge').text()) || 0;
@@ -974,8 +982,11 @@
             var $options = $dropdown.find('.dropdown-options');
 
             $options.on('click', 'div', function() {
-                var selectedPartNumber = $(this).text();
-                var subCategoryId = {{ $selectedProduct->subcategories->id }};
+                var selectedPartNumber = $(this).text() || "Select Part Number";
+                if (selectedPartNumber === 'Select Part Number') return;
+                var subCategoryId = {{ $selectedProduct->subcategories->id ?? '0' }};
+                if(subCategoryId == 0) return;
+
                 var originalPrice = $('.discount-badge').text().split('₹')[1];
 
                 var $row = $('.table-body tr').filter(function() {
@@ -986,6 +997,9 @@
                     var price = $row.find('td.Column-price').text().trim() || 0;
                     var quantity = $row.find('td.Column-quantity').text().trim() || 1;
                 }
+
+                if (!price || !quantity) return;
+
                 var customerId = {{ Auth::user()->id }};
                 console.log(customerId)
                 console.log(subCategoryId)
