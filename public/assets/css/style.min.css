@@ -2893,15 +2893,15 @@ input[type=submit]:hover {
 
 .back-to-top.show:hover {
     color: var(--color-white);
-    bottom: 45px;
+    /* bottom: 45px; */
     opacity: 1
 }
 
-@media only screen and (max-width: 575px) {
+/* @media only screen and (max-width: 575px) {
     .back-to-top.show:hover {
         bottom: 10px
     }
-}
+} */
 
 .axil-breadcrumb-area {
     position: relative;
