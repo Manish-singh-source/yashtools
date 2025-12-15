@@ -65,7 +65,7 @@
                     <div class="table-responsive">
                         <table class="table axil-product-table axil-cart-table mb--40">
                             <thead>
-                                <tr class="text-center">
+                                <tr class="text-start">
                                     <th scope="col" class="product-thumbnail">Date</th>
                                     <th scope="col" class="product-thumbnail">Product</th>
                                     <th scope="col" class="product-title">Title</th>
@@ -84,7 +84,7 @@
                             @forelse ($groupedCartItems as $date => $cartItems)
                                 <tbody class="cart-items-list">
                                     @foreach ($cartItems as $index => $cartItem)
-                                        <tr>
+                                        <tr class="text-start">
                                             @if ($index === 0)
                                                 {{-- Apply rowspan only on the first row --}}
                                                 <td rowspan="{{ $cartItems->count() }}" class="vlt">

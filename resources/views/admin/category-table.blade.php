@@ -52,43 +52,46 @@
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        @forelse ($categories as $category)
-                                            <td>
-                                                <div class="form-check custom-checkbox checkbox-primary me-3">
-                                                    <input type="checkbox" class="form-check-input multiSelectCheckbox"
-                                                        id="customCheckBox2" value="{{ $category->id }}" required="">
-                                                    <label class="form-check-label" for="customCheckBox2"></label>
-                                                </div>
-                                            </td>
-                                            <td style="width: 30%;">
-                                                <div class="d-flex align-items-center">
-                                                    <img src="/uploads/categories/{{ $category->category_image }}"
-                                                        class="rounded-lg me-2" width="40" alt="">
-                                                    <div>
-                                                        <h6 class="w-space-no mb-0 fs-14 font-w600">
-                                                            {{ $category->category_name }}
-                                                        </h6>
-                                                    </div>
-                                                </div>
-                                            </td>
-                                            <td>{{ $category->products_count_count }}</td>
-                                            <td>
-                                                <div class="d-flex">
-                                                    <a href="{{ route('admin.edit.category', $category->category_slug) }}"
-                                                        class="btn btn-primary shadow btn-xs sharp me-1"><i
-                                                            class="fa fa-pencil"></i></a>
-                                                    <form action="{{ route('admin.delete.category') }}" method="POST">
-                                                        @csrf
-                                                        @method('DELETE')
-                                                        <input type="hidden" name="categorySlug"
-                                                            value="{{ $category->category_slug }}">
-                                                        <button type="submit" class="btn btn-danger shadow btn-xs sharp">
-                                                            <i class="fa fa-trash"></i>
-                                                        </button>
-                                                    </form>
 
-                                                </div>
-                                            </td>
+                                        @forelse ($categories as $category)
+                                            <tr>
+                                                <td>
+                                                    <div class="form-check custom-checkbox checkbox-primary me-3">
+                                                        <input type="checkbox" class="form-check-input multiSelectCheckbox"
+                                                            id="customCheckBox2" value="{{ $category->id }}" required="">
+                                                        <label class="form-check-label" for="customCheckBox2"></label>
+                                                    </div>
+                                                </td>
+                                                <td style="width: 30%;">
+                                                    <div class="d-flex align-items-center">
+                                                        <img src="/uploads/categories/{{ $category->category_image }}"
+                                                            class="rounded-lg me-2" width="40" alt="">
+                                                        <div>
+                                                            <h6 class="w-space-no mb-0 fs-14 font-w600">
+                                                                {{ $category->category_name }}
+                                                            </h6>
+                                                        </div>
+                                                    </div>
+                                                </td>
+                                                <td>{{ $category->products_count_count }}</td>
+                                                <td>
+                                                    <div class="d-flex">
+                                                        <a href="{{ route('admin.edit.category', $category->category_slug) }}"
+                                                            class="btn btn-primary shadow btn-xs sharp me-1"><i
+                                                                class="fa fa-pencil"></i></a>
+                                                        <form action="{{ route('admin.delete.category') }}" method="POST">
+                                                            @csrf
+                                                            @method('DELETE')
+                                                            <input type="hidden" name="categorySlug"
+                                                                value="{{ $category->category_slug }}">
+                                                            <button type="submit"
+                                                                class="btn btn-danger shadow btn-xs sharp">
+                                                                <i class="fa fa-trash"></i>
+                                                            </button>
+                                                        </form>
+
+                                                    </div>
+                                                </td>
                                             </tr>
                                         @empty
                                             <tr>
