@@ -366,7 +366,7 @@
                                         @endif
                                     @endif
 
-                                    @if (!empty($selectedProduct->product_dispatch))
+                                    @if ( $selectedProduct->product_dispatch === '0' || !empty($selectedProduct->product_dispatch))
                                         <h6 class="title margbot">Days to Dispatch :
                                             @if ($selectedProduct->product_dispatch == 0)
                                                 <span class="spnc">
@@ -374,7 +374,11 @@
                                                 </span>
                                             @else
                                                 <span class="spnc">
-                                                    {{ $selectedProduct->product_dispatch == 'Same Days' ? 'Same' : ($selectedProduct->product_dispatch == '2 Day to Dispatch' ? '2' : ($selectedProduct->product_dispatch == '3 Day to Dispatch' ? '3' : ($selectedProduct->product_dispatch == '0' ? 'Same' : $selectedProduct->product_dispatch))) }}
+                                                    {{ $selectedProduct->product_dispatch == 'Same Days' ? 'Same' : 
+                                                        ($selectedProduct->product_dispatch == '2 Day to Dispatch' ? '2' : 
+                                                            ($selectedProduct->product_dispatch == '3 Day to Dispatch' ? '3' : 
+                                                                ($selectedProduct->product_dispatch === '0' ? 'Same' : 
+                                                                        $selectedProduct->product_dispatch))) }}
                                                     Day(s)</span>
                                                 </span>
                                             @endif
