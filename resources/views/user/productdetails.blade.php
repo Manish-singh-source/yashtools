@@ -857,15 +857,15 @@
 
             // Add Enquiry
             $(document).on("click", "#addEnquiry", function() {
-
+                console.log("clicked");
                 // show text loading on button
                 var $btn = $('#addEnquiry .text').prop("disabled", true);
                 $btn.text("Loading...");
 
-                var enquiryQuantity = $(".enquiryQuantity").val();
+                var enquiryQuantity = $(".enquiryQuantity").val() || 1;
                 var productId = $(".productId").val();
                 var userId = $(".userId").val();
-                var partNumber = $(".dropdown-selected").text().trim();
+                var partNumber = $(".dropdown-selected").text().trim() || "Select Part Number";
                 var price = extractNumericPrice($('#discountedPrice').text()) || 0;
                 var originalPrice = extractNumericPrice($('.discount-badge').text()) || 0;
                 var discountPercentage = $("#discountPercentage").text() || 0;
@@ -901,13 +901,14 @@
 
             // Add to Cart
             $(document).on("click", "#addCart", function() {
+                console.log("clicked");
                 var productId = $(".productId").val();
                 var userId = $(".userId").val();
-                var partNumber = $(".dropdown-selected").text().trim();
-                var price = extractNumericPrice($('#discountedPrice').text());
-                var quantity = $(".enquiryQuantity").val();
-                var originalPrice = extractNumericPrice($('.discount-badge').text());
-                var discountPercentage = $("#discountPercentage").text();
+                var partNumber = $(".dropdown-selected").text().trim() || "Select Part Number";
+                var price = extractNumericPrice($('#discountedPrice').text()) || 0;
+                var quantity = $(".enquiryQuantity").val() || 1;
+                var originalPrice = extractNumericPrice($('.discount-badge').text()) || 0;
+                var discountPercentage = $("#discountPercentage").text() || 0;
 
                 // if (partNumber === 'Select Part Number') {
                 //     alert('Please select Part Number');
@@ -1069,7 +1070,6 @@
                     }, 0);
                 });
             });
-
         });
     </script>
 @endsection

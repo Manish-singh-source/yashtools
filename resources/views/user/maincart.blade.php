@@ -72,10 +72,10 @@
                                     <th scope="col" class="product-price">Part&nbsp;No</th>
                                     <th scope="col" class="product-quantity">Quantity</th>
                                     @if (Auth::user()->customer_type != 'regular')
+                                        <th scope="col" class="product-price">Original&nbsp;Price</th>
+                                        <th scope="col" class="product-price">Discount</th>
                                         <th scope="col" class="product-price">Price&nbsp;Per&nbsp;Peice</th>
                                         <th scope="col" class="product-price">Total&nbsp;Price</th>
-                                        <th scope="col" class="product-price">Discount</th>
-                                        <th scope="col" class="product-price">Original&nbsp;Price</th>
                                     @endif
                                     <th scope="col" class="product-remove"></th>
                                     <th scope="col" class="product-remove">Action</th>
@@ -116,17 +116,17 @@
                                                 </div>
                                             </td>
                                             @if (Auth::user()->customer_type != 'regular')
+                                                <td class="original-price" data-title="Price">
+                                                    {{ $cartItem->original_price }}
+                                                </td>
+                                                <td class="discounted-percentage" data-title="Price">
+                                                    {{ $cartItem->discount }}
+                                                </td>
                                                 <td class="product-price" data-title="Price">
                                                     {{ $cartItem->price }}
                                                 </td>
                                                 <td class="products-total-price" data-title="Price">
                                                     {{ $cartItem->total }}
-                                                </td>
-                                                <td class="discounted-percentage" data-title="Price">
-                                                    {{ $cartItem->discount }}
-                                                </td>
-                                                <td class="original-price" data-title="Price">
-                                                    {{ $cartItem->original_price }}
                                                 </td>
                                             @endif
                                             <td class="product-remove">
