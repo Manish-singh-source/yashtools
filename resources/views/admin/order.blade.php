@@ -108,7 +108,7 @@
                                             <th class="align-middle">Order ID </th>
                                             <th class="align-middle">Customer</th>
                                             <th class="align-middle pr-7">Date</th>
-                                            <th class="align-middle text-end">Status</th>
+                                            <th class="align-middle text-center">Status</th>
                                             <th class="text-end">Action</th>
                                         </tr>
                                     </thead>

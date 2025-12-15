@@ -71,16 +71,10 @@
                                                             <h6 class="w-space-no mb-0 fs-14 font-w600">
                                                                 {{ $brand->brand_name }}
                                                             </h6>
-
                                                         </div>
-
                                                     </div>
                                                 </td>
                                                 <td>{{ $brand->products_count_count }}</td>
-
-
-                                                </td>
-
                                                 <td>
                                                     <div class="d-flex">
                                                         <a href="{{ route('admin.edit.brand', $brand->brand_slug) }}"

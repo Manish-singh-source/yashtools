@@ -139,12 +139,12 @@
                                             <table class="table">
                                                 <thead>
                                                     <tr>
-                                                        <th scope="col" class="text-center">Sr.&nbsp;No.</th>
-                                                        <th scope="col" class="text-center">Order&nbsp;Id</th>
-                                                        <th scope="col" class="text-center">Product&nbsp;Name</th>
-                                                        <th scope="col" class="text-center">Quantity</th>
-                                                        <th scope="col" class="text-center">Status</th>
-                                                        <th scope="col" class="text-center">Action</th>
+                                                        <th scope="col">Sr.&nbsp;No.</th>
+                                                        <th scope="col">Order&nbsp;Id</th>
+                                                        <th scope="col">Product&nbsp;Name</th>
+                                                        <th scope="col">Quantity</th>
+                                                        <th scope="col">Status</th>
+                                                        <th scope="col">Action</th>
                                                     </tr>
                                                 </thead>
                                                 <tbody id="enquiries_list">
@@ -186,13 +186,13 @@
                                             <table class="table">
                                                 <thead>
                                                     <tr>
-                                                        <th scope="col" class="text-center">Sr.&nbsp;No.</th>
-                                                        <th scope="col" class="text-center">Date</th>
-                                                        <th scope="col" class="text-center">Order&nbsp;Id</th>
-                                                        <th scope="col" class="text-center">Product&nbsp;Name</th>
-                                                        <th scope="col" class="text-center">Quantity</th>
-                                                        <th scope="col" class="text-center">Status</th>
-                                                        <th scope="col" class="text-center">Action</th>
+                                                        <th scope="col">Sr.&nbsp;No.</th>
+                                                        <th scope="col">Date</th>
+                                                        <th scope="col">Order&nbsp;Id</th>
+                                                        <th scope="col">Product&nbsp;Name</th>
+                                                        <th scope="col">Quantity</th>
+                                                        <th scope="col">Status</th>
+                                                        <th scope="col" class="text-start">Action</th>
                                                     </tr>
                                                 </thead>
                                                 <tbody id="product_list">
@@ -478,21 +478,21 @@
                         $.each(response.data, function(index, product) {
                             $('#product_list').append(
                                 `<tr>
-                                    <td class="text-center">${index + 1}</td>
-                                    <td class="text-center">
+                                    <td>${index + 1}</td>
+                                    <td>
                                         ${new Date(product.created_at).toLocaleDateString('en-GB', {
                                             day: '2-digit',
                                             month: 'short',
                                             year: 'numeric'
                                         }).replace(/ /g, '-')}
                                     </td>
-                                    <td class="text-center">${product.enquiry_id}</td>
+                                    <td>${product.enquiry_id}</td>
                                     <td>${product.products[0]?.product.product_name ? product.products[0]?.product.product_name : 'NA'}</td>
-                                    <td class="text-center">${product.quantity}</td>
-                                    <td class="text-capitalize text-center">
+                                    <td>${product.quantity}</td>
+                                    <td class="text-capitalize">
                                         ${product.status === 'payment_received' ? 'Payment Done' : product.status ? product.status : 'Pending'}
                                     </td>
-                                    <td class="text-center"> 
+                                    <td class="text-start"> 
                                         <div><a href='/product-info/${product.enquiry_id}'>View</a> </div>
                                     </td>
                                 </tr>`
