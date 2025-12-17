@@ -126,8 +126,8 @@
                                                     <!-- Start Single Select  -->
                                                     <select class="single-select" id="sort_enquiries_by">
                                                         <option value="">--Select --</option>
-                                                        <option value="asc">Sort by Ascending</option>
-                                                        <option value="desc">Sort by Descending</option>
+                                                        <option value="asc">Sort by Ascending (Order Id)</option>
+                                                        <option value="desc">Sort by Descending (Order Id)</option>
                                                     </select>
                                                     <!-- End Single Select  -->
                                                 </div>
@@ -173,8 +173,8 @@
                                                     <!-- Start Single Select  -->
                                                     <select class="single-select" id="sort_by">
                                                         <option value="">--Select --</option>
-                                                        <option value="asc">Sort by Ascending</option>
-                                                        <option value="desc">Sort by Descending</option>
+                                                        <option value="asc">Sort by Ascending (Order Id)</option>
+                                                        <option value="desc">Sort by Descending (Order Id)</option>
                                                     </select>
                                                     <!-- End Single Select  -->
                                                 </div>
@@ -230,7 +230,7 @@
                                                     <div class="col-lg-6">
                                                         <div class="form-group">
                                                             <label>Email</label>
-                                                            <input type="email" class="form-control" name="email"
+                                                            <input type="email" class="form-control" name="email" readonly
                                                                 value="{{ $user->email }}">
                                                         </div>
                                                     </div>
@@ -398,7 +398,7 @@
                                                         </div>
 
                                                         <div class="form-group">
-                                                            <label>Password</label>
+                                                            <label>Current Password</label>
                                                             <input type="hidden" name="id"
                                                                 value="{{ Auth::id() }}" class="form-control">
                                                             <input type="password" name="password"

@@ -101,7 +101,13 @@ class EnvoiceController extends Controller
         }
 
         // Sort order
-        $sortBy = in_array($request->sort_by, ['asc', 'desc']) ? $request->sort_by : 'desc';
+        if($request->filled('sort_by')) {
+            $sortBy = in_array($request->sort_by, ['asc', 'desc']) ? $request->sort_by : 'desc';
+            $query->orderBy('enquiry_id', $sortBy);
+        }else {
+            $query->orderBy('created_at', 'desc');
+        }
+
 
         // If your intention is to avoid duplicate enquiry IDs:
         // $query->whereIn('id', function ($subQuery) {
@@ -111,7 +117,6 @@ class EnvoiceController extends Controller
         // });
 
         // Apply final order
-        $query->orderBy('updated_at', $sortBy);
 
         $products = $query->paginate(5);
 
@@ -129,9 +134,10 @@ class EnvoiceController extends Controller
 
             $query->whereBetween('created_at', [$fromDate, $toDate]);
         }
-
-        $sortBy = in_array($request->sort_by, ['asc', 'desc']) ? $request->sort_by : 'desc';
-        $query->orderBy('updated_at', $sortBy);
+        if($request->filled('sort_by')){
+            $sortBy = in_array($request->sort_by, ['asc', 'desc']) ? $request->sort_by : 'desc';
+            $query->orderBy('enquiry_id', $sortBy);
+        }
         $products = $query->whereIn('id', function ($query) {
             $query->selectRaw('MIN(id)')
                 ->from('enquiries')

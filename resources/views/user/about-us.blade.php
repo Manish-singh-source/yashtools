@@ -124,7 +124,8 @@
                             </div>
                             <div class="content">
                                 <h6 class="title">Mission </h6>
-                                <p>To be the leading supplier in the Die & Mold industry by providing the best products, consultancy, and services.</p>
+                                <p>To be the leading supplier in the Die & Mold industry by providing the best products,
+                                    consultancy, and services.</p>
                             </div>
                         </div>
                     </div>
@@ -135,7 +136,8 @@
                             </div>
                             <div class="content">
                                 <h6 class="title">Values</h6>
-                                <p>We believe in building trust, transperant, and a strong relationship with all our stakeholders.
+                                <p>We believe in building trust, transparency, and a strong relationship with all our
+                                    stakeholders.
                                     We have a passion to perform and consistently deliver excellence.</p>
                             </div>
                         </div>

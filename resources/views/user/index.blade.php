@@ -209,7 +209,7 @@
         </div>
 
 
-        <!-- Start Expolre Product Area  -->
+        <!-- Start Explore Product Area  -->
         <div class="axil-product-area bg-color-white axil-section-gap pb--0">
             <div class="container">
                 <div class="product-area pb--80">
@@ -245,8 +245,8 @@
                 </div>
             </div>
         </div>
-        <!-- End Expolre Product Area  -->
-        <!-- Start Expolre Product Area  -->
+        <!-- End Explore Product Area  -->
+        <!-- Start Explore Product Area  -->
         <div class="axil-product-area bg-color-white axil-section-gap pb--0">
             <div class="container">
                 <div class="product-area pb--80">
@@ -286,7 +286,7 @@
                 </div>
             </div>
         </div>
-        <!-- End Expolre Product Area  -->
+        <!-- End Explore Product Area  -->
         <!-- Start About Area  -->
         <div class="axil-about-area about-style-1 axil-section-gap ">
             <div class="container">
@@ -483,7 +483,7 @@
                                     <img src="assets/images/icons/choose.png" alt="Service">
                                 </div>
                                 <h6 class="title">25+ Years of experience</h6>
-                                <p>Leveraging over 25 years of industry expertise to deliver best products and 
+                                <p>Leveraging over 25 years of industry expertise to deliver best products and
                                     innovative solutions.</p>
                             </div>
                         </div>
@@ -530,9 +530,7 @@
                     @csrf
                     @method('POST')
                     <div class="etrade-newsletter-wrapper bg_image ">
-                        <!-- <div class="newsletter-content">
-                                                                                                                                    <span class="title-highlighter highlighter-primary2">Newsletter</span> -->
-                        {{-- <img src="./assets/images/logo/logo.png" alt=""> --}}
+                        
                         <h2 class="title mb--40 mb_sm--30">Subscribe to Stay Updated</h2>
                         <div class="input-group newsletter-form">
                             <div class="position-relative newsletter-inner mb--15">
@@ -544,12 +542,9 @@
                 </form>
             </div>
         </div>
-        <!-- Start Axil Newsletter Area  -->
-        <!-- Start Expolre Product Area  -->
-        <!-- End Expolre Product Area  -->
+        
         <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
         <script>
-            // The function toggles more (hidden) text when the user clicks on "Read more". The IF ELSE statement ensures that the text 'read more' and 'read less' changes interchangeably when clicked on.
             $('.moreless-button').click(function() {
                 $('.moretext').slideToggle();
                 if ($('.moreless-button').text() == "Read more") {
