@@ -29,7 +29,7 @@ class ProductsController extends Controller
     public function addProducts(Request $request)
     {
         // Validate the request
-		// product_quantity'numeric
+        // product_quantity'numeric
         // product_price numeric
 
         $validations = Validator::make($request->all(), [
@@ -43,7 +43,7 @@ class ProductsController extends Controller
             'product_brand' => 'nullable',
             'product_image' => 'nullable|image|max:10240',
             'product_pdf' => 'nullable|mimes:pdf|max:10240',
-			'product_country_of_origin' => 'nullable',
+            'product_country_of_origin' => 'nullable',
             'product_catalogue' => 'nullable|mimes:pdf|max:10240',
             'product_optional_pdf' => 'nullable|image|max:10240',
             'product_drawing' => 'nullable|mimes:pdf,jpg,jpeg,png|max:10240',
@@ -73,6 +73,30 @@ class ProductsController extends Controller
                 $filename = time() . "." . $excelExt;
                 $product_specs->move(public_path('/uploads/products/product_specs'), $filename);
                 $product->product_specs = $filename;
+                $product->specification_added = 1;
+
+                // check if uploaded file is containing 'price' and 'quantity' columns
+                // $spreadsheet = \PhpOffice\PhpSpreadsheet\IOFactory::load(
+                //     public_path('/uploads/products/product_specs/' . $filename)
+                // );
+
+                // $sheetData = $spreadsheet->getActiveSheet()->toArray();
+                // $headers = $sheetData[0];
+
+                // // Normalize headers: lowercase + remove whitespaces
+                // $normalizedHeaders = array_map(function ($header) {
+                //     return strtolower(preg_replace('/\s+/', '', trim($header)));
+                // }, $headers);
+
+                // // Find required columns
+                // $priceColumn = array_search('price', $normalizedHeaders);
+                // $quantityColumn = array_search('quantity', $normalizedHeaders);
+
+                // if ($priceColumn !== false && $quantityColumn !== false) {
+                //     $product->specification_added = 1;
+                // } else {
+                //     $product->specification_added = 0;
+                // }
             }
 
             if (!empty($request->product_optional_pdf)) {
@@ -130,7 +154,7 @@ class ProductsController extends Controller
                 $image4->move(public_path('/uploads/products/drawing'), $imageName4);
                 $product->product_drawing = $imageName4;
             }
-          
+
             // Handle Lead Time Excel file processing
             if (!empty($request->lead_time_excel)) {
                 $leadTimeService = new LeadTimeExcelService();
@@ -274,6 +298,33 @@ class ProductsController extends Controller
             $filename = time() . "." . $excelExt;
             $product_specs->move(public_path('/uploads/products/product_specs'), $filename);
             $product->product_specs = $filename;
+
+            $product->specification_added = 1;
+
+            // check if uploaded file is containing 'price' and 'quantity' columns
+            // $spreadsheet = \PhpOffice\PhpSpreadsheet\IOFactory::load(
+            //     public_path('/uploads/products/product_specs/' . $filename)
+            // );
+
+            // $sheetData = $spreadsheet->getActiveSheet()->toArray();
+            // $headers = $sheetData[0];
+
+            // Normalize headers: lowercase + remove whitespaces
+            // $normalizedHeaders = array_map(function ($header) {
+            //     return strtolower(preg_replace('/\s+/', '', trim($header)));
+            // }, $headers);
+
+            // Find required columns
+            // $priceColumn = array_search('price', $normalizedHeaders);
+            // $quantityColumn = array_search('quantity', $normalizedHeaders);
+
+            // if ($priceColumn !== false && $quantityColumn !== false) {
+            //     $product->specification_added = 1;
+            // } else {
+            //     $product->specification_added = 0;
+            // }
+        }else{
+            $product->specification_added = 0;
         }
 
         if (!empty($request->product_optional_pdf)) {
