@@ -40,6 +40,7 @@ class UserShopController extends Controller
         $breadcrumbs = [
             ['name' => 'Home', 'url' => route('user.dashboard')],
             ['name' => 'Products', 'url' => route('user.product.category')],
+            ['name' => $selectedProduct->categories->category_name, 'url' => route('user.product.category')],
             ['name' => $selectedProduct->product_name, 'url' => route('user.product.details', $selectedProduct->product_slug)],
         ];
 
