@@ -463,6 +463,15 @@
                                             </li>
                                         </ul>
 
+                                        {{-- 
+                                        <ul class="icon-list-row">
+                                            <li>
+                                                <span class="crlar">Note: </span>
+                                                <span>Total Price is subject to 18% gst and courier charges</span>
+                                            </li>
+                                        </ul> 
+                                        --}}
+
                                     </div>
                                 </div>
                             </div>
