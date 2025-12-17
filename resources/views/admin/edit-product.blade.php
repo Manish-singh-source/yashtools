@@ -258,6 +258,7 @@
                                             <label class="form-label">Select Brand</label>
                                             <select class="form-control default-select h-auto wide"
                                                 aria-label="Default select example" name="product_brand">
+                                                <option value="0" selected>Select Brand</option>
                                                 @foreach ($brands as $brand)
                                                     @if ($selectedProduct->product_brand_id == $brand->id)
                                                         <option selected value="{{ $brand->id }}">

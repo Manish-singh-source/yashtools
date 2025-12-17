@@ -84,8 +84,8 @@
                                                         </div>
                                                     </div>
                                                 </td>
-                                                <td>{{ $product->categories->category_name ?? '' }}</td>
-                                                <td>{{ $product->subcategories->sub_category_name ?? '' }}</td>
+                                                <td>{{ $product->categories->category_name ?? 'Not Added' }}</td>
+                                                <td>{{ $product->subcategories->sub_category_name ?? 'Not Added' }}</td>
                                                 <td>{{ $product->brands->brand_name ?? 'Not Added' }}</td>
                                                 <td>{{ $product->product_quantity }}</td>
                                                 {{-- make comma separated price --}}

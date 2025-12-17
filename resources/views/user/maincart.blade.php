@@ -106,7 +106,7 @@
                                                 <a
                                                     href="{{ route('user.product.details', $cartItem->products->product_slug) }}">{{ $cartItem->products->product_name }}</a>
                                             </td>
-                                            <td class="partNumber">{{ $cartItem->part_number }}</td>
+                                            <td class="partNumber">{{ $cartItem->part_number ?? 'N/A' }}</td>
                                             <td class="product-info" data-title="Qty">
                                                 <div class="pro-qty">
                                                     <span class="dec qtybtn">-</span>
@@ -220,8 +220,9 @@
 
 
         $(document).on("click", "#addEnquiry", function() {
-            var button = $(this).prop("disabled", true);
-            button.find("a").text("Processing...");
+            var $button = $(this);
+            $button.prop("disabled", true);
+            $button.find("a").text("Processing...");
 
             let parentTBody = $(this).closest(".cart-items-list");
             let cartList = $(parentTBody).children();
@@ -230,22 +231,31 @@
             cartList.each(function() {
                 let productId = $(this).find(".productId").val();
                 let userId = $(this).find(".userId").val();
-                let enquiryQuantity = $(this).find(".enquiryQuantity").val();
-                let partNumber = $(this).find(".partNumber").text();
-                let price = $(this).find(".product-price").text();
-                let totalPrice = $(this).find(".products-total-price").text();
-                let discountedPercentage = $(this).find(".discounted-percentage").text();
-                let originalPrice = $(this).find(".original-price").text();
+                // Ensure quantity is integer-like
+                let enquiryQuantity = parseInt($(this).find(".enquiryQuantity").val() || 1, 10);
+                if (isNaN(enquiryQuantity) || enquiryQuantity < 1) enquiryQuantity = 1;
+                let partNumber = $(this).find(".partNumber").text() || "";
+
+                // Extract numeric values from possibly comma-formatted strings and send integer-like values
+                let priceText = $(this).find(".product-price").text() || "0";
+                let totalText = $(this).find(".products-total-price").text() || "0";
+                let discountedText = $(this).find(".discounted-percentage").text() || "0";
+                let originalText = $(this).find(".original-price").text() || "0";
+
+                let priceNum = Math.round(extractNumericPrice(priceText) || 0);
+                let totalNum = Math.round(extractNumericPrice(totalText) || 0);
+                let discountNum = Math.round(extractNumericPrice(discountedText) || 0);
+                let originalNum = Math.round(extractNumericPrice(originalText) || 0);
 
                 cartData.push({
                     productId: productId,
                     userId: userId,
                     enquiryQuantity: enquiryQuantity,
                     partNumber: partNumber,
-                    price: price,
-                    totalPrice: totalPrice,
-                    discountPercentage: discountedPercentage,
-                    originalPrice: originalPrice
+                    price: priceNum,
+                    totalPrice: totalNum,
+                    discountPercentage: discountNum,
+                    originalPrice: originalNum
                 });
             });
 
@@ -271,10 +281,20 @@
                         },
                         success: function(data) {
                             if (data.status) {
+                                // restore button state
+                                // $button.prop('disabled', false);
+                                // $button.find('a').text('Place Order(s)');
+                                // console.log(data.status)
                                 location.reload(); // Reload page after successful enquiry
                             }
                         },
                         error: function(xhr, status, error) {
+                            // restore button state on error
+                            $button.prop('disabled', false);
+                            $button.find('a').text('Place Order(s)');
+                            // console.log(xhr);
+                            // console.log(status);
+                            // console.log(error);
                             location.reload(); // Reload page after successful enquiry
                         }
                     });
