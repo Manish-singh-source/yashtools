@@ -12,16 +12,21 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\File;
 use Maatwebsite\Excel\Facades\Excel;
 use App\Services\LeadTimeExcelService;
+use Illuminate\Http\Request;
 
 class UserShopController extends Controller
 {
-    public function productShop()
+    public function productShop(Request $request)
     {
         $categories = Categories::orderby('updated_at', 'desc')->limit(8)->get();
         $subcategories = SubCategories::orderby('updated_at', 'desc')->limit(8)->get();
         $brands = Brand::orderby('updated_at', 'desc')->limit(8)->get();
         $products = Product::where('status', '1')->orderby('updated_at', 'desc')->paginate(12);
-        return view('user.productcategory', compact('categories', 'brands', 'subcategories', 'products'));
+
+        // Read optional category filter from query string and pass to view
+        $selectedCategory = $request->query('category', null);
+
+        return view('user.productcategory', compact('categories', 'brands', 'subcategories', 'products', 'selectedCategory'));
     }
 
     public function productDetails(String $slug)
@@ -40,7 +45,8 @@ class UserShopController extends Controller
         $breadcrumbs = [
             ['name' => 'Home', 'url' => route('user.dashboard')],
             ['name' => 'Products', 'url' => route('user.product.category')],
-            ['name' => $selectedProduct->categories->category_name, 'url' => route('user.product.category')],
+            // Link category to the product listing page with a category filter query param
+            ['name' => $selectedProduct->categories->category_name, 'url' => route('user.product.category', ['category' => $selectedProduct->product_category_id])],
             ['name' => $selectedProduct->product_name, 'url' => route('user.product.details', $selectedProduct->product_slug)],
         ];
 

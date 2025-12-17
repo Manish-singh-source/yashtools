@@ -155,8 +155,19 @@
             $(".product-brands-section").hide();
             $(".product-subcategories-section").hide();
             $(".product-new-n-sale-section").hide();
-            categoryFilter();
-            fetchProducts();
+            var initialCategory = '{{ $selectedCategory ?? '' }}';
+
+            // If an initial category was provided via query string, select it and populate subcategories first.
+            if (initialCategory) {
+                // Mark the provided category as chosen first, then load subcategories for it and fetch products
+                $("#category_filter li").removeClass("chosen");
+                $("#category_filter li[data-categoryid='" + initialCategory + "']").addClass("chosen");
+                $(".product-subcategories-section").show();
+                categoryFilter(fetchProducts);
+            } else {
+                categoryFilter();
+                fetchProducts();
+            }
 
             function fetchProducts(page = 1) {
                 let sortBy = $('#sort_by').val();
@@ -244,15 +255,13 @@
 
             // Sort and Filter Change Events
             $('#sort_by').change(function() {
-                categoryFilter();
-                fetchProducts();
+                categoryFilter(fetchProducts);
             });
 
             $("#category_filter").on("click", "li", function() {
                 $(this).toggleClass("chosen");
                 $(".product-subcategories-section").show();
-                categoryFilter();
-                fetchProducts();
+                categoryFilter(fetchProducts);
             });
 
             $("#sub_category_filter").on("click", "li", function() {
@@ -342,7 +351,7 @@
                 }
             });
 
-            function categoryFilter() {
+            function categoryFilter(callback) {
                 let subcategories = $("#category_filter li.chosen").map(function() {
                     return $(this).data("categoryid");
                 }).get();
@@ -367,6 +376,9 @@
                                 `<li data-subcategoryid="${product.id}"><a href="#">${product.sub_category_name}</a></li>`
                             );
                         });
+
+                        // If a callback was provided, call it after subcategories are populated
+                        if (typeof callback === 'function') callback();
                     }
                 });
             }
