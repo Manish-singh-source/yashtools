@@ -352,13 +352,14 @@
                                     </ul>
 
                                     @if (Auth::user()->customer_type == 'loyal' || Auth::user()->customer_type == 'dealer')
-                                        @if ($selectedProduct->product_price != null)
+                                        @if ($selectedProduct->product_price != null && $selectedProduct->product_price != 0)
                                             <div class="product-variation quantity-variant-wrapper margbot">
                                                 <div id="discountPercentage" style="display: none"></div>
                                                 <h6 class="title1">Price :</h6>
                                                 <span class="spnc">₹<span
                                                         id="discountedPrice">{{ $selectedProduct->product_price }}</span></span>
-                                                <span class="discount-badge" style="display: none">{{ $selectedProduct->product_price }}</span>
+                                                <span class="discount-badge"
+                                                    style="display: none">{{ $selectedProduct->product_price }}</span>
                                             </div>
                                             <div class="product-variation quantity-variant-wrapper margbot"
                                                 style="display: none; font-weight: 500; margin-top: 5px;" id="quantityInfo">
@@ -403,8 +404,11 @@
                                             </li>
                                             <li class="add-to-cart" id="addCart"><a href="#"
                                                     class="axil-btn btn-bg-primary" contenteditable="false"
-                                                    style="cursor: pointer;"><i class="far fa-shopping-cart"></i> Add
-                                                    to Cart</a></li>
+                                                    style="cursor: pointer;"><i class="far fa-shopping-cart"></i>
+                                                    <span class="text">
+                                                        Add to Cart
+                                                    </span>
+                                                </a></li>
                                         </ul>
                                         <!-- End Product Action  -->
                                     </div>
@@ -868,7 +872,7 @@
                 var productId = $(".productId").val();
                 var userId = $(".userId").val();
                 var partNumber = $(".dropdown-selected").text().trim();
-                if(partNumber === 'Select Part Number') {
+                if (partNumber === 'Select Part Number') {
                     partNumber = "N/A";
                 }
                 var price = extractNumericPrice($('#discountedPrice').text()) || 0;
@@ -907,10 +911,13 @@
             // Add to Cart
             $(document).on("click", "#addCart", function() {
                 console.log("clicked");
+                var $btn = $('#addCart .text').prop("disabled", true);
+                $btn.text("Adding to Cart...");
+
                 var productId = $(".productId").val();
                 var userId = $(".userId").val();
                 var partNumber = $(".dropdown-selected").text().trim() || "";
-                if(partNumber === 'Select Part Number') {
+                if (partNumber === 'Select Part Number' || partNumber === '') {
                     partNumber = "N/A";
                 }
                 var price = extractNumericPrice($('#discountedPrice').text()) || 0;
@@ -985,7 +992,7 @@
                 var selectedPartNumber = $(this).text() || "Select Part Number";
                 if (selectedPartNumber === 'Select Part Number') return;
                 var subCategoryId = {{ $selectedProduct->subcategories->id ?? '0' }};
-                if(subCategoryId == 0) return;
+                if (subCategoryId == 0) return;
 
                 var originalPrice = $('.discount-badge').text().split('₹')[1];
 
