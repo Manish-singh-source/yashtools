@@ -134,8 +134,8 @@
                                                     class="remove-wishlist"><i class="fal fa-times"></i></a>
                                             </td>
                                             @if ($index === 0)
-                                                <td rowspan="{{ $cartItems->count() }}" id="addEnquiry" class="vlt">
-                                                    <a href="#" class="cartbtn">Place Order(s)</a>
+                                                <td rowspan="{{ $cartItems->count() }}" class="vlt">
+                                                    <a href="#" id="addEnquiry" class="cartbtn">Place Order(s)</a>
                                                 </td>
                                             @endif
                                         </tr>
@@ -152,6 +152,14 @@
                         </table>
                     </div>
                 </div>
+
+                <div class="col-lg-12 cartbx mt-3">
+                    <div class="clear-all-cart">
+                        <span class="crlar">Note: </span>
+                        <span>Total Price is subject to 18% gst and courier charges</span>
+                    </div>
+                </div>
+
             </div>
         </div>
     </div>
