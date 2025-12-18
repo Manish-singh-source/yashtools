@@ -278,14 +278,26 @@ class ProductsController extends Controller
         if ($validations->fails()) {
             return back()->withErrors($validations)->withInput();
         }
-        // Create new product
+        // Find product and update only provided fields
         $product = Product::find($request->productId);
-        $product->product_name = $request->product_name ?? "";
-        $product->product_quantity = $request->product_quantity ?? "";
-        $product->product_price = $request->product_price ?? "";
-        $product->product_dispatch = $request->product_days_to_dispatch ?? "";
-        $product->product_discription = $request->product_description ?? "";
-        $product->product_country_of_origin = $request->product_country_of_origin ?? "";
+        if ($request->has('product_name')) {
+            $product->product_name = $request->product_name;
+        }
+        if ($request->has('product_quantity')) {
+            $product->product_quantity = $request->product_quantity;
+        }
+        if ($request->has('product_price')) {
+            $product->product_price = $request->product_price;
+        }
+        if ($request->has('product_days_to_dispatch')) {
+            $product->product_dispatch = $request->product_days_to_dispatch;
+        }
+        if ($request->has('product_description')) {
+            $product->product_discription = $request->product_description;
+        }
+        if ($request->has('product_country_of_origin')) {
+            $product->product_country_of_origin = $request->product_country_of_origin;
+        }
 
         // Handle image upload
         if (!empty($request->product_specs)) {
@@ -323,8 +335,6 @@ class ProductsController extends Controller
             // } else {
             //     $product->specification_added = 0;
             // }
-        }else{
-            $product->specification_added = 0;
         }
 
         if (!empty($request->product_optional_pdf)) {
@@ -423,12 +433,22 @@ class ProductsController extends Controller
             }
         }
 
-        // Save additional product details
-        $product->product_brand_id = $request->product_brand ?? "";
-        $product->product_category_id = $request->product_category ?? "";
-        $product->product_sub_category_id = $request->product_sub_category ?? "";
-        $product->product_arrivals = $request->new_products ?? "";
-        $product->product_sale = $request->new_offer ?? "";
+        // Save additional product details (only if provided)
+        if ($request->has('product_brand')) {
+            $product->product_brand_id = $request->product_brand;
+        }
+        if ($request->has('product_category')) {
+            $product->product_category_id = $request->product_category;
+        }
+        if ($request->has('product_sub_category')) {
+            $product->product_sub_category_id = $request->product_sub_category;
+        }
+        if ($request->has('new_products')) {
+            $product->product_arrivals = $request->new_products;
+        }
+        if ($request->has('new_offer')) {
+            $product->product_sale = $request->new_offer;
+        }
         $product->save();
 
         MorphHistory::create([

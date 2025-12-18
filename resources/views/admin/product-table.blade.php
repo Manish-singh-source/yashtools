@@ -54,6 +54,7 @@
                                             <th>Brand</th>
                                             <th>Quantity</th>
                                             <th>Price</th>
+                                            <th>Specification</th>
                                             <th>Status</th>
                                             <th class="text-end">Action</th>
                                         </tr>
@@ -91,6 +92,20 @@
                                                 {{-- make comma separated price --}}
                                                 <td>{{ number_format(floatval($product->product_price), 2) }}</td>
                                                 <td>
+                                                    @if ($product->specification_added == 1)
+                                                        <a href="{{ asset('/uploads/products/product_specs/' . $product->product_specs) }}"
+                                                            class="text-primary fw-bold">
+                                                            <span class="badge badge-sm badge-success light border-0"><span
+                                                                    class="ms-1 fa fa-check"></span>
+                                                                Download</span>
+                                                        </a>
+                                                    @else
+                                                        <span class="badge badge-sm badge-danger light border-0"><span
+                                                                class="ms-1 fa fa-times"></span>
+                                                            Not Added</span>
+                                                    @endif
+                                                </td>
+                                                <td>
                                                     <div
                                                         class="form-check
                                                                     form-switch">
@@ -104,11 +119,20 @@
                                                 </td>
                                                 <td class="text-end">
                                                     <div class="d-flex">
+                                                        <a href="#"
+                                                            class="updateProductSpecification btn btn-primary shadow btn-xs sharp me-1"
+                                                            data-id="{{ $product->id }}"
+                                                            data-price="{{ $product->product_price }}"
+                                                            data-quantity="{{ $product->product_quantity }}"
+                                                            data-spec="{{ $product->product_specs ?? '' }}"
+                                                            title="Update Specification"><i class="fa fa-file"></i></a>
+
                                                         <a href="{{ route('admin.edit.product', $product->product_slug) }}"
                                                             class="btn btn-primary shadow btn-xs sharp me-1"><i
                                                                 class="fa fa-pencil"></i></a>
 
-                                                        <form action="{{ route('admin.delete.product') }}" method="POST">
+                                                        <form action="{{ route('admin.delete.product') }}"
+                                                            method="POST">
                                                             @csrf
                                                             @method('DELETE')
                                                             <input type="hidden" name="product_slug"
@@ -139,13 +163,82 @@
 
         </div>
     </div>
-@endsection
 
+
+
+    <!-- Update Product Specification Modal -->
+    <div class="modal fade" id="updateSpecModal" tabindex="-1" aria-labelledby="updateSpecModalLabel"
+        aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <form action="{{ route('admin.update.product') }}" method="POST" enctype="multipart/form-data"
+                    id="updateSpecForm">
+                    @csrf
+                    @method('PUT')
+                    <input type="hidden" name="productId" id="modal_productId">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="updateSpecModalLabel">Update Product Specification</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        <div class="mb-3">
+                            <label class="form-label">Price</label>
+                            <input type="number" step="0.01" name="product_price" id="modal_product_price"
+                                class="form-control">
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label">Quantity</label>
+                            <input type="number" step="1" name="product_quantity" id="modal_product_quantity"
+                                class="form-control">
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label">Upload Product Specification (Excel)</label>
+                            <input type="file" accept=".xlsx,.csv,.xls" name="product_specs" class="form-control"
+                                id="modal_product_specs">
+                            <div id="existingSpec" class="mt-2"></div>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                        <button type="submit" class="btn btn-primary">Save changes</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+@endsection
 
 
 @section('scripts')
     <script>
         var enableSupportButton = '1'
+    </script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            var updateSpecModalEl = document.getElementById('updateSpecModal');
+            var updateSpecModal = new bootstrap.Modal(updateSpecModalEl);
+            // Use event delegation so handlers survive DataTables pagination/redraws
+            document.addEventListener('click', function(e) {
+                var btn = e.target.closest('.updateProductSpecification');
+                if (!btn) return;
+                e.preventDefault();
+                var id = btn.dataset.id;
+                var price = btn.dataset.price;
+                var qty = btn.dataset.quantity;
+                var spec = btn.dataset.spec;
+                document.getElementById('modal_productId').value = id;
+                document.getElementById('modal_product_price').value = price;
+                document.getElementById('modal_product_quantity').value = qty;
+                var existing = document.getElementById('existingSpec');
+                if (spec) {
+                    existing.innerHTML = '<a href="/uploads/products/product_specs/' + spec +
+                        '" target="_blank" class="btn btn-sm btn-outline-primary">View existing spec</a>';
+                } else {
+                    existing.innerHTML = '<span class="text-muted">No existing specification</span>';
+                }
+                updateSpecModal.show();
+            }, false);
+        });
     </script>
     <script>
         var asset_url = 'assets/index.html'
