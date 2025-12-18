@@ -352,19 +352,18 @@
                                     </ul>
 
                                     @if (Auth::user()->customer_type == 'loyal' || Auth::user()->customer_type == 'dealer')
-                                        @if ($selectedProduct->product_price != null && $selectedProduct->product_price != 0)
-                                            <div class="product-variation quantity-variant-wrapper margbot">
-                                                <div id="discountPercentage" style="display: none"></div>
-                                                <h6 class="title1">Price :</h6>
-                                                <span class="spnc">₹<span
-                                                        id="discountedPrice">{{ $selectedProduct->product_price }}</span></span>
-                                                <span class="discount-badge"
-                                                    style="display: none">{{ $selectedProduct->product_price }}</span>
-                                            </div>
-                                            <div class="product-variation quantity-variant-wrapper margbot"
-                                                style="display: none; font-weight: 500; margin-top: 5px;" id="quantityInfo">
-                                            </div>
-                                        @endif
+                                        @php
+                                            $priceDisplay = ($selectedProduct->product_price != null && $selectedProduct->product_price != 0);
+                                        @endphp
+
+                                        <div id="priceSection" class="product-variation quantity-variant-wrapper margbot" style="{{ $priceDisplay ? '' : 'display:none;' }}" data-server-pricedisplay="{{ $priceDisplay ? 1 : 0 }}">
+                                            <div id="discountPercentage" style="display: none"></div>
+                                            <h6 class="title1">Price :</h6>
+                                            <span class="spnc">₹<span id="discountedPrice">{{ $priceDisplay ? $selectedProduct->product_price : '' }}</span></span>
+                                            <span class="discount-badge" style="display: none">{{ $selectedProduct->product_price }}</span>
+                                        </div>
+                                        <div class="product-variation quantity-variant-wrapper margbot" style="display: none; font-weight: 500; margin-top: 5px;" id="quantityInfo">
+                                        </div>
                                     @endif
 
                                     @if ($selectedProduct->product_dispatch === '0' || !empty($selectedProduct->product_dispatch))
@@ -1003,18 +1002,28 @@
                 var subCategoryId = {{ $selectedProduct->subcategories->id ?? '0' }};
                 if (subCategoryId == 0) return;
 
-                var originalPrice = $('.discount-badge').text().split('₹')[1];
-
                 var $row = $('.table-body tr').filter(function() {
                     return $(this).find('td').first().text().trim() === selectedPartNumber;
                 });
 
-                if ($row.length) {
-                    var price = $row.find('td.Column-price').text().trim() || 0;
-                    var quantity = $row.find('td.Column-quantity').text().trim() || 1;
+                // parse price and quantity from specs row (if present), otherwise fallback to product price and quantity = 1
+                var rawPrice = $row.length ? $row.find('td.Column-price').text().trim() : '';
+                var parsedPrice = parseFloat((rawPrice || '').replace(/[^0-9.\-]/g, '')) || 0;
+                var price = parsedPrice || {{ $selectedProduct->product_price ?? 0 }};
+
+                var rawQuantity = $row.length ? $row.find('td.Column-quantity').text().trim() : '';
+                var quantity = parseInt(rawQuantity) || 1;
+
+                // update UI immediately to show the selected part price (works even when original price is not set)
+                if (price && price > 0) {
+                    $('#discountedPrice').text(formatPriceDisplay(price));
+                    $('.discount-badge').hide();
+                } else {
+                    $('#discountedPrice').text('Contact');
+                    $('.discount-badge').hide();
                 }
 
-                if (!price || !quantity) return;
+                var originalPrice = $('.discount-badge').text().replace('₹', '') || price;
 
                 var customerId = {{ Auth::user()->id }};
                 console.log(customerId)
@@ -1025,14 +1034,20 @@
                 $.ajax({
                     url: '/get-discount-price',
                     method: 'POST',
-                    data: {
+                    dataType: 'json',
+                    contentType: 'application/json; charset=utf-8',
+                    headers: {
+                        'Accept': 'application/json'
+                    },
+                    data: JSON.stringify({
+                        _token: $('meta[name="csrf-token"]').attr('content'),
                         customerId: customerId,
                         subCategoryId: subCategoryId,
                         partNumber: selectedPartNumber,
                         price: price,
                         quantity: quantity,
                         originalPrice: originalPrice
-                    },
+                    }),
                     success: function(response) {
                         if (response.discountedPrice) {
                             $('#discountedPrice').text(formatPriceDisplay(response
@@ -1052,9 +1067,26 @@
                         }
                     },
                     error: function(xhr, status, error) {
-                        console.error('Error fetching discount price:', error);
+                        console.error('Error fetching discount price:', status, error);
+                        try {
+                            console.error('Response JSON:', xhr.responseJSON);
+                        } catch (e) {
+                            console.error('Could not parse responseJSON');
+                        }
                         console.error('Response text:', xhr.responseText);
                         console.error('Status code:', xhr.status);
+                        if (xhr.status === 400 && xhr.responseJSON && xhr.responseJSON
+                            .originalPrice) {
+                            $('#discountedPrice').text(formatPriceDisplay(xhr.responseJSON
+                                .originalPrice));
+                            $('.discount-badge').hide();
+                            console.warn(
+                                'No discount found for customer; showing original price from response'
+                            );
+                        } else if (xhr.status === 422) {
+                            console.error('Validation errors (422):', xhr.responseJSON || xhr
+                                .responseText);
+                        }
                     }
                 });
             });
@@ -1099,6 +1131,185 @@
                         this.style.width = (this.value.length + 1) + 'ch';
                     }, 0);
                 });
+            });
+        });
+    </script>
+
+    <script>
+        // Apply discount on page load for loyal/dealer users (diagnostics added)
+        $(document).ready(function() {
+            @if (Auth::user()->customer_type == 'loyal' || Auth::user()->customer_type == 'dealer')
+                console.log('Auto-discount (page-load) starting for loyal/dealer user');
+                if (typeof jQuery === 'undefined') {
+                    console.error('jQuery is not loaded. Discount scripts will not run.');
+                    return;
+                }
+
+                var csrf = $('meta[name="csrf-token"]').attr('content');
+                console.log('CSRF token present:', !!csrf);
+
+                // server-side flag: whether product price is available by default
+                var serverPriceDisplay = {{ $priceDisplay ? 'true' : 'false' }};
+                var $opts = $('#dropdown').find('.dropdown-options');
+                var initialSelected = '';
+
+                if ($opts.length) {
+                    initialSelected = $opts.find('div.selected').text().trim();
+                    // Only auto-pick the first option if server has a product price to display.
+                    if (!initialSelected && serverPriceDisplay) {
+                        initialSelected = $opts.find('div').filter(function() {
+                            return $(this).text().trim() && $(this).text().trim() !== '.';
+                        }).first().text().trim() || '';
+                    }
+                } else {
+                    // Dropdown not present in DOM; fallback to dropdown-selected text (if any)
+                    initialSelected = $('.dropdown-selected').text().trim();
+                    if (initialSelected === 'Select Part Number') initialSelected = '';
+                }
+
+                var $row = $('.table-body tr').filter(function() {
+                    return $(this).find('td').first().text().trim() === initialSelected;
+                });
+                var price = 0,
+                    quantity = 1;
+                if ($row.length) {
+                    price = $row.find('td.Column-price').text().trim() || 0;
+                    quantity = $row.find('td.Column-quantity').text().trim() || 1;
+                }
+                if (!price) price = {{ $selectedProduct->product_price ?? 0 }};
+                var originalPrice = $('.discount-badge').text().replace('₹', '') || price;
+                var customerId = {{ Auth::user()->id }};
+                var subCategoryId = {{ $selectedProduct->subcategories->id ?? '0' }};
+
+                console.log('Auto-discount diagnostics:', {
+                    initialSelected: initialSelected,
+                    price: price,
+                    quantity: quantity,
+                    subCategoryId: subCategoryId,
+                    customerId: customerId
+                });
+                // If a part is already selected on page load, ensure price section is visible
+                if (initialSelected) { $('#priceSection').show(); }
+
+                if (subCategoryId == 0) {
+                    console.warn('SubCategoryId is 0 - discount endpoint will be skipped');
+                } else {
+                    // If server does not provide a default price and no part is explicitly selected, skip the request.
+                    if (!initialSelected && !{{ $priceDisplay ? 'true' : 'false' }}) {
+                        console.warn('No part selected and no server price; skipping initial discount request');
+                        return; // nothing to do on page load
+                    }
+
+                    if (!initialSelected) {
+                        console.warn('No part number detected on page load - using placeholder "N/A" to request discount');
+                        initialSelected = 'N/A';
+                    }
+
+                    var payload = {
+                        customerId: customerId,
+                        subCategoryId: subCategoryId,
+                        partNumber: initialSelected,
+                        price: price,
+                        quantity: quantity,
+                        originalPrice: originalPrice
+                    };
+
+                    // show selected part price immediately (fallbacks to product price if spec price missing)
+                    if (price && price > 0) {
+                        $('#discountedPrice').text(formatPriceDisplay(price));
+                        $('.discount-badge').hide();
+                    } else {
+                        $('#discountedPrice').text('Contact');
+                        $('.discount-badge').hide();
+                    }
+
+                    console.log('Sending /get-discount-price (page-load) payload:', payload);
+
+                    $.ajax({
+                        url: '/get-discount-price',
+                        method: 'POST',
+                        dataType: 'json',
+                        contentType: 'application/json; charset=utf-8',
+                        headers: {
+                            'Accept': 'application/json'
+                        },
+                        data: JSON.stringify(Object.assign({
+                            _token: $('meta[name="csrf-token"]').attr('content')
+                        }, payload)),
+                        success: function(response) {
+                            console.log('Received response for initial discount request:', response);
+                            if (response.discountedPrice) {
+                                $('#discountedPrice').text(formatPriceDisplay(response
+                                    .discountedPrice));
+                                $('.discount-badge').text('₹' + formatPriceDisplay(response
+                                    .originalPrice)).show();
+                                $("#discountPercentage").text(response.discountPercentage);
+                                $("#quantityInfo").text('Available Quantity: ' + response.quantity)
+                                    .show();
+                                // reflect selection in UI if part number exists
+                                $opts.find('div.selected').removeClass('selected');
+                                $opts.find('div').filter(function() {
+                                    return $(this).text().trim() === initialSelected;
+                                }).addClass('selected');
+                                $('.dropdown-selected').text(initialSelected || 'Select Part Number');
+                            } else if (response.originalPrice) {
+                                $('#discountedPrice').text(formatPriceDisplay(response.originalPrice));
+                                $('.discount-badge').hide();
+                            } else {
+                                console.warn('No discount found or response format unexpected',
+                                    response);
+                            }
+                        },
+                        error: function(xhr, status, error) {
+                            console.error('Error fetching initial discount price:', status, error,
+                                'HTTP', xhr.status);
+                            try {
+                                console.error('Response JSON:', xhr.responseJSON);
+                            } catch (e) {
+                                console.error('Could not parse responseJSON');
+                            }
+                            console.error('Response text:', xhr.responseText);
+                            if (xhr.status === 400 && xhr.responseJSON && xhr.responseJSON
+                                .originalPrice) {
+                                $('#discountedPrice').text(formatPriceDisplay(xhr.responseJSON
+                                    .originalPrice));
+                                $('.discount-badge').hide();
+                                console.warn(
+                                    'No discount found for customer; showing original price from response'
+                                );
+                            } else if (xhr.status === 419) {
+                                console.error(
+                                    'CSRF mismatch (419) - ensure session/csrf token present in production'
+                                );
+                            } else if (xhr.status === 302) {
+                                console.error(
+                                    'Request redirected (302) - likely unauthenticated and redirected to login'
+                                );
+                            } else if (xhr.status === 422) {
+                                console.error('Validation errors (422):', xhr.responseJSON || xhr
+                                    .responseText);
+                            }
+                        }
+                    });
+                }
+            @endif
+        });
+    </script>
+
+    <script>
+        $(document).ready(function() {
+            // Show price section when a dropdown option is clicked (covers priceDisplay=false case)
+            $(document).on('click', '#dropdown .dropdown-options div', function() {
+                $('#priceSection').show();
+            });
+
+            // Ensure price section becomes visible after a successful /get-discount-price response
+            $(document).ajaxSuccess(function(event, xhr, settings) {
+                try {
+                    if (settings && settings.url && settings.url.indexOf('/get-discount-price') !== -1) {
+                        $('#priceSection').show();
+                    }
+                } catch (e) { /* ignore */ }
             });
         });
     </script>
