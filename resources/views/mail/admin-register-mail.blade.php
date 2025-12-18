@@ -87,7 +87,7 @@
             <p><strong>{{ config('app.name') }} Team</strong></p>
         </div>
         <div class="footer">
-            <p>&copy; {{ date('Y') }} {{ config('app.name') }}. All rights reserved.</p>
+            <p>{{ date('Y') }} {{ config('app.name') }}. All rights reserved.</p>
         </div>
     </div>
 </body>

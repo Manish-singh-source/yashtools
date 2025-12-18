@@ -93,7 +93,7 @@
             <a href="{{ route('product.info', $enquiry->enquiry_id) }}" class="button text-white text-decoration-none">View Order</a>
         </div>
         <div class="footer">
-            <p>&copy; {{ date('Y') }} {{ config('app.name') }}. All rights reserved.</p>
+            <p>{{ date('Y') }} {{ config('app.name') }}. All rights reserved.</p>
         </div>
     </div>
 </body>
