@@ -74,7 +74,7 @@
                 @foreach ($requestData as $key => $product)
                     <tr>
                         <td>
-                            <img src="{{ asset('/uploads/products/thumbnails/' . $product->product_thumbain) }}"
+                            <img src="{{ asset('uploads/products/thumbnails/' . $product->product_thumbain) }}"
                                 style="width:50px;"alt="{{ $product->product_name }}">
                             {{ $product->product_name }}
                         </td>
@@ -86,7 +86,7 @@
             <p>Our team will review your order and get back to you soon.</p>
         </div>
         <div class="footer">
-            <p>&copy; 2025 YashTools. All rights reserved.</p>
+            <p>&copy; {{ date('Y') }} {{ config('app.name') }}. All rights reserved.</p>
         </div>
     </div>
 
