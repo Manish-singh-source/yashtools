@@ -46,7 +46,8 @@ var WorldNIC = (function () {
         $("#checkAll, #checkAll4, #checkAll1, #checkAll2, #checkAll5").on(
             "change",
             function () {
-                $("td input, .email-list .custom-checkbox input").prop(
+                // Only toggle row selection checkboxes (class .multiSelectCheckbox)
+                $("input.multiSelectCheckbox").prop(
                     "checked",
                     $(this).prop("checked")
                 );
