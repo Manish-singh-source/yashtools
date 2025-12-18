@@ -1025,14 +1025,20 @@
                 $.ajax({
                     url: '/get-discount-price',
                     method: 'POST',
-                    data: {
+                    dataType: 'json',
+                    contentType: 'application/json; charset=utf-8',
+                    headers: {
+                        'Accept': 'application/json'
+                    },
+                    data: JSON.stringify({
+                        _token: $('meta[name="csrf-token"]').attr('content'),
                         customerId: customerId,
                         subCategoryId: subCategoryId,
                         partNumber: selectedPartNumber,
                         price: price,
                         quantity: quantity,
                         originalPrice: originalPrice
-                    },
+                    }),
                     success: function(response) {
                         if (response.discountedPrice) {
                             $('#discountedPrice').text(formatPriceDisplay(response
@@ -1052,9 +1058,26 @@
                         }
                     },
                     error: function(xhr, status, error) {
-                        console.error('Error fetching discount price:', error);
+                        console.error('Error fetching discount price:', status, error);
+                        try {
+                            console.error('Response JSON:', xhr.responseJSON);
+                        } catch (e) {
+                            console.error('Could not parse responseJSON');
+                        }
                         console.error('Response text:', xhr.responseText);
                         console.error('Status code:', xhr.status);
+                        if (xhr.status === 400 && xhr.responseJSON && xhr.responseJSON
+                            .originalPrice) {
+                            $('#discountedPrice').text(formatPriceDisplay(xhr.responseJSON
+                                .originalPrice));
+                            $('.discount-badge').hide();
+                            console.warn(
+                                'No discount found for customer; showing original price from response'
+                                );
+                        } else if (xhr.status === 422) {
+                            console.error('Validation errors (422):', xhr.responseJSON || xhr
+                                .responseText);
+                        }
                     }
                 });
             });
@@ -1100,6 +1123,148 @@
                     }, 0);
                 });
             });
+        });
+    </script>
+
+    <script>
+        // Apply discount on page load for loyal/dealer users (diagnostics added)
+        $(document).ready(function() {
+            @if (Auth::user()->customer_type == 'loyal' || Auth::user()->customer_type == 'dealer')
+                console.log('Auto-discount (page-load) starting for loyal/dealer user');
+                if (typeof jQuery === 'undefined') {
+                    console.error('jQuery is not loaded. Discount scripts will not run.');
+                    return;
+                }
+
+                var csrf = $('meta[name="csrf-token"]').attr('content');
+                console.log('CSRF token present:', !!csrf);
+
+                var $opts = $('#dropdown').find('.dropdown-options');
+                var initialSelected = '';
+
+                if ($opts.length) {
+                    initialSelected = $opts.find('div.selected').text().trim();
+                    if (!initialSelected) {
+                        initialSelected = $opts.find('div').filter(function() {
+                            return $(this).text().trim() && $(this).text().trim() !== '.';
+                        }).first().text().trim() || '';
+                    }
+                } else {
+                    // Dropdown not present in DOM; fallback to dropdown-selected text (if any)
+                    initialSelected = $('.dropdown-selected').text().trim();
+                    if (initialSelected === 'Select Part Number') initialSelected = '';
+                }
+
+                var $row = $('.table-body tr').filter(function() {
+                    return $(this).find('td').first().text().trim() === initialSelected;
+                });
+                var price = 0,
+                    quantity = 1;
+                if ($row.length) {
+                    price = $row.find('td.Column-price').text().trim() || 0;
+                    quantity = $row.find('td.Column-quantity').text().trim() || 1;
+                }
+                if (!price) price = {{ $selectedProduct->product_price ?? 0 }};
+                var originalPrice = $('.discount-badge').text().replace('₹', '') || price;
+                var customerId = {{ Auth::user()->id }};
+                var subCategoryId = {{ $selectedProduct->subcategories->id ?? '0' }};
+
+                console.log('Auto-discount diagnostics:', {
+                    initialSelected: initialSelected,
+                    price: price,
+                    quantity: quantity,
+                    subCategoryId: subCategoryId,
+                    customerId: customerId
+                });
+
+                if (subCategoryId == 0) {
+                    console.warn('SubCategoryId is 0 - discount endpoint will be skipped');
+                } else {
+                    if (!initialSelected) {
+                        console.warn(
+                            'No part number detected on page load - using placeholder "N/A" to request discount'
+                            );
+                        initialSelected = 'N/A';
+                    }
+
+                    var payload = {
+                        customerId: customerId,
+                        subCategoryId: subCategoryId,
+                        partNumber: initialSelected,
+                        price: price,
+                        quantity: quantity,
+                        originalPrice: originalPrice
+                    };
+                    console.log('Sending /get-discount-price (page-load) payload:', payload);
+
+                    $.ajax({
+                        url: '/get-discount-price',
+                        method: 'POST',
+                        dataType: 'json',
+                        contentType: 'application/json; charset=utf-8',
+                        headers: {
+                            'Accept': 'application/json'
+                        },
+                        data: JSON.stringify(Object.assign({
+                            _token: $('meta[name="csrf-token"]').attr('content')
+                        }, payload)),
+                        success: function(response) {
+                            console.log('Received response for initial discount request:', response);
+                            if (response.discountedPrice) {
+                                $('#discountedPrice').text(formatPriceDisplay(response
+                                .discountedPrice));
+                                $('.discount-badge').text('₹' + formatPriceDisplay(response
+                                    .originalPrice)).show();
+                                $("#discountPercentage").text(response.discountPercentage);
+                                $("#quantityInfo").text('Available Quantity: ' + response.quantity)
+                                    .show();
+                                // reflect selection in UI if part number exists
+                                $opts.find('div.selected').removeClass('selected');
+                                $opts.find('div').filter(function() {
+                                    return $(this).text().trim() === initialSelected;
+                                }).addClass('selected');
+                                $('.dropdown-selected').text(initialSelected || 'Select Part Number');
+                            } else if (response.originalPrice) {
+                                $('#discountedPrice').text(formatPriceDisplay(response.originalPrice));
+                                $('.discount-badge').hide();
+                            } else {
+                                console.warn('No discount found or response format unexpected',
+                                    response);
+                            }
+                        },
+                        error: function(xhr, status, error) {
+                            console.error('Error fetching initial discount price:', status, error,
+                                'HTTP', xhr.status);
+                            try {
+                                console.error('Response JSON:', xhr.responseJSON);
+                            } catch (e) {
+                                console.error('Could not parse responseJSON');
+                            }
+                            console.error('Response text:', xhr.responseText);
+                            if (xhr.status === 400 && xhr.responseJSON && xhr.responseJSON
+                                .originalPrice) {
+                                $('#discountedPrice').text(formatPriceDisplay(xhr.responseJSON
+                                    .originalPrice));
+                                $('.discount-badge').hide();
+                                console.warn(
+                                    'No discount found for customer; showing original price from response'
+                                    );
+                            } else if (xhr.status === 419) {
+                                console.error(
+                                    'CSRF mismatch (419) - ensure session/csrf token present in production'
+                                    );
+                            } else if (xhr.status === 302) {
+                                console.error(
+                                    'Request redirected (302) - likely unauthenticated and redirected to login'
+                                    );
+                            } else if (xhr.status === 422) {
+                                console.error('Validation errors (422):', xhr.responseJSON || xhr
+                                    .responseText);
+                            }
+                        }
+                    });
+                }
+            @endif
         });
     </script>
 @endsection
