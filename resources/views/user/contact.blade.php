@@ -26,7 +26,7 @@
             <div class="container">
                 <div class="axil-contact-page">
                     <div class="pb-2">
-                        <p>If you are looking to work with us or have any order?</p>
+                        <p>If you are looking to work with us or have any query?</p>
                     </div>
                     <div class="row row--30">
                         <div class="col-lg-8">
