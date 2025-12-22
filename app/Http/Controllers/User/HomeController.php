@@ -265,29 +265,48 @@ class HomeController extends Controller
         $validated = $request->validate([
             'customerId' => 'required|exists:users,id',
             'subCategoryId' => 'required',
-            'partNumber' => 'required',
             'price' => 'required',
-            'quantity' => 'nullable|integer|min:1',
         ]);
 
         if ($validated) {
             $customer = User::find($request->customerId);
-            if ($customer->customer_type == 'loyal' || $customer->customer_type == 'dealer') {
-                $subCategorySearch = UserCategory::where('sub_category_id', $request->subCategoryId)->where('user_id', $customer->id)->first();
-                if ($subCategorySearch) {
-                    // calculate discount
-                    $discountedPrice = $request->price * ($subCategorySearch->percentage / 100);
-                    $discountedPrice = $request->price - $discountedPrice;
-                    return response()->json(['discountedPrice' => $discountedPrice, 'originalPrice' => $request->price, 'discountPercentage' => $subCategorySearch->percentage, 'quantity' => $request->quantity], 200);
-                } else {
-                    return response()->json(['success' => 'No Discount Found', 'originalPrice' => $request->price], 400);
-                }
-            } else {
-                return response()->json(['success' => 'Customer Type Is Regular', 'originalPrice' => $request->price], 400);
+
+            $loyalty = $this->checkUserLoyalty($customer);
+
+            if (!$loyalty) {
+                return response()->json(['success' => false, 'price' => $request->price], 400);
             }
+
+            $checkDiscountApplied = $this->checkDiscountApplied($customer, $request->subCategoryId);
+
+            if (!$checkDiscountApplied) {
+                return response()->json(['success' => false, 'price' => $request->price], 400);
+            }
+
+            $discountedPrice = $this->getDiscountedPrice($request->price, $checkDiscountApplied->percentage);
+
+
+            return response()->json(['success' => true, 'price' => $discountedPrice, 'originalPrice' => $request->price], 200);
+
         }
 
         // If validation fails, return an error response
         return response()->json(['error' => 'Invalid request'], 400);
     }
+
+    protected function checkUserLoyalty($customer)
+    {
+        return $customer->customer_type == 'loyal' || $customer->customer_type == 'dealer';
+    }
+
+    protected function checkDiscountApplied($customer, $subCategoryId)
+    {
+        return UserCategory::where('sub_category_id', $subCategoryId)->where('user_id', $customer->id)->first();
+    }
+
+    protected function getDiscountedPrice($price, $percentage)
+    {
+        return $price - ($price * ($percentage / 100));
+    }
 }
+
