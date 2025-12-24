@@ -46,7 +46,7 @@
                                         <th>Item</th>
                                         <th>Quantity</th>
                                         <th>Original Price</th>
-                                        <th>Discount</th>
+                                        <th>Discount (%)</th>
                                         <th>Price</th>
                                         <th>Total Price</th>
                                     </tr>

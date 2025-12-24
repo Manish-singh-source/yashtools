@@ -286,7 +286,7 @@ class HomeController extends Controller
             $discountedPrice = $this->getDiscountedPrice($request->price, $checkDiscountApplied->percentage);
 
 
-            return response()->json(['success' => true, 'price' => $discountedPrice, 'originalPrice' => $request->price], 200);
+            return response()->json(['success' => true, 'price' => $discountedPrice['discountedPrice'], 'originalPrice' => $request->price, 'discountPercentage' => $discountedPrice['percentage']], 200);
 
         }
 
@@ -306,7 +306,8 @@ class HomeController extends Controller
 
     protected function getDiscountedPrice($price, $percentage)
     {
-        return $price - ($price * ($percentage / 100));
+        $discountedPrice = $price - ($price * ($percentage / 100));
+        return ['discountedPrice' => $discountedPrice, 'percentage' => $percentage];
     }
 }
 

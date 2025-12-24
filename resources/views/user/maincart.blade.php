@@ -73,7 +73,7 @@
                                     <th scope="col" class="product-quantity">Quantity</th>
                                     @if (Auth::user()->customer_type != 'regular')
                                         <th scope="col" class="product-price">Original&nbsp;Price</th>
-                                        <th scope="col" class="product-price">Discount</th>
+                                        <th scope="col" class="product-price">Discount (%)</th>
                                         <th scope="col" class="product-price">Price&nbsp;Per&nbsp;Peice</th>
                                         <th scope="col" class="product-price">Total&nbsp;Price</th>
                                     @endif
