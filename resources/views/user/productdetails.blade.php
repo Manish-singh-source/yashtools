@@ -1008,8 +1008,7 @@
 
             var currentPrice = $('.discount-badge').text().trim();
             var currentQuantity = $('#quantityInfo').text().trim();
-            console.log(currentPrice);
-            console.log(currentQuantity);
+            
             if (currentQuantity > 0) {
                 $('#quantityInfo').text('Available Quantity: ' + currentQuantity);
                 $("#quantityInfo").show();
@@ -1039,8 +1038,6 @@
                     var $row = $('.table-body tr').filter(function() {
                         return $(this).find('td').first().text().trim() === selectedPartNumber;
                     });
-
-                    console.log($row);
 
                     // parse price and quantity from specs row (if present), otherwise fallback to product price and quantity = 1
                     var rawPrice = $row.length ? $row.find('td.Column-price').text().trim() : '';
@@ -1091,6 +1088,8 @@
                             $('#discountedPrice').text(formatPriceDisplay(response.price));
                             $('.discount-badge').text('₹' + formatPriceDisplay(response.originalPrice));
                             $('.discount-badge').show();
+                            $('#discountPercentage').text(response.discountPercentage);
+                            console.log('Discount applied: ' + response.discountPercentage + '%');
                         }
                     },
                     error: function(xhr, status, error) {
