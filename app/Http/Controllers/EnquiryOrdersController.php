@@ -24,29 +24,53 @@ class EnquiryOrdersController extends Controller
     //
     public function showOrders(Request $request)
     {
-        $orders = Enquiry::query();
+        // Build base query with filters
+        $baseQuery = Enquiry::query();
 
         if ($request->filled('startDate') && $request->filled('endDate')) {
             $start_date = Carbon::parse($request->startDate)->startOfDay(); // Sets time to 00:00:00
             $end_date = Carbon::parse($request->endDate)->endOfDay(); // Sets time to 23:59:59
 
-            $orders->whereBetween('updated_at', [$start_date, $end_date]); // Use parsed Carbon objects
+            $baseQuery->whereBetween('updated_at', [$start_date, $end_date]); // Use parsed Carbon objects
         }
 
-        $orders
-        // ->whereIn('id', function ($query) {
-        //     $query->selectRaw('MIN(id)')
-        //         ->from('enquiries')
-        //         ->groupBy('enquiry_id');
-        // })
-            ->orderBy('id', 'desc')
-            ->whereHas('customer', function ($q) {
-                $q->whereNull('deleted_at'); // only customers that are NOT soft deleted
-            })
-            ->with('customer')
-            ->with('notificationsMorph');
+        // Ensure customer is not soft deleted
+        $baseQuery->whereHas('customer', function ($q) {
+            $q->whereNull('deleted_at');
+        });
 
-        $orders = $orders->get(); // Get the results
+        // Build a distinct enquiry_id collection (one entry per enquiry_id)
+        $distinctQuery = (clone $baseQuery)
+            ->selectRaw('enquiry_id, MIN(id) as min_id, MAX(updated_at) as max_updated_at')
+            ->groupBy('enquiry_id')
+            ->orderBy('max_updated_at', 'desc');
+
+        // Get all distinct groups (no pagination) so DataTables can do client-side paging
+        $unique = $distinctQuery->get();
+
+        // Load all Enquiry records that belong to these enquiry_id groups
+        $enquiryIds = collect($unique)->pluck('enquiry_id')->toArray();
+
+        $groups = Enquiry::whereIn('enquiry_id', $enquiryIds)
+            ->with('customer', 'notificationsMorph')
+            ->orderBy('updated_at', 'desc')
+            ->get()
+            ->groupBy('enquiry_id');
+
+        // For each distinct group, pick a summary (latest) model and attach group_records (all records)
+        $grouped = collect($unique)->map(function ($item) use ($groups) {
+            $id = $item->enquiry_id;
+            $records = $groups[$id] ?? collect();
+            $summary = $records->first();
+            if (!$summary) {
+                $summary = Enquiry::where('enquiry_id', $id)->with('customer', 'notificationsMorph')->first();
+            }
+            // Attach the group's records so views can render full details if needed
+            $summary->group_records = $records->values();
+            return $summary;
+        });
+
+        $orders = $grouped->values();
         return view('admin.order', compact('orders'));
     }
 
