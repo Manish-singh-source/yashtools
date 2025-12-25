@@ -48,26 +48,6 @@
 
         .table-responsive {
             overflow-x: auto;
-            -ms-overflow-style: none;
-            /* IE and Edge */
-            scrollbar-width: none;
-            /* Firefox */
-            -webkit-overflow-scrolling: touch;
-            /* smooth scrolling on iOS */
-        }
-
-        /* Hide horizontal scrollbar but keep content scrollable */
-        .table-responsive::-webkit-scrollbar {
-            height: 0;
-            background: transparent;
-        }
-
-        .table-responsive::-webkit-scrollbar-track {
-            background: transparent;
-        }
-
-        .table-responsive::-webkit-scrollbar-thumb {
-            background: transparent;
         }
     </style>
     <link rel="stylesheet" href="https://cdn.datatables.net/1.13.6/css/jquery.dataTables.min.css">
@@ -591,7 +571,7 @@
                             ordersTable.columns.adjust().draw(false);
 
                             console.log('orders DataTable initialized, rows:', ordersTable.rows()
-                            .count());
+                                .count());
                         }
                     }
                 });
