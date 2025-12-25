@@ -31,7 +31,46 @@
             border-color: var(--color-light);
             color: var(--color-body);
         }
+
+        /* Force DataTables pagination/info to be visible when the table is inside responsive containers */
+        .dataTables_wrapper .dataTables_paginate,
+        .dataTables_wrapper .dataTables_info {
+            display: block !important;
+        }
+
+        .dataTables_wrapper .dataTables_paginate {
+            margin-top: 12px;
+        }
+
+        .dataTables_wrapper .dataTables_paginate .paginate_button {
+            padding: 3px 8px;
+        }
+
+        .table-responsive {
+            overflow-x: auto;
+            -ms-overflow-style: none;
+            /* IE and Edge */
+            scrollbar-width: none;
+            /* Firefox */
+            -webkit-overflow-scrolling: touch;
+            /* smooth scrolling on iOS */
+        }
+
+        /* Hide horizontal scrollbar but keep content scrollable */
+        .table-responsive::-webkit-scrollbar {
+            height: 0;
+            background: transparent;
+        }
+
+        .table-responsive::-webkit-scrollbar-track {
+            background: transparent;
+        }
+
+        .table-responsive::-webkit-scrollbar-thumb {
+            background: transparent;
+        }
     </style>
+    <link rel="stylesheet" href="https://cdn.datatables.net/1.13.6/css/jquery.dataTables.min.css">
 @endsection
 
 @section('content')
@@ -136,7 +175,7 @@
                                     </div>
                                     <div class="axil-dashboard-order">
                                         <div class="table-responsive">
-                                            <table class="table">
+                                            <table class="table" id="enquiries_table">
                                                 <thead>
                                                     <tr>
                                                         <th scope="col">Sr.&nbsp;No.</th>
@@ -183,7 +222,7 @@
                                     </div>
                                     <div class="axil-dashboard-order">
                                         <div class="table-responsive">
-                                            <table class="table">
+                                            <table class="table" id="orders_table">
                                                 <thead>
                                                     <tr>
                                                         <th scope="col">Sr.&nbsp;No.</th>
@@ -230,8 +269,8 @@
                                                     <div class="col-lg-6">
                                                         <div class="form-group">
                                                             <label>Email</label>
-                                                            <input type="email" class="form-control" name="email" readonly
-                                                                value="{{ $user->email }}">
+                                                            <input type="email" class="form-control" name="email"
+                                                                readonly value="{{ $user->email }}">
                                                         </div>
                                                     </div>
                                                     <div class="col-md-6 form-group">
@@ -453,6 +492,7 @@
 @section('script')
     <script src="https://code.jquery.com/jquery-3.7.1.min.js"
         integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
+    <script src="https://cdn.datatables.net/1.13.6/js/jquery.dataTables.min.js"></script>
     <script>
         $(document).ready(function() {
             // orders table
@@ -473,8 +513,13 @@
                     },
                     success: function(response) {
                         console.log(response)
+
+                        // destroy DataTable if exists so we can re-render
+                        if ($.fn.DataTable.isDataTable('#orders_table')) {
+                            $('#orders_table').DataTable().clear().destroy();
+                        }
+
                         $('#product_list').html('');
-                        let productCount = 0;
                         $.each(response.data, function(index, product) {
                             $('#product_list').append(
                                 `<tr>
@@ -487,7 +532,7 @@
                                         }).replace(/ /g, '-')}
                                     </td>
                                     <td>${product.enquiry_id}</td>
-                                    <td>${product.products[0]?.product.product_name ? product.products[0]?.product.product_name : 'NA'}</td>
+                                    <td>${product.products?.[0]?.product?.product_name ?? 'NA'}</td>
                                     <td>${product.quantity}</td>
                                     <td class="text-capitalize">
                                         ${product.status === 'payment_received' ? 'Payment Done' : product.status ? product.status : 'Pending'}
@@ -502,6 +547,8 @@
                         $('#pagination_links').html(''); // Clear existing pagination
 
                         if (response.links) {
+                            // Server-side pagination
+                            $('#pagination_links').show();
                             let paginationHtml = `<div class="text-center pt--30">
                                                         <div class="center">
                                                     <div class="pagination">`;
@@ -517,6 +564,34 @@
                             paginationHtml += `</div></div></div>`;
 
                             $('#pagination_links').append(paginationHtml);
+                        } else {
+                            // Client-side pagination using DataTables
+                            $('#pagination_links').show();
+                            console.log('Initializing orders DataTable (client-side)');
+                            // Initialize DataTable (client-side) with explicit destroy to avoid duplicate inits
+                            var ordersTable = $('#orders_table').DataTable({
+                                destroy: true,
+                                paging: true,
+                                searching: false, // remove the search/filter box per request
+                                ordering: false,
+                                info: false, // we'll render our own info if needed
+                                pageLength: 5,
+                                lengthChange: false,
+                                dom: 'rt', // minimal DOM (no filter)
+                                pagingType: 'simple_numbers',
+                                drawCallback: function(settings) {
+                                    // Build custom pagination into #pagination_links
+                                    buildClientPagination(this.api(), '#pagination_links',
+                                        'pagination-link');
+                                }
+                            });
+
+                            // force page length and adjust columns
+                            ordersTable.page.len(5).draw(false);
+                            ordersTable.columns.adjust().draw(false);
+
+                            console.log('orders DataTable initialized, rows:', ordersTable.rows()
+                            .count());
                         }
                     }
                 });
@@ -525,14 +600,28 @@
             $('#sort_by, .date-filter').change(function() {
                 fetchProducts();
             });
-            // Handle Pagination Click
+            // Handle Pagination Click (supports server-side links or numeric client-side pages)
             $(document).on('click', '.pagination-link', function() {
-                let pageUrl = $(this).data('page');
-                let urlParams = new URLSearchParams(pageUrl.split('?')[1]);
-                let pageNumber = urlParams.get('page'); // Extract page number from URL
+                let pageData = $(this).data('page');
 
-                if (pageNumber) {
-                    fetchProducts(pageNumber);
+                if ($.isNumeric(pageData)) {
+                    // client-side page number
+                    if ($.fn.DataTable.isDataTable('#orders_table')) {
+                        $('#orders_table').DataTable().page(parseInt(pageData) - 1).draw(false);
+                    } else {
+                        fetchProducts(pageData);
+                    }
+                    return;
+                }
+
+                // Fallback: assume URL with ?page=x
+                if (pageData && pageData.indexOf('?') !== -1) {
+                    let urlParams = new URLSearchParams(pageData.split('?')[1]);
+                    let pageNumber = urlParams.get('page'); // Extract page number from URL
+
+                    if (pageNumber) {
+                        fetchProducts(pageNumber);
+                    }
                 }
             });
 
@@ -554,6 +643,12 @@
                     },
                     success: function(response) {
                         console.log(response)
+
+                        // destroy DataTable if exists so we can re-render
+                        if ($.fn.DataTable.isDataTable('#enquiries_table')) {
+                            $('#enquiries_table').DataTable().clear().destroy();
+                        }
+
                         $('#enquiries_list').html('');
                         $.each(response.data, function(index, product) {
 
@@ -561,7 +656,7 @@
                                 `<tr>
                                     <td>${index + 1}</td>
                                     <td>${product.enquiry_id}</td>
-                                    <td>${product.products[0]?.product.product_name ? product.products[0]?.product.product_name : 'NA'}</td>
+                                    <td>${product.products?.[0]?.product?.product_name ?? 'NA'}</td>
                                     <td>${product.quantity}</td>
                                     <td class="text-capitalize">
                                         ${product.status === 'payment_received' ? 'Payment Done' : product.status ? product.status : 'Pending'}
@@ -576,6 +671,7 @@
                         $('#pagination_links_enquiries').html(''); // Clear existing pagination
 
                         if (response.links) {
+                            $('#pagination_links_enquiries').show();
                             let paginationHtml = `<div class="text-center pt--30">
                                                         <div class="center">
                                                     <div class="pagination">`;
@@ -591,6 +687,32 @@
                             paginationHtml += `</div></div></div>`;
 
                             $('#pagination_links_enquiries').append(paginationHtml);
+                        } else {
+                            $('#pagination_links_enquiries').show();
+                            console.log('Initializing enquiries DataTable (client-side)');
+                            // Initialize DataTable (client-side) with explicit destroy to avoid duplicate inits
+                            var enquiriesTable = $('#enquiries_table').DataTable({
+                                destroy: true,
+                                paging: true,
+                                searching: false, // remove filter box
+                                ordering: false,
+                                info: false,
+                                pageLength: 5,
+                                lengthChange: false,
+                                dom: 'rt',
+                                pagingType: 'simple_numbers',
+                                drawCallback: function(settings) {
+                                    buildClientPagination(this.api(),
+                                        '#pagination_links_enquiries',
+                                        'enquiry-pagination-link');
+                                }
+                            });
+
+                            enquiriesTable.page.len(5).draw(false);
+                            enquiriesTable.columns.adjust().draw(false);
+
+                            console.log('enquiries DataTable initialized, rows:', enquiriesTable.rows()
+                                .count());
                         }
                     }
                 });
@@ -599,16 +721,52 @@
             $('#sort_enquiries_by, .enquiry-date-filter').change(function() {
                 fetchEnquiries();
             });
-            // Handle Pagination Click
+            // Handle Pagination Click for enquiries (supports server-side links or numeric client-side pages)
             $(document).on('click', '.enquiry-pagination-link', function() {
-                let pageUrl = $(this).data('page');
-                let urlParams = new URLSearchParams(pageUrl.split('?')[1]);
-                let pageNumber = urlParams.get('page'); // Extract page number from URL
+                let pageData = $(this).data('page');
 
-                if (pageNumber) {
-                    fetchEnquiries(pageNumber);
+                if ($.isNumeric(pageData)) {
+                    if ($.fn.DataTable.isDataTable('#enquiries_table')) {
+                        $('#enquiries_table').DataTable().page(parseInt(pageData) - 1).draw(false);
+                    } else {
+                        fetchEnquiries(pageData);
+                    }
+                    return;
+                }
+
+                if (pageData && pageData.indexOf('?') !== -1) {
+                    let urlParams = new URLSearchParams(pageData.split('?')[1]);
+                    let pageNumber = urlParams.get('page'); // Extract page number from URL
+
+                    if (pageNumber) {
+                        fetchEnquiries(pageNumber);
+                    }
                 }
             });
         });
+
+        // Build custom pagination for client-side DataTables
+        function buildClientPagination(api, containerSelector, linkClass) {
+            var info = api.page.info();
+            var totalPages = info.pages;
+            var current = info.page + 1;
+
+            if (totalPages <= 1) {
+                $(containerSelector).html('');
+                return;
+            }
+
+            var paginationHtml = `<div class="text-center pt--30"><div class="center"><div class="pagination">`;
+
+            for (var i = 1; i <= totalPages; i++) {
+                var activeClass = i === current ? 'active' : '';
+                paginationHtml +=
+                    `<a href="javascript:void(0)" class="${linkClass} ${activeClass}" data-page="${i}">${i}</a>`;
+            }
+
+            paginationHtml += `</div></div></div>`;
+
+            $(containerSelector).html(paginationHtml);
+        }
     </script>
 @endsection

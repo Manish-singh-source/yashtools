@@ -8,6 +8,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Validator;
+use Illuminate\Pagination\LengthAwarePaginator;
 
 class EnvoiceController extends Controller
 {
@@ -89,61 +90,88 @@ class EnvoiceController extends Controller
 
     public function ordersList(Request $request)
     {
-        $query = Enquiry::where('customer_id', Auth::id())
-            ->with(['invoice', 'products.product']);
+        // Base query for this customer
+        $baseQuery = Enquiry::where('customer_id', Auth::id());
 
         // Filter by date range
         if ($request->filled('fromDate') && $request->filled('toDate')) {
             $fromDate = Carbon::parse($request->fromDate)->startOfDay();
             $toDate = Carbon::parse($request->toDate)->endOfDay();
 
-            $query->whereBetween('created_at', [$fromDate, $toDate]);
+            $baseQuery->whereBetween('created_at', [$fromDate, $toDate]);
         }
 
-        // Sort order
-        if($request->filled('sort_by')) {
+        // Build grouped query to get distinct enquiry_ids (and a representative min id)
+        $grouped = (clone $baseQuery)
+            ->selectRaw('enquiry_id, MIN(id) as min_id, MAX(created_at) as max_created_at')
+            ->groupBy('enquiry_id');
+
+        // Sort group results
+        if ($request->filled('sort_by')) {
             $sortBy = in_array($request->sort_by, ['asc', 'desc']) ? $request->sort_by : 'desc';
-            $query->orderBy('enquiry_id', $sortBy);
-        }else {
-            $query->orderBy('created_at', 'desc');
+            $grouped->orderBy('enquiry_id', $sortBy);
+        } else {
+            $grouped->orderBy('max_created_at', 'desc');
         }
 
+        // Get all grouped results (representative rows) so client-side can paginate
+        $groups = $grouped->get();
 
-        // If your intention is to avoid duplicate enquiry IDs:
-        // $query->whereIn('id', function ($subQuery) {
-        //     $subQuery->selectRaw('MIN(id)')
-        //         ->from('enquiries')
-        //         ->groupBy('enquiry_id');
-        // });
+        // Fetch full Enquiry models for the representative ids and preserve order
+        $minIds = collect($groups)->pluck('min_id')->toArray();
 
-        // Apply final order
+        $models = Enquiry::whereIn('id', $minIds)
+            ->with(['invoice', 'products.product'])
+            ->get()
+            ->keyBy('id');
 
-        $products = $query->paginate(5);
+        $items = collect($groups)->map(function ($g) use ($models) {
+            return $models[$g->min_id] ?? Enquiry::where('enquiry_id', $g->enquiry_id)
+                ->with(['invoice', 'products.product'])->first();
+        })->values();
 
-        return response()->json($products);
+        return response()->json(['data' => $items, 'total' => $items->count()]);
     }
 
     public function enquiriesList(Request $request)
     {
-
-        $query = Enquiry::whereIn('status', ['pending', 'confirmed'])->where('customer_id', Auth::id())->with('invoice')->with('products.product');
+        // Base query for this customer's enquiries with specific statuses
+        $baseQuery = Enquiry::whereIn('status', ['pending', 'confirmed'])->where('customer_id', Auth::id());
 
         if ($request->filled('fromDate') && $request->filled('toDate')) {
             $fromDate = Carbon::parse($request->fromDate)->startOfDay(); // Sets time to 00:00:00
             $toDate = Carbon::parse($request->toDate)->endOfDay(); // Sets time to 23:59:59
 
-            $query->whereBetween('created_at', [$fromDate, $toDate]);
+            $baseQuery->whereBetween('created_at', [$fromDate, $toDate]);
         }
-        if($request->filled('sort_by')){
-            $sortBy = in_array($request->sort_by, ['asc', 'desc']) ? $request->sort_by : 'desc';
-            $query->orderBy('enquiry_id', $sortBy);
-        }
-        $products = $query->whereIn('id', function ($query) {
-            $query->selectRaw('MIN(id)')
-                ->from('enquiries')
-                ->groupBy('enquiry_id');
-        })->orderBy('id', 'desc')->paginate(5);
 
-        return response()->json($request->all());
+        // Group by enquiry_id and get representative min id
+        $grouped = (clone $baseQuery)
+            ->selectRaw('enquiry_id, MIN(id) as min_id, MAX(created_at) as max_created_at')
+            ->groupBy('enquiry_id');
+
+        // Sort groups
+        if ($request->filled('sort_by')) {
+            $sortBy = in_array($request->sort_by, ['asc', 'desc']) ? $request->sort_by : 'desc';
+            $grouped->orderBy('enquiry_id', $sortBy);
+        } else {
+            $grouped->orderBy('max_created_at', 'desc');
+        }
+
+        $groups = $grouped->get();
+
+        $minIds = collect($groups)->pluck('min_id')->toArray();
+
+        $models = Enquiry::whereIn('id', $minIds)
+            ->with(['invoice', 'products.product'])
+            ->get()
+            ->keyBy('id');
+
+        $items = collect($groups)->map(function ($g) use ($models) {
+            return $models[$g->min_id] ?? Enquiry::where('enquiry_id', $g->enquiry_id)
+                ->with(['invoice', 'products.product'])->first();
+        })->values();
+
+        return response()->json(['data' => $items, 'total' => $items->count()]);
     }
 }
