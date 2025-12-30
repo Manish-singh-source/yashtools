@@ -206,6 +206,11 @@
                 display: block !important;
                 margin: 6px 0 !important;
             }
+
+            .button:visited {
+                color: #fff;
+            }
+
         }
     </style>
 </head>
@@ -231,7 +236,7 @@
             <div style="text-align:left;">
                 <p style="text-align:left;margin:0;padding:0 0 10px 0;">Thanks & Regards , <br><strong>Yash Tools
                         (India) Team</strong></p>
-            </div>  
+            </div>
 
             <table role="presentation" cellpadding="0" cellspacing="0"
                 style="width:100%;margin:10px 0;border-collapse:collapse;">
