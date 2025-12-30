@@ -49,6 +49,17 @@
                                                 </div>
                                             @enderror
                                         </div>
+                                        <div class="mb-3">
+                                            <label class="form-label required">Display Order</label>
+                                            <input type="number" name="display_order"
+                                                class="form-control @error('display_order') is-invalid @enderror"
+                                                placeholder="Enter Display Order">
+                                            @error('display_order')
+                                                <div class="invalid-feedback">
+                                                    {{ $message }}
+                                                </div>
+                                            @enderror
+                                        </div>
                                     </div>
                                 </div>
                                 <div class="right-sidebar-sticky">

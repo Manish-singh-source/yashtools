@@ -178,9 +178,9 @@
             text-decoration: none;
             border-radius: 5px;
         }
-
-        .button:hover {
-            background-color: #0056b3;
+        
+        .button:visited {
+            color: #fff;
         }
 
         /* Mobile stacking for clients that support media queries */
@@ -229,7 +229,7 @@
                 class="status @if ($enquiry->status == 'confirmed' || $enquiry->status == 'delivered') success @elseif ($enquiry->status == 'dismissed') danger @elseif ($enquiry->status == 'payment_received') primary @endif">
                 {{ ucfirst(str_replace('_', ' ', $enquiry->status)) }}</p>
 
-            <a href="{{ route('product.info', $enquiry->enquiry_id) }}" class="button">View Order</a>
+            <a href="{{ route('product.info', $enquiry->enquiry_id) }}" class="button" style="color: #fff">View Order</a>
         </div>
         <div class="footer">
 

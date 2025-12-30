@@ -9,6 +9,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Validation\Rule;
+use Illuminate\Support\Facades\DB;
 
 class SubCategoryController extends Controller
 {
@@ -30,6 +31,12 @@ class SubCategoryController extends Controller
                     ->whereNull('deleted_at')
             ],
             'subcategoryImage' => 'required|image',
+            'display_order' => [
+                'required',
+                'numeric',
+                'min:0',
+                Rule::unique('sub_categories', 'display_order')->whereNull('deleted_at')
+            ],
         ]);
 
         if ($validations->fails()) {
@@ -46,6 +53,7 @@ class SubCategoryController extends Controller
             $subcategory->category_id = $request->subcategoryId;
             $subcategory->sub_category_name = $request->subcategory_name;
             $subcategory->sub_category_image = $imageName;
+            $subcategory->display_order = $request->display_order;
             $subcategory->save();
         }
         flash()->success('Sub Category Added Successfully.');
@@ -54,7 +62,8 @@ class SubCategoryController extends Controller
 
     public function viewSubCategoryTable()
     {
-        $subcategories =  SubCategories::with('category')->withCount('productsCount')->orderBy('created_at', 'desc')->get();
+        // order by display_order so UI reflects current ordering
+        $subcategories =  SubCategories::with('category')->withCount('productsCount')->orderBy('display_order', 'asc')->orderBy('created_at', 'desc')->get();
         return view('admin.sub-category-table', compact('subcategories'));
     }
 
@@ -95,6 +104,12 @@ class SubCategoryController extends Controller
                     }),
             ],
             "subcategoryImage" => "image",
+            'display_order' => [
+                'required',
+                'numeric',
+                'min:0',
+                Rule::unique('sub_categories', 'display_order')->ignore($request->selectedSubcategoryId)->whereNull('deleted_at')
+            ],
         ]);
 
         if ($validations->fails()) {
@@ -114,9 +129,110 @@ class SubCategoryController extends Controller
             $image->move(public_path('/uploads/subcategories'), $imageName);
             $subcategory->sub_category_image = $imageName;
         }
+        $subcategory->display_order = $request->display_order;
 
         $subcategory->save();
         flash()->success('Sub Category Updated Successfully.');
         return redirect()->route('admin.table.subcategory');
+    }
+
+    /**
+     * Reorder sub categories via drag-and-drop.
+     */
+    public function reorderSubCategories(Request $request)
+    {
+        $validations = Validator::make($request->all(), [
+            'order' => 'required|array',
+            'order.*' => 'integer|exists:sub_categories,id',
+        ]);
+
+        if ($validations->fails()) {
+            return response()->json(['success' => false, 'message' => 'Invalid data provided.'], 422);
+        }
+
+        $order = $request->order;
+
+        DB::beginTransaction();
+        try {
+            // store display orders as 1-based index (start at 1)
+            foreach ($order as $index => $id) {
+                SubCategories::where('id', $id)->update(['display_order' => $index + 1]);
+            }
+            DB::commit();
+            return response()->json(['success' => true, 'message' => 'Order updated successfully.']);
+        } catch (\Exception $e) {
+            DB::rollBack();
+            return response()->json(['success' => false, 'message' => 'Could not save order.'], 500);
+        }
+    }
+
+    /**
+     * Server-side DataTables endpoint for sub categories
+     */
+    public function subCategoryData(Request $request)
+    {
+        $draw = intval($request->input('draw'));
+        $start = intval($request->input('start', 0));
+        $length = intval($request->input('length', 10));
+        $search = $request->input('search.value');
+
+        $query = SubCategories::with('category')->withCount('productsCount');
+
+        $recordsTotal = $query->count();
+
+        if (!empty($search)) {
+            $query = $query->where(function ($q) use ($search) {
+                $q->where('sub_category_name', 'like', "%{$search}%")
+                    ->orWhereHas('category', function ($q2) use ($search) {
+                        $q2->where('category_name', 'like', "%{$search}%");
+                    });
+            });
+        }
+
+        $recordsFiltered = $query->count();
+
+        $data = $query->orderBy('display_order', 'asc')->orderBy('created_at', 'desc')
+            ->skip($start)->take($length)->get();
+
+        $result = $data->map(function ($item) {
+            return [
+                'id' => $item->id,
+                'category_name' => $item->category->category_name ?? '',
+                'sub_category_name' => $item->sub_category_name,
+                'sub_category_image' => $item->sub_category_image,
+                'products_count_count' => $item->products_count_count,
+                'display_order' => $item->display_order,
+                'subcategory_slug' => $item->subcategory_slug,
+            ];
+        })->toArray();
+
+        return response()->json([
+            'draw' => $draw,
+            'recordsTotal' => $recordsTotal,
+            'recordsFiltered' => $recordsFiltered,
+            'data' => $result,
+        ]);
+    }
+
+    /**
+     * Return all subcategories (minimal fields) for full reorder mode
+     */
+    public function subCategoryAll()
+    {
+        $items = SubCategories::with('category')->withCount('productsCount')
+            ->orderBy('display_order', 'asc')->orderBy('created_at', 'desc')->get()
+            ->map(function ($item) {
+                return [
+                    'id' => $item->id,
+                    'category_name' => $item->category->category_name ?? '',
+                    'sub_category_name' => $item->sub_category_name,
+                    'sub_category_image' => $item->sub_category_image,
+                    'products_count_count' => $item->products_count_count,
+                    'display_order' => $item->display_order,
+                    'subcategory_slug' => $item->subcategory_slug,
+                ];
+            });
+
+        return response()->json($items);
     }
 }

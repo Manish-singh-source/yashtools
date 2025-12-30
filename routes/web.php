@@ -160,6 +160,12 @@ Route::middleware(AdminAuthMiddleware::class . ':admin,superadmin', 'shareUserNN
     Route::get('/edit-sub-category/{slug}', [SubCategoryController::class, 'editSubCategory'])->name('admin.edit.subcategory');
     Route::put('/update-sub-category', [SubCategoryController::class, 'updateSubCategory'])->name('admin.update.subcategory');
     Route::delete('/delete-sub-category', [SubCategoryController::class, 'deleteSubCategory'])->name('admin.delete.subcategory');
+    // Reorder sub-categories via drag-and-drop
+    Route::post('/reorder-sub-categories', [SubCategoryController::class, 'reorderSubCategories'])->name('admin.reorder.subcategory')->middleware('web');
+    // Server-side DataTables data endpoint
+    Route::post('/sub-category-data', [SubCategoryController::class, 'subCategoryData'])->name('admin.subcategory.data')->middleware('web');
+    // Fetch all subcategories (for full reorder mode)
+    Route::get('/sub-category-all', [SubCategoryController::class, 'subCategoryAll'])->name('admin.subcategory.all')->middleware('web');
 
     // Brands Routes
     Route::get('/add-brand', [BrandController::class, 'viewAddBrand'])->name('admin.view.brand');
