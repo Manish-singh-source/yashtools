@@ -259,9 +259,9 @@
 @endsection
 
 @section('content')
-    @php 
+    @php
         $columnStatus = false;
-    @endphp 
+    @endphp
     <!-- End Header -->
     <main class="main-wrapper">
         <!-- Start Shop Area  -->
@@ -358,7 +358,9 @@
                                         @php
                                             $priceDisplay =
                                                 $selectedProduct->product_price != null &&
-                                                $selectedProduct->product_price != 0;
+                                                $selectedProduct->product_price != 0 &&
+                                                $selectedProduct->product_price != 0.0 &&
+                                                $selectedProduct->product_price != '';
                                         @endphp
 
                                         <div id="priceSection" class="product-variation quantity-variant-wrapper margbot"
@@ -823,12 +825,26 @@
                 $(this).append($select);
             });
 
-            // Populate dropdown options
-            var $dropdownOptions = $('.dropdown-options').empty();
+            // Populate dropdown options (preserve search box and add options)
+            var $dropdownOptions = $('.dropdown-options');
+            // ensure search box exists
+            if ($dropdownOptions.find('.search-box').length === 0) {
+                $dropdownOptions.prepend(
+                    '<input type="text1" id="searchInput" class="search-box" placeholder="Search...">');
+            }
+            var $searchBoxLocal = $dropdownOptions.find('.search-box');
+            $searchBoxLocal.off('input').on('input', function() {
+                var filter = $(this).val().toLowerCase();
+                $dropdownOptions.find('div.option-item').each(function() {
+                    $(this).toggle($(this).text().toLowerCase().includes(filter));
+                });
+            });
+            // remove previous option items but keep search box
+            $dropdownOptions.find('div.option-item').remove();
             $rows.each(function() {
                 var key = $(this).find('td').eq(0).text().trim();
                 if (key === '.') return;
-                if (key) $dropdownOptions.append(`<div>${key}</div>`);
+                if (key) $dropdownOptions.append('<div class="option-item">' + key + '</div>');
             });
 
             function filterTable(colIndex, value) {
@@ -1006,13 +1022,27 @@
         $(document).ready(function() {
             // Apply discount on page load for loyal/dealer users (diagnostics added)
 
-            var currentPrice = $('.discount-badge').text().trim();
             var currentQuantity = $('#quantityInfo').text().trim();
-            
+
             if (currentQuantity > 0) {
                 $('#quantityInfo').text('Available Quantity: ' + currentQuantity);
                 $("#quantityInfo").show();
             }
+
+            // determine initial price robustly (prefer selected part, then discounted, then original product price)
+            var selectedPart = $('#dropdown .dropdown-options div.selected').text().trim() || '';
+            var selectedRowPrice = 0;
+            if (selectedPart) {
+                var $selRow = $('.table-body tr').filter(function() {
+                    return $(this).find('td').first().text().trim() === selectedPart;
+                });
+                var rawSelPrice = $selRow.length ? $selRow.find('td.Column-price').text().trim() : '';
+                selectedRowPrice = extractNumericPrice(rawSelPrice) || 0;
+            }
+            var discountedPriceText = $('#discountedPrice').text().trim();
+            var badgePriceText = $('.discount-badge').text().trim();
+            var currentPrice = selectedRowPrice || extractNumericPrice(discountedPriceText) || extractNumericPrice(
+                badgePriceText) || {{ $selectedProduct->product_price ?? 0 }};
 
             var csrf = $('meta[name="csrf-token"]').attr('content');
 
@@ -1025,15 +1055,19 @@
             if (excelUploaded) {
                 var columnStatus = {{ $columnStatus ? 'true' : 'false' }};
                 // add logic for selecting first part number from dropdown if excel is uploaded and column status is true 
-                var partNumber = $(document).find('.dropdown-options div.selected').text().trim();
+                var partNumber = $(document).find('#dropdown .dropdown-options div.selected').text().trim();
                 var $dropdown = $('#dropdown');
                 var $options = $dropdown.find('.dropdown-options');
 
-
-                // 
+                // when an option is clicked, update quantity and re-fetch discount price
                 $options.on('click', 'div', function() {
-                    var selectedPartNumber = $(this).text() || "Select Part Number";
+                    var selectedPartNumber = $(this).text().trim() || "Select Part Number";
                     if (selectedPartNumber === 'Select Part Number') return;
+
+                    // mark selected in the dropdown UI
+                    $options.find('div').removeClass('selected');
+                    $(this).addClass('selected');
+                    $dropdown.find('.dropdown-selected').text(selectedPartNumber);
 
                     var $row = $('.table-body tr').filter(function() {
                         return $(this).find('td').first().text().trim() === selectedPartNumber;
@@ -1041,21 +1075,24 @@
 
                     // parse price and quantity from specs row (if present), otherwise fallback to product price and quantity = 1
                     var rawPrice = $row.length ? $row.find('td.Column-price').text().trim() : '';
-                    var parsedPrice = parseFloat((rawPrice || '').replace(/[^0-9.\-]/g, '')) || 0;
-                    var currentPrice = parsedPrice || {{ $selectedProduct->product_price ?? 0 }};
+                    var parsedPrice = extractNumericPrice(rawPrice) || 0;
+                    var priceToUse = parsedPrice || {{ $selectedProduct->product_price ?? 0 }};
 
                     var rawQuantity = $row.length ? $row.find('td.Column-quantity').text().trim() : '';
-                    var currentQuantity = parseInt(rawQuantity) ||
+                    var currentQuantity = parseInt(rawQuantity);
+                    if (isNaN(currentQuantity) || currentQuantity < 0) currentQuantity =
                         {{ $selectedProduct->product_quantity ?? 1 }};
 
                     $('#quantityInfo').text('Available Quantity: ' + currentQuantity);
                     $("#quantityInfo").show();
+
+                    // fetch discount for selected part number price
+                    getDiscount(customerId, subCategoryId, priceToUse);
                 });
 
             } else {
                 var columnStatus = false;
             }
-
 
 
             getDiscount(customerId, subCategoryId, currentPrice);
@@ -1080,16 +1117,25 @@
                         _token: $('meta[name="csrf-token"]').attr('content')
                     }, payload)),
                     success: function(response) {
-                        console.log('success response' + response);
+                        console.log(response);
                         if (response.success == false) {
-                            $('#discountedPrice').text(formatPriceDisplay(response.price));
-                            $('.discount-badge').hide();
+                            if (response.price == 0) {
+                                $("#priceSection").hide();
+                            } else {
+                                $('#discountedPrice').text(formatPriceDisplay(response.price));
+                                $('.discount-badge').hide();
+                            }
                         } else if (response.success == true) {
-                            $('#discountedPrice').text(formatPriceDisplay(response.price));
-                            $('.discount-badge').text('₹' + formatPriceDisplay(response.originalPrice));
-                            $('.discount-badge').show();
-                            $('#discountPercentage').text(response.discountPercentage);
-                            console.log('Discount applied: ' + response.discountPercentage + '%');
+                            if (response.price == 0) {
+                                $("#priceSection").hide();
+                            } else {
+                                $('#discountedPrice').text(formatPriceDisplay(response.price));
+                                $('.discount-badge').text('₹' + formatPriceDisplay(response
+                                    .originalPrice));
+                                $('.discount-badge').show();
+                                $('#discountPercentage').text(response.discountPercentage);
+                                console.log('Discount applied: ' + response.discountPercentage + '%');
+                            }
                         }
                     },
                     error: function(xhr, status, error) {

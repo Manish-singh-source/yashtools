@@ -277,6 +277,10 @@ class HomeController extends Controller
                 return response()->json(['success' => false, 'price' => $request->price], 400);
             }
 
+            if ($request->price == 0) {
+                return response()->json(['success' => false, 'price' => $request->price], 400);
+            }
+
             $checkDiscountApplied = $this->checkDiscountApplied($customer, $request->subCategoryId);
 
             if (!$checkDiscountApplied) {

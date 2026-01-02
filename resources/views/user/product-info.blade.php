@@ -87,8 +87,9 @@
                                                             <td>{{ $order->part_number }}</td>
                                                             <td>{{ $order->quantity }}</td>
                                                             @if (Auth::user()->customer_type == 'loyal' || Auth::user()->customer_type == 'dealer')
-                                                                <td>{{ $order->price }}</td>
-                                                                <td>{{ $order->total_price }}</td>
+                                                                <td class="product-price">{{ $order->price }}</td>
+                                                                <td class="products-total-price">{{ $order->total_price }}
+                                                                </td>
                                                             @endif
                                                         </tr>
                                                     @endforeach
@@ -97,7 +98,20 @@
                                         </div>
                                     </div>
 
-                                    <div id="pagination_links"></div>
+                                    <div class="col-lg-12 cartbx mt-3 orders-total-block" style="display:none;">
+                                        <div class="clear-all-cart">
+                                            <span class="crlar">Total Amount: </span>
+                                            <span>₹<span class="totalPrice">0</span></span>
+                                        </div>
+                                    </div>
+
+                                    <div class="col-lg-12 cartbx mt-3 orders-note-block" style="display:none;">
+                                        <div class="clear-all-cart">
+                                            <span class="crlar">Note: </span>
+                                            <span>Total Price is subject to 18% gst and courier charges</span>
+                                        </div>
+                                    </div>
+
                                 </div>
                             </div>
                         </div>
@@ -199,8 +213,8 @@
         $(document).ready(function() {
             // Find all price cells and format them with commas
             $('#product_list tr').each(function() {
-                // Format Price Per Piece column (6th td if dealer/loyal customer)
-                var $priceCell = $(this).find('td').eq(6);
+                // Format Price Per Piece column (if present)
+                var $priceCell = $(this).find('td.product-price');
                 if ($priceCell.length && $priceCell.text().trim()) {
                     var priceText = $priceCell.text().trim();
                     var numPrice = extractNumericPrice(priceText);
@@ -209,8 +223,8 @@
                     }
                 }
 
-                // Format Total Price column (7th td if dealer/loyal customer)
-                var $totalCell = $(this).find('td').eq(7);
+                // Format Total Price column (if present)
+                var $totalCell = $(this).find('td.products-total-price');
                 if ($totalCell.length && $totalCell.text().trim()) {
                     var totalText = $totalCell.text().trim();
                     var numTotal = extractNumericPrice(totalText);
@@ -219,6 +233,22 @@
                     }
                 }
             });
+
+            // Compute grand total if any total cells are present
+            var grand = 0;
+            $('td.products-total-price').each(function() {
+                var v = extractNumericPrice($(this).text()) || 0;
+                grand += v;
+            });
+
+            if ($('td.products-total-price').length) {
+                $('.orders-total-block .totalPrice').text(formatPriceDisplay(grand));
+                $('.orders-total-block').show();
+                $('.orders-note-block').show();
+            } else {
+                $('.orders-total-block').hide();
+                $('.orders-note-block').hide();
+            }
         });
     </script>
 @endsection

@@ -155,6 +155,13 @@
 
                 <div class="col-lg-12 cartbx mt-3">
                     <div class="clear-all-cart">
+                        <span class="crlar">Total Amount: </span>
+                        <span>₹<span class="totalPrice">0</span></span>
+                    </div>
+                </div>
+
+                <div class="col-lg-12 cartbx mt-3">
+                    <div class="clear-all-cart">
                         <span class="crlar">Note: </span>
                         <span>Total Price is subject to 18% gst and courier charges</span>
                     </div>
@@ -371,10 +378,22 @@
             priceCal($input);
         });
 
+        function updateGrandTotal() {
+            var grand = 0;
+            $('td.products-total-price').each(function() {
+                var v = extractNumericPrice($(this).text()) || 0;
+                grand += v;
+            });
+            $('.totalPrice').text(formatPriceDisplay(grand));
+        }
+
         function priceCal($input) {
             // $input is a jQuery object for the quantity input
             var quantity = parseFloat($input.val());
-            if (isNaN(quantity) || quantity < 0) quantity = 0;
+            if (isNaN(quantity) || quantity < 1) {
+                quantity = 1;
+                $input.val(1);
+            }
 
             // Find the price text in the same row and extract numeric value
             var priceText = $input.closest("tr").find(".product-price").text() || '';
@@ -388,7 +407,27 @@
             if ($totalCell.length) {
                 $totalCell.text(formatPriceDisplay(total));
             }
+
+            // Recompute grand total after updating this row
+            updateGrandTotal();
+
             return total;
+        }
+
+        function recalcAllTotals() {
+            $('tbody.cart-items-list tr').each(function() {
+                var $row = $(this);
+                var qty = parseInt($row.find('.enquiryQuantity').val() || 1, 10);
+                if (isNaN(qty) || qty < 1) qty = 1;
+                var priceText = $row.find('.product-price').text() || '';
+                var priceNum = extractNumericPrice(priceText) || 0;
+                var total = qty * priceNum;
+                var $totalCell = $row.find('.products-total-price');
+                if ($totalCell.length) {
+                    $totalCell.text(formatPriceDisplay(total));
+                }
+            });
+            updateGrandTotal();
         }
 
         document.querySelectorAll('.enquiryQuantity').forEach(function(input) {
@@ -445,6 +484,11 @@
                     }
                 }
             });
+
+            // Recalculate totals based on current quantities and prices
+            if (typeof recalcAllTotals === 'function') {
+                recalcAllTotals();
+            }
         });
     </script>
 @endsection
