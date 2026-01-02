@@ -120,7 +120,7 @@ class HomeController extends Controller
     public function subCategoriesFilter(Request $request)
     {
         if ($request->has('subcategory') && $request->subcategory != '') {
-            $subcategories = SubCategories::whereIn('category_id', $request->subcategory)->orderby('display_order', 'desc')->get();
+            $subcategories = SubCategories::whereIn('category_id', $request->subcategory)->orderby('display_order', 'asc')->get();
         }
         // Return JSON response
         return response()->json($subcategories);
