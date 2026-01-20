@@ -23,12 +23,26 @@ class CategoriesController extends Controller
                 'required',
                 Rule::unique('categories')->whereNull('deleted_at')
             ],
-            "categoryImage" => "required|image",
+            'categoryImage' => [
+                'required',
+                'image',
+                'mimes:jpeg,png,jpg,webp',
+                'max:2048', // 2MB
+                'dimensions:min_width=300,min_height=240,max_width=300,max_height=240'
+            ],
+        ], [
+            'categoryImage.dimensions' => 'Category image must be exactly 300x240 pixels.',
+            'categoryImage.image' => 'Please upload a valid image file.',
+            'categoryImage.mimes' => 'Image must be JPEG, PNG, JPG, or WebP.',
+            'categoryImage.max' => 'Image size must not exceed 2MB.',
+            'category_name.required' => 'Category name is required.',
+            'category_name.unique' => 'Category name already exists.',
         ]);
 
         if ($validations->fails()) {
             return back()->withErrors($validations)->withInput();
         }
+
 
 
         if (!empty($request->categoryImage)) {
