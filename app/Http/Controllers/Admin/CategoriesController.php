@@ -95,40 +95,60 @@ class CategoriesController extends Controller
     public function updateCategory(Request $request)
     {
         $validations = Validator::make($request->all(), [
-            'category_id' => 'required',
+            'category_id' => 'required|exists:categories,id',
             'category_name' => [
                 'required',
+                'string',
+                'max:255',
                 Rule::unique('categories', 'category_name')
-                    ->ignore($request->category_id) // ignore current row
-                    ->whereNull('deleted_at')       // ignore soft-deleted rows
+                    ->ignore($request->category_id)
+                    ->whereNull('deleted_at')
             ],
-            "categoryImage" => "image",
+            'categoryImage' => [
+                'nullable',  // Optional for updates
+                'image',
+                'mimes:jpeg,png,jpg,webp',
+                'max:2048',  // 2MB
+                'dimensions:min_width=300,min_height=240,max_width=300,max_height=240'
+            ],
+        ], [
+            'category_id.required' => 'Category ID is required.',
+            'category_id.exists' => 'Invalid category.',
+            'category_name.required' => 'Category name is required.',
+            'category_name.unique' => 'Category name already exists.',
+            'categoryImage.image' => 'Please upload a valid image file.',
+            'categoryImage.mimes' => 'Image must be JPEG, PNG, JPG or WebP.',
+            'categoryImage.max' => 'Image size must not exceed 2MB.',
+            'categoryImage.dimensions' => 'Category image must be exactly 300x240 pixels.',
         ]);
 
         if ($validations->fails()) {
             return back()->withErrors($validations)->withInput();
         }
 
-        $category = Categories::find($request->category_id);
+        $category = Categories::findOrFail($request->category_id);
+
+        // Update category name
         $category->category_name = $request->category_name;
-        if (!empty($category->category_image)) {
-            File::delete(public_path('/uploads/categories/' . $category->category_image));
-        }
-        if (!empty($request->categoryImage)) {
-            $image = $request->categoryImage;
+
+        // Handle image update (only if new image provided)
+        if ($request->hasFile('categoryImage')) {
+            // Delete old image if exists
+            if ($category->category_image && file_exists(public_path('/uploads/categories/' . $category->category_image))) {
+                unlink(public_path('/uploads/categories/' . $category->category_image));
+            }
+
+            // Upload new image
+            $image = $request->file('categoryImage');
             $ext = $image->getClientOriginalExtension();
-            $imageName = time() . "." . $ext;
+            $imageName = time() . '_' . uniqid() . '.' . $ext;
             $image->move(public_path('/uploads/categories'), $imageName);
             $category->category_image = $imageName;
         }
+
         $category->save();
 
-        if ($category) {
-            flash()->success('Category Updated Successfully.');
-            return redirect()->route('admin.table.category');
-        }
-
-        flash()->error('Something Went Wrong. Please Try Again.');
-        return back();
+        flash()->success('Category updated successfully!');
+        return redirect()->route('admin.table.category');
     }
 }
