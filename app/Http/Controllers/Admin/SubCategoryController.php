@@ -30,13 +30,31 @@ class SubCategoryController extends Controller
                     ->where('category_id', $request->subcategoryId)
                     ->whereNull('deleted_at')
             ],
-            'subcategoryImage' => 'required|image',
+            'subcategoryImage' => [
+                'required',
+                'image',
+                'mimes:jpeg,png,jpg,webp',
+                'max:2048', // 2MB
+                'dimensions:min_width=300,min_height=240,max_width=300,max_height=240'
+            ],
             'display_order' => [
                 'required',
                 'numeric',
                 'min:0',
                 Rule::unique('sub_categories', 'display_order')->whereNull('deleted_at')
             ],
+        ], [
+            'subcategoryId.required' => 'Please select a category.',
+            'subcategoryId.exists' => 'Selected category does not exist.',
+            'subcategory_name.required' => 'Sub category name is required.',
+            'subcategory_name.unique' => 'This sub category name already exists for the selected category.',
+            'subcategoryImage.required' => 'Sub category image is required.',
+            'subcategoryImage.dimensions' => 'Image must be exactly 300x240 pixels.',
+            'subcategoryImage.max' => 'Image size cannot exceed 2MB.',
+            'display_order.required' => 'Display order is required.',
+            'display_order.numeric' => 'Display order must be a number.',
+            'display_order.min' => 'Display order cannot be negative.',
+            'display_order.unique' => 'Display order already exists.',
         ]);
 
         if ($validations->fails()) {
@@ -92,7 +110,7 @@ class SubCategoryController extends Controller
     public function updateSubCategory(Request $request)
     {
         $validations = Validator::make($request->all(), [
-            'selectedSubcategoryId' => 'required',
+            'selectedSubcategoryId' => 'required|exists:sub_categories,id',
             'categoryId' => 'required|exists:categories,id',
             'subcategory_name' => [
                 'required',
@@ -103,13 +121,30 @@ class SubCategoryController extends Controller
                             ->whereNull('deleted_at');                  // ignore soft-deleted
                     }),
             ],
-            "subcategoryImage" => "image",
+            'subcategoryImage' => [
+                'nullable',
+                'image',
+                'mimes:jpeg,png,jpg,webp',
+                'max:2048', // 2MB
+                'dimensions:min_width=300,min_height=240,max_width=300,max_height=240'
+            ],
             'display_order' => [
                 'required',
                 'numeric',
                 'min:0',
                 Rule::unique('sub_categories', 'display_order')->ignore($request->selectedSubcategoryId)->whereNull('deleted_at')
             ],
+        ], [
+            'selectedSubcategoryId.required' => 'Subcategory ID is required.',
+            'selectedSubcategoryId.exists' => 'Subcategory not found.',
+            'categoryId.required' => 'Please select a category.',
+            'categoryId.exists' => 'Selected category does not exist.',
+            'subcategory_name.required' => 'Sub category name is required.',
+            'subcategory_name.unique' => 'This sub category name already exists for the selected category.',
+            'subcategoryImage.dimensions' => 'Image must be exactly 300x240 pixels.',
+            'subcategoryImage.max' => 'Image size cannot exceed 2MB.',
+            'display_order.required' => 'Display order is required.',
+            'display_order.unique' => 'Display order already exists.',
         ]);
 
         if ($validations->fails()) {

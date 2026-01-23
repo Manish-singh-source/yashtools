@@ -28,9 +28,6 @@ class ProductsController extends Controller
 
     public function addProducts(Request $request)
     {
-        // Validate the request
-        // product_quantity'numeric
-        // product_price numeric
 
         $validations = Validator::make($request->all(), [
             'product_name' => 'nullable',
@@ -75,28 +72,6 @@ class ProductsController extends Controller
                 $product->product_specs = $filename;
                 $product->specification_added = 1;
 
-                // check if uploaded file is containing 'price' and 'quantity' columns
-                // $spreadsheet = \PhpOffice\PhpSpreadsheet\IOFactory::load(
-                //     public_path('/uploads/products/product_specs/' . $filename)
-                // );
-
-                // $sheetData = $spreadsheet->getActiveSheet()->toArray();
-                // $headers = $sheetData[0];
-
-                // // Normalize headers: lowercase + remove whitespaces
-                // $normalizedHeaders = array_map(function ($header) {
-                //     return strtolower(preg_replace('/\s+/', '', trim($header)));
-                // }, $headers);
-
-                // // Find required columns
-                // $priceColumn = array_search('price', $normalizedHeaders);
-                // $quantityColumn = array_search('quantity', $normalizedHeaders);
-
-                // if ($priceColumn !== false && $quantityColumn !== false) {
-                //     $product->specification_added = 1;
-                // } else {
-                //     $product->specification_added = 0;
-                // }
             }
 
             if (!empty($request->product_optional_pdf)) {

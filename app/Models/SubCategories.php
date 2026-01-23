@@ -11,40 +11,66 @@ class SubCategories extends Model
 {
     //
     use SoftDeletes;
-    protected $dates = ['created_at', 'updated_at']; 
+    protected $dates = ['created_at', 'updated_at'];
 
-    
+
     public function getCreatedAtAttribute($value)
     {
-        return Carbon::parse($value)->format('Y-M-d'); 
+        return Carbon::parse($value)->format('Y-M-d');
     }
 
     public function getUpdatedAtAttribute($value)
     {
-        return Carbon::parse($value)->format('Y-M-d'); 
+        return Carbon::parse($value)->format('Y-M-d');
     }
+
 
     public static function boot()
     {
         parent::boot();
 
         static::creating(function ($subcategories) {
-            $subcategories->subcategory_slug = Str::slug($subcategories->sub_category_name, '-');
+            $subcategories->subcategory_slug = self::generateUniqueSlug($subcategories->sub_category_name, 'subcategory_slug');
         });
 
-        // Auto-update slug when updating the title
         static::updating(function ($subcategories) {
-            if ($subcategories->isDirty('sub_category_name')) { // Check if title is changed
-                $subcategories->subcategory_slug = Str::slug($subcategories->sub_category_name, '-');
+            if ($subcategories->isDirty('sub_category_name')) {
+                $subcategories->subcategory_slug = self::generateUniqueSlug($subcategories->sub_category_name, 'subcategory_slug', $subcategories->id);
             }
         });
     }
 
-    public function productsCount() {
+    /**
+     * Generate a unique slug for the given name
+     */
+    private static function generateUniqueSlug($name, $slugColumn = 'subcategory_slug', $excludeId = null)
+    {
+        $slug = Str::slug($name, '-');
+        $originalSlug = $slug;
+        $count = 1;
+
+        // Check if slug already exists (excluding current record for updates)
+        while (self::where($slugColumn, $slug)
+            ->when($excludeId, function ($query) use ($excludeId) {
+                $query->where('id', '!=', $excludeId);
+            })
+            ->exists()
+        ) {
+
+            $slug = $originalSlug . '-' . $count;
+            $count++;
+        }
+
+        return $slug;
+    }
+
+    public function productsCount()
+    {
         return $this->hasMany(Product::class, 'product_sub_category_id');
     }
 
-    public function category(){
+    public function category()
+    {
         return $this->belongsTo(Categories::class, 'category_id');
     }
 }

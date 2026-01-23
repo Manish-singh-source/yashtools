@@ -18,7 +18,13 @@ class BannerController extends Controller
     public function addBanner(Request $request)
     {
         $validations = Validator::make($request->all(), [
-            "bannerImage" => "required|image",
+            "bannerImage" => [
+                'required',
+                'image',
+                'mimes:jpeg,png,jpg,webp',
+                'max:2048', // 2MB
+                'dimensions:min_width=1920,min_height=1080,max_width=1920,max_height=1080'
+            ],
         ]);
 
         if ($validations->fails()) {
@@ -90,12 +96,27 @@ class BannerController extends Controller
     public function updateBanner(Request $request)
     {
 
-        $validations = Validator::make($request->all(), [
-            "banner_image" => "image",
+        $validator = Validator::make($request->all(), [
+            'bannerTitle' => 'nullable|string|min:3|max:255',
+            'bannerDesciption' => 'nullable|string|max:1000',
+            'banner_image' => [
+                'nullable',
+                'image',
+                'mimes:jpeg,png,jpg,webp',
+                'max:5120', // 5MB
+                'dimensions:min_width=1920,min_height=1080,max_width=1920,max_height=1080'
+            ],
+        ], [
+            'bannerTitle.required' => 'Banner title is required.',
+            'bannerTitle.min' => 'Title must be at least 3 characters.',
+            'bannerTitle.max' => 'Title cannot exceed 255 characters.',
+            'bannerDesciption.max' => 'Description cannot exceed 1000 characters.',
+            'banner_image.dimensions' => 'Image must be exactly 1920x1080 pixels.',
+            'banner_image.max' => 'Image size cannot exceed 5MB.',
         ]);
 
-        if ($validations->fails()) {
-            return back()->withErrors($validations)->withInput();
+        if ($validator->fails()) {
+            return back()->withErrors($validator)->withInput();
         }
 
         $banner = Banner::find($request->bannerId);

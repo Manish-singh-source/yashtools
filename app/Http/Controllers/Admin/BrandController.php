@@ -22,9 +22,21 @@ class BrandController extends Controller
         $validations = Validator::make($request->all(), [
             'brand_name' => [
                 'required',
-                    Rule::unique('brands')->whereNull('deleted_at')
-                ], 
-            "brandImage" => "required|image",
+                Rule::unique('brands')->whereNull('deleted_at')
+            ],
+            'brandImage' => [
+                'required',
+                'image',
+                'mimes:jpeg,png,jpg,webp',
+                'max:1024', // 1MB
+                'dimensions:min_width=300,min_height=100,max_width=300,max_height=100'
+            ],
+        ], [
+            'brand_name.required' => 'Brand name is required.',
+            'brand_name.unique' => 'Brand name already exists.',
+            'brandImage.required' => 'Brand image is required.',
+            'brandImage.dimensions' => 'Image must be exactly 300x100 pixels.',
+            'brandImage.max' => 'Image size cannot exceed 1MB.',
         ]);
 
         if ($validations->fails()) {
@@ -55,7 +67,7 @@ class BrandController extends Controller
 
     public function deleteBrand(Request $request)
     {
-        $brand = Brand::where('brand_slug',$request->brandSlug)->first();
+        $brand = Brand::where('brand_slug', $request->brandSlug)->first();
         if (!empty($brand->brand_image)) {
             File::delete(public_path('/uploads/brands/' . $brand->brand_image));
         }
@@ -67,7 +79,7 @@ class BrandController extends Controller
 
         return back()->with('error', 'Please Try Again.');
     }
-    
+
     public function editBrand(String $slug)
     {
         $selectedbrand = Brand::where('brand_slug', $slug)->first();
@@ -84,7 +96,19 @@ class BrandController extends Controller
                     ->ignore($request->brandId) // allow updating same brand
                     ->where(fn($query) => $query->whereNull('deleted_at')), // ignore soft deleted
             ],
-            "brandImage" => "image",
+            'brandImage' => [
+                'nullable',
+                'image',
+                'mimes:jpeg,png,jpg,webp',
+                'max:1024', // 1MB
+                'dimensions:min_width=300,min_height=100,max_width=300,max_height=100'
+            ],
+        ], [
+            'brandId.required' => 'Brand ID is required.',
+            'brand_name.required' => 'Brand name is required.',
+            'brand_name.unique' => 'Brand name already exists.',
+            'brandImage.dimensions' => 'Image must be exactly 300x100 pixels.',
+            'brandImage.max' => 'Image size cannot exceed 1MB.',
         ]);
 
         if ($validations->fails()) {
