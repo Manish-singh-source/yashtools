@@ -350,6 +350,7 @@
                                         @else
                                             @if ($selectedProduct->product_quantity != null)
                                                 <li class="text-danger"><i class="fal fa-times"></i>Out of stock</li>
+                                                <span class="fs-16 text-justify">(Sorry for your inconvenience, Please send us enquiry for this product via mail, phone call or simply through <span class="text-primary font-weight-bold">Place Order</span> option, we will get back to you as soon as possible.)</span>
                                             @endif
                                         @endif
                                     </ul>
