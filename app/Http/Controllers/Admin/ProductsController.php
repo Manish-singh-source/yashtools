@@ -29,24 +29,37 @@ class ProductsController extends Controller
     public function addProducts(Request $request)
     {
 
-        $validations = Validator::make($request->all(), [
-            'product_name' => 'nullable',
-            'product_quantity' => 'nullable|numeric',
-            'product_price' => 'nullable|numeric',
-            'product_days_to_dispatch' => 'nullable|numeric|min:0',
-            'product_description' => 'nullable',
-            'product_specs' => 'nullable|mimes:xlsx,csv,xls|max:10240',
-            'lead_time_excel' => 'nullable|mimes:xlsx,csv,xls|max:10240',
-            'product_brand' => 'nullable',
-            'product_image' => 'nullable|image|max:10240',
-            'product_pdf' => 'nullable|mimes:pdf|max:10240',
-            'product_country_of_origin' => 'nullable',
-            'product_catalogue' => 'nullable|mimes:pdf|max:10240',
-            'product_optional_pdf' => 'nullable|image|max:10240',
-            'product_drawing' => 'nullable|mimes:pdf,jpg,jpeg,png|max:10240',
-            'product_category' => 'nullable',
-            'product_sub_category' => 'nullable',
-        ]);
+        $validations = Validator::make(
+            $request->all(),
+            [
+                'product_name' => 'nullable',
+                'product_quantity' => 'nullable|numeric',
+                'product_price' => 'nullable|numeric',
+                'product_days_to_dispatch' => 'nullable|numeric|min:0',
+                'product_description' => 'nullable',
+                'product_specs' => 'nullable|mimes:xlsx,csv,xls|max:10240',
+                'lead_time_excel' => 'nullable|mimes:xlsx,csv,xls|max:10240',
+                'product_brand' => 'nullable',
+                'product_image' => [
+                    'nullable',
+                    'image',
+                    'mimes:jpeg,png,jpg,webp',
+                    'max:10240', // 10MB
+                    'dimensions:min_width=600,min_height=400,max_width=600,max_height=400'
+                ],
+                'product_pdf' => 'nullable|mimes:pdf|max:10240',
+                'product_country_of_origin' => 'nullable',
+                'product_catalogue' => 'nullable|mimes:pdf|max:10240',
+                'product_optional_pdf' => 'nullable|image|max:10240',
+                'product_drawing' => 'nullable|mimes:pdf,jpg,jpeg,png|max:10240',
+                'product_category' => 'nullable',
+                'product_sub_category' => 'nullable',
+            ],
+            [
+                'product_image.dimensions' => 'Product thumbnail must be exactly 600x400 pixels.',
+                'product_image.max' => 'Product thumbnail size cannot exceed 10MB.',
+            ]
+        );
 
         // Check validation errors
         if ($validations->fails()) {
@@ -71,7 +84,6 @@ class ProductsController extends Controller
                 $product_specs->move(public_path('/uploads/products/product_specs'), $filename);
                 $product->product_specs = $filename;
                 $product->specification_added = 1;
-
             }
 
             if (!empty($request->product_optional_pdf)) {
@@ -229,25 +241,38 @@ class ProductsController extends Controller
     public function updateProduct(Request $request)
     {
         // Validate the request
-        $validations = Validator::make($request->all(), [
-            'productId' => 'required',
-            'product_name' => 'nullable',
-            'product_quantity' => 'nullable|numeric',
-            'product_price' => 'nullable|numeric',
-            'product_days_to_dispatch' => 'nullable|numeric|min:0',
-            'product_specs' => 'nullable|mimes:xlsx,csv,xls|max:10240',
-            'lead_time_excel' => 'nullable|mimes:xlsx,csv,xls|max:10240',
-            'product_description' => 'nullable',
-            'product_brand' => 'nullable',
-            'product_image' => 'nullable|image|max:10240',
-            'product_optional_pdf' => 'nullable|image|max:10240',
-            'product_pdf' => 'nullable|mimes:pdf|max:10240',
-            'product_country_of_origin' => 'nullable',
-            'product_catalogue' => 'nullable|mimes:pdf|max:10240',
-            'product_drawing' => 'nullable|mimes:pdf,jpg,jpeg,png|max:10240',
-            'product_category' => 'nullable',
-            'product_sub_category' => 'nullable',
-        ]);
+        $validations = Validator::make(
+            $request->all(),
+            [
+                'productId' => 'required',
+                'product_name' => 'nullable',
+                'product_quantity' => 'nullable|numeric',
+                'product_price' => 'nullable|numeric',
+                'product_days_to_dispatch' => 'nullable|numeric|min:0',
+                'product_specs' => 'nullable|mimes:xlsx,csv,xls|max:10240',
+                'lead_time_excel' => 'nullable|mimes:xlsx,csv,xls|max:10240',
+                'product_description' => 'nullable',
+                'product_brand' => 'nullable',
+                'product_image' => [
+                    'nullable',
+                    'image',
+                    'mimes:jpeg,png,jpg,webp',
+                    'max:10240', // 10MB
+                    'dimensions:min_width=600,min_height=400,max_width=600,max_height=400'
+                ],
+                'product_optional_pdf' => 'nullable|image|max:10240',
+                'product_pdf' => 'nullable|mimes:pdf|max:10240',
+                'product_country_of_origin' => 'nullable',
+                'product_catalogue' => 'nullable|mimes:pdf|max:10240',
+                'product_drawing' => 'nullable|mimes:pdf,jpg,jpeg,png|max:10240',
+                'product_category' => 'nullable',
+                'product_sub_category' => 'nullable',
+            ],
+            [
+                'product_image.dimensions' => 'Product thumbnail must be exactly 600x400 pixels.',
+                'product_image.max' => 'Product thumbnail size cannot exceed 10MB.',
+            ]
+        );
 
         // Check validation errors
         if ($validations->fails()) {

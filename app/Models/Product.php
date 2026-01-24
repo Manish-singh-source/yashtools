@@ -60,15 +60,42 @@ class Product extends Model
         parent::boot();
 
         static::creating(function ($product) {
-            $product->product_slug = Str::slug($product->product_name, '-');
+            $product->product_slug = self::generateUniqueSlug($product->product_name, 'product_slug');
         });
 
-        // Auto-update slug when updating the title
         static::updating(function ($product) {
-            if ($product->isDirty('product_name')) { // Check if title is changed
-                $product->product_slug = Str::slug($product->product_name, '-');
+            if ($product->isDirty('product_name')) {
+                $product->product_slug = self::generateUniqueSlug($product->product_name, 'product_slug', $product->id);
             }
         });
+    }
+
+    /**
+     * Generate a unique slug for the given title
+     */
+    private static function generateUniqueSlug($title, $slugColumn = 'product_slug', $excludeId = null)
+    {
+        if (empty($title)) {
+            return 'product-' . Str::random(8);
+        }
+
+        $slug = Str::slug($title, '-');
+        $originalSlug = $slug;
+        $count = 1;
+
+        // Keep checking until we find a unique slug
+        while (static::where($slugColumn, $slug)
+            ->when($excludeId, function ($query) use ($excludeId) {
+                $query->where('id', '!=', $excludeId);
+            })
+            ->exists()
+        ) {
+
+            $slug = $originalSlug . '-' . $count;
+            $count++;
+        }
+
+        return $slug;
     }
 
     public function categories()

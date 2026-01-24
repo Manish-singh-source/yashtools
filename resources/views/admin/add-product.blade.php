@@ -59,7 +59,7 @@
                                                 value="{{ old('product_days_to_dispatch') }}"
                                                 class="form-control @error('product_days_to_dispatch') is-invalid @enderror"
                                                 min="0" name="product_days_to_dispatch">
-                                                
+
                                             @error('product_days_to_dispatch')
                                                 <div class="invalid-feedback">
                                                     {{ $message }}
@@ -92,8 +92,8 @@
                                             <div class="dz-default ic-message upload-img mb-3">
                                                 <div class="dropzone">
                                                     <div class="fallback">
-                                                        <input type="file" accept=".xlsx, .csv, .xls" name="product_specs"
-                                                            multiple>
+                                                        <input type="file" accept=".xlsx, .csv, .xls"
+                                                            name="product_specs" multiple>
                                                     </div>
                                                 </div>
                                             </div>
@@ -110,11 +110,10 @@
                                                 <i class="fas fa-file-excel"></i> Lead Time Excel File
                                             </label>
                                             <input class="form-control @error('lead_time_excel') is-invalid @enderror"
-                                                type="file"
-                                                id="lead_time_excel"
-                                                name="lead_time_excel"
+                                                type="file" id="lead_time_excel" name="lead_time_excel"
                                                 accept=".xlsx,.xls,.csv">
-                                            <div class="form-text">Upload Excel file containing lead time data. Supported formats: .xlsx, .xls, .csv (Max: 10MB)</div>
+                                            <div class="form-text">Upload Excel file containing lead time data. Supported
+                                                formats: .xlsx, .xls, .csv (Max: 10MB)</div>
                                             @error('lead_time_excel')
                                                 <div class="invalid-feedback">{{ $message }}</div>
                                             @enderror
@@ -140,7 +139,7 @@
                                             <div class="mb-3">
                                                 <label for="formFile" class="form-label">Upload Catalogue</label>
                                                 <input class="form-control" type="file" id="formFile"
-                                                    name="product_catalogue">
+                                                    name="product_catalogue" accept=".pdf">
                                             </div>
                                             @error('product_catalogue')
                                                 {{ $message }}
@@ -148,7 +147,7 @@
                                             <div class="mb-3">
                                                 <label for="formFileMultiple" class="form-label">Upload PDF</label>
                                                 <input class="form-control" type="file" id="formFileMultiple"
-                                                    name="product_pdf">
+                                                    name="product_pdf" accept=".pdf">
                                             </div>
                                             @error('product_pdf')
                                                 {{ $message }}
@@ -168,36 +167,51 @@
                             </div>
                             <div class="col-xl-4">
                                 <div class="right-sidebar-sticky">
-                                    <div class="card">
+                                    <div class="card h-auto">
                                         <div class="card-header py-3">
                                             <h4 class="card-title--medium mb-0">Thumbnail</h4>
                                         </div>
                                         <div class="card-body">
                                             <div class="avatar-upload d-flex align-items-center">
-                                                <div class=" position-relative ">
+                                                <div class="position-relative">
                                                     <div class="avatar-preview">
-                                                        <img id="imagePreview"
+                                                        <img id="productImagePreview"
                                                             src="{{ asset('admin/assets/images/no-img-avatar.png') }}"
-                                                            alt="Image Preview" style="width: 200px; height: auto;">
+                                                            alt="Product Thumbnail Preview"
+                                                            style="width: 200px; height: 160px; object-fit: cover; border: 2px dashed #dee2e6; border-radius: 8px;">
                                                     </div>
-                                                    <div class="change-btn d-flex align-items-center flex-wrap">
+                                                    <div class="change-btn d-flex align-items-center flex-wrap mt-2">
                                                         <input type='file'
                                                             class="form-control d-none @error('product_image') is-invalid @enderror"
-                                                            id="imageUpload" accept=".png, .jpg, .jpeg, .webp"
+                                                            id="productImageUpload" accept=".png, .jpg, .jpeg, .webp"
                                                             name="product_image">
-                                                        <label for="imageUpload"
-                                                            class="btn btn-sm btn-primary light ms-0">Select
-                                                            Image</label>
+                                                        <label for="productImageUpload"
+                                                            class="btn btn-sm btn-primary light ms-0 position-relative"
+                                                            tabindex="-1">
+                                                            <i class="mdi mdi-camera me-1"></i>Select Image
+                                                        </label>
+
                                                         @error('product_image')
-                                                            <div class="invalid-feedback">
+                                                            <div class="invalid-feedback d-block w-100">
                                                                 {{ $message }}
                                                             </div>
                                                         @enderror
+                                                    </div>
+                                                    <span class="text-danger ms-2 fw-semibold">
+                                                        <i class="mdi mdi-ruler-square me-1"></i>Image should be
+                                                        <strong>600x400px</strong> (Max 10MB)
+                                                    </span>
+                                                    <div id="productImageValidation" class="ms-3"></div>
+                                                    <div id="productImageInfo"
+                                                        class="mt-2 p-2 bg-light rounded small text-muted d-none">
+                                                        <i class="mdi mdi-image-size-select-actual me-1"></i>
+                                                        <span id="productCurrentDimensions"></span>
                                                     </div>
                                                 </div>
                                             </div>
                                         </div>
                                     </div>
+
                                     <div class="card h-auto">
                                         <div class="card-header py-3">
                                             <h4 class="card-title--medium mb-0">Brand </h4>
@@ -239,7 +253,7 @@
                                             </div>
                                         </div>
                                     </div>
-                                    
+
                                     <div class="card h-auto">
                                         <div class="card-header py-3">
                                             <h4 class="card-title--medium mb-0">Catogery</h4>
@@ -312,7 +326,7 @@
     </div>
 @endsection
 
-@section('scripts')
+@section('scripts') 
     <script>
         var enableSupportButton = '1'
     </script>
@@ -330,5 +344,132 @@
     <script src="{{ asset('admin/assets/vendor/ckeditor/ckeditor.js') }}" type="text/javascript"></script>
     <script src="{{ asset('admin/assets/vendor/dropzone/dist/dropzone.js') }}" type="text/javascript"></script>
     <script src="{{ asset('admin/assets/js/category-filter.js') }}"></script>
-    <script src="{{ asset('admin/assets/js/image-preview.js') }}" type="text/javascript"></script>
+
+    <!-- Product Thumbnail Validation -->
+    <script>
+        $(document).ready(function() {
+            // Product thumbnail validation
+            $('#productImageUpload').off('change').on('change', handleProductImageUpload);
+
+            function handleProductImageUpload(e) {
+                const file = e.target.files[0];
+                const $preview = $('#productImagePreview');
+                const $validation = $('#productImageValidation');
+                const $imageInfo = $('#productImageInfo');
+                const $input = $('#productImageUpload');
+
+                // Reset ALL states immediately
+                resetProductImageStates($preview, $validation, $imageInfo, $input);
+
+                if (!file) {
+                    $preview.attr('src', "{{ asset('admin/assets/images/no-img-avatar.png') }}");
+                    return;
+                }
+
+                // Fast validation first
+                if (!validateProductFileType(file) || !validateProductFileSize(file)) {
+                    $input.val(''); // Clear invalid file
+                    return;
+                }
+
+                // Show loading state
+                $validation.html('<i class="mdi mdi-loading spinner me-1"></i>Checking dimensions...').addClass(
+                    'text-info');
+
+                // Load image dimensions
+                loadProductImageDimensions(file, function(dimensionsValid, actualWidth, actualHeight) {
+                    updateProductImagePreview($preview, $validation, $imageInfo, $input, dimensionsValid,
+                        actualWidth, actualHeight, file);
+                });
+            }
+
+            function resetProductImageStates($preview, $validation, $imageInfo, $input) {
+                $validation.removeClass('text-success text-danger text-info').html('');
+                $imageInfo.addClass('d-none');
+                $input.removeClass('is-invalid is-valid');
+                $preview.css('border-color', '#dee2e6');
+            }
+
+            function validateProductFileType(file) {
+                if (!file.type.match('image.*')) {
+                    $('#productImageValidation').html(
+                            '<i class="mdi mdi-alert-circle me-1"></i>Only images allowed!')
+                        .addClass('text-danger');
+                    $('#productImageUpload').addClass('is-invalid');
+                    return false;
+                }
+                return true;
+            }
+
+            function validateProductFileSize(file) {
+                if (file.size > 10485760) { // 10MB
+                    $('#productImageValidation').html(
+                            '<i class="mdi mdi-alert-circle me-1"></i>File too large (Max 2MB)')
+                        .addClass('text-danger');
+                    $('#productImageUpload').addClass('is-invalid');
+                    return false;
+                }
+                return true;
+            }
+
+            function loadProductImageDimensions(file, callback) {
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    const img = new Image();
+                    img.onload = function() {
+                        callback(true, img.naturalWidth, img.naturalHeight);
+                    };
+                    img.onerror = function() {
+                        callback(false, 0, 0);
+                    };
+                    img.src = e.target.result;
+                };
+                reader.readAsDataURL(file);
+            }
+
+            function updateProductImagePreview($preview, $validation, $imageInfo, $input, valid, width, height,
+                file) {
+                const REQUIRED_WIDTH = 600;
+                const REQUIRED_HEIGHT = 400;
+
+                // Show dimensions
+                $('#productCurrentDimensions').text(`${width}x${height}px (${formatBytes(file.size)})`);
+                $('#productImageInfo').removeClass('d-none');
+
+                // Update preview
+                $preview.attr('src', URL.createObjectURL(file));
+
+                // STRICT DIMENSION VALIDATION
+                if (width === REQUIRED_WIDTH && height === REQUIRED_HEIGHT) {
+                    $validation.html('<i class="mdi mdi-check-circle me-1"></i>✅ Perfect dimensions!')
+                        .removeClass('text-danger text-info').addClass('text-success fw-semibold');
+                    $input.addClass('is-valid').removeClass('is-invalid');
+                    $preview.css('border-color', '#28a745');
+                } else {
+                    $validation.html(
+                            `<i class="mdi mdi-close-circle me-1"></i>❌ Wrong dimensions!<br>
+                        <small>Required: <strong>${REQUIRED_WIDTH}×${REQUIRED_HEIGHT}px</strong><br>
+                        Uploaded: <strong>${width}×${height}px</strong></small>`
+                        )
+                        .removeClass('text-success text-info').addClass('text-danger');
+                    $input.addClass('is-invalid').removeClass('is-valid');
+                    $preview.css('border-color', '#dc3545');
+                }
+            }
+
+            function formatBytes(bytes) {
+                if (bytes === 0) return '0 Bytes';
+                const k = 1024;
+                const sizes = ['B', 'KB', 'MB'];
+                const i = Math.floor(Math.log(bytes) / Math.log(k));
+                return (bytes / Math.pow(k, i)).toFixed(0) + ' ' + sizes[i];
+            }
+
+            // Prevent label double-click lag
+            $('label[for="productImageUpload"]').on('click', function(e) {
+                e.preventDefault();
+                $('#productImageUpload')[0].click();
+            });
+        });
+    </script>
 @endsection

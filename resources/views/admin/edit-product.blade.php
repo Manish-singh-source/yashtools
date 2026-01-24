@@ -5,13 +5,11 @@
 @endsection
 
 @section('content-body')
-    ***********************************-->
     <div class="content-body">
         <div class="container-fluid">
-
             <!-- Row -->
             <div class="row">
-                <form action="{{ route('admin.update.product') }}" method="POST" enctype="multipart/form-data">
+                <form action="{{ route('admin.update.product') }}" method="POST" enctype="multipart/form-data" id="myForm">
                     @csrf
                     @method('PUT')
 
@@ -224,31 +222,45 @@
                                         </div>
                                         <div class="card-body">
                                             <div class="avatar-upload d-flex align-items-center">
-                                                <div class=" position-relative ">
+                                                <div class="position-relative">
                                                     <div class="avatar-preview">
-                                                        <img id="imagePreview"
+                                                        <img id="productThumbPreview"
                                                             src="{{ asset('/uploads/products/thumbnails/' . $selectedProduct->product_thumbain) }}"
-                                                            alt="Image Preview" style="width: 200px; height: auto;">
+                                                            alt="Current Product Thumbnail"
+                                                            style="width: 200px; height: 160px; object-fit: cover; border: 2px dashed #dee2e6; border-radius: 8px;">
                                                     </div>
-                                                    <div class="change-btn d-flex align-items-center flex-wrap">
+                                                    <div class="change-btn d-flex align-items-center flex-wrap mt-2">
                                                         <input type='file'
                                                             class="form-control d-none @error('product_image') is-invalid @enderror"
-                                                            id="imageUpload" accept=".png, .jpg, .jpeg, .webp"
+                                                            id="productThumbUpload" accept=".png, .jpg, .jpeg, .webp"
                                                             name="product_image">
-                                                        <label for="imageUpload"
-                                                            class="btn btn-sm btn-primary light ms-0">Select
-                                                            Image</label>
+                                                        <label for="productThumbUpload"
+                                                            class="btn btn-sm btn-primary light ms-0 position-relative"
+                                                            tabindex="-1">
+                                                            <i class="mdi mdi-camera me-1"></i>Change Image
+                                                        </label>
+
                                                         @error('product_image')
-                                                            <div class="invalid-feedback">
+                                                            <div class="invalid-feedback d-block w-100">
                                                                 {{ $message }}
                                                             </div>
                                                         @enderror
-
+                                                    </div>
+                                                    <span class="text-danger ms-2 fw-semibold">
+                                                        <i class="mdi mdi-ruler-square me-1"></i>Image should be
+                                                        <strong>600x400px</strong> (Max 10MB)
+                                                    </span>
+                                                    <div id="productThumbValidation" class="ms-3"></div>
+                                                    <div id="productThumbInfo"
+                                                        class="mt-2 p-2 bg-light rounded small text-muted d-none">
+                                                        <i class="mdi mdi-image-size-select-actual me-1"></i>
+                                                        <span id="productThumbDimensions"></span>
                                                     </div>
                                                 </div>
                                             </div>
                                         </div>
                                     </div>
+
                                     <div class="card h-auto">
                                         <div class="card-header py-3">
                                             <h4 class="card-title--medium mb-0">Brand </h4>
@@ -398,31 +410,119 @@
 
 @section('scripts')
     <script>
-        var enableSupportButton = '1'
+        var enableSupportButton = '1';
+        var asset_url = 'assets/index.html';
     </script>
-    <script>
-        var asset_url = 'assets/index.html'
-    </script>
+
+    <script src="{{ asset('admin/assets/vendor/ckeditor/ckeditor.js') }}"></script>
+
     <script>
         $(document).ready(function() {
-            let originalContent = $("#editorContent").val(); // Get original content
+            // CKEditor
+            if (typeof CKEDITOR !== 'undefined') {
+                CKEDITOR.replace('ckeditor', {
+                    height: 200
+                });
+            }
 
-            // Wait for CKEditor instance to be ready
-            CKEDITOR.instances.editor.on('instanceReady', function() {
-                this.setData(originalContent);
+            // Form submit
+            $("#myForm").on('submit', function(e) {
+                e.preventDefault();
+                if (typeof CKEDITOR !== 'undefined') {
+                    $('#ckeditor').val(CKEDITOR.instances.ckeditor.getData());
+                }
+                $(this).unbind('submit').submit();
             });
 
-            $("#myForm").submit(function(event) {
-                event.preventDefault(); // Prevent default form submission
-
-                let content = CKEDITOR.instances.editor.getData(); // Get CKEditor content
-                $("#editorContent").val(content); // Set it in textarea
-
-                $(this).find(":submit").prop("disabled", true); // Prevent multiple clicks
-                this.submit(); // Submit the form
-            });
+            // ✅ FIXED IMAGE PREVIEW
+            initImagePreview();
         });
+
+        function initImagePreview() {
+            // Label click
+            $('label[for="productThumbUpload"]').on('click', function(e) {
+                e.preventDefault();
+                $('#productThumbUpload').click();
+            });
+
+            // File change handler
+            $('#productThumbUpload').on('change', function(e) {
+                const file = this.files[0];
+                const preview = document.getElementById('productThumbPreview');
+                const validation = document.getElementById('productThumbValidation');
+
+                if (!file) {
+                    preview.src =
+                        "{{ $selectedProduct->product_thumbain ? asset('/uploads/products/thumbnails/' . $selectedProduct->product_thumbain) : asset('admin/assets/images/no-img-avatar.png') }}";
+                    return;
+                }
+
+                // Quick validation
+                if (!file.type.startsWith('image/')) {
+                    validation.innerHTML = '<i class="mdi mdi-alert-circle"></i> Only images allowed!';
+                    validation.className = 'ms-3 text-danger';
+                    this.value = '';
+                    return;
+                }
+
+                if (file.size > 10485760) { // 10MB
+                    validation.innerHTML = '<i class="mdi mdi-alert-circle"></i> Max 10MB!';
+                    validation.className = 'ms-3 text-danger';
+                    this.value = '';
+                    return;
+                }
+
+                // Show loading
+                validation.innerHTML = '<i class="mdi mdi-loading mdi-spin"></i> Checking...';
+                validation.className = 'ms-3 text-info';
+
+                // Create preview + validate dimensions
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    const img = new Image();
+                    img.onload = function() {
+                        const validationDiv = document.getElementById('productThumbValidation');
+                        const infoDiv = document.getElementById('productThumbInfo');
+                        const input = document.getElementById('productThumbUpload');
+
+                        // Show dimensions
+                        document.getElementById('productThumbDimensions').textContent =
+                            `${img.naturalWidth}x${img.naturalHeight}px (${formatBytes(file.size)})`;
+                        infoDiv.classList.remove('d-none');
+
+                        preview.src = e.target.result;
+                        preview.style.borderColor = '#28a745';
+
+                        // Check exact dimensions
+                        if (img.naturalWidth === 600 && img.naturalHeight === 400) {
+                            validationDiv.innerHTML =
+                                '<i class="mdi mdi-check-circle text-success"></i> ✅ Perfect 600x400px!';
+                            validationDiv.className = 'ms-3 text-success fw-bold';
+                            input.classList.add('is-valid');
+                        } else {
+                            validationDiv.innerHTML = `
+                                <i class="mdi mdi-close-circle text-danger"></i> ❌ Wrong size!<br>
+                                <small>Required: <strong>600×400px</strong><br>Got: <strong>${img.naturalWidth}×${img.naturalHeight}px</strong>
+                            `;
+                            validationDiv.className = 'ms-3 text-danger';
+                            input.classList.add('is-invalid');
+                            preview.style.borderColor = '#dc3545';
+                        }
+                    };
+                    img.src = e.target.result;
+                };
+                reader.readAsDataURL(file);
+            });
+        }
+
+        function formatBytes(bytes) {
+            if (bytes == 0) return '0 Bytes';
+            const k = 1024;
+            const sizes = ['B', 'KB', 'MB'];
+            const i = Math.floor(Math.log(bytes) / Math.log(k));
+            return parseFloat((bytes / Math.pow(k, i)).toFixed(0)) + ' ' + sizes[i];
+        }
     </script>
-    <script src="{{ asset('admin/assets/js/category-filter.js') }}" type="text/javascript"></script>
-    <script src="{{ asset('admin/assets/js/image-preview.js') }}" type="text/javascript"></script>
+
+    <script src="{{ asset('admin/assets/js/category-filter.js') }}"></script>
 @endsection
