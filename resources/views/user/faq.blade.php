@@ -72,6 +72,7 @@
                                                 ensure our solutions exceed your expectations.</p>
                                         </div>
                                     </div>
+                                    {{-- 
                                     <div class="accordion-item">
                                         <button id="accordion-button-5" aria-expanded="false"><span
                                                 class="accordion-title">Do you offer customized tooling
@@ -81,7 +82,8 @@
                                                 requirements—especially for complex materials, tight tolerances, or
                                                 challenging production environments.</p>
                                         </div>
-                                    </div>
+                                    </div> 
+                                    --}}
                                 </div>
                             </div>
                         </div>
