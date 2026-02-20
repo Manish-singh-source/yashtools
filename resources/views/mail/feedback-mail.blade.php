@@ -244,7 +244,9 @@
     <div style="max-width:600px;margin:0 auto;padding:10px 0;font-size:12px;color:#999;text-align:center;">
         <div style="text-align:center;">
             <p style="margin:0;padding:6px 10px;font-size:12px;color:#999;">{{ date('Y') }}. All Rights Reserved by
-                Yash Tools (India) Private Limited</p>
+                Yash Tools (India)</p>
+            {{-- <p style="margin:0;padding:6px 10px;font-size:12px;color:#999;">{{ date('Y') }}. All Rights Reserved by
+                Yash Tools (India) Private Limited</p> --}}
             <p style="margin:0;padding:6px 10px;font-size:12px;color:#999;"><strong>Registered Office:</strong> A- 202
                 B, Jaswanti Allied Business Centre, Kanchpada, Ramchandra Lane, Next to Khwaish Hotel Malad (West),
                 Mumbai- 400064, India. +91-9326 17 8710, +91-9322 25 8458</p>

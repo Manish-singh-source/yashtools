@@ -4,7 +4,7 @@
 <head>
     <meta charset="utf-8">
     <meta http-equiv="x-ua-compatible" content="ie=edge">
-    <title>Yash Tools A HOUSE OF DIE & MOLD POLISHING & FINISHING PRODUCTSYash Tools A HOUSE OF DIE & MOLD POLISHING &
+    <title>Yash Tools A HOUSE OF DIE & MOLD POLISHING & FINISHING PRODUCTS Yash Tools A HOUSE OF DIE & MOLD POLISHING &
         FINISHING PRODUCTS</title>
     <meta name="robots" content="noindex, follow" />
     <meta name="description" content="">
@@ -222,7 +222,7 @@
                                 </a>
                             </div>
                             <div class="inner">
-                                <p>YASH TOOLS (INDIA) PVT. LTD. focuses on collaboration with customers.
+                                <p>YASH TOOLS (INDIA) focuses on collaboration with customers.
                                 </p>
                                 <div class="social-share">
                                     <a href="#"><i class="fab fa-facebook-f"></i></a>
@@ -272,7 +272,7 @@
 
                             <div class="inner">
                                 <p>
-                                    YASH TOOLS (INDIA) PVT. LTD.,
+                                    YASH TOOLS (INDIA),
                                     A- 202 B, Jaswanti Allied Business Centre,
                                     Kanchpada, Ramchandra Lane, Next to Khwaish Hotel
                                     Malad (West),

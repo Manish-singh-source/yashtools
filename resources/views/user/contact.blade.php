@@ -86,7 +86,7 @@
                         <div class="col-lg-4">
                             <div class="contact-location mb--40">
                                 <h4 class="title mb--20">Our Office Address</h4>
-                                <span class="address mb--20" style="text-align: justify;">YASH TOOLS (INDIA) PVT. LTD.,
+                                <span class="address mb--20" style="text-align: justify;">YASH TOOLS (INDIA),
                                     A- 202 B, Jaswanti Allied Business Centre,
                                     Kanchpada, Ramchandra Lane, Next to Khwaish Hotel
                                     Malad (West),

@@ -4,7 +4,7 @@
 <head>
     <meta charset="utf-8">
     <meta http-equiv="x-ua-compatible" content="ie=edge">
-    <title>Yash Tools A HOUSE OF DIE & MOLD POLISHING & FINISHING PRODUCTSYash Tools A HOUSE OF DIE & MOLD POLISHING &
+    <title>Yash Tools A HOUSE OF DIE & MOLD POLISHING & FINISHING PRODUCTS Yash Tools A HOUSE OF DIE & MOLD POLISHING &
         FINISHING PRODUCTS</title>
     <meta name="robots" content="noindex, follow" />
     <meta name="description" content="">
