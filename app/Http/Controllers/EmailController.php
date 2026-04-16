@@ -11,6 +11,7 @@ use App\Mail\feedbackEmail;
 use Illuminate\Http\Request;
 use App\Models\SubCategories;
 use Illuminate\Support\Facades\Mail;
+use Illuminate\Support\Facades\Http;
 use App\Models\Event; // Import the Event model
 
 class EmailController extends Controller
@@ -24,7 +25,7 @@ class EmailController extends Controller
         $events = Event::all(); // Retrieve all events
         return view('user.contact', compact('categories', 'brands', 'subcategories', 'events'));
     }
-    
+
     public function sendContactEmail(Request $request)
     {
 
@@ -33,17 +34,34 @@ class EmailController extends Controller
             'email' => 'required|email',
             'message' => 'required',
             'phone' => 'required|digits:10',
+            'g-recaptcha-response' => 'required',
+        ], [
+            'g-recaptcha-response.required' => 'Please complete the reCAPTCHA verification.',
         ]);
+
+        $recaptchaResponse = $request->input('g-recaptcha-response');
+        $recaptchaSecret = config('services.recaptcha.secret') ?? env('RECAPTCHA_SECRET_KEY');
+
+        $verifyResponse = Http::asForm()->post('https://www.google.com/recaptcha/api/siteverify', [
+            'secret' => $recaptchaSecret,
+            'response' => $recaptchaResponse,
+            'remoteip' => $request->ip(),
+        ]);
+
+        $verifyBody = $verifyResponse->json();
+        if (!isset($verifyBody['success']) || $verifyBody['success'] !== true) {
+            return redirect()->back()->withInput()->with('error', 'reCAPTCHA verification failed, please try again.');
+        }
+
         $adminEmail = "sales@yashtools.in";
         $userEmail = $request->email;
         $message = "<p>Thank you for contacting us!</p><p>We have received your message and our team will get back to you as soon as possible. If your inquiry is urgent, feel free to call us directly or reply to this email.</p>";
-        $response = Mail::to($adminEmail)->send(new contactEmail($request->all()));
-        $subject = "New Contact Form Submission";
-        $userresponse = Mail::to($userEmail)->send(new welcomeemail($subject, $request->name, $message));
 
-        if ($response) {
+        try {
+            Mail::to($adminEmail)->send(new contactEmail($request->all()));
+            Mail::to($userEmail)->send(new welcomeemail($subject = "New Contact Form Submission", $request->name, $message));
             return redirect()->back()->with('success', 'Email has been sent successfully');
-        } else {
+        } catch (\Exception $e) {
             return redirect()->back()->with('error', 'Email has not been sent');
         }
     }

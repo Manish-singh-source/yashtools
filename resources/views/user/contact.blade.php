@@ -74,6 +74,17 @@
                                             </div>
                                         </div>
                                         <div class="col-12">
+                                            <div class="form-group">
+                                                <div class="g-recaptcha"
+                                                    data-sitekey="{{ config('services.recaptcha.sitekey') ?? env('RECAPTCHA_SITE_KEY') }}">
+                                                </div>
+                                                @if ($errors->has('g-recaptcha-response'))
+                                                    <span
+                                                        class="text-danger">{{ $errors->first('g-recaptcha-response') }}</span>
+                                                @endif
+                                            </div>
+                                        </div>
+                                        <div class="col-12">
                                             <div class="form-group mb--0">
                                                 <button type="submit" id="submit-btn" class="axil-btn btn-bg-primary">Send
                                                     Message</button>
@@ -122,6 +133,7 @@
 @endsection
 
 @section('script')
+    <script src="https://www.google.com/recaptcha/api.js" async defer></script>
     <script>
         $(document).on("click", "#submit-btn", function() {
             var button = $(this).text("Processing...");
