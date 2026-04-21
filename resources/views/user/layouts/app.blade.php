@@ -6,7 +6,6 @@
     <meta http-equiv="x-ua-compatible" content="ie=edge">
     <title>Yash Tools A HOUSE OF DIE & MOLD POLISHING & FINISHING PRODUCTS Yash Tools A HOUSE OF DIE & MOLD POLISHING &
         FINISHING PRODUCTS</title>
-    <meta name="robots" content="noindex, follow" />
     <meta name="description" content="">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     @yield('csrf-token')
